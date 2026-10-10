@@ -39,17 +39,13 @@ export class DeFiIncidentSimulator {
   }
 
   public static async createFromAnvil(rpcUrl = "http://127.0.0.1:8545"): Promise<DeFiIncidentSimulator> {
-    const provider = new ethers.JsonRpcProvider(rpcUrl);
-    // Anvil accounts
-    const deployer = new ethers.Wallet("0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80", provider);
-    const liquidator = new ethers.Wallet("0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d", provider);
-    const borrowerWallets = [
-      new ethers.Wallet("0x5de4111afa1a4b94908f83103eb1f1706367c2e68ca870fc3fb9a804cdab365a", provider),
-      new ethers.Wallet("0x7c852118294e51e653712a81e05800f419141751be58f605c371e15141b007a6", provider),
-      new ethers.Wallet("0x47e179ec197488593b100f8100d81f1e79a9477191d95444b0061e99fdd26ef2", provider),
-      new ethers.Wallet("0x8b3a350cf5c34c9194ca85829a2df0ec3153be0318b5e2d3348e872092edffba", provider),
-      new ethers.Wallet("0x92db14e403b83dfe3df233f83dfa3a0d7096f21ca9b0d6d6b8d88b2b4ec1564e", provider)
-    ];
+    const provider = new ethers.JsonRpcProvider(rpcUrl, undefined, { cacheTimeout: -1, batchMaxCount: 1 });
+    const mnemonic = "test test test test test test test test test test test junk";
+    const deployer = ethers.HDNodeWallet.fromPhrase(mnemonic, "", "m/44'/60'/0'/0/0").connect(provider);
+    const liquidator = ethers.HDNodeWallet.fromPhrase(mnemonic, "", "m/44'/60'/0'/0/1").connect(provider);
+    const borrowerWallets = [2, 3, 4, 5, 6].map(i =>
+      ethers.HDNodeWallet.fromPhrase(mnemonic, "", `m/44'/60'/0'/0/${i}`).connect(provider)
+    );
 
     return new DeFiIncidentSimulator(provider, deployer, liquidator, borrowerWallets);
   }
