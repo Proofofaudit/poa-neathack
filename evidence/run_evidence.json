@@ -155,12 +155,12 @@
           ]
         }
       ],
-      "generatedAt": "2026-10-10T11:38:48.042Z",
+      "generatedAt": "2026-10-10T13:37:39.242Z",
       "policyVersion": "POA_RESTITUTION_POLICY_V1_EQUITY_DELTA"
     },
     "retriesAttempted": 0,
-    "executionTraceId": "trace-1791632328017-fihwb",
-    "timestamp": "2026-10-10T11:38:48.043Z"
+    "executionTraceId": "trace-1791639459215-ie1ux",
+    "timestamp": "2026-10-10T13:37:39.242Z"
   },
   "restitutionExecuted": {
     "claimIndex": 0,
@@ -170,7 +170,7 @@
   },
   "observabilityTrace": {
     "workflowName": "poa-incident-investigation",
-    "traceId": "trace-1791632328017-fihwb",
+    "traceId": "trace-1791639459215-ie1ux",
     "spans": [
       {
         "name": "inspectIncidentTransaction",
@@ -220,7 +220,7 @@
       {
         "name": "crossCheckClaims",
         "kind": "GUARDRAIL",
-        "durationMs": 1,
+        "durationMs": 0,
         "attributes": {
           "verifiedCount": 3
         },
@@ -229,7 +229,7 @@
       {
         "name": "generateMerkleManifest",
         "kind": "TOOL",
-        "durationMs": 24,
+        "durationMs": 26,
         "attributes": {
           "claimsCount": 3
         },
@@ -238,7 +238,7 @@
       {
         "name": "investigateOracleIncident",
         "kind": "WORKFLOW",
-        "durationMs": 27,
+        "durationMs": 28,
         "attributes": {
           "incidentId": "0x439624154edbcaddd0f50b0a00372a5611b5589f7282da15a15aab0c9bf691c7",
           "incidentTxHash": "0x2e3c67d0d714464945054719e45133baa55b477aed7a7170950a36c0d19497ca"
@@ -246,7 +246,7 @@
         "status": "OK"
       }
     ],
-    "totalDurationMs": 53
+    "totalDurationMs": 55
   },
-  "completedAt": "2026-10-10T11:38:48.271Z"
+  "completedAt": "2026-10-10T13:37:39.413Z"
 }

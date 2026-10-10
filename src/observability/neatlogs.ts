@@ -47,8 +47,10 @@ class NeatlogsManager {
       if (neatlogsModule && typeof neatlogsModule.init === "function" && this.apiKey && this.apiKey !== "mock_local_dev_key") {
         await neatlogsModule.init({
           apiKey: this.apiKey,
-          projectId: this.projectId,
-          workflow_name: this.workflowName
+          workflowName: this.workflowName,
+          metadata: {
+            projectId: this.projectId
+          }
         });
         console.log(`[Neatlogs] Initialized live SDK for project ${this.projectId} (workflow: ${this.workflowName})`);
       } else {

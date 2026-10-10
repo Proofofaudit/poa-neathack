@@ -39,8 +39,19 @@
 - Captured negative adversarial tests: duplicate claims and tampered Merkle proofs rejected on-chain.
 - Emitted and saved reproducible evidence to `evidence/run_evidence.json`.
 
+### [2026-10-10] Milestone G: Interactive Next.js Dashboard & Claim Portal
+- Implemented modern Next.js 14 App Router UI with Tailwind CSS in `src/app/`.
+- Built KPI metrics bar: Lending TVL ($86k), -10% Oracle Anomaly, 3 Wrongful Liquidations, $5,750 Verified Restitution, Merkle Root, Neatlogs Spans.
+- Built 4 interactive tabs:
+  1. Autonomous Agent Timeline with full step-by-step audit logs and live Neatlogs spans.
+  2. Counterfactual Replay Table auditing all 5 borrower positions with baseline vs faulty Health Factors.
+  3. Cryptographic Claim Portal with interactive Merkle proof inspector and on-chain security guardrails.
+  4. neatHack Sponsor Proof hub detailing Neatlogs, Entire, and cfo.ai integrations.
+- Built API routes `/api/evidence` and `/api/run-simulation` for live on-chain simulation triggers from the browser.
+- Verified production build: `npm run build` completed with 0 errors.
+
 ## Demo
-- **Status:** Verified On-Chain (Milestones A-F complete)
+- **Status:** Verified On-Chain + UI Complete (Milestones A-G complete)
 - **Scenario:** Faulty oracle price drop triggering wrongful liquidations on a simulated lending pool -> autonomous investigation -> counterfactual replay -> deterministic compensation calculation -> Merkle tree generation -> authorized restitution payout.
 
 ## Known Limitations & Safety Boundaries
@@ -57,7 +68,7 @@
 - [x] Autonomous agent with transient failure recovery (6/6 tests passing)
 - [x] Neatlogs SDK instrumented with genuine trace evidence
 - [x] End-to-end on-chain Anvil scenario runner & negative tests
-- [ ] Next.js interactive web app UI (Milestone G)
+- [x] Next.js interactive web app UI (Milestone G)
 - [ ] Entire Git checkpoints captured across milestones
 - [ ] cfo.ai financial plan exported
 - [ ] 3-minute reproducible demo video script
