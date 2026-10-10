@@ -8,7 +8,7 @@
 - [x] **Milestone E: Verifiable Restitution** — Merkle manifest, test payouts, negative test cases verified on Anvil.
 - [x] **Milestone F: Failure & Recovery Tests** — Injected RPC failure, fail-closed handling, retry loops.
 - [x] **Milestone G: Interactive UI** — Investigation timeline, counterfactual comparison, claim execution (Next.js 14 verified).
-- [ ] **Milestone H: Sponsor Evidence & Demo** — Neatlogs traces, Entire checkpoints, cfo.ai plan.
+- [x] **Milestone H: Sponsor Evidence & Demo** — Neatlogs traces, Entire checkpoints, cfo.ai plan, Demo script, README (100% complete).
 
 ## Environment
 - Node: v20.20.2

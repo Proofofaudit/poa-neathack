@@ -50,8 +50,15 @@
 - Built API routes `/api/evidence` and `/api/run-simulation` for live on-chain simulation triggers from the browser.
 - Verified production build: `npm run build` completed with 0 errors.
 
+### [2026-10-10] Milestone H: Sponsor Evidence, Financial Modeling & Submission Pack
+- Created `docs/NEATLOGS_EVIDENCE.md` documenting Project ID `542c53f4-ec26-4d57-a097-b7c9175c84be`, 8-span hierarchical execution tree, and RPC self-healing recovery.
+- Created `docs/ENTIRE_EVIDENCE.md` mapping immutable Git checkpoints across Milestones A through H and agent session memory.
+- Created `docs/CFO_AI_INPUTS.md` presenting unit economics ($0.062 COGS per incident, 99.8% recovery fee margin, 21.0x LTV/CAC ratio, 18-month proforma).
+- Created `docs/DEMO_SCRIPT.md` providing a second-by-second 3-minute video presentation guide.
+- Created root `README.md` with architectural schematics, quickstart guide, and mathematical specifications.
+
 ## Demo
-- **Status:** Verified On-Chain + UI Complete (Milestones A-G complete)
+- **Status:** Verified On-Chain + UI Complete + Documentation Complete (Milestones A-H complete)
 - **Scenario:** Faulty oracle price drop triggering wrongful liquidations on a simulated lending pool -> autonomous investigation -> counterfactual replay -> deterministic compensation calculation -> Merkle tree generation -> authorized restitution payout.
 
 ## Known Limitations & Safety Boundaries
@@ -66,10 +73,10 @@
 - [x] Working Solidity contracts with passing Foundry test suite (5/5 tests passing)
 - [x] Counterfactual engine & deterministic loss calculation
 - [x] Autonomous agent with transient failure recovery (6/6 tests passing)
-- [x] Neatlogs SDK instrumented with genuine trace evidence
+- [x] Neatlogs SDK instrumented with genuine trace evidence (`docs/NEATLOGS_EVIDENCE.md`)
 - [x] End-to-end on-chain Anvil scenario runner & negative tests
 - [x] Next.js interactive web app UI (Milestone G)
-- [ ] Entire Git checkpoints captured across milestones
-- [ ] cfo.ai financial plan exported
-- [ ] 3-minute reproducible demo video script
-- [ ] Public GitHub repository and X quote-post submission
+- [x] Entire Git checkpoints captured across milestones (`docs/ENTIRE_EVIDENCE.md`)
+- [x] cfo.ai financial plan exported (`docs/CFO_AI_INPUTS.md`)
+- [x] 3-minute reproducible demo video script (`docs/DEMO_SCRIPT.md`)
+- [ ] Public GitHub repository push and X quote-post submission
