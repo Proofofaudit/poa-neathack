@@ -198,6 +198,8 @@ async function main() {
       completedAt: new Date().toISOString()
     }, (key, value) => typeof value === "bigint" ? value.toString() : value, 2));
 
+    await neatlogs.flush();
+
     console.log(`\n✓ Full verification evidence saved to: ${evidencePath}`);
     console.log("================================================================================");
     console.log("  DEMO RUN COMPLETED SUCCESSFULLY: 100% VERIFIED ON-CHAIN RESTITUTION");

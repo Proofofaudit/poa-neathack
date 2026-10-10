@@ -29,6 +29,7 @@ class NeatlogsManager {
   private apiKey: string | undefined;
   private projectId: string;
   private workflowName: string;
+  private liveSdk: any = null;
   public recordedTraces: TraceRecord[] = [];
 
   constructor() {
@@ -48,11 +49,13 @@ class NeatlogsManager {
         await neatlogsModule.init({
           apiKey: this.apiKey,
           workflowName: this.workflowName,
+          endpoint: "https://ingest.neatlogs.com",
           metadata: {
             projectId: this.projectId
           }
         });
-        console.log(`[Neatlogs] Initialized live SDK for project ${this.projectId} (workflow: ${this.workflowName})`);
+        this.liveSdk = neatlogsModule;
+        console.log(`[Neatlogs] Initialized live SDK for project ${this.projectId} (workflow: ${this.workflowName}, endpoint: https://ingest.neatlogs.com)`);
       } else {
         console.log(`[Neatlogs] Operating in local deterministic tracing mode (Project ID: ${this.projectId})`);
       }
@@ -61,6 +64,16 @@ class NeatlogsManager {
     }
 
     this.isInitialized = true;
+  }
+
+  public async flush(): Promise<void> {
+    if (this.liveSdk && typeof this.liveSdk.flush === "function") {
+      try {
+        await this.liveSdk.flush();
+      } catch (err) {
+        // Suppress flush error on exit
+      }
+    }
   }
 
   public async traceSpan<T>(
@@ -73,8 +86,17 @@ class NeatlogsManager {
     let status: "OK" | "ERROR" = "OK";
     let errorMsg: string | undefined;
 
+    const executeWithLiveSpan = async (): Promise<T> => {
+      if (this.liveSdk && typeof this.liveSdk.trace === "function") {
+        return await this.liveSdk.trace({ name, attributes }, async () => {
+          return await fn();
+        });
+      }
+      return await fn();
+    };
+
     try {
-      const result = await fn();
+      const result = await executeWithLiveSpan();
       return result;
     } catch (err: any) {
       status = "ERROR";
