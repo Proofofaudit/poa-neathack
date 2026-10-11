@@ -50,13 +50,14 @@
 
 ---
 
-### [2:00 - 2:40] Mandatory neatHack Sponsor Integrations
-**Visual:** Click on the **neatHack Sponsor Proof** tab on the dashboard, displaying Neatlogs, Entire, and cfo.ai cards.  
+### [2:00 - 2:40] neatHack Sponsor & Partner Integrations
+**Visual:** Click on the **neatHack Sponsor Proof** tab on the dashboard, displaying Neatlogs, Entire, cfo.ai, and Crustdata cards.  
 **Voiceover:**
-> "POA is deeply powered by all three hackathon sponsor technologies:  
-> **1. Neatlogs:** Under Project ID `542c53f4-ec26-4d57-a097-b7c9175c84be`, our agent records 8 discrete trace spans—from initial log inspection to cryptographic proof generation. Even when we inject a simulated RPC failure, Neatlogs records the transient warning while the agent self-heals and finishes cleanly.  
-> **2. Entire CLI:** We integrated Entire v0.11.4 with our Antigravity agent. Every milestone—from our Solidity contracts to the counterfactual engine and UI—is preserved as an immutable Git checkpoint.  
-> **3. cfo.ai:** Automating forensic investigations drops compute COGS to just 6 cents per incident. Charging protocols a modest 5% recovery fee yields a 99.8% gross profit margin, turning a months-long human consulting headache into high-margin enterprise infrastructure."
+> "POA is deeply powered by all hackathon sponsor and partner technologies:  
+> **1. Neatlogs:** Under Project ID `542c53f4-ec26-4d57-a097-b7c9175c84be`, our agent records 10 hierarchical trace spans using the official TypeScript SDK. We wrapped LiteLLM Claude Haiku so prompt tokens, completion tokens, and model spend track directly. Even during simulated RPC network timeouts, Neatlogs logs diagnostic warnings while our agent autonomously self-heals.  
+> **2. Entire (Checkpoints, Graph & Brain):** We deployed Entire's complete triple-pillar ecosystem. Checkpoints link our agent decisions directly to Git commits on `main`. Entire Graph indexes our code AST for instant symbol navigation, and Entire Brain maintains continuous memory across 1,929 symbols with a live background watcher daemon.  
+> **3. cfo.ai:** Automating forensic investigations slashes compute COGS to just $0.062 per incident versus $50,000+ for human auditors. We modeled a SaaS plus 5% contingency fee structure yielding a 99.8% gross margin, 21x LTV/CAC, and profitability by month 12.  
+> **4. Crustdata:** We enrich every on-chain victim and liquidator address with institutional risk ratings and AUM profiling during incident triage."
 
 ---
 
