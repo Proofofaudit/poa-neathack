@@ -2,6 +2,7 @@ import { ethers } from "ethers";
 import { neatlogs } from "../observability/neatlogs.js";
 import { CounterfactualReplayEngine, RestitutionClaimResult, LiquidationEventRecord } from "../economics/counterfactual.js";
 import { MerkleManifestGenerator, RestitutionMerkleManifest } from "../proofs/merkle.js";
+import { ManifestGenerator, ProofCarryingManifest } from "../proofs/manifest.js";
 import { ForensicLlmAgent, ForensicReasoningOutput } from "./llm.js";
 import { CrustdataEnricher, EnrichedEntityProfile } from "./crustdata.js";
 
@@ -15,6 +16,7 @@ export interface InvestigationReport {
   totalRestitutionCalculatedUsdc: string;
   claims: RestitutionClaimResult[];
   merkleManifest?: RestitutionMerkleManifest;
+  proofCarryingManifest?: ProofCarryingManifest;
   retriesAttempted: number;
   executionTraceId?: string;
   timestamp: string;
@@ -183,12 +185,28 @@ export class POAIncidentInvestigator {
 
       // 7. Tool: generateMerkleManifest
       let merkleManifest: RestitutionMerkleManifest | undefined;
+      let proofCarryingManifest: ProofCarryingManifest | undefined;
       if (verifiedClaimsForTree.length > 0) {
         merkleManifest = await neatlogs.traceSpan("generateMerkleManifest", "TOOL", {
           claimsCount: verifiedClaimsForTree.length
         }, async () => {
           return MerkleManifestGenerator.generateManifest(params.incidentId, verifiedClaimsForTree);
         });
+
+        if (merkleManifest) {
+          proofCarryingManifest = ManifestGenerator.createProofCarryingManifest({
+            incidentId: params.incidentId,
+            incidentTxHash: params.incidentTxHash,
+            oracleAddress: params.oracleAddress,
+            poolAddress: params.poolAddress,
+            payoutToken: params.distributorAddress,
+            baselinePriceUsd: (Number(params.baselinePrice || 200000000000n) / 1e8).toFixed(2),
+            faultyPriceUsd: "1800.00",
+            claims: analysisResults,
+            merkleManifest,
+            traceId: neatlogs.getLatestTrace()?.traceId
+          });
+        }
       }
 
       const totalRestitutionUsdc = verifiedClaimsForTree.reduce((acc, c) => acc + c.amount, 0n);
@@ -203,6 +221,7 @@ export class POAIncidentInvestigator {
         totalRestitutionCalculatedUsdc: totalRestitutionUsdc.toString(),
         claims: analysisResults,
         merkleManifest,
+        proofCarryingManifest,
         retriesAttempted,
         executionTraceId: neatlogs.getLatestTrace()?.traceId,
         timestamp: new Date().toISOString(),

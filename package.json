@@ -11,9 +11,7 @@
     "test:watch": "vitest",
     "contracts:build": "export PATH=$HOME/.foundry/bin:$PATH && (cd contracts && forge build)",
     "contracts:test": "export PATH=$HOME/.foundry/bin:$PATH && (cd contracts && forge test -v)",
-    "demo:seed": "tsx scripts/seed_scenario.ts",
-    "demo:investigate": "tsx scripts/run_investigation.ts",
-    "demo:payout": "tsx scripts/execute_payout.ts",
+    "test:benchmark": "tsx scripts/benchmark_evmbench.ts",
     "demo:all": "bash scripts/demo_all.sh"
   },
   "dependencies": {

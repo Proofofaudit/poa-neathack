@@ -123,10 +123,10 @@ async function main() {
       report.merkleManifest!.merkleRoot,
       totalRestitution,
       fixture.usdcAddress,
-      "POA_POLICY_V1"
+      "POA_RESTITUTION_POLICY_V1_EQUITY_DELTA"
     );
     await registerTx.wait();
-    console.log(`  ✓ Incident registered on-chain in RestitutionDistributor.`);
+    console.log(`  ✓ Incident registered on-chain in RestitutionDistributor (Policy: POA_RESTITUTION_POLICY_V1_EQUITY_DELTA).`);
 
     // Execute real claim for Victim 1
     const claim1 = report.merkleManifest!.claims[0];
@@ -204,6 +204,12 @@ async function main() {
       observabilityTrace: latestTrace,
       completedAt: new Date().toISOString()
     }, (key, value) => typeof value === "bigint" ? value.toString() : value, 2));
+
+    if (report.proofCarryingManifest) {
+      const manifestPath = path.resolve(process.cwd(), "evidence/restitution_manifest.json");
+      fs.writeFileSync(manifestPath, JSON.stringify(report.proofCarryingManifest, null, 2));
+      console.log(`  ✓ Proof-Carrying Restitution Manifest exported to: ${manifestPath}`);
+    }
 
     await neatlogs.flush();
 

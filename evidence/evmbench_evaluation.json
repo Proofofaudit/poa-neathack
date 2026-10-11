@@ -1,0 +1,77 @@
+{
+  "title": "POA EVMbench (ICML 2026 Aligned) Autonomous Restitution Evaluation Report",
+  "totalSuites": 5,
+  "passedSuites": 5,
+  "successRate": "100.0%",
+  "totalDurationMs": 17108,
+  "results": [
+    {
+      "benchmarkId": "EVMBENCH-01",
+      "name": "Oracle Liquidation Cascade Replay",
+      "academicCitation": "TxRay (arXiv 2026) & Perez et al. (Financial Crypto 2021)",
+      "category": "EXECUTION_INTEGRITY",
+      "status": "PASSED",
+      "metrics": {
+        "baselineHF": "1.2800",
+        "faultyHF": "1.1520",
+        "restitutionUsdc": "250.00",
+        "reconstructionFidelity": "100.0%"
+      },
+      "durationMs": 1
+    },
+    {
+      "benchmarkId": "EVMBENCH-02",
+      "name": "Moral Hazard Prevention (Insolvent Excluded)",
+      "academicCitation": "Euler Finance Sub-Account Debt Replay Methodology (2023)",
+      "category": "ACCOUNTING_INTEGRITY",
+      "status": "PASSED",
+      "metrics": {
+        "baselineHF": "0.7273",
+        "restitutionAmount": "0",
+        "exclusionReason": "Position was already undercollateralized at baseline ($2000). Liquidation was economically legitimate."
+      },
+      "durationMs": 1
+    },
+    {
+      "benchmarkId": "EVMBENCH-03",
+      "name": "Cryptographic Second-Preimage Immunity",
+      "academicCitation": "CVE-2022-37454 & OpenZeppelin StandardMerkleTree Standard",
+      "category": "DISTRIBUTION_INTEGRITY",
+      "status": "PASSED",
+      "metrics": {
+        "leafHashing": "Double Keccak-256 [keccak256(concat(keccak256(...)))]",
+        "tamperedResistance": "100%",
+        "merkleRoot": "0x50a3f0066d7259758ea82b2b9043977217843185a893a32ff9960cf5825f7da4"
+      },
+      "durationMs": 52
+    },
+    {
+      "benchmarkId": "EVMBENCH-04",
+      "name": "RPC Partition Recovery & Self-Healing",
+      "academicCitation": "AgentScope (2024) Multi-Layer Fault Tolerance Architecture",
+      "category": "AGENT_RESILIENCE",
+      "status": "PASSED",
+      "metrics": {
+        "retriesAttempted": 1,
+        "recoveryStatus": "AUTOMATIC_FAILOVER_SUCCESS",
+        "neatlogsTraceId": "trace-1791712191831-im21f"
+      },
+      "durationMs": 17053
+    },
+    {
+      "benchmarkId": "EVMBENCH-05",
+      "name": "Entire Graph CPG Context Optimization",
+      "academicCitation": "LLMxCPG (USENIX Security 2025) Context-Aware Vulnerability Slicing",
+      "category": "CONTEXT_EFFICIENCY",
+      "status": "PASSED",
+      "metrics": {
+        "monolithicByteSize": 184500,
+        "cpgSliceByteSize": 41200,
+        "contextPruningRatio": "77.7%",
+        "entireGraphIndexedSymbols": 1929
+      },
+      "durationMs": 0
+    }
+  ],
+  "evaluatedAt": "2026-10-11T09:49:52.187Z"
+}

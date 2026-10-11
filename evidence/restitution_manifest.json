@@ -1,0 +1,63 @@
+{
+  "manifestVersion": "1.0.0",
+  "policyId": "POA_RESTITUTION_POLICY_V1_EQUITY_DELTA",
+  "incidentId": "0x439624154edbcaddd0f50b0a00372a5611b5589f7282da15a15aab0c9bf691c7",
+  "generatedAt": "2026-10-11T09:52:12.379Z",
+  "neatlogsTraceId": "trace-1791712332303-3qmnj",
+  "evidence": {
+    "incidentTxHash": "0x2e3c67d0d714464945054719e45133baa55b477aed7a7170950a36c0d19497ca",
+    "oracleAddress": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+    "poolAddress": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
+    "payoutToken": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
+    "baselinePriceUsd": "2000.00",
+    "faultyPriceUsd": "1800.00",
+    "interventionPolicy": "Intervention policy substituted anomalous oracle plunge with verified TWAP benchmark. Nonces and valid transactions preserved."
+  },
+  "accountingInvariants": {
+    "equityDeltaFormula": "L_i = max(0, NetEquity_i(S_cf) - NetEquity_i(S_obs)) where NetEquity = (Collateral * P_baseline) - Debt",
+    "moralHazardExclusionRule": "Positions with baseline Health Factor < 1.0 (undercollateralized prior to incident) receive zero restitution.",
+    "integerPrecision": "18 decimals WETH collateral, 6 decimals USDC debt/payout, BigInt integer arithmetic with zero floating point representation"
+  },
+  "summary": {
+    "totalVictimsEvaluated": 3,
+    "wrongfulLiquidationsCount": 3,
+    "insolventAccountsExcluded": 0,
+    "totalRestitutionUsdc": "5750000000",
+    "merkleRoot": "0x4ddd489e14c809cabdf5080500b4b93f29cb3c142c89847683444954f0e2ea94"
+  },
+  "claims": [
+    {
+      "claimIndex": 0,
+      "claimant": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+      "restitutionUsdc": "2500000000",
+      "counterfactualEquityUsd": "5000.00",
+      "observedEquityUsd": "2500.00",
+      "merkleProof": [
+        "0x776ca7c00e1b30c176a38e247bff6bae6327abddd19c308a97cd1c6bab355377"
+      ]
+    },
+    {
+      "claimIndex": 1,
+      "claimant": "0x90F79bf6EB2c4f870365E785982E1f101E93b906",
+      "restitutionUsdc": "1250000000",
+      "counterfactualEquityUsd": "2500.00",
+      "observedEquityUsd": "1250.00",
+      "merkleProof": [
+        "0x0e1cc60c17ef611ec04c6ae038ef4b1f8335e72f34510af0d0afedf07553ed56",
+        "0x8f2c024c62e935f1af61c2f2dd742572ae12eca1f55e051c04441c6928302d82"
+      ]
+    },
+    {
+      "claimIndex": 2,
+      "claimant": "0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65",
+      "restitutionUsdc": "2000000000",
+      "counterfactualEquityUsd": "4000.00",
+      "observedEquityUsd": "2000.00",
+      "merkleProof": [
+        "0x66f5889c93d424815c0636acf3775a2d1efed4c86c275cec901101830f1dcbc4",
+        "0x8f2c024c62e935f1af61c2f2dd742572ae12eca1f55e051c04441c6928302d82"
+      ]
+    }
+  ],
+  "cryptographicIntegritySeal": "0x9904b47354328b31921f2db32c0309e213c900bf8fb1c8c9a93140806b262a43"
+}
