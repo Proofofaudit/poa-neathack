@@ -124,6 +124,8 @@ Open **[http://localhost:3000](http://localhost:3000)** to explore:
 
 ## 📐 Mathematical Counterfactual Engine
 
+> 📖 **Peer-Reviewed Research Foundations:** Grounded in formal causal EVM execution models (*Origins of MEV*, arXiv:2604.27979; *TxRay*, arXiv:2602.01317; *EVMbench*, ICML 2026). See [`docs/RESEARCH_FOUNDATIONS.md`](docs/RESEARCH_FOUNDATIONS.md) for the complete academic literature synthesis.
+
 When collateral price drops from baseline $P_{\text{baseline}}$ ($2,000) to faulty price $P_{\text{faulty}}$ ($1,800), liquidators seize collateral at a 5% discount:
 $$\text{Collateral Seized} = \frac{\text{Debt Covered} \times 1.05}{P_{\text{faulty}}}$$
 
