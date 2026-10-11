@@ -168,9 +168,13 @@ describe("POA Autonomous Agent & Failure Recovery", () => {
     const latestTrace = neatlogs.getLatestTrace();
     expect(latestTrace).toBeDefined();
     expect(latestTrace?.spans.some(s => s.name === "investigateOracleIncident")).toBe(true);
+    expect(latestTrace?.spans.some(s => s.name === "llmForensicReasoning")).toBe(true);
+    expect(latestTrace?.spans.some(s => s.name === "enrichIncidentWithCrustdata")).toBe(true);
     expect(latestTrace?.spans.some(s => s.name === "replayCounterfactual")).toBe(true);
     expect(latestTrace?.spans.some(s => s.name === "crossCheckClaims")).toBe(true);
-  });
+    expect(report.forensicAiAssessment).toBeDefined();
+    expect(report.entityEnrichment).toBeDefined();
+  }, 20000);
 
   it("handles injected transient RPC failure, retries, and completes investigation cleanly", async () => {
     const investigator = new POAIncidentInvestigator(mockProvider);
@@ -212,5 +216,5 @@ describe("POA Autonomous Agent & Failure Recovery", () => {
     // Verify error span and retry were captured in Neatlogs trace
     const latestTrace = neatlogs.getLatestTrace();
     expect(latestTrace?.spans.some(s => s.name === "retryCollectLiquidationEvents")).toBe(true);
-  });
+  }, 20000);
 });

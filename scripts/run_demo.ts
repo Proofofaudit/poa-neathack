@@ -88,6 +88,13 @@ async function main() {
     });
 
     console.log(`  ✓ Investigation Status: ${report.status}`);
+    if (report.forensicAiAssessment) {
+      console.log(`  ✓ AI Forensic Reasoner [${report.forensicAiAssessment.modelUsed}]: ${report.forensicAiAssessment.executiveSummary}`);
+      console.log(`  ✓ Root Cause: ${report.forensicAiAssessment.rootCauseAnalysis}`);
+    }
+    if (report.entityEnrichment) {
+      console.log(`  ✓ Crustdata Entity Intelligence: Profiled ${Object.keys(report.entityEnrichment).length} incident addresses.`);
+    }
     console.log(`  ✓ Analyzed Liquidation Events: ${report.eventsAnalyzed}`);
     console.log(`  ✓ Identified Wrongful Liquidations: ${report.wrongfulLiquidationsCount} of ${fixture.liquidationTxs.length}`);
     console.log(`  ✓ Total Verified Restitution: ${(Number(report.totalRestitutionCalculatedUsdc) / 1e6).toFixed(2)} USDC`);

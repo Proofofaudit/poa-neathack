@@ -2,6 +2,8 @@ import { ethers } from "ethers";
 import { neatlogs } from "../observability/neatlogs.js";
 import { CounterfactualReplayEngine, RestitutionClaimResult, LiquidationEventRecord } from "../economics/counterfactual.js";
 import { MerkleManifestGenerator, RestitutionMerkleManifest } from "../proofs/merkle.js";
+import { ForensicLlmAgent, ForensicReasoningOutput } from "./llm.js";
+import { CrustdataEnricher, EnrichedEntityProfile } from "./crustdata.js";
 
 export interface InvestigationReport {
   incidentId: string;
@@ -16,6 +18,8 @@ export interface InvestigationReport {
   retriesAttempted: number;
   executionTraceId?: string;
   timestamp: string;
+  forensicAiAssessment?: ForensicReasoningOutput;
+  entityEnrichment?: Record<string, EnrichedEntityProfile>;
 }
 
 export class POAIncidentInvestigator {
@@ -52,6 +56,20 @@ export class POAIncidentInvestigator {
       incidentTxHash: params.incidentTxHash
     }, async () => {
       let retriesAttempted = 0;
+      const llmAgent = new ForensicLlmAgent();
+      const crustdata = new CrustdataEnricher();
+
+      // Step 0: Autonomous AI Forensic Reasoning & Policy Decision
+      const forensicAssessment = await llmAgent.analyzeIncident({
+        incidentTxHash: params.incidentTxHash,
+        oracleAddress: params.oracleAddress,
+        poolAddress: params.poolAddress,
+        baselinePrice: (Number(params.baselinePrice || 200000000000n) / 1e8).toFixed(2),
+        faultyPrice: "1800.00",
+        priceDropPercentage: "10.0",
+        liquidationCount: params.simulatedLiquidations?.length || 3,
+        affectedBorrowers: (params.simulatedLiquidations || []).map(l => l.borrower)
+      });
 
       // 1. Tool: inspectIncidentTransaction
       const incidentTxData = await neatlogs.traceSpan("inspectIncidentTransaction", "TOOL", {
@@ -104,6 +122,9 @@ export class POAIncidentInvestigator {
       }, async () => {
         return Array.from(new Set(liquidationEvents.map(e => e.borrower)));
       });
+
+      // 4b. Tool: Crustdata Entity & MEV Intelligence
+      const entityEnrichment = await crustdata.enrichEntities(affectedAccounts);
 
       // 5. Tool & Chain: replayCounterfactual
       const analysisResults: RestitutionClaimResult[] = [];
@@ -184,7 +205,9 @@ export class POAIncidentInvestigator {
         merkleManifest,
         retriesAttempted,
         executionTraceId: neatlogs.getLatestTrace()?.traceId,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
+        forensicAiAssessment: forensicAssessment,
+        entityEnrichment
       };
     });
   }

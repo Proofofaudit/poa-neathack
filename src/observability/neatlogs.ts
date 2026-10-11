@@ -66,6 +66,13 @@ class NeatlogsManager {
     this.isInitialized = true;
   }
 
+  public wrapClient(client: any): any {
+    if (this.liveSdk && typeof this.liveSdk.wrapOpenAI === "function") {
+      return this.liveSdk.wrapOpenAI(client);
+    }
+    return client;
+  }
+
   public async flush(): Promise<void> {
     if (this.liveSdk && typeof this.liveSdk.flush === "function") {
       try {
