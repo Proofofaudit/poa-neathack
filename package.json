@@ -21,6 +21,7 @@
     "@openzeppelin/merkle-tree": "^1.0.7",
     "dotenv": "^16.4.7",
     "ethers": "^6.13.5",
+    "framer-motion": "^14.1.0",
     "lucide-react": "^1.55.0",
     "neatlogs": "latest",
     "next": "^14.2.24",
