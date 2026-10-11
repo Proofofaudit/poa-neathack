@@ -1,5 +1,5 @@
 {
-  "incidentId": "0x439624154edbcaddd0f50b0a00372a5611b5589f7282da15a15aab0c9bf691c7",
+  "incidentId": "0xf20a133ecc2e2bc91a80bf723b664967a5226486ef15b0007ca1e126f3e046c8",
   "fixture": {
     "chainId": 31337,
     "oracleAddress": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
@@ -9,22 +9,22 @@
     "usdcAddress": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
     "baselinePrice": "200000000000",
     "faultyPrice": "180000000000",
-    "oracleUpdateTxHash": "0x2e3c67d0d714464945054719e45133baa55b477aed7a7170950a36c0d19497ca",
+    "oracleUpdateTxHash": "0xf0a5202c616dd67f8fea28d83c970ca3b5e1bab37105cb741a2fd94ff66442d6",
     "liquidationTxs": [
       {
-        "txHash": "0x4b5392859905bbbefca8b93ec737e1af4fe895b64697d8b05eb22f378d1591b1",
+        "txHash": "0xd2e47c9b62ded50525c8f58ac2b1460de46027eeef1608415ab2cabc8725b69b",
         "borrower": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
         "debtCovered": "15000000000",
         "collateralSeized": "8750000000000000000"
       },
       {
-        "txHash": "0xef55a74624f4291a994421cf13c047ffad75e8df7f7ad49a1823bef7c389947a",
+        "txHash": "0xb3c811a7d73d65b44580699fdcccc2a1d192b208c5957b048bca236a99fc4237",
         "borrower": "0x90F79bf6EB2c4f870365E785982E1f101E93b906",
         "debtCovered": "7500000000",
         "collateralSeized": "4375000000000000000"
       },
       {
-        "txHash": "0xc5883291c1a9f0e7f01c95bc1ef1695eb8d85dfcaa512a6e827afff85be6f158",
+        "txHash": "0xef3e6110ba8c3ae57008af607a113e08e16da359e5509669eb758eb1bdb4d7e3",
         "borrower": "0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65",
         "debtCovered": "12000000000",
         "collateralSeized": "7000000000000000000"
@@ -59,8 +59,8 @@
     ]
   },
   "report": {
-    "incidentId": "0x439624154edbcaddd0f50b0a00372a5611b5589f7282da15a15aab0c9bf691c7",
-    "incidentTxHash": "0x2e3c67d0d714464945054719e45133baa55b477aed7a7170950a36c0d19497ca",
+    "incidentId": "0xf20a133ecc2e2bc91a80bf723b664967a5226486ef15b0007ca1e126f3e046c8",
+    "incidentTxHash": "0xf0a5202c616dd67f8fea28d83c970ca3b5e1bab37105cb741a2fd94ff66442d6",
     "status": "COMPLETED",
     "summary": "Autonomous investigation verified 3 wrongful liquidations resulting from faulty price drop. Total verified restitution: 5750.00 USDC.",
     "eventsAnalyzed": 3,
@@ -120,8 +120,8 @@
       }
     ],
     "merkleManifest": {
-      "incidentId": "0x439624154edbcaddd0f50b0a00372a5611b5589f7282da15a15aab0c9bf691c7",
-      "merkleRoot": "0x4ddd489e14c809cabdf5080500b4b93f29cb3c142c89847683444954f0e2ea94",
+      "incidentId": "0xf20a133ecc2e2bc91a80bf723b664967a5226486ef15b0007ca1e126f3e046c8",
+      "merkleRoot": "0x4b1839d40ccaf4ab9ff627aaae8424ca4ff52df1ebfe634fefddeb6d9f2a8247",
       "totalRestitutionAmount": "5750000000",
       "claimsCount": 3,
       "claims": [
@@ -129,43 +129,43 @@
           "claimIndex": 0,
           "claimant": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
           "amount": "2500000000",
-          "incidentId": "0x439624154edbcaddd0f50b0a00372a5611b5589f7282da15a15aab0c9bf691c7",
+          "incidentId": "0xf20a133ecc2e2bc91a80bf723b664967a5226486ef15b0007ca1e126f3e046c8",
           "proof": [
-            "0x776ca7c00e1b30c176a38e247bff6bae6327abddd19c308a97cd1c6bab355377"
+            "0xcb7ab26224c0d4cd38dc898450718d1b77bc2baeeeade7e18f86fbd9b899296f",
+            "0xf168cf8a0e96668e6727dfdd76f89408f15d404b2a915579941b6c86536eaf58"
           ]
         },
         {
           "claimIndex": 1,
           "claimant": "0x90F79bf6EB2c4f870365E785982E1f101E93b906",
           "amount": "1250000000",
-          "incidentId": "0x439624154edbcaddd0f50b0a00372a5611b5589f7282da15a15aab0c9bf691c7",
+          "incidentId": "0xf20a133ecc2e2bc91a80bf723b664967a5226486ef15b0007ca1e126f3e046c8",
           "proof": [
-            "0x0e1cc60c17ef611ec04c6ae038ef4b1f8335e72f34510af0d0afedf07553ed56",
-            "0x8f2c024c62e935f1af61c2f2dd742572ae12eca1f55e051c04441c6928302d82"
+            "0xb79f88be1888fb1de266bea6f6807540c10aeea69f4ee0fc8708427675c3af1c",
+            "0xf168cf8a0e96668e6727dfdd76f89408f15d404b2a915579941b6c86536eaf58"
           ]
         },
         {
           "claimIndex": 2,
           "claimant": "0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65",
           "amount": "2000000000",
-          "incidentId": "0x439624154edbcaddd0f50b0a00372a5611b5589f7282da15a15aab0c9bf691c7",
+          "incidentId": "0xf20a133ecc2e2bc91a80bf723b664967a5226486ef15b0007ca1e126f3e046c8",
           "proof": [
-            "0x66f5889c93d424815c0636acf3775a2d1efed4c86c275cec901101830f1dcbc4",
-            "0x8f2c024c62e935f1af61c2f2dd742572ae12eca1f55e051c04441c6928302d82"
+            "0x8734d62afe83c89e650b37ae518e916ff5056f7bf89b70a7039b90d4e9822328"
           ]
         }
       ],
-      "generatedAt": "2026-10-11T09:52:12.374Z",
+      "generatedAt": "2026-10-11T11:12:17.911Z",
       "policyVersion": "POA_RESTITUTION_POLICY_V1_EQUITY_DELTA"
     },
     "proofCarryingManifest": {
       "manifestVersion": "1.0.0",
       "policyId": "POA_RESTITUTION_POLICY_V1_EQUITY_DELTA",
-      "incidentId": "0x439624154edbcaddd0f50b0a00372a5611b5589f7282da15a15aab0c9bf691c7",
-      "generatedAt": "2026-10-11T09:52:12.379Z",
-      "neatlogsTraceId": "trace-1791712332303-3qmnj",
+      "incidentId": "0xf20a133ecc2e2bc91a80bf723b664967a5226486ef15b0007ca1e126f3e046c8",
+      "generatedAt": "2026-10-11T11:12:17.922Z",
+      "neatlogsTraceId": "trace-1791717137799-unc3a",
       "evidence": {
-        "incidentTxHash": "0x2e3c67d0d714464945054719e45133baa55b477aed7a7170950a36c0d19497ca",
+        "incidentTxHash": "0xf0a5202c616dd67f8fea28d83c970ca3b5e1bab37105cb741a2fd94ff66442d6",
         "oracleAddress": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
         "poolAddress": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
         "payoutToken": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
@@ -183,7 +183,7 @@
         "wrongfulLiquidationsCount": 3,
         "insolventAccountsExcluded": 0,
         "totalRestitutionUsdc": "5750000000",
-        "merkleRoot": "0x4ddd489e14c809cabdf5080500b4b93f29cb3c142c89847683444954f0e2ea94"
+        "merkleRoot": "0x4b1839d40ccaf4ab9ff627aaae8424ca4ff52df1ebfe634fefddeb6d9f2a8247"
       },
       "claims": [
         {
@@ -193,7 +193,8 @@
           "counterfactualEquityUsd": "5000.00",
           "observedEquityUsd": "2500.00",
           "merkleProof": [
-            "0x776ca7c00e1b30c176a38e247bff6bae6327abddd19c308a97cd1c6bab355377"
+            "0xcb7ab26224c0d4cd38dc898450718d1b77bc2baeeeade7e18f86fbd9b899296f",
+            "0xf168cf8a0e96668e6727dfdd76f89408f15d404b2a915579941b6c86536eaf58"
           ]
         },
         {
@@ -203,8 +204,8 @@
           "counterfactualEquityUsd": "2500.00",
           "observedEquityUsd": "1250.00",
           "merkleProof": [
-            "0x0e1cc60c17ef611ec04c6ae038ef4b1f8335e72f34510af0d0afedf07553ed56",
-            "0x8f2c024c62e935f1af61c2f2dd742572ae12eca1f55e051c04441c6928302d82"
+            "0xb79f88be1888fb1de266bea6f6807540c10aeea69f4ee0fc8708427675c3af1c",
+            "0xf168cf8a0e96668e6727dfdd76f89408f15d404b2a915579941b6c86536eaf58"
           ]
         },
         {
@@ -214,20 +215,19 @@
           "counterfactualEquityUsd": "4000.00",
           "observedEquityUsd": "2000.00",
           "merkleProof": [
-            "0x66f5889c93d424815c0636acf3775a2d1efed4c86c275cec901101830f1dcbc4",
-            "0x8f2c024c62e935f1af61c2f2dd742572ae12eca1f55e051c04441c6928302d82"
+            "0x8734d62afe83c89e650b37ae518e916ff5056f7bf89b70a7039b90d4e9822328"
           ]
         }
       ],
-      "cryptographicIntegritySeal": "0x9904b47354328b31921f2db32c0309e213c900bf8fb1c8c9a93140806b262a43"
+      "cryptographicIntegritySeal": "0xac65ea79b69cd78dd0e705ae3c241238dbb2a3e4ca9778a75e2369620916b7c2"
     },
     "retriesAttempted": 0,
-    "executionTraceId": "trace-1791712332303-3qmnj",
-    "timestamp": "2026-10-11T09:52:12.379Z",
+    "executionTraceId": "trace-1791717137799-unc3a",
+    "timestamp": "2026-10-11T11:12:17.922Z",
     "forensicAiAssessment": {
       "anomalyClassification": "FAULTY_ORACLE_DEVIATION",
       "confidenceScore": 0.99,
-      "rootCauseAnalysis": "# FORENSIC INCIDENT ANALYSIS REPORT\n**POA Restitution Framework v2.1**\n\n---\n\n## EXECUTIVE SUMMARY\n**INCIDENT CLASSIFICATION:** Requires Multi-Layer Verification (Cannot Determine Causation from Single Datapoint)\n\n**PRELIMINARY RISK ASSESSMENT:** ⚠️ INCONCLUSIVE — Insufficient on-chain evidence provi...",
+      "rootCauseAnalysis": "# FORENSIC INCIDENT ANALYSIS REPORT\n**POA Incident ID:** 0xf0a5202c616dd67f8fea28d83c970ca3b5e1bab37105cb741a2fd94ff66442d6\n\n---\n\n## 1. ORACLE DEVIATION CLASSIFICATION\n\n### Price Movement Analysis\n- **Magnitude:** 10.0% single-block drop ($2000 → $1800)\n- **Classification:** REQUIRES MULTI-FACTOR VA...",
       "restitutionPolicyTriggered": true,
       "recommendedWorkflow": [
         "inspectIncidentTransaction",
@@ -239,7 +239,7 @@
         "generateMerkleManifest"
       ],
       "executiveSummary": "Autonomous AI reasoning confirmed anomalous -10.0% price plunge. Restitution charter activated.",
-      "tokensUsed": 2617,
+      "tokensUsed": 2106,
       "modelUsed": "claude-haiku",
       "isLiveLlm": true
     },
@@ -271,16 +271,16 @@
     "claimIndex": 0,
     "claimant": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
     "amountUsdc": "2500000000",
-    "txHash": "0xd1a1b5b3b8d5d0ac64cba243c47c70263276f31e9d5d4ad8b528673f6e0e2b62"
+    "txHash": "0xe18deb31e82fabad9d9ac819174636389aeb0e2653a8c8434b64edb4e49b1ea1"
   },
   "observabilityTrace": {
     "workflowName": "poa-incident-investigation",
-    "traceId": "trace-1791712332303-3qmnj",
+    "traceId": "trace-1791717137799-unc3a",
     "spans": [
       {
         "name": "llmForensicReasoning",
         "kind": "AGENT",
-        "durationMs": 21330,
+        "durationMs": 16624,
         "attributes": {
           "model": "claude-haiku",
           "mode": "LIVE_LLM",
@@ -291,16 +291,16 @@
       {
         "name": "inspectIncidentTransaction",
         "kind": "TOOL",
-        "durationMs": 5,
+        "durationMs": 3,
         "attributes": {
-          "txHash": "0x2e3c67d0d714464945054719e45133baa55b477aed7a7170950a36c0d19497ca"
+          "txHash": "0xf0a5202c616dd67f8fea28d83c970ca3b5e1bab37105cb741a2fd94ff66442d6"
         },
         "status": "OK"
       },
       {
         "name": "readContractState",
         "kind": "TOOL",
-        "durationMs": 3,
+        "durationMs": 2,
         "attributes": {
           "oracleAddress": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0"
         },
@@ -309,7 +309,7 @@
       {
         "name": "collectLiquidationEvents",
         "kind": "TOOL",
-        "durationMs": 6,
+        "durationMs": 4,
         "attributes": {
           "poolAddress": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9"
         },
@@ -318,7 +318,7 @@
       {
         "name": "discoverAffectedAccounts",
         "kind": "TOOL",
-        "durationMs": 4,
+        "durationMs": 5,
         "attributes": {
           "eventsCount": 3
         },
@@ -327,7 +327,7 @@
       {
         "name": "enrichIncidentWithCrustdata",
         "kind": "TOOL",
-        "durationMs": 4,
+        "durationMs": 7,
         "attributes": {
           "addressesCount": 3,
           "protocol": "DemoLendingPool",
@@ -338,7 +338,7 @@
       {
         "name": "replayCounterfactual",
         "kind": "CHAIN",
-        "durationMs": 3,
+        "durationMs": 5,
         "attributes": {
           "affectedAccountsCount": 3
         },
@@ -347,7 +347,7 @@
       {
         "name": "crossCheckClaims",
         "kind": "GUARDRAIL",
-        "durationMs": 3,
+        "durationMs": 5,
         "attributes": {
           "verifiedCount": 3
         },
@@ -356,7 +356,7 @@
       {
         "name": "generateMerkleManifest",
         "kind": "TOOL",
-        "durationMs": 43,
+        "durationMs": 90,
         "attributes": {
           "claimsCount": 3
         },
@@ -365,15 +365,15 @@
       {
         "name": "investigateOracleIncident",
         "kind": "WORKFLOW",
-        "durationMs": 21426,
+        "durationMs": 16793,
         "attributes": {
-          "incidentId": "0x439624154edbcaddd0f50b0a00372a5611b5589f7282da15a15aab0c9bf691c7",
-          "incidentTxHash": "0x2e3c67d0d714464945054719e45133baa55b477aed7a7170950a36c0d19497ca"
+          "incidentId": "0xf20a133ecc2e2bc91a80bf723b664967a5226486ef15b0007ca1e126f3e046c8",
+          "incidentTxHash": "0xf0a5202c616dd67f8fea28d83c970ca3b5e1bab37105cb741a2fd94ff66442d6"
         },
         "status": "OK"
       }
     ],
-    "totalDurationMs": 42827
+    "totalDurationMs": 33538
   },
-  "completedAt": "2026-10-11T09:52:12.823Z"
+  "completedAt": "2026-10-11T11:12:18.507Z"
 }

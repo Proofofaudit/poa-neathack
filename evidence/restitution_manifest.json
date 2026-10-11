@@ -1,11 +1,11 @@
 {
   "manifestVersion": "1.0.0",
   "policyId": "POA_RESTITUTION_POLICY_V1_EQUITY_DELTA",
-  "incidentId": "0x439624154edbcaddd0f50b0a00372a5611b5589f7282da15a15aab0c9bf691c7",
-  "generatedAt": "2026-10-11T09:52:12.379Z",
-  "neatlogsTraceId": "trace-1791712332303-3qmnj",
+  "incidentId": "0xf20a133ecc2e2bc91a80bf723b664967a5226486ef15b0007ca1e126f3e046c8",
+  "generatedAt": "2026-10-11T11:12:17.922Z",
+  "neatlogsTraceId": "trace-1791717137799-unc3a",
   "evidence": {
-    "incidentTxHash": "0x2e3c67d0d714464945054719e45133baa55b477aed7a7170950a36c0d19497ca",
+    "incidentTxHash": "0xf0a5202c616dd67f8fea28d83c970ca3b5e1bab37105cb741a2fd94ff66442d6",
     "oracleAddress": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
     "poolAddress": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
     "payoutToken": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
@@ -23,7 +23,7 @@
     "wrongfulLiquidationsCount": 3,
     "insolventAccountsExcluded": 0,
     "totalRestitutionUsdc": "5750000000",
-    "merkleRoot": "0x4ddd489e14c809cabdf5080500b4b93f29cb3c142c89847683444954f0e2ea94"
+    "merkleRoot": "0x4b1839d40ccaf4ab9ff627aaae8424ca4ff52df1ebfe634fefddeb6d9f2a8247"
   },
   "claims": [
     {
@@ -33,7 +33,8 @@
       "counterfactualEquityUsd": "5000.00",
       "observedEquityUsd": "2500.00",
       "merkleProof": [
-        "0x776ca7c00e1b30c176a38e247bff6bae6327abddd19c308a97cd1c6bab355377"
+        "0xcb7ab26224c0d4cd38dc898450718d1b77bc2baeeeade7e18f86fbd9b899296f",
+        "0xf168cf8a0e96668e6727dfdd76f89408f15d404b2a915579941b6c86536eaf58"
       ]
     },
     {
@@ -43,8 +44,8 @@
       "counterfactualEquityUsd": "2500.00",
       "observedEquityUsd": "1250.00",
       "merkleProof": [
-        "0x0e1cc60c17ef611ec04c6ae038ef4b1f8335e72f34510af0d0afedf07553ed56",
-        "0x8f2c024c62e935f1af61c2f2dd742572ae12eca1f55e051c04441c6928302d82"
+        "0xb79f88be1888fb1de266bea6f6807540c10aeea69f4ee0fc8708427675c3af1c",
+        "0xf168cf8a0e96668e6727dfdd76f89408f15d404b2a915579941b6c86536eaf58"
       ]
     },
     {
@@ -54,10 +55,9 @@
       "counterfactualEquityUsd": "4000.00",
       "observedEquityUsd": "2000.00",
       "merkleProof": [
-        "0x66f5889c93d424815c0636acf3775a2d1efed4c86c275cec901101830f1dcbc4",
-        "0x8f2c024c62e935f1af61c2f2dd742572ae12eca1f55e051c04441c6928302d82"
+        "0x8734d62afe83c89e650b37ae518e916ff5056f7bf89b70a7039b90d4e9822328"
       ]
     }
   ],
-  "cryptographicIntegritySeal": "0x9904b47354328b31921f2db32c0309e213c900bf8fb1c8c9a93140806b262a43"
+  "cryptographicIntegritySeal": "0xac65ea79b69cd78dd0e705ae3c241238dbb2a3e4ca9778a75e2369620916b7c2"
 }
