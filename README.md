@@ -6,8 +6,11 @@
 [![Team](https://img.shields.io/badge/Team-poa-cyan.svg)](https://neatlogs.com)
 [![Neatlogs Traced](https://img.shields.io/badge/Neatlogs-Instrumented-00f2fe.svg)](https://neatlogs.com)
 [![Entire Active](https://img.shields.io/badge/Entire-Checkpoint_Tracked-purple.svg)](https://entire.dev)
-[![Foundry Tests](https://img.shields.io/badge/Foundry-5%2F5_Passing-emerald.svg)](https://getfoundry.sh)
+[![Foundry Tests](https://img.shields.io/badge/Foundry-11%2F11_Passing-emerald.svg)](https://getfoundry.sh)
 [![Vitest](https://img.shields.io/badge/Vitest-6%2F6_Passing-emerald.svg)](https://vitest.dev)
+[![EVMbench](https://img.shields.io/badge/EVMbench-5%2F5_Passing-emerald.svg)](evidence/evmbench_evaluation.json)
+[![Base Mainnet Fork](https://img.shields.io/badge/Base_Mainnet-Fork_Verified-blue.svg)](scripts/run_base_fork.ts)
+[![Docker Ready](https://img.shields.io/badge/Docker-Production_Containerized-2496ED.svg)](Dockerfile)
 
 ---
 
@@ -106,11 +109,35 @@ Run the automated end-to-end verification script:
 ./scripts/demo_all.sh
 ```
 This runs:
-1. Foundry Smart Contract Tests (`forge test -v`) — **5/5 passing**.
+1. Foundry Smart Contract Tests (`forge test -v`) — **11/11 passing across 3 suites**.
 2. TypeScript Financial Engine & Agent Tests (`npm test`) — **6/6 passing**.
 3. Live Anvil Incident Staging, Agent Investigation, Merkle Claim, and Negative Adversarial Tests.
 
-### 2. Launch the Interactive Next.js Dashboard
+### 2. Live Base Mainnet Fork Restitution Runner
+Run counterfactual forensics and on-chain claims against live Base Mainnet (Block #52,462,535) with real USDC and WETH contracts:
+```bash
+npm run demo:base-fork
+```
+
+### 3. 24/7 Autonomous Sentinel Watcher Daemon
+Start the production block listener that monitors live RPC blocks and dispatches autonomous incident remediation when anomalies breach threshold:
+```bash
+npm run sentinel:watch
+```
+
+### 4. Machine-Checked EVMbench Benchmark Suite (ICML 2026 Aligned)
+Execute the 5-part quantitative benchmark validating execution integrity, moral hazard prevention, collision defense, partition recovery, and Entire Graph prompt slicing:
+```bash
+npm run test:benchmark
+```
+
+### 5. Launch Model Context Protocol (MCP) Server
+Launch the production MCP server over stdio JSON-RPC 2.0 with exposed tools (`poa_replay_counterfactual`, `poa_generate_merkle_manifest`, `poa_verify_claim_proof`):
+```bash
+npm run mcp
+```
+
+### 6. Launch the Interactive Next.js Dashboard & Claim Portal
 ```bash
 npm run dev
 ```
@@ -119,6 +146,7 @@ Open **[http://localhost:3000](http://localhost:3000)** to explore:
 - **Counterfactual Replay Table:** Side-by-side health factor and loss calculations.
 - **Cryptographic Claim Portal:** Interactive Merkle proof inspector and on-chain claim execution.
 - **neatHack Sponsor Proof:** Interactive Neatlogs, Entire, and cfo.ai metrics.
+- **Production Health Endpoint:** Check [`http://localhost:3000/api/health`](http://localhost:3000/api/health) for JSON diagnostic health data.
 
 ---
 
@@ -154,11 +182,16 @@ Implemented in `contracts/src/`:
   ```solidity
   bytes32 leaf = keccak256(bytes.concat(keccak256(abi.encode(claimIndex, claimant, amount, policyHash))));
   ```
+- `CumulativeRestitutionDistributor.sol`: Multi-epoch cumulative claim distributor modeled after Morpho Blue / Euler. Prevents second-preimage collision attacks and allows streaming tranches across multiple recovery epochs.
+- `EIP712RestitutionDistributor.sol`: Relayer-sponsored gasless restitution distributor allowing drained victims with 0 ETH to sign an EIP-712 typed voucher and receive restitution directly.
 - `MockERC20.sol`: Standard 18-decimal WETH and 6-decimal USDC tokens.
 
-### Negative Adversarial Tests Verified:
+### Negative Adversarial Tests Verified (11/11 Foundry Tests):
 - **Duplicate Claim:** Second claim call with identical proof reverts with `"Claim has already been executed"`.
 - **Tampered Amount:** Claim with modified amount reverts with `"Invalid Merkle proof"`.
+- **Expired EIP-712 Signature:** Expired signatures revert with `"Claim signature has expired"`.
+- **Forged EIP-712 Signer:** Forged signatures from unauthorized parties revert with `"Invalid EIP-712 claimant signature"`.
+- **Second-Preimage Defense:** OZ double-Keccak-256 leaves immunity against 64-byte intermediate node collision exploits.
 
 ---
 
@@ -167,18 +200,22 @@ Implemented in `contracts/src/`:
 ```
 poa-neathack/
 ├── contracts/               # Foundry smart contracts suite
-│   ├── src/                 # DemoOracle, DemoLendingPool, RestitutionDistributor, MockERC20
-│   └── test/                # LendingAndRestitution.t.sol (5/5 passing)
+│   ├── src/                 # DemoOracle, LendingPool, RestitutionDistributor, Cumulative, EIP712
+│   └── test/                # 3 test suites: LendingAndRestitution, Cumulative, EIP712 (11/11 passing)
 ├── src/
 │   ├── agent/               # Autonomous investigator agent & retry handler
-│   ├── app/                 # Next.js 14 App Router dashboard & claim portal
+│   ├── app/                 # Next.js 14 App Router dashboard, health check & claim portal
 │   ├── chain/               # Anvil DeFi incident simulator fixture
 │   ├── economics/           # Counterfactual replay engine (BigInt math)
+│   ├── mcp/                 # Model Context Protocol stdio JSON-RPC 2.0 server
 │   ├── observability/       # Neatlogs SDK tracing integration
 │   └── proofs/              # OpenZeppelin StandardMerkleTree generator
 ├── scripts/
 │   ├── demo_all.sh          # Master test & demo verification runner
-│   └── run_demo.ts          # End-to-end Anvil execution & payout script
+│   ├── run_demo.ts          # End-to-end Anvil execution & payout script
+│   ├── run_base_fork.ts     # Live Base Mainnet Fork restitution runner
+│   ├── watch_production_sentinel.ts # 24/7 autonomous block watcher daemon
+│   └── benchmark_evmbench.ts # ICML 2026 aligned EVMbench harness
 ├── docs/
 │   ├── BUILD_STATUS.md      # Milestone completion tracker
 │   ├── NEATLOGS_EVIDENCE.md # Neatlogs Project ID & trace tree evidence
@@ -190,6 +227,8 @@ poa-neathack/
 │   ├── run_evidence.json    # Complete reproducible on-chain evidence output
 │   ├── restitution_manifest.json # SHA-256 sealed proof-carrying restitution manifest
 │   └── evmbench_evaluation.json # Official 5/5 EVMbench machine-checked report
+├── Dockerfile               # Multi-stage production container build
+├── docker-compose.yml       # Production stack orchestration
 └── hackathon.md             # neatHack build log companion
 ```
 
