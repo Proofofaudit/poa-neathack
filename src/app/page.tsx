@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import {
   ShieldCheck,
   CheckCircle2,
@@ -20,9 +19,9 @@ import {
   Terminal,
   Zap,
   Clock,
-  ArrowRight,
   Shield,
-  Check
+  Check,
+  ArrowUpRight
 } from "lucide-react";
 
 export default function Dashboard() {
@@ -109,23 +108,23 @@ export default function Dashboard() {
     : "5,750.00";
 
   return (
-    <div className="min-h-screen text-slate-100 p-4 md:p-8 font-sans max-w-7xl mx-auto space-y-6">
+    <div className="min-h-screen bg-slate-50 text-slate-900 p-4 md:p-8 font-sans max-w-7xl mx-auto space-y-6">
       {/* 1. Header Navigation */}
-      <header className="flex flex-col md:flex-row md:items-center justify-between pb-6 border-b border-slate-800/80 gap-4">
+      <header className="flex flex-col md:flex-row md:items-center justify-between pb-6 border-b border-slate-200 gap-4">
         <div className="flex items-center gap-3">
-          <div className="p-2.5 rounded-xl bg-slate-800/80 border border-slate-700/60 text-sky-400">
-            <Shield className="w-5 h-5" />
+          <div className="p-2.5 rounded-xl bg-white border border-slate-200 text-slate-800 shadow-sm">
+            <Shield className="w-5 h-5 text-slate-900" />
           </div>
           <div>
             <div className="flex items-center gap-2.5">
-              <h1 className="text-xl font-bold tracking-tight text-white">
-                POA <span className="text-slate-500 font-light">/</span> Proof of Audits
+              <h1 className="text-xl font-bold tracking-tight text-slate-900">
+                POA <span className="text-slate-400 font-light">/</span> Proof of Audits
               </h1>
-              <span className="px-2 py-0.5 rounded text-[11px] font-mono font-medium bg-slate-800 text-slate-300 border border-slate-700/60">
+              <span className="px-2 py-0.5 rounded text-[11px] font-mono font-medium bg-slate-100 text-slate-700 border border-slate-200">
                 v1.0 Production
               </span>
             </div>
-            <p className="text-xs text-slate-400 mt-0.5">
+            <p className="text-xs text-slate-500 mt-0.5">
               Autonomous DeFi Incident Investigation & Cryptographic Restitution Coprocessor
             </p>
           </div>
@@ -134,13 +133,13 @@ export default function Dashboard() {
         {/* Network & Run Controls */}
         <div className="flex flex-wrap items-center gap-2.5">
           {/* Network Switcher Pill */}
-          <div className="flex items-center p-1 rounded-xl bg-slate-900 border border-slate-800 text-xs">
+          <div className="flex items-center p-1 rounded-xl bg-slate-100 border border-slate-200 text-xs">
             <button
               onClick={() => switchNetwork("anvil")}
               className={`px-3 py-1.5 rounded-lg font-medium transition ${
                 selectedNetwork === "anvil"
-                  ? "bg-slate-800 text-sky-400 shadow-sm border border-slate-700/60 font-semibold"
-                  : "text-slate-400 hover:text-slate-200"
+                  ? "bg-white text-slate-900 shadow-sm border border-slate-200 font-semibold"
+                  : "text-slate-600 hover:text-slate-900"
               }`}
             >
               Anvil Devnet (31337)
@@ -149,23 +148,23 @@ export default function Dashboard() {
               onClick={() => switchNetwork("base")}
               className={`px-3 py-1.5 rounded-lg font-medium transition flex items-center gap-1.5 ${
                 selectedNetwork === "base"
-                  ? "bg-slate-800 text-sky-400 shadow-sm border border-slate-700/60 font-semibold"
-                  : "text-slate-400 hover:text-slate-200"
+                  ? "bg-white text-slate-900 shadow-sm border border-slate-200 font-semibold"
+                  : "text-slate-600 hover:text-slate-900"
               }`}
             >
-              <span className="w-1.5 h-1.5 rounded-full bg-sky-400"></span>
+              <span className="w-1.5 h-1.5 rounded-full bg-slate-900"></span>
               Base Mainnet Fork (8453)
             </button>
           </div>
 
           {/* Test Status Badges */}
-          <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-300 font-mono">
-            <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+          <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white border border-slate-200 text-xs text-slate-700 font-mono shadow-sm">
+            <span className="w-2 h-2 rounded-full bg-emerald-600"></span>
             <span>Foundry 11/11</span>
           </div>
 
-          <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-300 font-mono">
-            <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+          <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white border border-slate-200 text-xs text-slate-700 font-mono shadow-sm">
+            <span className="w-2 h-2 rounded-full bg-emerald-600"></span>
             <span>EVMbench 5/5</span>
           </div>
 
@@ -173,7 +172,7 @@ export default function Dashboard() {
           <button
             onClick={() => triggerSimulation(selectedNetwork)}
             disabled={running}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-medium text-xs transition disabled:opacity-50 shadow-sm"
+            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-medium text-xs transition disabled:opacity-50 shadow-sm"
           >
             {running ? (
               <>
@@ -191,18 +190,18 @@ export default function Dashboard() {
       </header>
 
       {/* 2. Hero Overview Card (At-A-Glance Incident Summary) */}
-      <section className="p-6 rounded-2xl bg-[#0f1420] border border-slate-800 space-y-6">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-6 border-b border-slate-800/80">
+      <section className="p-6 rounded-2xl bg-white border border-slate-200/90 shadow-sm space-y-6">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-6 border-b border-slate-100">
           <div>
-            <div className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">
+            <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">
               Active Incident Forensics & Verified Restitution
             </div>
             <div className="flex items-baseline gap-3">
-              <span className="text-3xl md:text-4xl font-extrabold font-mono text-white tracking-tight">
+              <span className="text-3xl md:text-4xl font-extrabold font-mono text-slate-900 tracking-tight">
                 ${totalRestitutionDisplay}
               </span>
-              <span className="text-sm font-medium text-slate-400 font-mono">USDC Restitution Due</span>
-              <span className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-950/80 text-emerald-400 border border-emerald-800/50">
+              <span className="text-sm font-medium text-slate-500 font-mono">USDC Restitution Due</span>
+              <span className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-800 border border-emerald-200">
                 100% Solvency Backed
               </span>
             </div>
@@ -212,21 +211,21 @@ export default function Dashboard() {
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 text-xs">
             <div>
               <span className="text-slate-500 block mb-0.5">Incident Anomaly</span>
-              <span className="text-sm font-semibold text-white font-mono">-10.0% Oracle Drop</span>
+              <span className="text-sm font-semibold text-slate-900 font-mono">-10.0% Oracle Drop</span>
               <span className="text-[11px] text-slate-500 block mt-0.5">$2,000 → $1,800 WETH</span>
             </div>
 
             <div>
               <span className="text-slate-500 block mb-0.5">Audited Positions</span>
-              <span className="text-sm font-semibold text-white font-mono">
+              <span className="text-sm font-semibold text-slate-900 font-mono">
                 {isBase ? "1 Wrongful / 0 Insolvent" : "3 Wrongful / 2 Excluded"}
               </span>
-              <span className="text-[11px] text-emerald-400 block mt-0.5">Moral Hazard Blocked</span>
+              <span className="text-[11px] text-emerald-700 block mt-0.5 font-medium">Moral Hazard Blocked</span>
             </div>
 
             <div>
               <span className="text-slate-500 block mb-0.5">Merkle Proof Root</span>
-              <span className="text-sm font-semibold text-sky-400 font-mono truncate block max-w-[140px]" title={report?.merkleManifest?.merkleRoot}>
+              <span className="text-sm font-semibold text-slate-900 font-mono truncate block max-w-[140px]" title={report?.merkleManifest?.merkleRoot}>
                 {report?.merkleManifest?.merkleRoot ? `${report.merkleManifest.merkleRoot.substring(0, 10)}...` : "0xce5978d1..."}
               </span>
               <span className="text-[11px] text-slate-500 block mt-0.5">OpenZeppelin Standard</span>
@@ -236,7 +235,7 @@ export default function Dashboard() {
 
         {/* 3. Clean 4-Step Process Bar (How POA Solves This) */}
         <div>
-          <div className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">
+          <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">
             Autonomous Incident Pipeline
           </div>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
@@ -262,12 +261,12 @@ export default function Dashboard() {
                 desc: "Publishes Merkle tree on-chain. Victims with 0 ETH claim instantly via sponsored EIP-712 vouchers."
               }
             ].map((p, i) => (
-              <div key={i} className="p-4 rounded-xl bg-slate-900/80 border border-slate-800/80 space-y-1">
+              <div key={i} className="p-4 rounded-xl bg-slate-50 border border-slate-200/80 space-y-1">
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-mono font-bold text-sky-400">{p.step}</span>
-                  <span className="text-xs font-semibold text-white">{p.title}</span>
+                  <span className="text-xs font-mono font-bold text-slate-900">{p.step}</span>
+                  <span className="text-xs font-semibold text-slate-900">{p.title}</span>
                 </div>
-                <p className="text-xs text-slate-400 leading-relaxed pt-1">
+                <p className="text-xs text-slate-600 leading-relaxed pt-1">
                   {p.desc}
                 </p>
               </div>
@@ -277,7 +276,7 @@ export default function Dashboard() {
       </section>
 
       {/* 4. Tab Navigation */}
-      <div className="flex items-center border-b border-slate-800 gap-6 text-sm overflow-x-auto pb-0.5">
+      <div className="flex items-center border-b border-slate-200 gap-6 text-sm overflow-x-auto pb-0.5">
         {[
           { id: "timeline", label: "Forensic Timeline & Tracing", icon: Clock },
           { id: "counterfactual", label: "Counterfactual Replay Table", icon: Layers },
@@ -292,8 +291,8 @@ export default function Dashboard() {
               onClick={() => setActiveTab(tab.id as any)}
               className={`flex items-center gap-2 py-3 font-medium transition border-b-2 -mb-[2px] ${
                 isActive
-                  ? "border-sky-500 text-sky-400 font-semibold"
-                  : "border-transparent text-slate-400 hover:text-slate-200"
+                  ? "border-slate-900 text-slate-900 font-semibold"
+                  : "border-transparent text-slate-500 hover:text-slate-800"
               }`}
             >
               <Icon className="w-4 h-4" />
@@ -309,15 +308,15 @@ export default function Dashboard() {
         {activeTab === "timeline" && (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Step-by-Step Investigation Log */}
-            <div className="lg:col-span-2 p-6 rounded-2xl bg-[#0f1420] border border-slate-800 space-y-4">
-              <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+            <div className="lg:col-span-2 p-6 rounded-2xl bg-white border border-slate-200/90 shadow-sm space-y-4">
+              <div className="flex items-center justify-between pb-3 border-b border-slate-100">
                 <div className="flex items-center gap-2">
-                  <Terminal className="w-4 h-4 text-sky-400" />
-                  <h3 className="text-sm font-semibold text-white">
-                    Agent Investigation Steps (<span className="font-mono text-sky-400">investigateOracleIncident</span>)
+                  <Terminal className="w-4 h-4 text-slate-700" />
+                  <h3 className="text-sm font-semibold text-slate-900">
+                    Agent Investigation Steps (<span className="font-mono text-slate-700">investigateOracleIncident</span>)
                   </h3>
                 </div>
-                <span className="px-2.5 py-0.5 rounded text-[11px] font-mono font-medium bg-emerald-950/80 text-emerald-400 border border-emerald-800/50">
+                <span className="px-2.5 py-0.5 rounded text-[11px] font-mono font-medium bg-emerald-50 text-emerald-800 border border-emerald-200">
                   Status: Completed
                 </span>
               </div>
@@ -371,18 +370,18 @@ export default function Dashboard() {
                     detail: `Root: ${report?.merkleManifest?.merkleRoot?.substring(0, 16) || "0xce5978d1..."}...`
                   }
                 ].map((s) => (
-                  <div key={s.step} className="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800/80 flex items-start gap-3.5">
-                    <span className="w-6 h-6 rounded-lg bg-slate-800 text-sky-400 font-mono text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <div key={s.step} className="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80 flex items-start gap-3.5">
+                    <span className="w-6 h-6 rounded-lg bg-white border border-slate-200 text-slate-800 font-mono text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
                       {s.step}
                     </span>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between gap-2">
-                        <span className="font-mono text-xs font-semibold text-white">{s.name}</span>
-                        <span className="text-[10px] font-mono text-slate-500 uppercase">Step Verified</span>
+                        <span className="font-mono text-xs font-semibold text-slate-900">{s.name}</span>
+                        <span className="text-[10px] font-mono text-slate-500 uppercase font-medium">Verified</span>
                       </div>
-                      <p className="text-xs text-slate-400 mt-0.5 leading-relaxed">{s.desc}</p>
+                      <p className="text-xs text-slate-600 mt-0.5 leading-relaxed">{s.desc}</p>
                       <div className="text-[11px] font-mono text-slate-500 mt-1 truncate">
-                        Evidence: <span className="text-slate-400">{s.detail}</span>
+                        Evidence: <span className="text-slate-700">{s.detail}</span>
                       </div>
                     </div>
                   </div>
@@ -391,49 +390,49 @@ export default function Dashboard() {
             </div>
 
             {/* Neatlogs Live Observability Stream */}
-            <div className="p-6 rounded-2xl bg-[#0f1420] border border-slate-800 space-y-4">
-              <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+            <div className="p-6 rounded-2xl bg-white border border-slate-200/90 shadow-sm space-y-4">
+              <div className="flex items-center justify-between pb-3 border-b border-slate-100">
                 <div className="flex items-center gap-2">
-                  <Activity className="w-4 h-4 text-sky-400" />
-                  <h3 className="text-sm font-semibold text-white">Neatlogs Live Tracing</h3>
+                  <Activity className="w-4 h-4 text-slate-700" />
+                  <h3 className="text-sm font-semibold text-slate-900">Neatlogs Live Tracing</h3>
                 </div>
                 <a
                   href="https://neatlogs.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-xs text-sky-400 hover:underline flex items-center gap-1 font-mono"
+                  className="text-xs text-slate-600 hover:text-slate-900 flex items-center gap-1 font-mono"
                 >
                   <span>Project ID: 542c53f4...</span>
                   <ExternalLink className="w-3 h-3" />
                 </a>
               </div>
 
-              <div className="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 text-xs space-y-1">
-                <div className="text-slate-200 font-semibold flex items-center gap-1.5">
-                  <Cpu className="w-3.5 h-3.5 text-sky-400" />
+              <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs space-y-1">
+                <div className="text-slate-900 font-semibold flex items-center gap-1.5">
+                  <Cpu className="w-3.5 h-3.5 text-slate-700" />
                   <span>Telemetry: wrapClient + LiteLLM</span>
                 </div>
-                <p className="text-slate-400 text-xs leading-relaxed">
+                <p className="text-slate-600 text-xs leading-relaxed">
                   Captures prompt tokens, model latency, and deterministic BigInt replay metrics per investigation.
                 </p>
               </div>
 
               <div className="space-y-2">
-                <div className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
                   Recorded Trace Spans
                 </div>
                 <div className="space-y-1.5 font-mono text-xs max-h-[320px] overflow-y-auto pr-1">
                   {latestTrace?.spans?.map((span: any, i: number) => (
                     <div
                       key={i}
-                      className="p-2.5 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-between"
+                      className="p-2.5 rounded-lg bg-slate-50 border border-slate-200/80 flex items-center justify-between"
                     >
                       <div className="truncate pr-2">
-                        <div className="text-white text-xs font-medium truncate">{span.name}</div>
+                        <div className="text-slate-900 text-xs font-medium truncate">{span.name}</div>
                         <div className="text-[10px] text-slate-500 uppercase">{span.kind}</div>
                       </div>
                       <div className="text-right flex-shrink-0">
-                        <div className="text-xs text-emerald-400 font-semibold">{span.status}</div>
+                        <div className="text-xs text-emerald-700 font-semibold">{span.status}</div>
                         <div className="text-[10px] text-slate-500">{span.durationMs || 12}ms</div>
                       </div>
                     </div>
@@ -445,13 +444,13 @@ export default function Dashboard() {
                 </div>
               </div>
 
-              <div className="pt-3 border-t border-slate-800 text-xs text-slate-400">
-                <div className="flex items-center gap-1.5 text-emerald-400 font-semibold">
+              <div className="pt-3 border-t border-slate-100 text-xs text-slate-600">
+                <div className="flex items-center gap-1.5 text-emerald-700 font-semibold">
                   <CheckCircle2 className="w-4 h-4" />
                   <span>RPC Network Partition Resilience: PASS</span>
                 </div>
                 <p className="text-[11px] text-slate-500 mt-1">
-                  Agent intercepts transient RPC connection terminations, restores provider connection, and completes investigation cleanly.
+                  Agent intercepts transient RPC connection drops, restores provider connection, and completes investigation cleanly.
                 </p>
               </div>
             </div>
@@ -460,24 +459,24 @@ export default function Dashboard() {
 
         {/* Tab 2: Counterfactual Replay */}
         {activeTab === "counterfactual" && (
-          <div className="p-6 rounded-2xl bg-[#0f1420] border border-slate-800 space-y-4">
-            <div className="flex flex-col md:flex-row md:items-center justify-between pb-3 border-b border-slate-800 gap-2">
+          <div className="p-6 rounded-2xl bg-white border border-slate-200/90 shadow-sm space-y-4">
+            <div className="flex flex-col md:flex-row md:items-center justify-between pb-3 border-b border-slate-100 gap-2">
               <div>
-                <h3 className="text-sm font-semibold text-white">
+                <h3 className="text-sm font-semibold text-slate-900">
                   Causal Counterfactual Balance Replay ({isBase ? "Base Mainnet Fork" : "Anvil Devnet"})
                 </h3>
-                <p className="text-xs text-slate-400 mt-0.5">
+                <p className="text-xs text-slate-500 mt-0.5">
                   Replays exact account balances under true baseline pricing vs observed liquidation.
                 </p>
               </div>
-              <div className="text-xs font-mono text-slate-300 bg-slate-900 px-3 py-1.5 rounded-lg border border-slate-800">
+              <div className="text-xs font-mono text-slate-700 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200">
                 Formula: Restitution = Net Equity (Baseline) - Net Equity (Post-Liq)
               </div>
             </div>
 
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs font-mono">
-                <thead className="bg-slate-900/80 text-slate-400 border-b border-slate-800">
+                <thead className="bg-slate-50 text-slate-600 border-b border-slate-200">
                   <tr>
                     <th className="p-3.5">Borrower</th>
                     <th className="p-3.5">Position (WETH / USDC)</th>
@@ -487,81 +486,81 @@ export default function Dashboard() {
                     <th className="p-3.5 text-right">Approved Restitution</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-800/60">
+                <tbody className="divide-y divide-slate-100">
                   {isBase ? (
-                    <tr className="hover:bg-slate-900/40">
-                      <td className="p-3.5 text-white font-semibold">0x7099...79C8</td>
-                      <td className="p-3.5 text-slate-300">3.0 WETH / 3,500 USDC</td>
-                      <td className="p-3.5 text-emerald-400 font-semibold">1.371 (Healthy)</td>
-                      <td className="p-3.5 text-rose-400 font-semibold">1.234 (Liquidated)</td>
+                    <tr className="hover:bg-slate-50/80">
+                      <td className="p-3.5 text-slate-900 font-semibold">0x7099...79C8</td>
+                      <td className="p-3.5 text-slate-600">3.0 WETH / 3,500 USDC</td>
+                      <td className="p-3.5 text-emerald-700 font-semibold">1.371 (Healthy)</td>
+                      <td className="p-3.5 text-rose-700 font-semibold">1.234 (Liquidated)</td>
                       <td className="p-3.5">
-                        <span className="px-2 py-0.5 rounded text-[11px] bg-emerald-950 text-emerald-400 border border-emerald-800/60 font-semibold">
+                        <span className="px-2 py-0.5 rounded text-[11px] bg-emerald-50 text-emerald-700 border border-emerald-200 font-semibold">
                           ELIGIBLE_WRONGFUL
                         </span>
                       </td>
-                      <td className="p-3.5 text-right text-emerald-400 font-bold">$700.00 USDC</td>
+                      <td className="p-3.5 text-right text-emerald-700 font-bold">$700.00 USDC</td>
                     </tr>
                   ) : (
                     <>
-                      <tr className="hover:bg-slate-900/40">
-                        <td className="p-3.5 text-white font-semibold">0x3C44...93BC</td>
-                        <td className="p-3.5 text-slate-300">10 WETH / 15,000 USDC</td>
-                        <td className="p-3.5 text-emerald-400 font-semibold">1.066 (Safe)</td>
-                        <td className="p-3.5 text-rose-400 font-semibold">0.960 (Underwater)</td>
+                      <tr className="hover:bg-slate-50/80">
+                        <td className="p-3.5 text-slate-900 font-semibold">0x3C44...93BC</td>
+                        <td className="p-3.5 text-slate-600">10 WETH / 15,000 USDC</td>
+                        <td className="p-3.5 text-emerald-700 font-semibold">1.066 (Safe)</td>
+                        <td className="p-3.5 text-rose-700 font-semibold">0.960 (Underwater)</td>
                         <td className="p-3.5">
-                          <span className="px-2 py-0.5 rounded text-[11px] bg-emerald-950 text-emerald-400 border border-emerald-800/60 font-semibold">
+                          <span className="px-2 py-0.5 rounded text-[11px] bg-emerald-50 text-emerald-700 border border-emerald-200 font-semibold">
                             ELIGIBLE_WRONGFUL
                           </span>
                         </td>
-                        <td className="p-3.5 text-right text-emerald-400 font-bold">$2,500.00 USDC</td>
+                        <td className="p-3.5 text-right text-emerald-700 font-bold">$2,500.00 USDC</td>
                       </tr>
-                      <tr className="hover:bg-slate-900/40">
-                        <td className="p-3.5 text-white font-semibold">0x90F7...b906</td>
-                        <td className="p-3.5 text-slate-300">5 WETH / 7,500 USDC</td>
-                        <td className="p-3.5 text-emerald-400 font-semibold">1.066 (Safe)</td>
-                        <td className="p-3.5 text-rose-400 font-semibold">0.960 (Underwater)</td>
+                      <tr className="hover:bg-slate-50/80">
+                        <td className="p-3.5 text-slate-900 font-semibold">0x90F7...b906</td>
+                        <td className="p-3.5 text-slate-600">5 WETH / 7,500 USDC</td>
+                        <td className="p-3.5 text-emerald-700 font-semibold">1.066 (Safe)</td>
+                        <td className="p-3.5 text-rose-700 font-semibold">0.960 (Underwater)</td>
                         <td className="p-3.5">
-                          <span className="px-2 py-0.5 rounded text-[11px] bg-emerald-950 text-emerald-400 border border-emerald-800/60 font-semibold">
+                          <span className="px-2 py-0.5 rounded text-[11px] bg-emerald-50 text-emerald-700 border border-emerald-200 font-semibold">
                             ELIGIBLE_WRONGFUL
                           </span>
                         </td>
-                        <td className="p-3.5 text-right text-emerald-400 font-bold">$1,250.00 USDC</td>
+                        <td className="p-3.5 text-right text-emerald-700 font-bold">$1,250.00 USDC</td>
                       </tr>
-                      <tr className="hover:bg-slate-900/40">
-                        <td className="p-3.5 text-white font-semibold">0x15d3...6A65</td>
-                        <td className="p-3.5 text-slate-300">8 WETH / 12,000 USDC</td>
-                        <td className="p-3.5 text-emerald-400 font-semibold">1.066 (Safe)</td>
-                        <td className="p-3.5 text-rose-400 font-semibold">0.960 (Underwater)</td>
+                      <tr className="hover:bg-slate-50/80">
+                        <td className="p-3.5 text-slate-900 font-semibold">0x15d3...6A65</td>
+                        <td className="p-3.5 text-slate-600">8 WETH / 12,000 USDC</td>
+                        <td className="p-3.5 text-emerald-700 font-semibold">1.066 (Safe)</td>
+                        <td className="p-3.5 text-rose-700 font-semibold">0.960 (Underwater)</td>
                         <td className="p-3.5">
-                          <span className="px-2 py-0.5 rounded text-[11px] bg-emerald-950 text-emerald-400 border border-emerald-800/60 font-semibold">
+                          <span className="px-2 py-0.5 rounded text-[11px] bg-emerald-50 text-emerald-700 border border-emerald-200 font-semibold">
                             ELIGIBLE_WRONGFUL
                           </span>
                         </td>
-                        <td className="p-3.5 text-right text-emerald-400 font-bold">$2,000.00 USDC</td>
+                        <td className="p-3.5 text-right text-emerald-700 font-bold">$2,000.00 USDC</td>
                       </tr>
-                      <tr className="hover:bg-slate-900/40">
-                        <td className="p-3.5 text-slate-400">0x9965...d016</td>
-                        <td className="p-3.5 text-slate-400">10 WETH / 10,000 USDC</td>
-                        <td className="p-3.5 text-emerald-400">1.600 (Healthy)</td>
-                        <td className="p-3.5 text-emerald-400">1.440 (Healthy)</td>
+                      <tr className="hover:bg-slate-50/80">
+                        <td className="p-3.5 text-slate-500">0x9965...d016</td>
+                        <td className="p-3.5 text-slate-500">10 WETH / 10,000 USDC</td>
+                        <td className="p-3.5 text-emerald-700">1.600 (Healthy)</td>
+                        <td className="p-3.5 text-emerald-700">1.440 (Healthy)</td>
                         <td className="p-3.5">
-                          <span className="px-2 py-0.5 rounded text-[11px] bg-slate-900 text-slate-400 border border-slate-800">
+                          <span className="px-2 py-0.5 rounded text-[11px] bg-slate-100 text-slate-600 border border-slate-200">
                             EXCLUDED_UNHARMED
                           </span>
                         </td>
                         <td className="p-3.5 text-right text-slate-500">$0.00</td>
                       </tr>
-                      <tr className="hover:bg-slate-900/40">
-                        <td className="p-3.5 text-slate-400">0x976E...976E</td>
-                        <td className="p-3.5 text-slate-400">5 WETH / 8,100 USDC</td>
-                        <td className="p-3.5 text-rose-400">0.987 (Insolvent)</td>
-                        <td className="p-3.5 text-rose-400">0.888 (Insolvent)</td>
+                      <tr className="hover:bg-slate-50/80">
+                        <td className="p-3.5 text-slate-500">0x976E...976E</td>
+                        <td className="p-3.5 text-slate-500">5 WETH / 8,100 USDC</td>
+                        <td className="p-3.5 text-rose-700">0.987 (Insolvent)</td>
+                        <td className="p-3.5 text-rose-700">0.888 (Insolvent)</td>
                         <td className="p-3.5">
-                          <span className="px-2 py-0.5 rounded text-[11px] bg-rose-950/60 text-rose-400 border border-rose-800/60">
+                          <span className="px-2 py-0.5 rounded text-[11px] bg-rose-50 text-rose-700 border border-rose-200">
                             EXCLUDED_LEGITIMATE
                           </span>
                         </td>
-                        <td className="p-3.5 text-right text-rose-400/80">$0.00</td>
+                        <td className="p-3.5 text-right text-rose-700">$0.00</td>
                       </tr>
                     </>
                   )}
@@ -569,13 +568,13 @@ export default function Dashboard() {
               </table>
             </div>
 
-            <div className="pt-3 border-t border-slate-800 flex flex-wrap items-center justify-between text-xs text-slate-400 gap-2">
+            <div className="pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between text-xs text-slate-500 gap-2">
               <div>
                 {isBase
                   ? "1 victim qualified on Base Mainnet Fork."
                   : "3 victims qualified under POA Compensation Policy V1. 2 insolvent borrowers excluded."}
               </div>
-              <div className="font-mono text-emerald-400 font-bold text-sm">
+              <div className="font-mono text-emerald-700 font-bold text-sm">
                 Approved Restitution Pool: ${totalRestitutionDisplay} USDC
               </div>
             </div>
@@ -587,20 +586,20 @@ export default function Dashboard() {
           <div className="space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               {/* Claim Portal Form */}
-              <div className="lg:col-span-2 p-6 rounded-2xl bg-[#0f1420] border border-slate-800 space-y-4">
-                <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+              <div className="lg:col-span-2 p-6 rounded-2xl bg-white border border-slate-200/90 shadow-sm space-y-4">
+                <div className="flex items-center justify-between pb-3 border-b border-slate-100">
                   <div className="flex items-center gap-2">
-                    <Lock className="w-4 h-4 text-sky-400" />
-                    <h3 className="text-sm font-semibold text-white">Cryptographic Restitution Claim Portal</h3>
+                    <Lock className="w-4 h-4 text-slate-700" />
+                    <h3 className="text-sm font-semibold text-slate-900">Cryptographic Restitution Claim Portal</h3>
                   </div>
-                  <span className="text-xs font-mono text-slate-400">
+                  <span className="text-xs font-mono text-slate-500">
                     Contract: {fixture?.distributorAddress?.substring(0, 14) || "0x00E40210..."}...
                   </span>
                 </div>
 
                 <div className="space-y-4">
                   <div>
-                    <label className="text-xs text-slate-400 block mb-2 font-medium">
+                    <label className="text-xs text-slate-500 block mb-2 font-medium">
                       Select Qualified Claimant Position
                     </label>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5">
@@ -613,48 +612,48 @@ export default function Dashboard() {
                           }}
                           className={`p-3.5 rounded-xl text-left border transition ${
                             selectedClaimantIndex === idx
-                              ? "bg-slate-900 border-sky-500 text-white shadow-sm"
-                              : "bg-slate-900/60 border-slate-800 text-slate-400 hover:border-slate-700"
+                              ? "bg-slate-50 border-slate-900 text-slate-900 shadow-xs ring-1 ring-slate-900"
+                              : "bg-white border-slate-200 text-slate-600 hover:border-slate-300"
                           }`}
                         >
                           <div className="text-[11px] font-mono truncate">{c.claimant}</div>
-                          <div className="text-base font-bold font-mono text-white mt-1">
-                            ${(Number(c.amount) / 1e6).toFixed(2)} <span className="text-xs text-slate-400">USDC</span>
+                          <div className="text-base font-bold font-mono text-slate-900 mt-1">
+                            ${(Number(c.amount) / 1e6).toFixed(2)} <span className="text-xs text-slate-500">USDC</span>
                           </div>
-                          <div className="text-[10px] text-slate-500 mt-0.5">Merkle Leaf #{c.claimIndex}</div>
+                          <div className="text-[10px] text-slate-400 mt-0.5">Merkle Leaf #{c.claimIndex}</div>
                         </button>
                       ))}
                     </div>
                   </div>
 
                   {claims[selectedClaimantIndex] && (
-                    <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-3 font-mono text-xs">
-                      <div className="text-slate-300 font-sans text-xs font-semibold">
+                    <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-3 font-mono text-xs">
+                      <div className="text-slate-900 font-sans text-xs font-semibold">
                         Cryptographic Proof Details for Leaf #{claims[selectedClaimantIndex].claimIndex}
                       </div>
 
-                      <div className="space-y-1.5 text-slate-300">
+                      <div className="space-y-1.5 text-slate-700">
                         <div className="flex justify-between">
                           <span className="text-slate-500">Claimant Address:</span>
-                          <span className="text-sky-400">{claims[selectedClaimantIndex].claimant}</span>
+                          <span className="text-slate-900 font-medium">{claims[selectedClaimantIndex].claimant}</span>
                         </div>
                         <div className="flex justify-between">
                           <span className="text-slate-500">Approved Payout:</span>
-                          <span className="text-emerald-400 font-bold">
+                          <span className="text-emerald-700 font-bold">
                             {(Number(claims[selectedClaimantIndex].amount) / 1e6).toFixed(2)} USDC
                           </span>
                         </div>
                         <div className="flex justify-between">
                           <span className="text-slate-500">Merkle Root:</span>
-                          <span className="text-slate-300 truncate max-w-[200px]" title={report?.merkleManifest?.merkleRoot}>
+                          <span className="text-slate-700 truncate max-w-[200px]" title={report?.merkleManifest?.merkleRoot}>
                             {report?.merkleManifest?.merkleRoot}
                           </span>
                         </div>
                       </div>
 
-                      <div className="pt-3 border-t border-slate-800 space-y-3">
+                      <div className="pt-3 border-t border-slate-200 space-y-3">
                         <div className="flex flex-wrap items-center justify-between gap-2">
-                          <span className="text-emerald-400 flex items-center gap-1.5 font-sans font-medium text-xs">
+                          <span className="text-emerald-700 flex items-center gap-1.5 font-sans font-medium text-xs">
                             <CheckCircle2 className="w-4 h-4" />
                             <span>Status: Verified & Available On-Chain</span>
                           </span>
@@ -663,14 +662,14 @@ export default function Dashboard() {
                             <button
                               onClick={() => executeClaim("direct")}
                               disabled={claimStatus?.loading}
-                              className="px-3.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 text-xs font-sans font-medium transition disabled:opacity-50"
+                              className="px-3.5 py-1.5 rounded-lg bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 text-xs font-sans font-medium transition disabled:opacity-50 shadow-xs"
                             >
                               Direct Merkle Claim
                             </button>
                             <button
                               onClick={() => executeClaim("gasless")}
                               disabled={claimStatus?.loading}
-                              className="px-3.5 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs font-sans font-semibold transition disabled:opacity-50 flex items-center gap-1.5"
+                              className="px-3.5 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-white text-xs font-sans font-semibold transition disabled:opacity-50 flex items-center gap-1.5 shadow-sm"
                             >
                               <Zap className="w-3.5 h-3.5 text-white" />
                               Gasless EIP-712 Voucher (0 ETH)
@@ -680,9 +679,9 @@ export default function Dashboard() {
 
                         {/* Claim Status Drawer */}
                         {claimStatus && (
-                          <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 text-xs font-mono space-y-2">
+                          <div className="p-3.5 rounded-xl bg-white border border-slate-200 text-xs font-mono space-y-2">
                             {claimStatus.loading ? (
-                              <div className="space-y-1.5 text-sky-400">
+                              <div className="space-y-1.5 text-slate-800">
                                 <div className="flex items-center gap-2">
                                   <RotateCcw className="w-3.5 h-3.5 animate-spin" />
                                   <span>
@@ -692,7 +691,7 @@ export default function Dashboard() {
                                 </div>
                               </div>
                             ) : (
-                              <div className="space-y-1 text-emerald-400">
+                              <div className="space-y-1 text-emerald-700">
                                 <div className="flex items-center gap-1.5 font-bold">
                                   <CheckCircle2 className="w-4 h-4" />
                                   <span>
@@ -701,8 +700,8 @@ export default function Dashboard() {
                                       : "Direct Restitution Claim Confirmed!"}
                                   </span>
                                 </div>
-                                <div className="text-[11px] text-slate-400 truncate">
-                                  Tx Hash: <span className="text-sky-300">{claimStatus.txHash}</span>
+                                <div className="text-[11px] text-slate-600 truncate">
+                                  Tx Hash: <span className="text-slate-900 font-semibold">{claimStatus.txHash}</span>
                                 </div>
                                 <div className="text-[11px] text-slate-500">
                                   Payout: {(Number(claims[selectedClaimantIndex]?.amount || 0) / 1e6).toFixed(2)} USDC transferred directly to claimant.
@@ -718,13 +717,13 @@ export default function Dashboard() {
               </div>
 
               {/* Security Guardrails Card */}
-              <div className="p-6 rounded-2xl bg-[#0f1420] border border-slate-800 space-y-4">
-                <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+              <div className="p-6 rounded-2xl bg-white border border-slate-200/90 shadow-sm space-y-4">
+                <div className="flex items-center justify-between pb-3 border-b border-slate-100">
                   <div className="flex items-center gap-2">
-                    <ShieldCheck className="w-4 h-4 text-emerald-400" />
-                    <h3 className="text-sm font-semibold text-white">5/5 Security Guardrails</h3>
+                    <ShieldCheck className="w-4 h-4 text-emerald-700" />
+                    <h3 className="text-sm font-semibold text-slate-900">5/5 Security Guardrails</h3>
                   </div>
-                  <span className="text-xs font-mono text-emerald-400 font-bold bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-800/60">
+                  <span className="text-xs font-mono text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
                     5/5 PASSED
                   </span>
                 </div>
@@ -752,12 +751,12 @@ export default function Dashboard() {
                       desc: "OpenZeppelin double-Keccak-256 leaves prevent intermediate node collision exploits."
                     }
                   ].map((g, idx) => (
-                    <div key={idx} className="p-2.5 rounded-xl bg-slate-900 border border-slate-800 space-y-0.5">
-                      <div className="flex items-center justify-between text-xs font-semibold text-emerald-400">
+                    <div key={idx} className="p-2.5 rounded-xl bg-slate-50 border border-slate-200/80 space-y-0.5">
+                      <div className="flex items-center justify-between text-xs font-semibold text-emerald-700">
                         <span>{g.title}</span>
                         <Check className="w-3.5 h-3.5" />
                       </div>
-                      <p className="text-[11px] text-slate-400 leading-snug">{g.desc}</p>
+                      <p className="text-[11px] text-slate-600 leading-snug">{g.desc}</p>
                     </div>
                   ))}
                 </div>
@@ -774,39 +773,39 @@ export default function Dashboard() {
               href="https://neatlogs.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-5 rounded-2xl bg-[#0f1420] border border-slate-800 hover:border-slate-700 transition space-y-4 group block"
+              className="p-5 rounded-2xl bg-white border border-slate-200/90 hover:border-slate-300 shadow-sm transition space-y-4 group block"
             >
-              <div className="flex items-center justify-between pb-2 border-b border-slate-800">
+              <div className="flex items-center justify-between pb-2 border-b border-slate-100">
                 <div className="flex items-center gap-2">
-                  <div className="p-2 rounded-xl bg-slate-800 text-sky-400">
+                  <div className="p-2 rounded-xl bg-slate-100 text-slate-800">
                     <Activity className="w-4 h-4" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-sm text-white flex items-center gap-1.5">
+                    <h4 className="font-semibold text-sm text-slate-900 flex items-center gap-1">
                       Neatlogs
-                      <ExternalLink className="w-3 h-3 text-slate-500 group-hover:text-sky-400 transition" />
+                      <ArrowUpRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-slate-900 transition" />
                     </h4>
-                    <div className="text-[11px] text-slate-400 font-mono">Agent Tracing & Observability</div>
+                    <div className="text-[11px] text-slate-500 font-mono">Agent Tracing & Observability</div>
                   </div>
                 </div>
               </div>
 
-              <div className="space-y-1.5 text-xs text-slate-300">
-                <div className="flex justify-between py-1 border-b border-slate-800/60 text-[11px]">
+              <div className="space-y-1.5 text-xs text-slate-700">
+                <div className="flex justify-between py-1 border-b border-slate-100 text-[11px]">
                   <span className="text-slate-500">Project ID:</span>
-                  <span className="font-mono text-sky-400">542c53f4-ec26-4d57...</span>
+                  <span className="font-mono text-slate-900">542c53f4-ec26-4d57...</span>
                 </div>
-                <div className="flex justify-between py-1 border-b border-slate-800/60 text-[11px]">
+                <div className="flex justify-between py-1 border-b border-slate-100 text-[11px]">
                   <span className="text-slate-500">Hierarchy:</span>
-                  <span className="text-emerald-400 font-medium">10 Discrete Spans</span>
+                  <span className="text-emerald-700 font-medium">10 Discrete Spans</span>
                 </div>
-                <div className="flex justify-between py-1 border-b border-slate-800/60 text-[11px]">
+                <div className="flex justify-between py-1 border-b border-slate-100 text-[11px]">
                   <span className="text-slate-500">Telemetry:</span>
-                  <span className="font-mono text-white">wrapClient + Spend</span>
+                  <span className="font-mono text-slate-900">wrapClient + Spend</span>
                 </div>
               </div>
 
-              <p className="text-xs text-slate-400 leading-relaxed">
+              <p className="text-xs text-slate-600 leading-relaxed">
                 Captures full step-by-step telemetry of on-chain inspections, counterfactual math, and Merkle tree hashing.
               </p>
             </a>
@@ -816,39 +815,39 @@ export default function Dashboard() {
               href="https://entire.io/gh/Proofofaudit/poa-neathack"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-5 rounded-2xl bg-[#0f1420] border border-slate-800 hover:border-slate-700 transition space-y-4 group block"
+              className="p-5 rounded-2xl bg-white border border-slate-200/90 hover:border-slate-300 shadow-sm transition space-y-4 group block"
             >
-              <div className="flex items-center justify-between pb-2 border-b border-slate-800">
+              <div className="flex items-center justify-between pb-2 border-b border-slate-100">
                 <div className="flex items-center gap-2">
-                  <div className="p-2 rounded-xl bg-slate-800 text-sky-400">
+                  <div className="p-2 rounded-xl bg-slate-100 text-slate-800">
                     <GitBranch className="w-4 h-4" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-sm text-white flex items-center gap-1.5">
+                    <h4 className="font-semibold text-sm text-slate-900 flex items-center gap-1">
                       Entire
-                      <ExternalLink className="w-3 h-3 text-slate-500 group-hover:text-sky-400 transition" />
+                      <ArrowUpRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-slate-900 transition" />
                     </h4>
-                    <div className="text-[11px] text-slate-400 font-mono">Memory & Checkpoints</div>
+                    <div className="text-[11px] text-slate-500 font-mono">Memory & Checkpoints</div>
                   </div>
                 </div>
               </div>
 
-              <div className="space-y-1.5 text-xs text-slate-300">
-                <div className="flex justify-between py-1 border-b border-slate-800/60 text-[11px]">
+              <div className="space-y-1.5 text-xs text-slate-700">
+                <div className="flex justify-between py-1 border-b border-slate-100 text-[11px]">
                   <span className="text-slate-500">CLI & Graph:</span>
-                  <span className="font-mono text-white">v0.11.4 · Graph v0.4.0</span>
+                  <span className="font-mono text-slate-900">v0.11.4 · Graph v0.4.0</span>
                 </div>
-                <div className="flex justify-between py-1 border-b border-slate-800/60 text-[11px]">
+                <div className="flex justify-between py-1 border-b border-slate-100 text-[11px]">
                   <span className="text-slate-500">Indexed Symbols:</span>
-                  <span className="font-mono text-white">1,929 Symbols</span>
+                  <span className="font-mono text-slate-900">1,929 Symbols</span>
                 </div>
-                <div className="flex justify-between py-1 border-b border-slate-800/60 text-[11px]">
+                <div className="flex justify-between py-1 border-b border-slate-100 text-[11px]">
                   <span className="text-slate-500">Prompt Pruning:</span>
-                  <span className="text-emerald-400 font-medium">77.7% Pruning</span>
+                  <span className="text-emerald-700 font-medium">77.7% Pruning</span>
                 </div>
               </div>
 
-              <p className="text-xs text-slate-400 leading-relaxed">
+              <p className="text-xs text-slate-600 leading-relaxed">
                 Preserves transparent agent memory and step-by-step git checkpoints across every milestone.
               </p>
             </a>
@@ -858,73 +857,73 @@ export default function Dashboard() {
               href="https://cfo.ai/s/K8j_ybAD6DrlAI2j"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-5 rounded-2xl bg-[#0f1420] border border-slate-800 hover:border-slate-700 transition space-y-4 group block"
+              className="p-5 rounded-2xl bg-white border border-slate-200/90 hover:border-slate-300 shadow-sm transition space-y-4 group block"
             >
-              <div className="flex items-center justify-between pb-2 border-b border-slate-800">
+              <div className="flex items-center justify-between pb-2 border-b border-slate-100">
                 <div className="flex items-center gap-2">
-                  <div className="p-2 rounded-xl bg-slate-800 text-emerald-400">
+                  <div className="p-2 rounded-xl bg-slate-100 text-slate-800">
                     <DollarSign className="w-4 h-4" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-sm text-white flex items-center gap-1.5">
+                    <h4 className="font-semibold text-sm text-slate-900 flex items-center gap-1">
                       cfo.ai
-                      <ExternalLink className="w-3 h-3 text-slate-500 group-hover:text-emerald-400 transition" />
+                      <ArrowUpRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-slate-900 transition" />
                     </h4>
-                    <div className="text-[11px] text-slate-400 font-mono">Ari Financial Model</div>
+                    <div className="text-[11px] text-slate-500 font-mono">Ari Financial Model</div>
                   </div>
                 </div>
               </div>
 
-              <div className="space-y-1.5 text-xs text-slate-300">
-                <div className="flex justify-between py-1 border-b border-slate-800/60 text-[11px]">
+              <div className="space-y-1.5 text-xs text-slate-700">
+                <div className="flex justify-between py-1 border-b border-slate-100 text-[11px]">
                   <span className="text-slate-500">Agent Run Cost:</span>
-                  <span className="font-mono text-sky-400">$0.062 vs $50k Audit</span>
+                  <span className="font-mono text-slate-900">$0.062 vs $50k Audit</span>
                 </div>
-                <div className="flex justify-between py-1 border-b border-slate-800/60 text-[11px]">
+                <div className="flex justify-between py-1 border-b border-slate-100 text-[11px]">
                   <span className="text-slate-500">Success Fee (5%):</span>
-                  <span className="font-mono text-emerald-400 font-bold">$287.50 / incident</span>
+                  <span className="font-mono text-emerald-700 font-bold">$287.50 / incident</span>
                 </div>
-                <div className="flex justify-between py-1 border-b border-slate-800/60 text-[11px]">
+                <div className="flex justify-between py-1 border-b border-slate-100 text-[11px]">
                   <span className="text-slate-500">Gross Margin:</span>
-                  <span className="font-mono text-white font-bold">99.8% · 21x LTV/CAC</span>
+                  <span className="font-mono text-slate-900 font-bold">99.8% · 21x LTV/CAC</span>
                 </div>
               </div>
 
-              <p className="text-xs text-slate-400 leading-relaxed">
+              <p className="text-xs text-slate-600 leading-relaxed">
                 Demonstrates high-margin enterprise economics replacing $50k+ manual forensic auditor retainers.
               </p>
             </a>
 
             {/* Crustdata */}
-            <div className="p-5 rounded-2xl bg-[#0f1420] border border-slate-800 space-y-4 block">
-              <div className="flex items-center justify-between pb-2 border-b border-slate-800">
+            <div className="p-5 rounded-2xl bg-white border border-slate-200/90 shadow-sm space-y-4 block">
+              <div className="flex items-center justify-between pb-2 border-b border-slate-100">
                 <div className="flex items-center gap-2">
-                  <div className="p-2 rounded-xl bg-slate-800 text-sky-400">
-                    <ShieldCheck className="w-4 h-4" />
+                  <div className="p-2 rounded-xl bg-slate-100 text-slate-800">
+                    <ShieldCheck className="w-4 h-4 text-slate-800" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-sm text-white">Crustdata</h4>
-                    <div className="text-[11px] text-slate-400 font-mono">Entity Intelligence</div>
+                    <h4 className="font-semibold text-sm text-slate-900">Crustdata</h4>
+                    <div className="text-[11px] text-slate-500 font-mono">Entity Intelligence</div>
                   </div>
                 </div>
               </div>
 
-              <div className="space-y-1.5 text-xs text-slate-300">
-                <div className="flex justify-between py-1 border-b border-slate-800/60 text-[11px]">
+              <div className="space-y-1.5 text-xs text-slate-700">
+                <div className="flex justify-between py-1 border-b border-slate-100 text-[11px]">
                   <span className="text-slate-500">Integration:</span>
-                  <span className="text-emerald-400 font-medium">Live Partner API Key</span>
+                  <span className="text-emerald-700 font-medium">Live Partner API Key</span>
                 </div>
-                <div className="flex justify-between py-1 border-b border-slate-800/60 text-[11px]">
+                <div className="flex justify-between py-1 border-b border-slate-100 text-[11px]">
                   <span className="text-slate-500">Profiling:</span>
-                  <span className="font-mono text-white">Liquidator vs Victim</span>
+                  <span className="font-mono text-slate-900">Liquidator vs Victim</span>
                 </div>
-                <div className="flex justify-between py-1 border-b border-slate-800/60 text-[11px]">
+                <div className="flex justify-between py-1 border-b border-slate-100 text-[11px]">
                   <span className="text-slate-500">Neatlogs Span:</span>
-                  <span className="font-mono text-slate-300 text-[10px]">enrichIncidentWithCrustdata</span>
+                  <span className="font-mono text-slate-700 text-[10px]">enrichIncidentWithCrustdata</span>
                 </div>
               </div>
 
-              <p className="text-xs text-slate-400 leading-relaxed">
+              <p className="text-xs text-slate-600 leading-relaxed">
                 Profiles on-chain liquidator and victim entities to filter institutional bots and quantify real community impact.
               </p>
             </div>
@@ -933,14 +932,14 @@ export default function Dashboard() {
       </main>
 
       {/* 6. Footer */}
-      <footer className="pt-8 border-t border-slate-800/60 text-xs text-slate-500 flex flex-col md:flex-row items-center justify-between gap-3">
+      <footer className="pt-8 border-t border-slate-200 text-xs text-slate-500 flex flex-col md:flex-row items-center justify-between gap-3">
         <div>
           POA (Proof of Audits) — neatHack 2026 Entry by MKVEERENDRA VAMSHI
         </div>
         <div className="flex items-center gap-4">
-          <span className="text-slate-400 font-mono">Project ID: 542c53f4-ec26-4d57-a097-b7c9175c84be</span>
+          <span className="text-slate-500 font-mono">Project ID: 542c53f4-ec26-4d57-a097-b7c9175c84be</span>
           <span>·</span>
-          <span className="text-sky-400 font-mono">EVM Chain ID {isBase ? "8453 (Base Fork)" : "31337 (Anvil)"}</span>
+          <span className="text-slate-700 font-mono font-medium">EVM Chain ID {isBase ? "8453 (Base Fork)" : "31337 (Anvil)"}</span>
         </div>
       </footer>
     </div>
