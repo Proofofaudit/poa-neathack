@@ -1,11 +1,11 @@
 {
   "network": "Base Mainnet Fork",
   "chainId": 8453,
-  "forkBlockNumber": 52463547,
-  "timestamp": "2026-10-11T11:01:01.206Z",
+  "forkBlockNumber": 52469133,
+  "timestamp": "2026-10-11T14:07:18.115Z",
   "contracts": {
-    "distributor": "0x00E402108e6699Ba75AE2E6BE6920F7bA62BD231",
-    "restitutionToken": "0xA3Cf80b09ff9071e74a11125BD532962D5597C42",
+    "distributor": "0x1580bc91409f9d66dfDA6E8672518B9712189d76",
+    "restitutionToken": "0xbd0E00D9397becE0a0d79Bc1f4a1747124371cb4",
     "oracle": "0x71041dddad3595F9CEd3DcCFBe3D1F4b0a16Bb70",
     "collateralToken": "0x4200000000000000000000000000000000000006"
   },
@@ -56,20 +56,20 @@
           "proof": []
         }
       ],
-      "generatedAt": "2026-10-11T11:01:00.828Z",
+      "generatedAt": "2026-10-11T14:07:16.836Z",
       "policyVersion": "POA_RESTITUTION_POLICY_V1_EQUITY_DELTA"
     },
     "proofCarryingManifest": {
       "manifestVersion": "1.0.0",
       "policyId": "POA_RESTITUTION_POLICY_V1_EQUITY_DELTA",
       "incidentId": "0x7c27e4dc3c4e90fa0cc93a7defe9b547abdde87687678cd19707102acb0583e6",
-      "generatedAt": "2026-10-11T11:01:00.835Z",
-      "neatlogsTraceId": "trace-1791716460779-mr2h9",
+      "generatedAt": "2026-10-11T14:07:16.855Z",
+      "neatlogsTraceId": "trace-1791727636385-ty8ix",
       "evidence": {
         "incidentTxHash": "0xbase_oracle_manipulation_tx_001",
         "oracleAddress": "0x71041dddad3595F9CEd3DcCFBe3D1F4b0a16Bb70",
         "poolAddress": "0x3333333333333333333333333333333333333333",
-        "payoutToken": "0x00E402108e6699Ba75AE2E6BE6920F7bA62BD231",
+        "payoutToken": "0x1580bc91409f9d66dfDA6E8672518B9712189d76",
         "baselinePriceUsd": "2000.00",
         "faultyPriceUsd": "1800.00",
         "interventionPolicy": "Intervention policy substituted anomalous oracle plunge with verified TWAP benchmark. Nonces and valid transactions preserved."
@@ -96,15 +96,15 @@
           "merkleProof": []
         }
       ],
-      "cryptographicIntegritySeal": "0xa03352bbfeda5f0a2ac260168688190e38c55c6dcef3a1e339ffb50c743e5b6f"
+      "cryptographicIntegritySeal": "0x65c4c41f476c5b01c069d5efb09b61495186fbe811f755942c397df621b9a05c"
     },
     "retriesAttempted": 0,
-    "executionTraceId": "trace-1791716460779-mr2h9",
-    "timestamp": "2026-10-11T11:01:00.837Z",
+    "executionTraceId": "trace-1791727636385-ty8ix",
+    "timestamp": "2026-10-11T14:07:16.855Z",
     "forensicAiAssessment": {
       "anomalyClassification": "FAULTY_ORACLE_DEVIATION",
       "confidenceScore": 0.99,
-      "rootCauseAnalysis": "# FORENSIC INCIDENT ANALYSIS REPORT\n**Case ID:** 0xbase_oracle_manipulation_tx_001\n\n---\n\n## 1. ORACLE DEVIATION CLASSIFICATION\n\n### Price Movement Assessment\n\n| Metric | Value | Assessment |\n|--------|-------|-----------|\n| Price Delta | $200 ($2000→$1800) | 10.0% drop |\n| Deviation Magnitude | Mode...",
+      "rootCauseAnalysis": "# FORENSIC INCIDENT ANALYSIS REPORT\n**Case ID:** 0xbase_oracle_manipulation_tx_001\n\n---\n\n## 1. ORACLE DEVIATION CLASSIFICATION\n\n### Price Movement Assessment\n\n| Metric | Value | Assessment |\n|--------|-------|-----------|\n| Price Delta | $200 ($2000→$1800) | 10.0% drop |\n| Deviation Magnitude | Sing...",
       "restitutionPolicyTriggered": true,
       "recommendedWorkflow": [
         "inspectIncidentTransaction",
@@ -116,7 +116,7 @@
         "generateMerkleManifest"
       ],
       "executiveSummary": "Autonomous AI reasoning confirmed anomalous -10.0% price plunge. Restitution charter activated.",
-      "tokensUsed": 2191,
+      "tokensUsed": 1984,
       "modelUsed": "claude-haiku",
       "isLiveLlm": true
     },
@@ -143,7 +143,7 @@
     }
   ],
   "claimExecution": {
-    "txHash": "0x6ffef5f44845ec671ab321f3d49ce24f9e0b3a7db321042a6571f257d455087b",
+    "txHash": "0x26ce653c9d9de1e57e84dfa8c4767abb2bc7955504c86ee0afc8be63ed80cf1e",
     "victimAddress": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
     "restitutionClaimedUsdc": "700.0",
     "status": "CONFIRMED"
