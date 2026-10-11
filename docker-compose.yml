@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  poa-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: poa-production-app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - NEATLOGS_PROJECT_ID=${NEATLOGS_PROJECT_ID:-542c53f4-ec26-4d57-a097-b7c9175c84be}
+      - NEATLOGS_API_KEY=${NEATLOGS_API_KEY:-}
+      - ANVIL_RPC_URL=http://anvil:8545
+      - ANVIL_CHAIN_ID=31337
+    depends_on:
+      - anvil
+
+  anvil:
+    image: ghcr.io/foundry-rs/foundry:latest
+    container_name: poa-anvil-node
+    restart: unless-stopped
+    command: ["anvil", "--host", "0.0.0.0", "--port", "8545"]
+    ports:
+      - "8545:8545"
