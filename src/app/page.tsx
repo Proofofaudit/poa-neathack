@@ -284,7 +284,7 @@ export default function Dashboard() {
                     : "text-zinc-500 hover:text-zinc-900"
                 }`}
               >
-                <span className="w-1.5 h-1.5 rounded-full bg-blue-600"></span>
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
                 Base Fork (8453)
               </button>
             </div>
@@ -671,7 +671,7 @@ export default function Dashboard() {
                             </span>
                           </td>
                           <td className="p-3">
-                            <span className="px-2 py-0.5 rounded text-[11px] bg-rose-50 text-rose-700 font-semibold border border-rose-200">
+                            <span className="px-2 py-0.5 rounded text-[11px] bg-[#FBEEE8] text-rose-600 font-semibold border border-[#EAD5C8]">
                               1.234 · Liquidated
                             </span>
                           </td>
@@ -705,7 +705,7 @@ export default function Dashboard() {
                               </span>
                             </td>
                             <td className="p-3">
-                              <span className="px-2 py-0.5 rounded text-[11px] bg-rose-50 text-rose-700 font-semibold border border-rose-200">
+                              <span className="px-2 py-0.5 rounded text-[11px] bg-[#FBEEE8] text-rose-600 font-semibold border border-[#EAD5C8]">
                                 0.960 · Underwater
                               </span>
                             </td>
@@ -737,7 +737,7 @@ export default function Dashboard() {
                               </span>
                             </td>
                             <td className="p-3">
-                              <span className="px-2 py-0.5 rounded text-[11px] bg-rose-50 text-rose-700 font-semibold border border-rose-200">
+                              <span className="px-2 py-0.5 rounded text-[11px] bg-[#FBEEE8] text-rose-600 font-semibold border border-[#EAD5C8]">
                                 0.960 · Underwater
                               </span>
                             </td>
@@ -769,7 +769,7 @@ export default function Dashboard() {
                               </span>
                             </td>
                             <td className="p-3">
-                              <span className="px-2 py-0.5 rounded text-[11px] bg-rose-50 text-rose-700 font-semibold border border-rose-200">
+                              <span className="px-2 py-0.5 rounded text-[11px] bg-[#FBEEE8] text-rose-600 font-semibold border border-[#EAD5C8]">
                                 0.960 · Underwater
                               </span>
                             </td>
@@ -796,7 +796,7 @@ export default function Dashboard() {
                             <td className="p-3">
                               <Badge variant="danger">EXCLUDED_LEGITIMATE</Badge>
                             </td>
-                            <td className="p-3 text-right text-rose-700">$0.00</td>
+                            <td className="p-3 text-right text-rose-600">$0.00</td>
                           </tr>
                         </>
                       )}
@@ -924,7 +924,7 @@ export default function Dashboard() {
                             disabled={claimStatus?.loading}
                             className="flex items-center gap-1.5"
                           >
-                            <Zap className="w-3.5 h-3.5 text-amber-300" />
+                            <Zap className="w-3.5 h-3.5 text-amber-400" />
                             Gasless Voucher (0 ETH)
                           </Button>
                         </div>

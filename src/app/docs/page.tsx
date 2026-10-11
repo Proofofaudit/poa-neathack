@@ -137,7 +137,7 @@ export default function DocsPage() {
             <div className="space-y-2 pt-2">
               <h3 className="text-sm font-semibold text-zinc-950">Moral Hazard Elimination Policy</h3>
               <p className="text-xs text-zinc-600 leading-relaxed">
-                If an account was already insolvent prior to the oracle flash crash (i.e. Health Factor &lt; 1.0 at the legitimate $2,000 price), it was legitimately underwater. Compensating insolvent accounts would create severe moral hazard. POA automatically tags them as <code className="text-rose-600 bg-rose-50 px-1 py-0.5 rounded">EXCLUDED_LEGITIMATE</code> and sets approved payout to <strong>$0.00</strong>.
+                If an account was already insolvent prior to the oracle flash crash (i.e. Health Factor &lt; 1.0 at the legitimate $2,000 price), it was legitimately underwater. Compensating insolvent accounts would create severe moral hazard. POA automatically tags them as <code className="text-rose-800 bg-rose-50 border border-rose-200/80 px-1.5 py-0.5 rounded font-mono">EXCLUDED_LEGITIMATE</code> and sets approved payout to <strong>$0.00</strong>.
               </p>
             </div>
           </Card>

@@ -6,6 +6,8 @@ import util from "util";
 
 const execPromise = util.promisify(exec);
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: NextRequest) {
   try {
     let network = "anvil";
