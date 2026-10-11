@@ -35,6 +35,13 @@ import { ShineBorder } from "@/components/magicui/shine-border";
 import { NumberTicker } from "@/components/magicui/number-ticker";
 import { Marquee } from "@/components/magicui/marquee";
 import { AnimatedList } from "@/components/magicui/animated-list";
+import { HealthFactorGauge } from "@/components/dashboard/health-factor-gauge";
+import { MerkleTreeMap } from "@/components/dashboard/merkle-tree-map";
+import { TraceWaterfall } from "@/components/dashboard/trace-waterfall";
+import { Eip712PreviewModal } from "@/components/dashboard/eip712-preview-modal";
+import { playSuccessChime } from "@/lib/audio";
+import { Download, Search, BarChart3, Code2, Sparkles, Filter, ArrowRight } from "lucide-react";
+
 
 type Network = "anvil" | "base";
 
@@ -140,6 +147,22 @@ export default function Dashboard() {
   const [activeTab, setActiveTab] = useState<"timeline" | "replay" | "claims" | "proof">("timeline");
   const [selectedClaimantIndex, setSelectedClaimantIndex] = useState(0);
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [timelineMode, setTimelineMode] = useState<"steps" | "waterfall">("steps");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filterVerdict, setFilterVerdict] = useState<string>("ALL");
+  const [showEip712Modal, setShowEip712Modal] = useState(false);
+
+  const downloadEvidencePackage = () => {
+    if (!evidence) return;
+    const blob = new Blob([JSON.stringify(evidence, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `poa-incident-evidence-${selectedNetwork}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   const [selectedBorrowerDetail, setSelectedBorrowerDetail] = useState<any | null>(null);
   const [claimStatus, setClaimStatus] = useState<{
     loading: boolean;
@@ -209,6 +232,7 @@ export default function Dashboard() {
           "0x" +
           Array.from({ length: 64 }, () => Math.floor(Math.random() * 16).toString(16)).join("");
         setClaimStatus({ loading: false, step: 3, method, txHash: fakeHash, success: true });
+        playSuccessChime();
       }, 1000);
     }, 850);
   };
@@ -264,6 +288,24 @@ export default function Dashboard() {
 
           {/* Right Controls: Network Toggle & Primary Action */}
           <div className="flex items-center gap-2.5">
+            {/* Live Sentinel Indicator */}
+            <div className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-50 text-emerald-800 border border-emerald-200/80 text-xs font-mono">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span>Sentinel: Block #{isBase ? "21849182" : "1894021"}</span>
+            </div>
+
+            {/* Download Evidence JSON Package */}
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={downloadEvidencePackage}
+              className="hidden sm:flex items-center gap-1.5"
+              title="Download raw cryptographic evidence package JSON"
+            >
+              <Download className="w-3.5 h-3.5 text-zinc-500" />
+              <span>Evidence JSON</span>
+            </Button>
+
             {/* Network Switcher Pill */}
             <div className="flex items-center p-1 rounded-xl bg-zinc-100 border border-zinc-200 text-xs font-medium">
               <button
@@ -502,53 +544,85 @@ export default function Dashboard() {
             >
               {/* Left: 7 Investigation Steps Stepper */}
               <Card className="lg:col-span-3 p-6 space-y-4">
-                <div className="flex items-center justify-between pb-3 border-b border-zinc-100">
+                <div className="flex items-center justify-between pb-3 border-b border-zinc-100 flex-wrap gap-2">
                   <div className="flex items-center gap-2">
                     <Terminal className="w-4 h-4 text-zinc-800" />
                     <h3 className="text-sm font-semibold text-zinc-950">
                       Live Forensic Execution Trace
                     </h3>
                   </div>
-                  <Badge variant="success">7/7 Steps Verified</Badge>
+
+                  {/* Toggle: Steps vs Waterfall */}
+                  <div className="flex items-center p-1 rounded-xl bg-zinc-100 border border-zinc-200 text-xs font-mono">
+                    <button
+                      onClick={() => setTimelineMode("steps")}
+                      className={`px-2.5 py-1 rounded-lg transition ${
+                        timelineMode === "steps"
+                          ? "bg-white text-zinc-950 font-semibold shadow-sm"
+                          : "text-zinc-500 hover:text-zinc-900"
+                      }`}
+                    >
+                      Steps (7)
+                    </button>
+                    <button
+                      onClick={() => setTimelineMode("waterfall")}
+                      className={`px-2.5 py-1 rounded-lg transition flex items-center gap-1 ${
+                        timelineMode === "waterfall"
+                          ? "bg-white text-zinc-950 font-semibold shadow-sm"
+                          : "text-zinc-500 hover:text-zinc-900"
+                      }`}
+                    >
+                      <BarChart3 className="w-3 h-3" />
+                      <span>Waterfall</span>
+                    </button>
+                  </div>
                 </div>
 
-                <AnimatedList delay={0.05} className="space-y-2.5">
-                  {INVESTIGATION_TRACES.map((step) => (
-                    <div
-                      key={step.step}
-                      className="p-3 rounded-xl bg-zinc-50/70 border border-zinc-200/80 hover:bg-white hover:border-zinc-300 transition flex items-start gap-3"
-                    >
-                      <span className="w-6 h-6 rounded-lg bg-zinc-950 text-white font-mono text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">
-                        {step.step}
-                      </span>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center justify-between gap-2">
-                          <span className="font-mono text-xs font-semibold text-zinc-950">
-                            {step.name}
-                          </span>
-                          <span className="text-[11px] font-mono text-emerald-700 font-medium">
-                            {step.tag}
-                          </span>
-                        </div>
-                        <p className="text-xs text-zinc-600 mt-0.5 leading-snug">{step.desc}</p>
-                        <div className="text-[10px] font-mono text-zinc-400 mt-1 flex items-center justify-between">
-                          <span className="truncate">
-                            {step.step === 1 &&
-                              `Tx: ${fixture?.oracleUpdateTxHash || "0xbase_oracle_manipulation_tx_001"}`}
-                            {step.step === 2 &&
-                              `Pool: ${fixture?.lendingPoolAddress?.slice(0, 16) || "0x333333333333…"}…`}
-                            {step.step === 5 && "All borrowers verified safe at $2,000 baseline"}
-                            {step.step === 6 &&
-                              `Total: $${totalNumeric.toLocaleString("en-US", { minimumFractionDigits: 2 })} USDC`}
-                            {step.step === 7 &&
-                              `Root: ${merkleRoot ? merkleRoot.slice(0, 18) + "…" : "0xce5978d1…"}`}
-                          </span>
-                          <span className="text-zinc-500 font-semibold">{step.duration}</span>
+                {timelineMode === "steps" ? (
+                  <AnimatedList delay={0.05} className="space-y-2.5">
+                    {INVESTIGATION_TRACES.map((step) => (
+                      <div
+                        key={step.step}
+                        className="p-3 rounded-xl bg-zinc-50/70 border border-zinc-200/80 hover:bg-white hover:border-zinc-300 transition flex items-start gap-3"
+                      >
+                        <span className="w-6 h-6 rounded-lg bg-zinc-950 text-white font-mono text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">
+                          {step.step}
+                        </span>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center justify-between gap-2">
+                            <span className="font-mono text-xs font-semibold text-zinc-950">
+                              {step.name}
+                            </span>
+                            <span className="text-[11px] font-mono text-emerald-700 font-medium">
+                              {step.tag}
+                            </span>
+                          </div>
+                          <p className="text-xs text-zinc-600 mt-0.5 leading-snug">{step.desc}</p>
+                          <div className="text-[10px] font-mono text-zinc-400 mt-1 flex items-center justify-between">
+                            <span className="truncate">
+                              {step.step === 1 &&
+                                `Tx: ${fixture?.oracleUpdateTxHash || "0xbase_oracle_manipulation_tx_001"}`}
+                              {step.step === 2 &&
+                                `Pool: ${fixture?.lendingPoolAddress?.slice(0, 16) || "0x333333333333…"}…`}
+                              {step.step === 5 && "All borrowers verified safe at $2,000 baseline"}
+                              {step.step === 6 &&
+                                `Total: $${totalNumeric.toLocaleString("en-US", { minimumFractionDigits: 2 })} USDC`}
+                              {step.step === 7 &&
+                                `Root: ${merkleRoot ? merkleRoot.slice(0, 18) + "…" : "0xce5978d1…"}`}
+                            </span>
+                            <span className="text-zinc-500 font-semibold">{step.duration}</span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
-                </AnimatedList>
+                    ))}
+                  </AnimatedList>
+                ) : (
+                  <TraceWaterfall
+                    traceId={latestTrace?.traceId}
+                    spans={latestTrace?.spans}
+                    totalDurationMs={latestTrace?.totalDurationMs}
+                  />
+                )}
               </Card>
 
               {/* Right: Neatlogs Live Telemetry Terminal */}
@@ -620,17 +694,49 @@ export default function Dashboard() {
               transition={{ duration: 0.15 }}
             >
               <Card className="p-6 space-y-4">
-                <div className="flex flex-col md:flex-row md:items-center justify-between pb-3 border-b border-zinc-100 gap-2">
+                <div className="flex flex-col md:flex-row md:items-center justify-between pb-3 border-b border-zinc-100 gap-3">
                   <div>
-                    <h3 className="text-sm font-semibold text-zinc-950">
+                    <h3 className="text-sm font-semibold text-zinc-950 font-sans">
                       Borrower Balance Replay ({isBase ? "Base Mainnet Fork" : "Anvil Devnet"})
                     </h3>
                     <p className="text-xs text-zinc-500 mt-0.5">
-                      Click on any borrower row to view exact Net Equity math breakdown
+                      Click on any borrower row to inspect exact Net Equity math & health factor gauges
                     </p>
                   </div>
-                  <div className="text-xs font-mono text-zinc-700 bg-zinc-100 px-3 py-1.5 rounded-lg border border-zinc-200">
-                    Restitution = Net Equity (Baseline) − Net Equity (Post-Liq)
+
+                  <div className="flex items-center gap-2 flex-wrap">
+                    {/* Search by Address */}
+                    <div className="relative">
+                      <Search className="w-3.5 h-3.5 text-zinc-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
+                      <input
+                        type="text"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        placeholder="Search address…"
+                        className="pl-8 pr-3 py-1.5 text-xs font-mono rounded-lg border border-zinc-200 bg-zinc-50 focus:bg-white focus:outline-none focus:ring-1 focus:ring-zinc-950 w-36 sm:w-44"
+                      />
+                    </div>
+
+                    {/* Verdict Filter Pills */}
+                    <div className="flex items-center p-1 rounded-lg bg-zinc-100 border border-zinc-200 text-[11px] font-mono">
+                      {[
+                        { id: "ALL", label: "All" },
+                        { id: "ELIGIBLE_WRONGFUL", label: "Eligible" },
+                        { id: "EXCLUDED_LEGITIMATE", label: "Insolvent" },
+                      ].map((f) => (
+                        <button
+                          key={f.id}
+                          onClick={() => setFilterVerdict(f.id)}
+                          className={`px-2 py-0.5 rounded transition ${
+                            filterVerdict === f.id
+                              ? "bg-white text-zinc-950 font-semibold shadow-sm"
+                              : "text-zinc-500 hover:text-zinc-900"
+                          }`}
+                        >
+                          {f.label}
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 </div>
 
@@ -658,7 +764,10 @@ export default function Dashboard() {
                               faultyHf: "1.234",
                               verdict: "ELIGIBLE_WRONGFUL",
                               payout: "$700.00 USDC",
+                              baselineEquity: "$2,500.00",
+                              postLiqEquity: "$1,800.00",
                               reason: "Account was fully solvent at $2,000 price. Oracle flash crash forced wrongful liquidation.",
+                              claimantIndex: 0,
                             })
                           }
                           className="hover:bg-zinc-50/80 cursor-pointer transition"
@@ -671,7 +780,7 @@ export default function Dashboard() {
                             </span>
                           </td>
                           <td className="p-3">
-                            <span className="px-2 py-0.5 rounded text-[11px] bg-[#FBEEE8] text-rose-600 font-semibold border border-[#EAD5C8]">
+                            <span className="px-2 py-0.5 rounded text-[11px] bg-rose-50 text-rose-700 font-semibold border border-rose-200/80">
                               1.234 · Liquidated
                             </span>
                           </td>
@@ -692,7 +801,10 @@ export default function Dashboard() {
                                 faultyHf: "0.960",
                                 verdict: "ELIGIBLE_WRONGFUL",
                                 payout: "$2,500.00 USDC",
+                                baselineEquity: "$5,000.00",
+                                postLiqEquity: "$2,500.00",
                                 reason: "Account had 1.066 HF (healthy) at legitimate $2,000 price. Anomaly triggered wrongful liquidation.",
+                                claimantIndex: 0,
                               })
                             }
                             className="hover:bg-zinc-50/80 cursor-pointer transition"
@@ -705,7 +817,7 @@ export default function Dashboard() {
                               </span>
                             </td>
                             <td className="p-3">
-                              <span className="px-2 py-0.5 rounded text-[11px] bg-[#FBEEE8] text-rose-600 font-semibold border border-[#EAD5C8]">
+                              <span className="px-2 py-0.5 rounded text-[11px] bg-rose-50 text-rose-700 font-semibold border border-rose-200/80">
                                 0.960 · Underwater
                               </span>
                             </td>
@@ -724,7 +836,10 @@ export default function Dashboard() {
                                 faultyHf: "0.960",
                                 verdict: "ELIGIBLE_WRONGFUL",
                                 payout: "$1,250.00 USDC",
+                                baselineEquity: "$2,500.00",
+                                postLiqEquity: "$1,250.00",
                                 reason: "Account had 1.066 HF at true price. Wrongfully liquidated by MEV bot.",
+                                claimantIndex: 1,
                               })
                             }
                             className="hover:bg-zinc-50/80 cursor-pointer transition"
@@ -737,7 +852,7 @@ export default function Dashboard() {
                               </span>
                             </td>
                             <td className="p-3">
-                              <span className="px-2 py-0.5 rounded text-[11px] bg-[#FBEEE8] text-rose-600 font-semibold border border-[#EAD5C8]">
+                              <span className="px-2 py-0.5 rounded text-[11px] bg-rose-50 text-rose-700 font-semibold border border-rose-200/80">
                                 0.960 · Underwater
                               </span>
                             </td>
@@ -756,7 +871,10 @@ export default function Dashboard() {
                                 faultyHf: "0.960",
                                 verdict: "ELIGIBLE_WRONGFUL",
                                 payout: "$2,000.00 USDC",
+                                baselineEquity: "$4,000.00",
+                                postLiqEquity: "$2,000.00",
                                 reason: "Collateral unfairly seized due to faulty oracle timestamp.",
+                                claimantIndex: 2,
                               })
                             }
                             className="hover:bg-zinc-50/80 cursor-pointer transition"
@@ -769,7 +887,7 @@ export default function Dashboard() {
                               </span>
                             </td>
                             <td className="p-3">
-                              <span className="px-2 py-0.5 rounded text-[11px] bg-[#FBEEE8] text-rose-600 font-semibold border border-[#EAD5C8]">
+                              <span className="px-2 py-0.5 rounded text-[11px] bg-rose-50 text-rose-700 font-semibold border border-rose-200/80">
                                 0.960 · Underwater
                               </span>
                             </td>
@@ -778,7 +896,23 @@ export default function Dashboard() {
                             </td>
                             <td className="p-3 text-right text-emerald-700 font-bold">$2,000.00 USDC</td>
                           </tr>
-                          <tr className="hover:bg-zinc-50/80 transition">
+                          <tr
+                            onClick={() =>
+                              setSelectedBorrowerDetail({
+                                address: "0x9965…d016",
+                                collateral: "10 WETH",
+                                debt: "10,000 USDC",
+                                baselineHf: "1.600",
+                                faultyHf: "1.440",
+                                verdict: "EXCLUDED_UNHARMED",
+                                payout: "$0.00",
+                                baselineEquity: "$10,000.00",
+                                postLiqEquity: "$10,000.00",
+                                reason: "Health factor remained safely above 1.0 (1.440) even during crash. Position untouched.",
+                              })
+                            }
+                            className="hover:bg-zinc-50/80 cursor-pointer transition"
+                          >
                             <td className="p-3 text-zinc-400">0x9965…d016</td>
                             <td className="p-3 text-zinc-400">10 WETH / 10,000 USDC</td>
                             <td className="p-3 text-emerald-700">1.600 · Safe</td>
@@ -788,7 +922,23 @@ export default function Dashboard() {
                             </td>
                             <td className="p-3 text-right text-zinc-400">$0.00</td>
                           </tr>
-                          <tr className="hover:bg-zinc-50/80 transition">
+                          <tr
+                            onClick={() =>
+                              setSelectedBorrowerDetail({
+                                address: "0x976E…976E",
+                                collateral: "5 WETH",
+                                debt: "8,100 USDC",
+                                baselineHf: "0.987",
+                                faultyHf: "0.888",
+                                verdict: "EXCLUDED_LEGITIMATE",
+                                payout: "$0.00",
+                                baselineEquity: "$0.00 (Insolvent)",
+                                postLiqEquity: "$0.00",
+                                reason: "Account had HF < 1.0 before incident at $2,000 price. Moral hazard policy strictly blocks payout.",
+                              })
+                            }
+                            className="hover:bg-zinc-50/80 cursor-pointer transition"
+                          >
                             <td className="p-3 text-zinc-400">0x976E…976E</td>
                             <td className="p-3 text-zinc-400">5 WETH / 8,100 USDC</td>
                             <td className="p-3 text-rose-600">0.987 · Insolvent</td>
@@ -804,26 +954,17 @@ export default function Dashboard() {
                   </table>
                 </div>
 
-                {/* Selected Detail Drawer */}
+                {/* Selected Detail: Interactive Health Factor Gauge & Equity Stack */}
                 {selectedBorrowerDetail && (
-                  <div className="p-4 rounded-xl bg-zinc-50 border border-zinc-200 text-xs font-mono space-y-2">
-                    <div className="flex items-center justify-between">
-                      <span className="font-semibold text-zinc-950 font-sans">
-                        Position Inspection: {selectedBorrowerDetail.address}
-                      </span>
-                      <button
-                        onClick={() => setSelectedBorrowerDetail(null)}
-                        className="text-zinc-400 hover:text-zinc-900 font-sans text-xs"
-                      >
-                        ✕ Close
-                      </button>
-                    </div>
-                    <p className="text-zinc-600 font-sans text-xs">{selectedBorrowerDetail.reason}</p>
-                    <div className="flex items-center justify-between text-zinc-700 pt-1 border-t border-zinc-200">
-                      <span>Collateral: {selectedBorrowerDetail.collateral} · Debt: {selectedBorrowerDetail.debt}</span>
-                      <span className="text-emerald-700 font-bold">{selectedBorrowerDetail.payout}</span>
-                    </div>
-                  </div>
+                  <HealthFactorGauge
+                    detail={selectedBorrowerDetail}
+                    onProceedToClaim={() => {
+                      setActiveTab("claims");
+                      if (selectedBorrowerDetail.claimantIndex !== undefined) {
+                        setSelectedClaimantIndex(selectedBorrowerDetail.claimantIndex);
+                      }
+                    }}
+                  />
                 )}
               </Card>
             </motion.div>
@@ -837,19 +978,42 @@ export default function Dashboard() {
               transition={{ duration: 0.15 }}
               className="grid grid-cols-1 lg:grid-cols-5 gap-6"
             >
-              {/* Claims Form & Live Simulator */}
-              <Card className="lg:col-span-3 p-6 space-y-4">
-                <div className="flex items-center justify-between pb-3 border-b border-zinc-100">
-                  <div className="flex items-center gap-2">
-                    <Lock className="w-4 h-4 text-zinc-800" />
-                    <h3 className="text-sm font-semibold text-zinc-950">
-                      Cryptographic Claims Terminal
-                    </h3>
+              {/* Claims Form & Merkle Tree Explorer */}
+              <div className="lg:col-span-3 space-y-4">
+                {/* Visual Merkle Tree Topology Map */}
+                <MerkleTreeMap
+                  merkleRoot={merkleRoot}
+                  claims={claims}
+                  selectedClaimantIndex={selectedClaimantIndex}
+                  onSelectClaimant={(idx) => {
+                    setSelectedClaimantIndex(idx);
+                    setClaimStatus(null);
+                  }}
+                />
+
+                <Card className="p-6 space-y-4">
+                  <div className="flex items-center justify-between pb-3 border-b border-zinc-100 flex-wrap gap-2">
+                    <div className="flex items-center gap-2">
+                      <Lock className="w-4 h-4 text-zinc-800" />
+                      <h3 className="text-sm font-semibold text-zinc-950">
+                        Claims Execution Engine
+                      </h3>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Button
+                        variant="secondary"
+                        size="sm"
+                        onClick={() => setShowEip712Modal(true)}
+                        className="flex items-center gap-1.5"
+                      >
+                        <Code2 className="w-3.5 h-3.5 text-zinc-500" />
+                        <span>Inspect EIP-712</span>
+                      </Button>
+                      <span className="text-xs font-mono text-zinc-400">
+                        Distributor: {fixture?.distributorAddress?.slice(0, 10) || "0x00E40210…"}…
+                      </span>
+                    </div>
                   </div>
-                  <span className="text-xs font-mono text-zinc-400">
-                    Distributor: {fixture?.distributorAddress?.slice(0, 14) || "0x00E40210…"}…
-                  </span>
-                </div>
 
                 <div className="space-y-4">
                   <div>
@@ -962,6 +1126,7 @@ export default function Dashboard() {
                   )}
                 </div>
               </Card>
+            </div>
 
               {/* 5/5 Security Guardrails */}
               <Card className="lg:col-span-2 p-6 space-y-3.5 h-fit">
@@ -1166,6 +1331,16 @@ export default function Dashboard() {
           </div>
         </footer>
       </div>
+
+      {/* EIP-712 Inspector Modal */}
+      <Eip712PreviewModal
+        isOpen={showEip712Modal}
+        onClose={() => setShowEip712Modal(false)}
+        distributorAddress={fixture?.distributorAddress || "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707"}
+        claimantAddress={claims[selectedClaimantIndex]?.claimant || "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC"}
+        amountUsdc={claims[selectedClaimantIndex]?.amount || "2500000000"}
+        incidentId={fixture?.oracleUpdateTxHash || "0xf20a133ecc2e2bc91a80bf723b664967a5226486ef15b0007ca1e126f3e046c8"}
+      />
     </div>
   );
 }
