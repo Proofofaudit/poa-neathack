@@ -13,6 +13,7 @@
     "contracts:test": "export PATH=$HOME/.foundry/bin:$PATH && (cd contracts && forge test -v)",
     "test:benchmark": "tsx scripts/benchmark_evmbench.ts",
     "mcp": "tsx src/mcp/server.ts",
+    "sentinel:watch": "DEMO_MODE=true tsx scripts/watch_production_sentinel.ts",
     "demo:all": "bash scripts/demo_all.sh",
     "demo:base-fork": "tsx scripts/run_base_fork.ts"
   },
