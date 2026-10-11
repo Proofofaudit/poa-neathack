@@ -61,28 +61,35 @@ When oracle glitches or protocol exploits trigger wrongful liquidations in DeFi,
 
 ---
 
-## 🏆 Mandatory neatHack Sponsor Integrations
+## 🏆 neatHack Sponsor & Partner Integrations
 
-Every mandatory hackathon sponsor tool is deeply wired into POA:
+Every mandatory hackathon sponsor tool and partner API is deeply integrated into POA:
 
 ### 1. Neatlogs (AI Agent Tracing & Observability)
 - **Project ID:** `542c53f4-ec26-4d57-a097-b7c9175c84be`
-- **Tracing Module:** `src/observability/neatlogs.ts`
-- **Recorded Telemetry:** Captures 8 discrete spans (`TOOL`, `CHAIN`, `GUARDRAIL`, `WORKFLOW`) per investigation run.
+- **Tracing Module:** `src/observability/neatlogs.ts` & `src/agent/llm.ts`
+- **Live LLM Telemetry:** Wrapped OpenAI/LiteLLM client using `neatlogs.wrapClient` routing to Claude Haiku (`https://litellm.vision.aivar.app/v1`). Accurately calculates input/completion tokens and model spend.
+- **Hierarchical Trace Tree:** Captures 10 discrete spans (`AGENT`, `TOOL`, `CHAIN`, `GUARDRAIL`, `WORKFLOW`) per incident investigation.
 - **Resilience Proof:** Includes self-healing logic that catches transient RPC failures, logs diagnostic warnings, and retries automatically.
 - **Evidence Doc:** Full trace tree and span log documented in [`docs/NEATLOGS_EVIDENCE.md`](docs/NEATLOGS_EVIDENCE.md).
 
-### 2. Entire CLI (Agent Memory & Git Checkpoints)
-- **Version:** Entire v0.11.4 (`~/.local/bin/entire`)
-- **Agent Integration:** Connected via Antigravity life-cycle hooks (`entire enable --agent antigravity`).
-- **Verifiable Checkpoints:** Every milestone from Milestone A (`5044bb2`) to Milestone G (`9735b4e`) is preserved as an immutable Git commit.
-- **Evidence Doc:** Detailed checkpoint log in [`docs/ENTIRE_EVIDENCE.md`](docs/ENTIRE_EVIDENCE.md).
+### 2. Entire (Continuous Memory, Graph & Git Checkpoints) — Target: *Best Use of Entire* Prize
+- **CLI & Versions:** Entire CLI v0.11.4 (`entire`), Entire Graph v0.4.0 (`entire graph`), Entire Brain v0.1.0 (`entire-brain`).
+- **Pillar 1: Checkpoints:** All session milestones tracked via Antigravity hooks. Official submission checkpoint: [`https://entire.io/gh/Proofofaudit/poa-neathack/commit/fc763245cd98965a4e260d31aa4b05cca59c4dbb`](https://entire.io/gh/Proofofaudit/poa-neathack/commit/fc763245cd98965a4e260d31aa4b05cca59c4dbb).
+- **Pillar 2: Entire Graph:** Zero-egress code graph for instant symbol lookup, impact blast-radius analysis, and test coverage mapping (`entire graph search`).
+- **Pillar 3: Entire Brain:** Continuous shared memory indexing 612 files, 1,929 symbols, and 4,841 relations with active background daemon `entire-brain-watch.service`.
+- **Evidence Doc:** Detailed architecture and CLI outputs in [`docs/ENTIRE_EVIDENCE.md`](docs/ENTIRE_EVIDENCE.md).
 
 ### 3. cfo.ai (Financial Modeling & Unit Economics)
-- **Unit Economics:** Investigating an incident costs **$0.062** in LLM compute and L2 gas vs **$50,000+** for human forensic firms.
+- **Unit Economics:** Investigating an incident costs **$0.062** in LLM compute and L2 gas vs **$50,000+** for human forensic audit firms.
 - **Pricing:** $3,500/mo SaaS subscription + 5% verified recovery success fee.
-- **Gross Margins:** **99.8%** gross margin on recovery capital distribution.
+- **Gross Margins:** **99.8%** gross margin on recovery capital distribution; 21.0x LTV/CAC ratio.
 - **Evidence Doc:** 18-month proforma model and LTV/CAC analysis in [`docs/CFO_AI_INPUTS.md`](docs/CFO_AI_INPUTS.md).
+
+### 4. Crustdata (Partner Integration: On-Chain Entity Intelligence)
+- **Module:** `src/agent/crustdata.ts`
+- **Functionality:** Profiles on-chain liquidator and victim addresses (entity classification, AUM profiling, and institutional risk ratings) during incident triage.
+- **Neatlogs Span:** Traced as `enrichIncidentWithCrustdata` tool span in the pipeline.
 
 ---
 
