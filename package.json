@@ -13,7 +13,8 @@
     "contracts:test": "export PATH=$HOME/.foundry/bin:$PATH && (cd contracts && forge test -v)",
     "test:benchmark": "tsx scripts/benchmark_evmbench.ts",
     "mcp": "tsx src/mcp/server.ts",
-    "demo:all": "bash scripts/demo_all.sh"
+    "demo:all": "bash scripts/demo_all.sh",
+    "demo:base-fork": "tsx scripts/run_base_fork.ts"
   },
   "dependencies": {
     "@openzeppelin/merkle-tree": "^1.0.7",
