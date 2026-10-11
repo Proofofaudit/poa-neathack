@@ -5,6 +5,8 @@
 - **Sector:** Autonomous Web3 Security, Incident Forensics & Restitution Infrastructure
 - **Target Customer:** Top 200 EVM Lending Protocols, Liquid Staking Tokens, and Perpetual DEXs
 - **Core Value Proposition:** Replacing slow, manual $50,000+ forensic auditor retainers and opaque 3-month governance votes with autonomous, cryptographic incident investigation and restitution executed within 60 seconds.
+- **Live cfo.ai Model URL:** [https://cfo.ai/s/K8j_ybAD6DrlAI2j](https://cfo.ai/s/K8j_ybAD6DrlAI2j) (Interactive 36-month forecast built by Ari AI CFO)
+- **Modeled Sheets:** Assumptions, Financial Forecast, Unit Economics, Revenue, Expenses, Cash and Runway.
 
 ---
 

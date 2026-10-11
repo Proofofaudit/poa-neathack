@@ -81,6 +81,7 @@ Every mandatory hackathon sponsor tool and partner API is deeply integrated into
 - **Evidence Doc:** Detailed architecture and CLI outputs in [`docs/ENTIRE_EVIDENCE.md`](docs/ENTIRE_EVIDENCE.md).
 
 ### 3. cfo.ai (Financial Modeling & Unit Economics)
+- **Live Interactive Model:** [https://cfo.ai/s/K8j_ybAD6DrlAI2j](https://cfo.ai/s/K8j_ybAD6DrlAI2j) (Built by Ari AI CFO across 6 detailed financial sheets)
 - **Unit Economics:** Investigating an incident costs **$0.062** in LLM compute and L2 gas vs **$50,000+** for human forensic audit firms.
 - **Pricing:** $3,500/mo SaaS subscription + 5% verified recovery success fee.
 - **Gross Margins:** **99.8%** gross margin on recovery capital distribution; 21.0x LTV/CAC ratio.
