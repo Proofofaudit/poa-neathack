@@ -155,15 +155,15 @@
           ]
         }
       ],
-      "generatedAt": "2026-10-11T11:12:17.911Z",
+      "generatedAt": "2026-10-11T13:10:20.125Z",
       "policyVersion": "POA_RESTITUTION_POLICY_V1_EQUITY_DELTA"
     },
     "proofCarryingManifest": {
       "manifestVersion": "1.0.0",
       "policyId": "POA_RESTITUTION_POLICY_V1_EQUITY_DELTA",
       "incidentId": "0xf20a133ecc2e2bc91a80bf723b664967a5226486ef15b0007ca1e126f3e046c8",
-      "generatedAt": "2026-10-11T11:12:17.922Z",
-      "neatlogsTraceId": "trace-1791717137799-unc3a",
+      "generatedAt": "2026-10-11T13:10:20.137Z",
+      "neatlogsTraceId": "trace-1791724219932-thxz0",
       "evidence": {
         "incidentTxHash": "0xf0a5202c616dd67f8fea28d83c970ca3b5e1bab37105cb741a2fd94ff66442d6",
         "oracleAddress": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
@@ -219,15 +219,15 @@
           ]
         }
       ],
-      "cryptographicIntegritySeal": "0xac65ea79b69cd78dd0e705ae3c241238dbb2a3e4ca9778a75e2369620916b7c2"
+      "cryptographicIntegritySeal": "0x67f1625185e5d3bf4695aa24b73bb8e3f502862c1fea4b97ce0a1f2dffa805c3"
     },
     "retriesAttempted": 0,
-    "executionTraceId": "trace-1791717137799-unc3a",
-    "timestamp": "2026-10-11T11:12:17.922Z",
+    "executionTraceId": "trace-1791724219932-thxz0",
+    "timestamp": "2026-10-11T13:10:20.137Z",
     "forensicAiAssessment": {
       "anomalyClassification": "FAULTY_ORACLE_DEVIATION",
       "confidenceScore": 0.99,
-      "rootCauseAnalysis": "# FORENSIC INCIDENT ANALYSIS REPORT\n**POA Incident ID:** 0xf0a5202c616dd67f8fea28d83c970ca3b5e1bab37105cb741a2fd94ff66442d6\n\n---\n\n## 1. ORACLE DEVIATION CLASSIFICATION\n\n### Price Movement Analysis\n- **Magnitude:** 10.0% single-block drop ($2000 → $1800)\n- **Classification:** REQUIRES MULTI-FACTOR VA...",
+      "rootCauseAnalysis": "# FORENSIC INCIDENT ANALYSIS REPORT\n**POA Incident ID:** 0xf0a5202c616dd67f8fea28d83c970ca3b5e1bab37105cb741a2fd94ff66442d6\n\n---\n\n## 1. ORACLE DEVIATION CLASSIFICATION\n\n### Price Movement Analysis\n- **Magnitude:** 10.0% single-block deviation ($2000 → $1800)\n- **Classification:** REQUIRES MULTI-FACT...",
       "restitutionPolicyTriggered": true,
       "recommendedWorkflow": [
         "inspectIncidentTransaction",
@@ -239,7 +239,7 @@
         "generateMerkleManifest"
       ],
       "executiveSummary": "Autonomous AI reasoning confirmed anomalous -10.0% price plunge. Restitution charter activated.",
-      "tokensUsed": 2106,
+      "tokensUsed": 2016,
       "modelUsed": "claude-haiku",
       "isLiveLlm": true
     },
@@ -275,12 +275,12 @@
   },
   "observabilityTrace": {
     "workflowName": "poa-incident-investigation",
-    "traceId": "trace-1791717137799-unc3a",
+    "traceId": "trace-1791724219932-thxz0",
     "spans": [
       {
         "name": "llmForensicReasoning",
         "kind": "AGENT",
-        "durationMs": 16624,
+        "durationMs": 15124,
         "attributes": {
           "model": "claude-haiku",
           "mode": "LIVE_LLM",
@@ -291,7 +291,7 @@
       {
         "name": "inspectIncidentTransaction",
         "kind": "TOOL",
-        "durationMs": 3,
+        "durationMs": 8,
         "attributes": {
           "txHash": "0xf0a5202c616dd67f8fea28d83c970ca3b5e1bab37105cb741a2fd94ff66442d6"
         },
@@ -300,7 +300,7 @@
       {
         "name": "readContractState",
         "kind": "TOOL",
-        "durationMs": 2,
+        "durationMs": 12,
         "attributes": {
           "oracleAddress": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0"
         },
@@ -309,7 +309,7 @@
       {
         "name": "collectLiquidationEvents",
         "kind": "TOOL",
-        "durationMs": 4,
+        "durationMs": 9,
         "attributes": {
           "poolAddress": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9"
         },
@@ -318,7 +318,7 @@
       {
         "name": "discoverAffectedAccounts",
         "kind": "TOOL",
-        "durationMs": 5,
+        "durationMs": 7,
         "attributes": {
           "eventsCount": 3
         },
@@ -327,7 +327,7 @@
       {
         "name": "enrichIncidentWithCrustdata",
         "kind": "TOOL",
-        "durationMs": 7,
+        "durationMs": 13,
         "attributes": {
           "addressesCount": 3,
           "protocol": "DemoLendingPool",
@@ -338,7 +338,7 @@
       {
         "name": "replayCounterfactual",
         "kind": "CHAIN",
-        "durationMs": 5,
+        "durationMs": 17,
         "attributes": {
           "affectedAccountsCount": 3
         },
@@ -347,7 +347,7 @@
       {
         "name": "crossCheckClaims",
         "kind": "GUARDRAIL",
-        "durationMs": 5,
+        "durationMs": 8,
         "attributes": {
           "verifiedCount": 3
         },
@@ -356,7 +356,7 @@
       {
         "name": "generateMerkleManifest",
         "kind": "TOOL",
-        "durationMs": 90,
+        "durationMs": 125,
         "attributes": {
           "claimsCount": 3
         },
@@ -365,7 +365,7 @@
       {
         "name": "investigateOracleIncident",
         "kind": "WORKFLOW",
-        "durationMs": 16793,
+        "durationMs": 15394,
         "attributes": {
           "incidentId": "0xf20a133ecc2e2bc91a80bf723b664967a5226486ef15b0007ca1e126f3e046c8",
           "incidentTxHash": "0xf0a5202c616dd67f8fea28d83c970ca3b5e1bab37105cb741a2fd94ff66442d6"
@@ -373,7 +373,7 @@
         "status": "OK"
       }
     ],
-    "totalDurationMs": 33538
+    "totalDurationMs": 30717
   },
-  "completedAt": "2026-10-11T11:12:18.507Z"
+  "completedAt": "2026-10-11T13:10:20.886Z"
 }

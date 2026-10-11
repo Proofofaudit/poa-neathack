@@ -48,7 +48,7 @@ const PIPELINE_STEPS = [
   {
     step: "01",
     title: "24/7 Block Sentinel",
-    desc: "Monitors live RPC blocks. Fires the moment an oracle deviates >5% in a single block.",
+    desc: "Monitors live RPC blocks. Automatically fires when oracle price deviates >5% in a single block.",
     tag: "Autonomous Trigger",
     icon: Clock,
   },
@@ -56,14 +56,14 @@ const PIPELINE_STEPS = [
     step: "02",
     title: "Autonomous Forensics",
     desc: "Claude Haiku isolates innocent victims from already underwater insolvent positions, eliminating moral hazard.",
-    tag: "Triage & Causal Replay",
+    tag: "Causal Replay",
     icon: Shield,
   },
   {
     step: "03",
     title: "Deterministic Math Engine",
     desc: "Non-authority principle: AI never touches arithmetic. 18-decimal BigInt code computes exact Net Equity deltas.",
-    tag: "Zero-Hallucination Math",
+    tag: "Pure BigInt Math",
     icon: Cpu,
   },
   {
@@ -244,10 +244,10 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-[#fafafc] text-zinc-900 font-sans selection:bg-zinc-950 selection:text-white">
-      {/* ── 1. Vercel-Style Sticky Glass Navbar ───────────────────────── */}
+      {/* ── 1. Top Navigation Bar (Wayfinding & Controls) ─────────────── */}
       <header className="sticky top-0 z-50 bg-white/85 backdrop-blur-md border-b border-zinc-200/80 shadow-subtle">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
-          {/* Brand Logo & Name */}
+          {/* Brand Logo & Meta */}
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-xl bg-zinc-950 text-white flex items-center justify-center shadow-sm">
               <Shield className="w-5 h-5 text-white" />
@@ -267,8 +267,8 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Right Controls: Network Switcher + Simulation Button */}
-          <div className="flex items-center gap-3">
+          {/* Right Controls: Network Switcher + Verification Badges + Action Button */}
+          <div className="flex items-center gap-2.5 sm:gap-3">
             {/* Segmented Network Switcher Pill (Mac/Raycast Style) */}
             <div className="relative flex items-center p-1 rounded-xl bg-zinc-100 border border-zinc-200 text-xs font-medium">
               <button
@@ -294,7 +294,7 @@ export default function Dashboard() {
               </button>
             </div>
 
-            {/* Test Badges */}
+            {/* Test Verification Badges */}
             <div className="hidden xl:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white border border-zinc-200 text-xs text-zinc-600 font-mono shadow-subtle">
               <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
               <span>Foundry 11/11</span>
@@ -314,7 +314,7 @@ export default function Dashboard() {
               {running ? (
                 <>
                   <RotateCcw className="w-3.5 h-3.5 animate-spin" />
-                  <span>Investigating...</span>
+                  <span>Investigating…</span>
                 </>
               ) : (
                 <>
@@ -327,7 +327,7 @@ export default function Dashboard() {
         </div>
       </header>
 
-      {/* ── 2. Magic UI Marquee Proof Strip ───────────────────────────── */}
+      {/* ── 2. Machine-Checked Proof Marquee Strip ───────────────────── */}
       <div className="border-b border-zinc-200/70 bg-white/60 py-2 overflow-hidden">
         <Marquee className="text-xs font-mono text-zinc-600">
           {PARTNER_BENCHMARKS.map((item, i) => (
@@ -341,145 +341,179 @@ export default function Dashboard() {
         </Marquee>
       </div>
 
-      {/* ── Main Container ───────────────────────────────────────────── */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-        {/* ── 3. Hero Incident Banner (Magic UI ShineBorder + NumberTicker) ─ */}
-        <ShineBorder className="bg-white shadow-card">
-          <div className="p-6 sm:p-8 space-y-6">
-            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-6 border-b border-zinc-100">
-              {/* Big Stat Hero with Magic UI NumberTicker */}
-              <div className="space-y-2">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200/70 text-xs font-medium">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                  <span>24/7 Block Sentinel Active · $0.062 Audit Cost vs $50k Manual</span>
+      {/* ── Main Content Container ───────────────────────────────────── */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
+        {/* ── 3. Plane 1: Incident Briefing & Active Case (Hero Card) ── */}
+        <section className="space-y-3">
+          <div className="flex items-baseline justify-between px-1">
+            <h2 className="text-sm font-semibold uppercase tracking-wider text-zinc-500">
+              Active Incident Briefing
+            </h2>
+            <span className="text-xs font-mono text-zinc-400">
+              Live Network: {isBase ? "Base Mainnet Fork (#52,463,547)" : "Anvil Local Devnet (#31337)"}
+            </span>
+          </div>
+
+          <ShineBorder className="bg-white shadow-card">
+            <div className="p-6 sm:p-8 space-y-6">
+              <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8 pb-6 border-b border-zinc-100">
+                {/* Big Stat Hero with Magic UI NumberTicker */}
+                <div className="space-y-2.5 max-w-xl">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200/70 text-xs font-medium">
+                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span>24/7 Block Sentinel Active · $0.062 Audit Cost vs $50k Manual</span>
+                  </div>
+
+                  <div className="flex items-baseline gap-3 pt-1">
+                    <span className="text-5xl sm:text-6xl font-extrabold tracking-tight text-zinc-950 font-mono tabular-nums">
+                      <NumberTicker value={totalNumeric} prefix="$" decimals={2} />
+                    </span>
+                    <span className="text-sm font-semibold text-zinc-500 font-mono">USDC Restitution Due</span>
+                    <Badge variant="success">100% Solvency Backed</Badge>
+                  </div>
+
+                  <p className="text-sm text-zinc-600 leading-relaxed pt-1">
+                    Autonomous causal execution replayed borrower equity under true $2,000 baseline pricing. Innocent victims are mathematically isolated from already-underwater loans, completely eliminating moral hazard.
+                  </p>
                 </div>
-                <div className="flex items-baseline gap-3 pt-1">
-                  <span className="text-4xl sm:text-5xl font-extrabold tracking-tight text-zinc-950 font-mono">
-                    <NumberTicker value={totalNumeric} prefix="$" decimals={2} />
-                  </span>
-                  <span className="text-sm font-semibold text-zinc-500 font-mono">USDC Restitution Due</span>
-                  <Badge variant="success">100% Solvency Backed</Badge>
+
+                {/* 3 Diagnostic Pillars */}
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3.5 w-full lg:w-auto">
+                  <div className="p-4 rounded-xl bg-zinc-50/70 border border-zinc-200/80 space-y-1">
+                    <div className="text-[11px] font-medium text-zinc-500">Incident Price Shock</div>
+                    <div className="text-lg font-bold font-mono text-rose-600">-10.0% Oracle Drop</div>
+                    <div className="text-[11px] text-zinc-400 font-mono">$2,000 → $1,800 WETH</div>
+                  </div>
+
+                  <div className="p-4 rounded-xl bg-zinc-50/70 border border-zinc-200/80 space-y-1">
+                    <div className="text-[11px] font-medium text-zinc-500">Audited Positions</div>
+                    <div className="text-lg font-bold font-mono text-zinc-950">
+                      {isBase ? "1 Wrongful / 0 Insolvent" : "3 Wrongful / 2 Excluded"}
+                    </div>
+                    <div className="text-[11px] text-emerald-700 font-medium">Moral Hazard Blocked</div>
+                  </div>
+
+                  <div className="p-4 rounded-xl bg-zinc-50/70 border border-zinc-200/80 space-y-1 col-span-2 sm:col-span-1">
+                    <div className="text-[11px] font-medium text-zinc-500">Merkle Tree Root</div>
+                    <div className="flex items-center gap-1.5">
+                      <span
+                        className="text-xs font-bold font-mono text-zinc-900 truncate max-w-[110px]"
+                        title={merkleRoot || ""}
+                      >
+                        {merkleRoot ? `${merkleRoot.slice(0, 10)}…` : "0xce5978d1…"}
+                      </span>
+                      {merkleRoot && (
+                        <button
+                          onClick={() => copyToClipboard(merkleRoot, "root")}
+                          className="text-zinc-400 hover:text-zinc-900 transition"
+                          title="Copy Merkle Root"
+                        >
+                          {copiedId === "root" ? (
+                            <Check className="w-3.5 h-3.5 text-emerald-600" />
+                          ) : (
+                            <Copy className="w-3.5 h-3.5" />
+                          )}
+                        </button>
+                      )}
+                    </div>
+                    <div className="text-[11px] text-zinc-400">OpenZeppelin Standard</div>
+                  </div>
                 </div>
-                <p className="text-xs text-zinc-500 max-w-xl leading-relaxed">
-                  Causal counterfactual execution determined exact Net Equity deltas under the legitimate $2,000 WETH price, isolating innocent borrowers from underwater positions.
-                </p>
               </div>
 
-              {/* Bento Stat Pillars */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                <div className="p-3.5 rounded-xl bg-zinc-50/70 border border-zinc-200/80 space-y-1">
-                  <div className="text-[11px] font-medium text-zinc-500">Incident Price Shock</div>
-                  <div className="text-base font-bold font-mono text-rose-600">-10.0% Oracle Drop</div>
-                  <div className="text-[11px] text-zinc-400 font-mono">$2,000 → $1,800 WETH</div>
+              {/* Bottom Quick Facts Strip */}
+              <div className="flex flex-wrap items-center justify-between gap-4 text-xs text-zinc-500 font-mono pt-1">
+                <div className="flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+                  <span>Distributor: {fixture?.distributorAddress?.slice(0, 18) || "0x00E40210…"}…</span>
                 </div>
-
-                <div className="p-3.5 rounded-xl bg-zinc-50/70 border border-zinc-200/80 space-y-1">
-                  <div className="text-[11px] font-medium text-zinc-500">Audited Positions</div>
-                  <div className="text-base font-bold font-mono text-zinc-950">
-                    {isBase ? "1 Wrongful / 0 Insolvent" : "3 Wrongful / 2 Excluded"}
-                  </div>
-                  <div className="text-[11px] text-emerald-700 font-medium">Moral Hazard Blocked</div>
-                </div>
-
-                <div className="p-3.5 rounded-xl bg-zinc-50/70 border border-zinc-200/80 space-y-1 col-span-2 sm:col-span-1">
-                  <div className="text-[11px] font-medium text-zinc-500">Merkle Tree Root</div>
-                  <div className="flex items-center gap-1.5">
-                    <span
-                      className="text-xs font-bold font-mono text-zinc-900 truncate max-w-[110px]"
-                      title={merkleRoot || ""}
-                    >
-                      {merkleRoot ? `${merkleRoot.slice(0, 10)}...` : "0xce5978d1..."}
-                    </span>
-                    {merkleRoot && (
-                      <button
-                        onClick={() => copyToClipboard(merkleRoot, "root")}
-                        className="text-zinc-400 hover:text-zinc-900 transition"
-                        title="Copy Merkle Root"
-                      >
-                        {copiedId === "root" ? (
-                          <Check className="w-3.5 h-3.5 text-emerald-600" />
-                        ) : (
-                          <Copy className="w-3.5 h-3.5" />
-                        )}
-                      </button>
-                    )}
-                  </div>
-                  <div className="text-[11px] text-zinc-400">OpenZeppelin Standard</div>
-                </div>
+                <div>Lending Pool: {fixture?.lendingPoolAddress?.slice(0, 18) || "0x33333333…"}…</div>
+                <div className="text-emerald-700 font-semibold">Verification Time: ~60s vs 3–6 Months Manual</div>
               </div>
             </div>
+          </ShineBorder>
+        </section>
 
-            {/* ── 4. Connected 4-Step Pipeline Flow ───────────────── */}
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">
-                  Autonomous Incident Pipeline
-                </span>
-                <span className="text-xs font-mono text-zinc-400">
-                  Sentinel → Forensics → Math Engine → On-Chain Restitution
-                </span>
-              </div>
+        {/* ── 4. Plane 2: Autonomous Engine Mechanism (4 Steps) ──────── */}
+        <section className="space-y-4">
+          <div className="flex items-baseline justify-between px-1">
+            <div>
+              <h2 className="text-base font-bold tracking-tight text-zinc-950">
+                Autonomous Restitution Engine
+              </h2>
+              <p className="text-xs text-zinc-500 mt-0.5">
+                From live oracle glitch to gasless on-chain payout in four verifiable stages
+              </p>
+            </div>
+            <span className="text-xs font-mono text-zinc-400 hidden sm:block">
+              01 Sentinel → 02 Forensics → 03 Math → 04 Payout
+            </span>
+          </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
-                {PIPELINE_STEPS.map((s) => {
-                  const Icon = s.icon;
-                  return (
-                    <div
-                      key={s.step}
-                      className="p-4 rounded-xl bg-zinc-50/70 hover:bg-white border border-zinc-200/80 hover:border-zinc-300 hover:shadow-card transition-all duration-200 space-y-2 group"
-                    >
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <span className="w-6 h-6 rounded-lg bg-zinc-950 text-white font-mono text-xs font-bold flex items-center justify-center">
-                            {s.step}
-                          </span>
-                          <span className="text-xs font-semibold text-zinc-900">{s.title}</span>
-                        </div>
-                        <Icon className="w-4 h-4 text-zinc-400 group-hover:text-zinc-900 transition" />
-                      </div>
-                      <p className="text-xs text-zinc-600 leading-relaxed pt-0.5">{s.desc}</p>
-                      <div className="pt-1.5 flex items-center gap-1 text-[11px] font-medium text-emerald-700">
-                        <span>✓</span>
-                        <span>{s.tag}</span>
-                      </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {PIPELINE_STEPS.map((s) => {
+              const Icon = s.icon;
+              return (
+                <Card
+                  key={s.step}
+                  className="p-5 hover:border-zinc-400 hover:shadow-card-hover hover:-translate-y-0.5 transition-all duration-200 space-y-3 group"
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2.5">
+                      <span className="w-7 h-7 rounded-xl bg-zinc-950 text-white font-mono text-xs font-bold flex items-center justify-center">
+                        {s.step}
+                      </span>
+                      <span className="text-sm font-semibold text-zinc-950">{s.title}</span>
                     </div>
-                  );
-                })}
-              </div>
+                    <Icon className="w-4 h-4 text-zinc-400 group-hover:text-zinc-950 transition" />
+                  </div>
+                  <p className="text-xs text-zinc-600 leading-relaxed">{s.desc}</p>
+                  <div className="pt-2 border-t border-zinc-100 flex items-center gap-1.5 text-[11px] font-medium text-emerald-700 font-mono">
+                    <span>✓</span>
+                    <span>{s.tag}</span>
+                  </div>
+                </Card>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* ── 5. Plane 3: Interactive Deep-Dive Workspace (Tabs) ─────── */}
+        <section className="space-y-5">
+          {/* Segmented Tab Bar (Raycast / Apple Floating Pill) */}
+          <div className="flex items-center justify-between flex-wrap gap-4">
+            <div className="flex items-center p-1.5 rounded-2xl bg-zinc-100/90 border border-zinc-200/80 gap-1 shadow-inner overflow-x-auto">
+              {[
+                { id: "timeline", label: "Forensic Timeline & Traces", icon: Clock },
+                { id: "replay", label: "Counterfactual Replay Table", icon: Layers },
+                { id: "claims", label: "Cryptographic Claims Portal", icon: FileCheck },
+                { id: "proof", label: "Partner Proof & Unit Economics", icon: Zap },
+              ].map((tab) => {
+                const Icon = tab.icon;
+                const isActive = activeTab === tab.id;
+                return (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id as any)}
+                    className={`relative flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-medium transition-all whitespace-nowrap ${
+                      isActive
+                        ? "bg-white text-zinc-950 font-semibold shadow-sm"
+                        : "text-zinc-500 hover:text-zinc-900 hover:bg-white/50"
+                    }`}
+                  >
+                    <Icon className="w-4 h-4" />
+                    <span>{tab.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+
+            <div className="text-xs font-mono text-zinc-500 hidden md:block">
+              Active Inspector: <span className="text-zinc-900 font-semibold">{activeTab.toUpperCase()}</span>
             </div>
           </div>
-        </ShineBorder>
 
-        {/* ── 5. Segmented Tab Bar (Raycast / Apple Style Pill) ─────── */}
-        <div className="flex items-center p-1.5 rounded-2xl bg-zinc-100/90 border border-zinc-200/80 w-fit gap-1 shadow-inner overflow-x-auto">
-          {[
-            { id: "timeline", label: "Forensic Timeline & Traces", icon: Clock },
-            { id: "replay", label: "Counterfactual Replay Table", icon: Layers },
-            { id: "claims", label: "Cryptographic Claims Portal", icon: FileCheck },
-            { id: "proof", label: "Partner Proof & Unit Economics", icon: Zap },
-          ].map((tab) => {
-            const Icon = tab.icon;
-            const isActive = activeTab === tab.id;
-            return (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id as any)}
-                className={`relative flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-medium transition-all whitespace-nowrap ${
-                  isActive
-                    ? "bg-white text-zinc-950 font-semibold shadow-sm"
-                    : "text-zinc-500 hover:text-zinc-900 hover:bg-white/50"
-                }`}
-              >
-                <Icon className="w-4 h-4" />
-                <span>{tab.label}</span>
-              </button>
-            );
-          })}
-        </div>
-
-        {/* ── 6. Tab Panels ─────────────────────────────────────────── */}
-        <main>
-          {/* TAB 1: Forensic Timeline & Neatlogs */}
+          {/* Tab 1: Forensic Timeline & Neatlogs Stream */}
           {activeTab === "timeline" && (
             <motion.div
               initial={{ opacity: 0, y: 8 }}
@@ -487,11 +521,11 @@ export default function Dashboard() {
               transition={{ duration: 0.2 }}
               className="grid grid-cols-1 lg:grid-cols-5 gap-6"
             >
-              {/* Left Column: 7-Step Investigation Stepper using AnimatedList */}
+              {/* Left Column: 7-Step Investigation Stepper with AnimatedList */}
               <Card className="lg:col-span-3 p-6 space-y-4">
                 <div className="flex items-center justify-between pb-4 border-b border-zinc-100">
                   <div className="flex items-center gap-2.5">
-                    <div className="p-2 rounded-xl bg-zinc-100 text-zinc-800">
+                    <div className="p-2.5 rounded-xl bg-zinc-100 text-zinc-900">
                       <Terminal className="w-4 h-4" />
                     </div>
                     <div>
@@ -528,12 +562,12 @@ export default function Dashboard() {
                             {step.step === 1 &&
                               `Tx: ${fixture?.oracleUpdateTxHash || "0xbase_oracle_manipulation_tx_001"}`}
                             {step.step === 2 &&
-                              `Pool: ${fixture?.lendingPoolAddress?.slice(0, 18) || "0x333333333333..."}...`}
+                              `Pool: ${fixture?.lendingPoolAddress?.slice(0, 18) || "0x333333333333…"}…`}
                             {step.step === 5 && "All borrowers verified healthy at $2,000 baseline"}
                             {step.step === 6 &&
                               `Approved Restitution: $${totalNumeric.toLocaleString("en-US", { minimumFractionDigits: 2 })} USDC`}
                             {step.step === 7 &&
-                              `Root: ${merkleRoot ? merkleRoot.slice(0, 20) + "..." : "0xce5978d1..."}`}
+                              `Root: ${merkleRoot ? merkleRoot.slice(0, 20) + "…" : "0xce5978d1…"}`}
                           </span>
                           <span className="text-zinc-500 font-semibold">{step.duration}</span>
                         </div>
@@ -547,7 +581,7 @@ export default function Dashboard() {
               <Card className="lg:col-span-2 p-6 space-y-4 h-fit">
                 <div className="flex items-center justify-between pb-4 border-b border-zinc-100">
                   <div className="flex items-center gap-2">
-                    <div className="p-2 rounded-xl bg-zinc-100 text-zinc-800">
+                    <div className="p-2.5 rounded-xl bg-zinc-100 text-zinc-900">
                       <Activity className="w-4 h-4" />
                     </div>
                     <div>
@@ -561,7 +595,7 @@ export default function Dashboard() {
                     rel="noopener noreferrer"
                     className="text-xs text-zinc-500 hover:text-zinc-950 flex items-center gap-1 font-mono transition"
                   >
-                    <span>542c53f4...</span>
+                    <span>542c53f4…</span>
                     <ExternalLink className="w-3 h-3" />
                   </a>
                 </div>
@@ -597,7 +631,7 @@ export default function Dashboard() {
                       </div>
                     )) || (
                       <div className="text-zinc-400 text-xs italic py-4 text-center">
-                        Click "Re-run On-Chain Demo" to stream live Neatlogs spans.
+                        Click "Re-run Demo" to stream live Neatlogs spans.
                       </div>
                     )}
                   </div>
@@ -616,7 +650,7 @@ export default function Dashboard() {
             </motion.div>
           )}
 
-          {/* TAB 2: Counterfactual Replay Table */}
+          {/* Tab 2: Counterfactual Replay Table */}
           {activeTab === "replay" && (
             <motion.div
               initial={{ opacity: 0, y: 8 }}
@@ -634,7 +668,7 @@ export default function Dashboard() {
                     </p>
                   </div>
                   <div className="text-xs font-mono text-zinc-700 bg-zinc-100 px-3 py-1.5 rounded-lg border border-zinc-200">
-                    Formula: Restitution = Net Equity (Baseline) - Net Equity (Post-Liq)
+                    Formula: Restitution = Net Equity (Baseline) − Net Equity (Post-Liq)
                   </div>
                 </div>
 
@@ -653,7 +687,7 @@ export default function Dashboard() {
                     <tbody className="divide-y divide-zinc-100">
                       {isBase ? (
                         <tr className="hover:bg-zinc-50/70 transition">
-                          <td className="p-3.5 text-zinc-950 font-semibold">0x7099...79C8</td>
+                          <td className="p-3.5 text-zinc-950 font-semibold">0x7099…79C8</td>
                           <td className="p-3.5 text-zinc-600">3.0 WETH / 3,500 USDC</td>
                           <td className="p-3.5 text-emerald-700 font-semibold">1.371 (Healthy)</td>
                           <td className="p-3.5 text-rose-600 font-semibold">1.234 (Liquidated)</td>
@@ -665,7 +699,7 @@ export default function Dashboard() {
                       ) : (
                         <>
                           <tr className="hover:bg-zinc-50/70 transition">
-                            <td className="p-3.5 text-zinc-950 font-semibold">0x3C44...93BC</td>
+                            <td className="p-3.5 text-zinc-950 font-semibold">0x3C44…93BC</td>
                             <td className="p-3.5 text-zinc-600">10 WETH / 15,000 USDC</td>
                             <td className="p-3.5 text-emerald-700 font-semibold">1.066 (Safe)</td>
                             <td className="p-3.5 text-rose-600 font-semibold">0.960 (Underwater)</td>
@@ -675,7 +709,7 @@ export default function Dashboard() {
                             <td className="p-3.5 text-right text-emerald-700 font-bold">$2,500.00 USDC</td>
                           </tr>
                           <tr className="hover:bg-zinc-50/70 transition">
-                            <td className="p-3.5 text-zinc-950 font-semibold">0x90F7...b906</td>
+                            <td className="p-3.5 text-zinc-950 font-semibold">0x90F7…b906</td>
                             <td className="p-3.5 text-zinc-600">5 WETH / 7,500 USDC</td>
                             <td className="p-3.5 text-emerald-700 font-semibold">1.066 (Safe)</td>
                             <td className="p-3.5 text-rose-600 font-semibold">0.960 (Underwater)</td>
@@ -685,7 +719,7 @@ export default function Dashboard() {
                             <td className="p-3.5 text-right text-emerald-700 font-bold">$1,250.00 USDC</td>
                           </tr>
                           <tr className="hover:bg-zinc-50/70 transition">
-                            <td className="p-3.5 text-zinc-950 font-semibold">0x15d3...6A65</td>
+                            <td className="p-3.5 text-zinc-950 font-semibold">0x15d3…6A65</td>
                             <td className="p-3.5 text-zinc-600">8 WETH / 12,000 USDC</td>
                             <td className="p-3.5 text-emerald-700 font-semibold">1.066 (Safe)</td>
                             <td className="p-3.5 text-rose-600 font-semibold">0.960 (Underwater)</td>
@@ -695,7 +729,7 @@ export default function Dashboard() {
                             <td className="p-3.5 text-right text-emerald-700 font-bold">$2,000.00 USDC</td>
                           </tr>
                           <tr className="hover:bg-zinc-50/70 transition">
-                            <td className="p-3.5 text-zinc-400">0x9965...d016</td>
+                            <td className="p-3.5 text-zinc-400">0x9965…d016</td>
                             <td className="p-3.5 text-zinc-400">10 WETH / 10,000 USDC</td>
                             <td className="p-3.5 text-emerald-700">1.600 (Healthy)</td>
                             <td className="p-3.5 text-emerald-700">1.440 (Healthy)</td>
@@ -705,7 +739,7 @@ export default function Dashboard() {
                             <td className="p-3.5 text-right text-zinc-400">$0.00</td>
                           </tr>
                           <tr className="hover:bg-zinc-50/70 transition">
-                            <td className="p-3.5 text-zinc-400">0x976E...976E</td>
+                            <td className="p-3.5 text-zinc-400">0x976E…976E</td>
                             <td className="p-3.5 text-zinc-400">5 WETH / 8,100 USDC</td>
                             <td className="p-3.5 text-rose-600">0.987 (Insolvent)</td>
                             <td className="p-3.5 text-rose-600">0.888 (Insolvent)</td>
@@ -735,7 +769,7 @@ export default function Dashboard() {
             </motion.div>
           )}
 
-          {/* TAB 3: Cryptographic Claims Portal */}
+          {/* Tab 3: Cryptographic Claims Portal */}
           {activeTab === "claims" && (
             <motion.div
               initial={{ opacity: 0, y: 8 }}
@@ -747,7 +781,7 @@ export default function Dashboard() {
               <Card className="lg:col-span-3 p-6 space-y-5">
                 <div className="flex items-center justify-between pb-4 border-b border-zinc-100">
                   <div className="flex items-center gap-2">
-                    <div className="p-2 rounded-xl bg-zinc-100 text-zinc-800">
+                    <div className="p-2.5 rounded-xl bg-zinc-100 text-zinc-900">
                       <Lock className="w-4 h-4" />
                     </div>
                     <div>
@@ -755,7 +789,7 @@ export default function Dashboard() {
                         Cryptographic Restitution Claim Portal
                       </h3>
                       <p className="text-xs text-zinc-400 font-mono">
-                        Contract: {fixture?.distributorAddress?.slice(0, 16) || "0x00E40210..."}...
+                        Contract: {fixture?.distributorAddress?.slice(0, 16) || "0x00E40210…"}…
                       </p>
                     </div>
                   </div>
@@ -872,8 +906,8 @@ export default function Dashboard() {
                                 <div className="flex items-center gap-2">
                                   <RotateCcw className="w-3.5 h-3.5 animate-spin" />
                                   <span>
-                                    {claimStatus.step === 1 && "Step 1/2: Constructing EIP-712 voucher struct..."}
-                                    {claimStatus.step === 2 && "Step 2/2: Relayer broadcasting claimWithSignature..."}
+                                    {claimStatus.step === 1 && "Step 1/2: Constructing EIP-712 voucher struct…"}
+                                    {claimStatus.step === 2 && "Step 2/2: Relayer broadcasting claimWithSignature…"}
                                   </span>
                                 </div>
                               </div>
@@ -907,7 +941,7 @@ export default function Dashboard() {
               <Card className="lg:col-span-2 p-6 space-y-4 h-fit">
                 <div className="flex items-center justify-between pb-4 border-b border-zinc-100">
                   <div className="flex items-center gap-2">
-                    <div className="p-2 rounded-xl bg-emerald-50 text-emerald-700">
+                    <div className="p-2.5 rounded-xl bg-emerald-50 text-emerald-700">
                       <ShieldCheck className="w-4 h-4" />
                     </div>
                     <div>
@@ -957,7 +991,7 @@ export default function Dashboard() {
             </motion.div>
           )}
 
-          {/* TAB 4: Partner Proof & Unit Economics (The Showcase User Requested) */}
+          {/* Tab 4: Partner Proof & Unit Economics Showcase */}
           {activeTab === "proof" && (
             <motion.div
               initial={{ opacity: 0, y: 8 }}
@@ -991,7 +1025,7 @@ export default function Dashboard() {
                   <div className="space-y-1.5 text-xs text-zinc-700 font-mono">
                     <div className="flex justify-between py-1 border-b border-zinc-100 text-[11px]">
                       <span className="text-zinc-400 font-sans">Project ID:</span>
-                      <span className="text-zinc-900">542c53f4...</span>
+                      <span className="text-zinc-900">542c53f4…</span>
                     </div>
                     <div className="flex justify-between py-1 border-b border-zinc-100 text-[11px]">
                       <span className="text-zinc-400 font-sans">Hierarchy:</span>
@@ -1132,9 +1166,9 @@ export default function Dashboard() {
               </Card>
             </motion.div>
           )}
-        </main>
+        </section>
 
-        {/* ── 7. Modern Understated Footer ─────────────────────────── */}
+        {/* ── 6. Understated Footer ─────────────────────────────────── */}
         <footer className="pt-8 pb-4 border-t border-zinc-200 text-xs text-zinc-500 flex flex-col md:flex-row items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <span className="font-medium text-zinc-700">POA (Proof of Audits)</span>
