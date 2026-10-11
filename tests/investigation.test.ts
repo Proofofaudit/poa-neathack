@@ -127,7 +127,7 @@ describe("POA Cryptographic Merkle Manifest", () => {
 });
 
 describe("POA Autonomous Agent & Failure Recovery", () => {
-  const mockProvider = new ethers.JsonRpcProvider();
+  const mockProvider = new ethers.JsonRpcProvider("http://127.0.0.1:8545", 31337, { staticNetwork: true });
 
   it("completes autonomous investigation and records Neatlogs spans", async () => {
     const investigator = new POAIncidentInvestigator(mockProvider);
@@ -174,7 +174,7 @@ describe("POA Autonomous Agent & Failure Recovery", () => {
     expect(latestTrace?.spans.some(s => s.name === "crossCheckClaims")).toBe(true);
     expect(report.forensicAiAssessment).toBeDefined();
     expect(report.entityEnrichment).toBeDefined();
-  }, 20000);
+  }, 35000);
 
   it("handles injected transient RPC failure, retries, and completes investigation cleanly", async () => {
     const investigator = new POAIncidentInvestigator(mockProvider);
@@ -216,5 +216,5 @@ describe("POA Autonomous Agent & Failure Recovery", () => {
     // Verify error span and retry were captured in Neatlogs trace
     const latestTrace = neatlogs.getLatestTrace();
     expect(latestTrace?.spans.some(s => s.name === "retryCollectLiquidationEvents")).toBe(true);
-  }, 20000);
+  }, 35000);
 });

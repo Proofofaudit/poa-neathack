@@ -36,6 +36,18 @@ export class POAIncidentInvestigator {
     this.failNextRpcCall = enabled;
   }
 
+  private async safeRpcCall<T>(promise: Promise<T>, timeoutMs = 1200): Promise<T | null> {
+    try {
+      const res = await Promise.race([
+        promise,
+        new Promise<never>((_, reject) => setTimeout(() => reject(new Error("RPC_TIMEOUT")), timeoutMs))
+      ]);
+      return res;
+    } catch {
+      return null;
+    }
+  }
+
   /**
    * Autonomous Investigation Workflow
    */
@@ -77,11 +89,27 @@ export class POAIncidentInvestigator {
       const incidentTxData = await neatlogs.traceSpan("inspectIncidentTransaction", "TOOL", {
         txHash: params.incidentTxHash
       }, async () => {
+        let blockNumber = 0;
+        let timestamp = Date.now();
+        let gasUsed = "0";
+
+        if (this.provider && ethers.isHexString(params.incidentTxHash, 32)) {
+          const receipt = await this.safeRpcCall(this.provider.getTransactionReceipt(params.incidentTxHash));
+          if (receipt) {
+            blockNumber = receipt.blockNumber;
+            gasUsed = receipt.gasUsed.toString();
+            const block = await this.safeRpcCall(this.provider.getBlock(receipt.blockNumber));
+            if (block) timestamp = block.timestamp * 1000;
+          }
+        }
+
         return {
           txHash: params.incidentTxHash,
           action: "ORACLE_PRICE_UPDATE",
           targetContract: params.oracleAddress,
-          timestamp: Date.now()
+          blockNumber,
+          gasUsed,
+          timestamp
         };
       });
 
@@ -89,14 +117,40 @@ export class POAIncidentInvestigator {
       const oracleState = await neatlogs.traceSpan("readContractState", "TOOL", {
         oracleAddress: params.oracleAddress
       }, async () => {
+        let baseline = params.baselinePrice || 200000000000n;
+        let faulty = 180000000000n;
+        let threshold = 8000n;
+
+        if (this.provider && ethers.isAddress(params.oracleAddress)) {
+          try {
+            const oracle = new ethers.Contract(params.oracleAddress, [
+              "function currentPrice() view returns (uint256)",
+              "function getAssetPrice(address) view returns (uint256)",
+              "function latestRoundData() view returns (uint80, int256, uint256, uint256, uint80)"
+            ], this.provider);
+
+            const curPrice = await this.safeRpcCall(oracle.currentPrice());
+            if (curPrice && curPrice > 0n) {
+              faulty = BigInt(curPrice.toString());
+            } else {
+              const roundData = await this.safeRpcCall(oracle.latestRoundData());
+              if (roundData && roundData[1] > 0n) {
+                faulty = BigInt(roundData[1].toString());
+              }
+            }
+          } catch {
+            // Keep fallback defaults
+          }
+        }
+
         return {
-          baselinePrice: params.baselinePrice || 200000000000n, // $2000.00
-          faultyPrice: 180000000000n,                         // $1800.00
-          liquidationThresholdBps: 8000n                       // 80%
+          baselinePrice: baseline,
+          faultyPrice: faulty,
+          liquidationThresholdBps: threshold
         };
       });
 
-      // 3. Tool: collectLiquidationEvents (With simulated transient failure & retry resilience)
+      // 3. Tool: collectLiquidationEvents (With real on-chain log filtering & retry resilience)
       const liquidationEvents = await neatlogs.traceSpan("collectLiquidationEvents", "TOOL", {
         poolAddress: params.poolAddress
       }, async () => {
@@ -105,6 +159,41 @@ export class POAIncidentInvestigator {
           this.failNextRpcCall = false; // Reset so next retry succeeds
           throw new Error("RPC_TIMEOUT: JSON-RPC connection terminated unexpectedly (simulated network partition)");
         }
+
+        // Check on-chain logs if pool is deployed and no fixtures passed
+        if ((!params.simulatedLiquidations || params.simulatedLiquidations.length === 0) && this.provider && ethers.isAddress(params.poolAddress)) {
+          try {
+            const pool = new ethers.Contract(params.poolAddress, [
+              "event Liquidation(address indexed liquidator, address indexed borrower, uint256 debtCovered, uint256 collateralSeized, uint256 oraclePriceUsed)",
+              "event LiquidationCall(address indexed collateralAsset, address indexed debtAsset, address indexed user, uint256 debtToCover, uint256 liquidatedCollateralAmount, address liquidator, bool receiveAToken)"
+            ], this.provider);
+
+            const filter = pool.filters.Liquidation ? pool.filters.Liquidation() : pool.filters.LiquidationCall();
+            const currentBlock = await this.safeRpcCall(this.provider.getBlockNumber());
+            if (currentBlock !== null) {
+              const fromBlock = Math.max(0, currentBlock - 50);
+              const logs = await this.safeRpcCall(pool.queryFilter(filter, fromBlock, currentBlock));
+
+              if (logs && logs.length > 0) {
+                return logs.map((log: any) => {
+                  const parsed = pool.interface.parseLog(log);
+                  return {
+                    txHash: log.transactionHash,
+                    blockNumber: log.blockNumber,
+                    liquidator: parsed?.args?.liquidator || "0x0000000000000000000000000000000000000000",
+                    borrower: parsed?.args?.borrower || parsed?.args?.user || "0x0000000000000000000000000000000000000000",
+                    debtCovered: BigInt(parsed?.args?.debtCovered || parsed?.args?.debtToCover || 0),
+                    collateralSeized: BigInt(parsed?.args?.collateralSeized || parsed?.args?.liquidatedCollateralAmount || 0),
+                    oraclePriceUsed: BigInt(parsed?.args?.oraclePriceUsed || oracleState.faultyPrice)
+                  };
+                });
+              }
+            }
+          } catch {
+            // Keep fallback
+          }
+        }
+
         return params.simulatedLiquidations || [];
       }).catch(async (initialErr) => {
         // Retry logic: bounded retry with backoff
@@ -125,8 +214,8 @@ export class POAIncidentInvestigator {
         return Array.from(new Set(liquidationEvents.map(e => e.borrower)));
       });
 
-      // 4b. Tool: Crustdata Entity & MEV Intelligence
-      const entityEnrichment = await crustdata.enrichEntities(affectedAccounts);
+      // 4b. Tool: Crustdata Entity & MEV Intelligence (with bytecode inspection)
+      const entityEnrichment = await crustdata.enrichEntities(affectedAccounts, "DemoLendingPool", this.provider);
 
       // 5. Tool & Chain: replayCounterfactual
       const analysisResults: RestitutionClaimResult[] = [];
@@ -137,7 +226,29 @@ export class POAIncidentInvestigator {
       }, async () => {
         let index = 0;
         for (const borrowerAddr of affectedAccounts) {
-          const borrowerPos = params.knownBorrowers?.find(b => b.account.toLowerCase() === borrowerAddr.toLowerCase());
+          let borrowerPos = params.knownBorrowers?.find(b => b.account.toLowerCase() === borrowerAddr.toLowerCase());
+          
+          // If not in knownBorrowers fixture, attempt live state query on pool contract
+          if (!borrowerPos && this.provider && ethers.isAddress(params.poolAddress)) {
+            try {
+              const pool = new ethers.Contract(params.poolAddress, [
+                "function userCollateral(address) view returns (uint256)",
+                "function userDebt(address) view returns (uint256)"
+              ], this.provider);
+              const col = await this.safeRpcCall(pool.userCollateral(borrowerAddr));
+              const dbt = await this.safeRpcCall(pool.userDebt(borrowerAddr));
+              if (col !== null && dbt !== null) {
+                borrowerPos = {
+                  account: borrowerAddr,
+                  collateral: BigInt(col.toString()),
+                  debt: BigInt(dbt.toString())
+                };
+              }
+            } catch {
+              // Graceful fallback
+            }
+          }
+
           const liqEvent = liquidationEvents.find(e => e.borrower.toLowerCase() === borrowerAddr.toLowerCase());
 
           if (borrowerPos) {
@@ -149,7 +260,11 @@ export class POAIncidentInvestigator {
                 debtBase: borrowerPos.debt
               },
               liqEvent,
-              oracleState.faultyPrice
+              {
+                baselinePriceUsd8Dec: oracleState.baselinePrice,
+                faultyPriceUsd8Dec: oracleState.faultyPrice,
+                liquidationThresholdBps: oracleState.liquidationThresholdBps
+              }
             );
 
             analysisResults.push(analysis);
@@ -200,8 +315,8 @@ export class POAIncidentInvestigator {
             oracleAddress: params.oracleAddress,
             poolAddress: params.poolAddress,
             payoutToken: params.distributorAddress,
-            baselinePriceUsd: (Number(params.baselinePrice || 200000000000n) / 1e8).toFixed(2),
-            faultyPriceUsd: "1800.00",
+            baselinePriceUsd: (Number(oracleState.baselinePrice) / 1e8).toFixed(2),
+            faultyPriceUsd: (Number(oracleState.faultyPrice) / 1e8).toFixed(2),
             claims: analysisResults,
             merkleManifest,
             traceId: neatlogs.getLatestTrace()?.traceId

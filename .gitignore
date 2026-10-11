@@ -9,4 +9,5 @@ contracts/cache/
 .env
 .env.local
 *.log
+*.tsbuildinfo
 .DS_Store

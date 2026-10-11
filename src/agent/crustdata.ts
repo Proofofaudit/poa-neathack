@@ -4,13 +4,14 @@ dotenv.config();
 
 export interface EnrichedEntityProfile {
   addressOrIdentifier: string;
-  entityType: "INSTITUTIONAL_MARKET_MAKER" | "DEFI_PROTOCOL" | "RETAIL_BORROWER" | "MEV_SEARCHER_BOT";
+  entityType: "INSTITUTIONAL_MARKET_MAKER" | "DEFI_PROTOCOL" | "RETAIL_BORROWER" | "MEV_SEARCHER_BOT" | "CONTRACT_VAULT";
   companyName?: string;
   headquarters?: string;
   estimatedAUM?: string;
   riskRating: "LOW" | "MEDIUM" | "HIGH";
   isVerifiedEntity: boolean;
-  source: "CRUSTDATA_API" | "ON_CHAIN_LABEL_REGISTRY";
+  isContract?: boolean;
+  source: "CRUSTDATA_API" | "ON_CHAIN_BYTECODE_INSPECTION" | "ON_CHAIN_LABEL_REGISTRY";
 }
 
 export class CrustdataEnricher {
@@ -21,11 +22,12 @@ export class CrustdataEnricher {
   }
 
   /**
-   * Enriches liquidated borrower accounts and liquidator addresses with Crustdata entity intelligence.
+   * Enriches borrower accounts and liquidator addresses with bytecode analysis and Crustdata entity intelligence.
    */
   public async enrichEntities(
     addresses: string[],
-    protocolName = "DemoLendingPool"
+    protocolName = "DemoLendingPool",
+    provider?: any
   ): Promise<Record<string, EnrichedEntityProfile>> {
     return await neatlogs.traceSpan("enrichIncidentWithCrustdata", "TOOL", {
       addressesCount: addresses.length,
@@ -35,21 +37,29 @@ export class CrustdataEnricher {
       const results: Record<string, EnrichedEntityProfile> = {};
 
       for (const addr of addresses) {
-        // In production, queries Crustdata's Company/People Intelligence API
-        // https://api.crustdata.com/screener/company
         const normalized = addr.toLowerCase();
 
-        // High-profile liquidator identification
-        if (normalized === "0x70997970c51812dc3a010c7d01b50e0d17dc79c8".toLowerCase()) {
+        // 1. Inspect on-chain bytecode if provider is available
+        let isContract = false;
+        if (provider && typeof provider.getCode === "function") {
+          try {
+            const code = await provider.getCode(addr);
+            isContract = Boolean(code && code !== "0x" && code !== "0x0");
+          } catch {
+            isContract = false;
+          }
+        }
+
+        // 2. Classify entity based on bytecode and known labels
+        if (isContract) {
           results[addr] = {
             addressOrIdentifier: addr,
-            entityType: "INSTITUTIONAL_MARKET_MAKER",
-            companyName: "FlashLiquidator MEV Fund",
-            headquarters: "George Town, Cayman Islands",
-            estimatedAUM: "$45M - $100M",
+            entityType: "MEV_SEARCHER_BOT",
+            companyName: "Automated Flash-Liquidation Engine",
             riskRating: "LOW",
             isVerifiedEntity: true,
-            source: this.apiKey ? "CRUSTDATA_API" : "ON_CHAIN_LABEL_REGISTRY"
+            isContract: true,
+            source: "ON_CHAIN_BYTECODE_INSPECTION"
           };
         } else {
           results[addr] = {
@@ -57,6 +67,7 @@ export class CrustdataEnricher {
             entityType: "RETAIL_BORROWER",
             riskRating: "LOW",
             isVerifiedEntity: false,
+            isContract: false,
             source: "ON_CHAIN_LABEL_REGISTRY"
           };
         }

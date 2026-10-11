@@ -84,15 +84,14 @@ export class MerkleManifestGenerator {
     incidentId: string,
     proof: string[]
   ): boolean {
-    const claimValues: Array<[number, string, string, string]> = [[
-      claimIndex,
-      ethers.getAddress(claimant),
-      amount.toString(),
-      incidentId
-    ]];
-    const tempTree = StandardMerkleTree.of(claimValues, ["uint256", "address", "uint256", "bytes32"]);
-    // Leaf is the keccak256 hash
-    const leaf = tempTree.leafHash([claimIndex, ethers.getAddress(claimant), amount.toString(), incidentId]);
-    return StandardMerkleTree.verify(merkleRoot, ["uint256", "address", "uint256", "bytes32"], [claimIndex, ethers.getAddress(claimant), amount.toString(), incidentId], proof);
+    if (!ethers.isHexString(incidentId, 32)) {
+      throw new Error(`Invalid incidentId format: expected 32-byte hex string, got ${incidentId}`);
+    }
+    return StandardMerkleTree.verify(
+      merkleRoot,
+      ["uint256", "address", "uint256", "bytes32"],
+      [claimIndex, ethers.getAddress(claimant), amount.toString(), incidentId],
+      proof
+    );
   }
 }

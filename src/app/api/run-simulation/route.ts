@@ -9,6 +9,14 @@ const execPromise = util.promisify(exec);
 export const dynamic = "force-dynamic";
 
 export async function POST(req: NextRequest) {
+  // Production guard: prevent shell execution in live production environments unless explicitly authorized
+  if (process.env.NODE_ENV === "production" && process.env.ALLOW_PROD_SIMULATION !== "true") {
+    return NextResponse.json({
+      success: false,
+      error: "Simulation execution is restricted in production mode for infrastructure safety. Run in development mode or supply ALLOW_PROD_SIMULATION=true."
+    }, { status: 403 });
+  }
+
   try {
     let network = "anvil";
     try {

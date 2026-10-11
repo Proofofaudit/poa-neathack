@@ -32,27 +32,61 @@ export interface RestitutionClaimResult {
   reason: string;
 }
 
+export interface IncidentAnalysisConfig {
+  collateralDecimals?: number;
+  debtDecimals?: number;
+  liquidationThresholdBps?: bigint;
+  baselinePriceUsd8Dec?: bigint;
+  faultyPriceUsd8Dec?: bigint;
+}
+
 export class CounterfactualReplayEngine {
   public static readonly BPS_DENOMINATOR = 10000n;
-  public static readonly LIQUIDATION_THRESHOLD_BPS = 8000n; // 80% LTV
-  public static readonly REFERENCE_BASELINE_PRICE = 200000000000n; // $2,000.00 in 8 decimals (2000 * 1e8)
+  public static readonly DEFAULT_LIQUIDATION_THRESHOLD_BPS = 8000n; // 80% LTV
+  public static readonly DEFAULT_BASELINE_PRICE = 200000000000n; // $2,000.00 in 8 decimals (2000 * 1e8)
+
+  /**
+   * Scale debt amount to 8 decimals USD
+   */
+  public static scaleDebtToUsd8Dec(debtAmount: bigint, debtDecimals = 6): bigint {
+    const dec = BigInt(debtDecimals);
+    if (dec <= 8n) {
+      return debtAmount * 10n ** (8n - dec);
+    }
+    return debtAmount / 10n ** (dec - 8n);
+  }
+
+  /**
+   * Scale 8-decimal USD equity delta back to debt token units
+   */
+  public static scaleUsd8DecToDebtTokens(usd8Dec: bigint, debtDecimals = 6): bigint {
+    const dec = BigInt(debtDecimals);
+    if (dec <= 8n) {
+      return usd8Dec / 10n ** (8n - dec);
+    }
+    return usd8Dec * 10n ** (dec - 8n);
+  }
 
   /**
    * Calculate health factor scaled by 1e18
    * HF = (Collateral Value * Threshold) / Debt Value
    */
   public static calculateHealthFactor(
-    collateralWeth: bigint,
-    debtUsdc: bigint,
-    priceUsd8Dec: bigint
+    collateralAmount: bigint,
+    debtAmount: bigint,
+    priceUsd8Dec: bigint,
+    thresholdBps = 8000n,
+    collateralDecimals = 18,
+    debtDecimals = 6
   ): bigint {
-    if (debtUsdc === 0n) {
+    if (debtAmount === 0n) {
       return 115792089237316195423570985008687907853269984665640564039457584007913129639935n; // max uint256
     }
     // Collateral value in 8 decimals USD
-    const collateralValueUsd = (collateralWeth * priceUsd8Dec) / 10n ** 18n;
-    const maxBorrowUsd = (collateralValueUsd * this.LIQUIDATION_THRESHOLD_BPS) / this.BPS_DENOMINATOR;
-    const debtValueUsd = debtUsdc * 100n; // 6 decimals to 8 decimals
+    const collateralValueUsd = (collateralAmount * priceUsd8Dec) / 10n ** BigInt(collateralDecimals);
+    const maxBorrowUsd = (collateralValueUsd * thresholdBps) / this.BPS_DENOMINATOR;
+    const debtValueUsd = this.scaleDebtToUsd8Dec(debtAmount, debtDecimals);
+    if (debtValueUsd === 0n) return 115792089237316195423570985008687907853269984665640564039457584007913129639935n;
     return (maxBorrowUsd * 10n ** 18n) / debtValueUsd;
   }
 
@@ -61,12 +95,14 @@ export class CounterfactualReplayEngine {
    * Net Equity = (Collateral * RefPrice) - Debt
    */
   public static calculateNetEquity(
-    collateralWeth: bigint,
-    debtUsdc: bigint,
-    refPriceUsd8Dec: bigint
+    collateralAmount: bigint,
+    debtAmount: bigint,
+    refPriceUsd8Dec: bigint,
+    collateralDecimals = 18,
+    debtDecimals = 6
   ): bigint {
-    const collateralValueUsd = (collateralWeth * refPriceUsd8Dec) / 10n ** 18n;
-    const debtValueUsd = debtUsdc * 100n;
+    const collateralValueUsd = (collateralAmount * refPriceUsd8Dec) / 10n ** BigInt(collateralDecimals);
+    const debtValueUsd = this.scaleDebtToUsd8Dec(debtAmount, debtDecimals);
     return collateralValueUsd - debtValueUsd;
   }
 
@@ -77,13 +113,36 @@ export class CounterfactualReplayEngine {
     claimIndex: number,
     initialPos: BorrowerPosition,
     liqEvent?: LiquidationEventRecord,
-    faultyPriceUsd8Dec = 180000000000n // $1,800.00
+    configOrFaultyPrice?: bigint | IncidentAnalysisConfig
   ): RestitutionClaimResult {
+    // Normalizing config arguments
+    let baselinePrice = this.DEFAULT_BASELINE_PRICE;
+    let faultyPrice = 180000000000n;
+    let thresholdBps = this.DEFAULT_LIQUIDATION_THRESHOLD_BPS;
+    let collateralDec = 18;
+    let debtDec = 6;
+
+    if (typeof configOrFaultyPrice === "bigint") {
+      faultyPrice = configOrFaultyPrice;
+    } else if (configOrFaultyPrice && typeof configOrFaultyPrice === "object") {
+      if (configOrFaultyPrice.baselinePriceUsd8Dec) baselinePrice = configOrFaultyPrice.baselinePriceUsd8Dec;
+      if (configOrFaultyPrice.faultyPriceUsd8Dec) faultyPrice = configOrFaultyPrice.faultyPriceUsd8Dec;
+      if (configOrFaultyPrice.liquidationThresholdBps) thresholdBps = configOrFaultyPrice.liquidationThresholdBps;
+      if (configOrFaultyPrice.collateralDecimals) collateralDec = configOrFaultyPrice.collateralDecimals;
+      if (configOrFaultyPrice.debtDecimals) debtDec = configOrFaultyPrice.debtDecimals;
+    }
+
     const baselineHF = this.calculateHealthFactor(
       initialPos.collateralBase,
       initialPos.debtBase,
-      this.REFERENCE_BASELINE_PRICE
+      baselinePrice,
+      thresholdBps,
+      collateralDec,
+      debtDec
     );
+
+    const baselinePriceStr = (Number(baselinePrice) / 1e8).toFixed(2);
+    const faultyPriceStr = (Number(faultyPrice) / 1e8).toFixed(2);
 
     // If borrower did not experience a liquidation
     if (!liqEvent) {
@@ -94,12 +153,12 @@ export class CounterfactualReplayEngine {
         initialDebtUsdc: initialPos.debtBase.toString(),
         collateralSeizedWeth: "0",
         debtRepaidUsdc: "0",
-        baselinePriceUsd: "2000.00",
-        faultyPriceUsd: "1800.00",
+        baselinePriceUsd: baselinePriceStr,
+        faultyPriceUsd: faultyPriceStr,
         baselineHealthFactor: (Number(baselineHF) / 1e18).toFixed(4),
-        faultyHealthFactor: (Number(this.calculateHealthFactor(initialPos.collateralBase, initialPos.debtBase, faultyPriceUsd8Dec)) / 1e18).toFixed(4),
-        observedNetEquityUsd: (Number(this.calculateNetEquity(initialPos.collateralBase, initialPos.debtBase, this.REFERENCE_BASELINE_PRICE)) / 1e8).toFixed(2),
-        counterfactualNetEquityUsd: (Number(this.calculateNetEquity(initialPos.collateralBase, initialPos.debtBase, this.REFERENCE_BASELINE_PRICE)) / 1e8).toFixed(2),
+        faultyHealthFactor: (Number(this.calculateHealthFactor(initialPos.collateralBase, initialPos.debtBase, faultyPrice, thresholdBps, collateralDec, debtDec)) / 1e18).toFixed(4),
+        observedNetEquityUsd: (Number(this.calculateNetEquity(initialPos.collateralBase, initialPos.debtBase, baselinePrice, collateralDec, debtDec)) / 1e8).toFixed(2),
+        counterfactualNetEquityUsd: (Number(this.calculateNetEquity(initialPos.collateralBase, initialPos.debtBase, baselinePrice, collateralDec, debtDec)) / 1e8).toFixed(2),
         restitutionAmountUsdc: 0n,
         status: "EXCLUDED_LEGITIMATE",
         reason: "Position maintained healthy collateral buffer; no liquidation occurred."
@@ -117,20 +176,24 @@ export class CounterfactualReplayEngine {
     const counterfactualEquity = this.calculateNetEquity(
       initialPos.collateralBase,
       initialPos.debtBase,
-      this.REFERENCE_BASELINE_PRICE
+      baselinePrice,
+      collateralDec,
+      debtDec
     );
 
     const observedEquity = this.calculateNetEquity(
       remainingCollateral,
       remainingDebt,
-      this.REFERENCE_BASELINE_PRICE
+      baselinePrice,
+      collateralDec,
+      debtDec
     );
 
     // Equity loss attributable to the incident
     const equityLoss8Dec = counterfactualEquity > observedEquity ? counterfactualEquity - observedEquity : 0n;
 
-    // Restitution in USDC (convert 8 decimals USD equity delta to 6 decimals USDC)
-    const restitutionUsdc = equityLoss8Dec / 100n;
+    // Restitution in debt tokens
+    const restitutionAmount = this.scaleUsd8DecToDebtTokens(equityLoss8Dec, debtDec);
 
     if (!wasSafeAtBaseline) {
       return {
@@ -140,15 +203,15 @@ export class CounterfactualReplayEngine {
         initialDebtUsdc: initialPos.debtBase.toString(),
         collateralSeizedWeth: liqEvent.collateralSeized.toString(),
         debtRepaidUsdc: liqEvent.debtCovered.toString(),
-        baselinePriceUsd: "2000.00",
-        faultyPriceUsd: "1800.00",
+        baselinePriceUsd: baselinePriceStr,
+        faultyPriceUsd: faultyPriceStr,
         baselineHealthFactor: (Number(baselineHF) / 1e18).toFixed(4),
-        faultyHealthFactor: (Number(this.calculateHealthFactor(initialPos.collateralBase, initialPos.debtBase, faultyPriceUsd8Dec)) / 1e18).toFixed(4),
+        faultyHealthFactor: (Number(this.calculateHealthFactor(initialPos.collateralBase, initialPos.debtBase, faultyPrice, thresholdBps, collateralDec, debtDec)) / 1e18).toFixed(4),
         observedNetEquityUsd: (Number(observedEquity) / 1e8).toFixed(2),
         counterfactualNetEquityUsd: (Number(counterfactualEquity) / 1e8).toFixed(2),
         restitutionAmountUsdc: 0n,
         status: "EXCLUDED_LEGITIMATE",
-        reason: "Position was already undercollateralized at baseline ($2000). Liquidation was economically legitimate."
+        reason: `Position was already undercollateralized at baseline ($${baselinePriceStr}). Liquidation was economically legitimate.`
       };
     }
 
@@ -159,13 +222,13 @@ export class CounterfactualReplayEngine {
       initialDebtUsdc: initialPos.debtBase.toString(),
       collateralSeizedWeth: liqEvent.collateralSeized.toString(),
       debtRepaidUsdc: liqEvent.debtCovered.toString(),
-      baselinePriceUsd: "2000.00",
-      faultyPriceUsd: "1800.00",
+      baselinePriceUsd: baselinePriceStr,
+      faultyPriceUsd: faultyPriceStr,
       baselineHealthFactor: (Number(baselineHF) / 1e18).toFixed(4),
-      faultyHealthFactor: (Number(this.calculateHealthFactor(initialPos.collateralBase, initialPos.debtBase, faultyPriceUsd8Dec)) / 1e18).toFixed(4),
+      faultyHealthFactor: (Number(this.calculateHealthFactor(initialPos.collateralBase, initialPos.debtBase, faultyPrice, thresholdBps, collateralDec, debtDec)) / 1e18).toFixed(4),
       observedNetEquityUsd: (Number(observedEquity) / 1e8).toFixed(2),
       counterfactualNetEquityUsd: (Number(counterfactualEquity) / 1e8).toFixed(2),
-      restitutionAmountUsdc: restitutionUsdc,
+      restitutionAmountUsdc: restitutionAmount,
       status: "VERIFIED",
       reason: `Wrongful liquidation triggered by faulty oracle drop. Provable net equity loss: ${(Number(equityLoss8Dec) / 1e8).toFixed(2)} USD.`
     };
