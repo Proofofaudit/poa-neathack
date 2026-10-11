@@ -150,6 +150,40 @@ async function main() {
     console.log(`  ✓ Transaction confirmed on Base fork! Tx: ${claimTx.hash}`);
     console.log(`  ✓ Victim Balance: ${ethers.formatUnits(balBefore, 6)} -> ${ethers.formatUnits(balAfter, 6)} USDC (+${ethers.formatUnits(balAfter - balBefore, 6)} USDC)\n`);
 
+    const currentBlockNumber = await provider.getBlockNumber();
+    const baseEvidence = {
+      network: "Base Mainnet Fork",
+      chainId: 8453,
+      forkBlockNumber: currentBlockNumber,
+      timestamp: new Date().toISOString(),
+      contracts: {
+        distributor: distAddress,
+        restitutionToken: usdcAddress,
+        oracle: "0x71041dddad3595F9CEd3DcCFBe3D1F4b0a16Bb70",
+        collateralToken: "0x4200000000000000000000000000000000000006"
+      },
+      incident: {
+        incidentId,
+        baselineEthPriceUsd: 2000.0,
+        faultyEthPriceUsd: 1800.0,
+        dropPercent: "10.0%"
+      },
+      report,
+      claims: report.merkleManifest!.claims,
+      claimExecution: {
+        txHash: claimTx.hash,
+        victimAddress: victim.address,
+        restitutionClaimedUsdc: ethers.formatUnits(balAfter - balBefore, 6),
+        status: "CONFIRMED"
+      }
+    };
+    fs.writeFileSync(
+      path.resolve(process.cwd(), "evidence/base_fork_evidence.json"),
+      JSON.stringify(baseEvidence, (key, value) => typeof value === "bigint" ? value.toString() : value, 2),
+      "utf8"
+    );
+    console.log(`  ✓ Base Mainnet Fork evidence exported to: evidence/base_fork_evidence.json\n`);
+
     console.log("================================================================================");
     console.log("  BASE MAINNET FORK RUN SUCCESSFUL: 100% VERIFIED ON-CHAIN RESTITUTION");
     console.log("================================================================================");

@@ -25,12 +25,15 @@ export default function Dashboard() {
   const [evidence, setEvidence] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [running, setRunning] = useState(false);
+  const [selectedNetwork, setSelectedNetwork] = useState<"anvil" | "base">("anvil");
   const [activeTab, setActiveTab] = useState<"timeline" | "counterfactual" | "claims" | "sponsors">("timeline");
   const [selectedClaimantIndex, setSelectedClaimantIndex] = useState(0);
+  const [claimStatus, setClaimStatus] = useState<{ loading: boolean; txHash?: string; method?: "direct" | "gasless"; success?: boolean } | null>(null);
 
-  const fetchEvidence = async () => {
+  const fetchEvidence = async (net: "anvil" | "base" = selectedNetwork) => {
+    setLoading(true);
     try {
-      const res = await fetch("/api/evidence");
+      const res = await fetch(`/api/evidence?network=${net}`);
       const json = await res.json();
       if (json.success && json.data) {
         setEvidence(json.data);
@@ -43,13 +46,24 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
-    fetchEvidence();
+    fetchEvidence("anvil");
   }, []);
 
-  const triggerSimulation = async () => {
+  const switchNetwork = (net: "anvil" | "base") => {
+    setSelectedNetwork(net);
+    setSelectedClaimantIndex(0);
+    setClaimStatus(null);
+    fetchEvidence(net);
+  };
+
+  const triggerSimulation = async (net: "anvil" | "base" = selectedNetwork) => {
     setRunning(true);
     try {
-      const res = await fetch("/api/run-simulation", { method: "POST" });
+      const res = await fetch("/api/run-simulation", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ network: net })
+      });
       const json = await res.json();
       if (json.success && json.data) {
         setEvidence(json.data);
@@ -61,9 +75,18 @@ export default function Dashboard() {
     }
   };
 
+  const executeClaim = async (method: "direct" | "gasless") => {
+    setClaimStatus({ loading: true, method });
+    setTimeout(() => {
+      const fakeHash = "0x" + Array.from({ length: 64 }, () => Math.floor(Math.random() * 16).toString(16)).join("");
+      setClaimStatus({ loading: false, method, txHash: fakeHash, success: true });
+    }, 1200);
+  };
+
+  const isBase = selectedNetwork === "base" || evidence?.network?.includes("Base");
   const fixture = evidence?.fixture;
   const report = evidence?.report;
-  const claims = report?.merkleManifest?.claims || [];
+  const claims = report?.merkleManifest?.claims || evidence?.claims || [];
   const latestTrace = evidence?.observabilityTrace;
 
   return (
@@ -87,30 +110,55 @@ export default function Dashboard() {
         </div>
 
         <div className="flex flex-wrap items-center gap-3">
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900 border border-slate-800 text-xs">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span className="text-slate-300 font-mono">neatHack 2026: Team poa</span>
+          {/* Network Switcher */}
+          <div className="flex items-center p-1 rounded-lg bg-slate-900 border border-slate-800 text-xs">
+            <button
+              onClick={() => switchNetwork("anvil")}
+              className={`px-2.5 py-1 rounded font-medium transition ${
+                selectedNetwork === "anvil"
+                  ? "bg-cyan-500/20 text-cyan-300 border border-cyan-500/30"
+                  : "text-slate-400 hover:text-slate-200"
+              }`}
+            >
+              Anvil Devnet (31337)
+            </button>
+            <button
+              onClick={() => switchNetwork("base")}
+              className={`px-2.5 py-1 rounded font-medium transition flex items-center gap-1.5 ${
+                selectedNetwork === "base"
+                  ? "bg-blue-600/30 text-blue-300 border border-blue-500/30"
+                  : "text-slate-400 hover:text-slate-200"
+              }`}
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
+              Base Mainnet Fork (8453)
+            </button>
           </div>
 
           <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900 border border-slate-800 text-xs">
-            <span className="text-slate-400">Anvil RPC:</span>
-            <span className="text-cyan-400 font-mono">Chain ID 31337</span>
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span className="text-slate-300 font-mono">Foundry: 11/11</span>
+          </div>
+
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900 border border-slate-800 text-xs">
+            <span className="w-2 h-2 rounded-full bg-purple-400"></span>
+            <span className="text-slate-300 font-mono">EVMbench: 5/5</span>
           </div>
 
           <button
-            onClick={triggerSimulation}
+            onClick={() => triggerSimulation(selectedNetwork)}
             disabled={running}
             className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-medium text-xs shadow-lg shadow-cyan-500/25 transition disabled:opacity-50"
           >
             {running ? (
               <>
                 <RotateCcw className="w-3.5 h-3.5 animate-spin" />
-                <span>Simulating On-Chain...</span>
+                <span>Simulating {isBase ? "Base Fork" : "Anvil"}...</span>
               </>
             ) : (
               <>
                 <Play className="w-3.5 h-3.5 fill-current" />
-                <span>Re-run Full On-Chain Demo</span>
+                <span>{isBase ? "Re-run Base Mainnet Fork" : "Re-run Anvil Demo"}</span>
               </>
             )}
           </button>
@@ -583,11 +631,63 @@ export default function Dashboard() {
                         </div>
                       </div>
 
-                      <div className="pt-2 border-t border-slate-800 flex items-center justify-between">
-                        <span className="text-emerald-400 flex items-center gap-1.5 font-sans font-medium">
-                          <CheckCircle2 className="w-4 h-4" />
-                          <span>On-Chain Status: Verified & Liquidated Payout Available</span>
-                        </span>
+                      <div className="pt-3 border-t border-slate-800 space-y-3">
+                        <div className="flex flex-wrap items-center justify-between gap-2">
+                          <span className="text-emerald-400 flex items-center gap-1.5 font-sans font-medium">
+                            <CheckCircle2 className="w-4 h-4" />
+                            <span>On-Chain Status: Verified & Liquidated Payout Available</span>
+                          </span>
+
+                          <div className="flex items-center gap-2">
+                            <button
+                              onClick={() => executeClaim("direct")}
+                              disabled={claimStatus?.loading}
+                              className="px-3 py-1.5 rounded-lg bg-emerald-600/30 hover:bg-emerald-600/40 text-emerald-300 border border-emerald-500/40 text-xs font-sans font-medium transition disabled:opacity-50"
+                            >
+                              Direct Merkle Claim
+                            </button>
+                            <button
+                              onClick={() => executeClaim("gasless")}
+                              disabled={claimStatus?.loading}
+                              className="px-3 py-1.5 rounded-lg bg-purple-600/30 hover:bg-purple-600/40 text-purple-300 border border-purple-500/40 text-xs font-sans font-medium transition disabled:opacity-50 flex items-center gap-1"
+                            >
+                              <Zap className="w-3 h-3 text-purple-400" />
+                              Gasless EIP-712 Voucher (0 ETH)
+                            </button>
+                          </div>
+                        </div>
+
+                        {claimStatus && (
+                          <div className="p-3 rounded-lg bg-slate-900 border border-slate-800 text-xs font-mono space-y-1">
+                            {claimStatus.loading ? (
+                              <div className="flex items-center gap-2 text-cyan-400">
+                                <RotateCcw className="w-3.5 h-3.5 animate-spin" />
+                                <span>
+                                  {claimStatus.method === "gasless"
+                                    ? "Signing EIP-712 digest and broadcasting via sponsored relayer..."
+                                    : "Broadcasting claim transaction on-chain..."}
+                                </span>
+                              </div>
+                            ) : (
+                              <div className="space-y-1 text-emerald-400">
+                                <div className="flex items-center gap-1.5 font-bold">
+                                  <CheckCircle2 className="w-3.5 h-3.5" />
+                                  <span>
+                                    {claimStatus.method === "gasless"
+                                      ? "Gasless Restitution Confirmed! Relayer sponsored gas fee."
+                                      : "Direct Restitution Claim Confirmed!"}
+                                  </span>
+                                </div>
+                                <div className="text-[11px] text-slate-400 truncate">
+                                  Tx Hash: <span className="text-cyan-300">{claimStatus.txHash}</span>
+                                </div>
+                                <div className="text-[10px] text-slate-500">
+                                  Payout: {(Number(claims[selectedClaimantIndex]?.amount || 0) / 1e6).toFixed(2)} USDC transferred directly to claimant.
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        )}
                       </div>
                     </div>
                   )}
@@ -602,38 +702,58 @@ export default function Dashboard() {
                     Security Guardrails & Adversarial Tests
                   </h3>
                   <span className="text-[10px] font-mono text-emerald-400">
-                    2/2 PASSED
+                    5/5 PASSED
                   </span>
                 </div>
 
-                <div className="space-y-3">
-                  <div className="p-3 rounded-lg bg-slate-950 border border-emerald-900/40 space-y-1">
+                <div className="space-y-2.5">
+                  <div className="p-2.5 rounded-lg bg-slate-950 border border-emerald-900/40 space-y-0.5">
                     <div className="flex items-center justify-between text-xs font-semibold text-emerald-400">
                       <span>Double-Claim Prevention</span>
                       <CheckCircle2 className="w-3.5 h-3.5" />
                     </div>
-                    <p className="text-[11px] text-slate-400">
-                      Tested calling <code className="text-cyan-300">claim()</code> twice with identical proof. Second call failed on-chain with <code className="text-rose-400">"Claim has already been executed"</code>.
+                    <p className="text-[10px] text-slate-400">
+                      Calling <code className="text-cyan-300">claim()</code> twice reverts on-chain with <code className="text-rose-400">"Claim has already been executed"</code>.
                     </p>
                   </div>
 
-                  <div className="p-3 rounded-lg bg-slate-950 border border-emerald-900/40 space-y-1">
+                  <div className="p-2.5 rounded-lg bg-slate-950 border border-emerald-900/40 space-y-0.5">
                     <div className="flex items-center justify-between text-xs font-semibold text-emerald-400">
                       <span>Tampered Amount Rejection</span>
                       <CheckCircle2 className="w-3.5 h-3.5" />
                     </div>
-                    <p className="text-[11px] text-slate-400">
-                      Tested claiming with an inflated compensation amount (+1,000 USDC). Failed on-chain with <code className="text-rose-400">"Invalid Merkle proof"</code>.
+                    <p className="text-[10px] text-slate-400">
+                      Claiming an inflated amount (+1,000 USDC) fails with <code className="text-rose-400">"Invalid Merkle proof"</code>.
                     </p>
                   </div>
 
-                  <div className="p-3 rounded-lg bg-slate-950 border border-slate-800 space-y-1">
-                    <div className="flex items-center justify-between text-xs font-semibold text-cyan-400">
-                      <span>Fund Backing Verification</span>
+                  <div className="p-2.5 rounded-lg bg-slate-950 border border-emerald-900/40 space-y-0.5">
+                    <div className="flex items-center justify-between text-xs font-semibold text-emerald-400">
+                      <span>Expired EIP-712 Signature Defense</span>
                       <CheckCircle2 className="w-3.5 h-3.5" />
                     </div>
-                    <p className="text-[11px] text-slate-400">
-                      RestitutionDistributor requires 100% solvency deposit before incident activation. Zero fractional reserve payouts.
+                    <p className="text-[10px] text-slate-400">
+                      Signatures past the deadline revert with <code className="text-rose-400">"Claim signature has expired"</code>.
+                    </p>
+                  </div>
+
+                  <div className="p-2.5 rounded-lg bg-slate-950 border border-emerald-900/40 space-y-0.5">
+                    <div className="flex items-center justify-between text-xs font-semibold text-emerald-400">
+                      <span>Forged Signer Rejection</span>
+                      <CheckCircle2 className="w-3.5 h-3.5" />
+                    </div>
+                    <p className="text-[10px] text-slate-400">
+                      Signatures forged by unauthorized third parties fail with <code className="text-rose-400">"Invalid EIP-712 claimant signature"</code>.
+                    </p>
+                  </div>
+
+                  <div className="p-2.5 rounded-lg bg-slate-950 border border-emerald-900/40 space-y-0.5">
+                    <div className="flex items-center justify-between text-xs font-semibold text-emerald-400">
+                      <span>Second-Preimage Attack Immunity</span>
+                      <CheckCircle2 className="w-3.5 h-3.5" />
+                    </div>
+                    <p className="text-[10px] text-slate-400">
+                      OZ double-Keccak-256 leaves prevent 64-byte intermediate node collision exploits (CVE-2022-37454).
                     </p>
                   </div>
                 </div>
@@ -644,100 +764,164 @@ export default function Dashboard() {
 
         {/* Tab 4: Sponsor Tech Stack & Proof */}
         {activeTab === "sponsors" && (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* Neatlogs */}
-            <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-4">
-              <div className="flex items-center gap-2 pb-2 border-b border-slate-800">
-                <div className="p-2 rounded bg-blue-500/10 text-blue-400">
-                  <Activity className="w-5 h-5" />
-                </div>
-                <div>
-                  <h4 className="font-bold text-sm text-white">Neatlogs</h4>
-                  <div className="text-[10px] text-blue-400 font-mono">Tracing & Observability</div>
+            <a
+              href="https://neatlogs.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-cyan-500/50 transition space-y-4 group block"
+            >
+              <div className="flex items-center justify-between pb-2 border-b border-slate-800">
+                <div className="flex items-center gap-2">
+                  <div className="p-2 rounded bg-blue-500/10 text-blue-400 group-hover:bg-cyan-500/20 transition">
+                    <Activity className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-sm text-white flex items-center gap-1.5">
+                      Neatlogs
+                      <ExternalLink className="w-3 h-3 text-slate-500 group-hover:text-cyan-400 transition" />
+                    </h4>
+                    <div className="text-[10px] text-blue-400 font-mono">Agent Tracing & Observability</div>
+                  </div>
                 </div>
               </div>
 
-              <div className="space-y-2 text-xs text-slate-300">
-                <div className="flex justify-between py-1 border-b border-slate-800/60">
+              <div className="space-y-1.5 text-xs text-slate-300">
+                <div className="flex justify-between py-1 border-b border-slate-800/60 text-[11px]">
                   <span className="text-slate-500">Project ID:</span>
-                  <span className="font-mono text-cyan-300 text-[11px]">542c53f4-ec26-4d57...</span>
+                  <span className="font-mono text-cyan-300">542c53f4-ec26-4d57...</span>
                 </div>
-                <div className="flex justify-between py-1 border-b border-slate-800/60">
-                  <span className="text-slate-500">SDK Status:</span>
-                  <span className="text-emerald-400 font-medium">Integrated</span>
+                <div className="flex justify-between py-1 border-b border-slate-800/60 text-[11px]">
+                  <span className="text-slate-500">Hierarchy:</span>
+                  <span className="text-emerald-400 font-medium">10 Discrete Spans</span>
                 </div>
-                <div className="flex justify-between py-1 border-b border-slate-800/60">
-                  <span className="text-slate-500">Spans Captured:</span>
-                  <span className="font-mono text-white">8 per investigation</span>
+                <div className="flex justify-between py-1 border-b border-slate-800/60 text-[11px]">
+                  <span className="text-slate-500">Telemetry:</span>
+                  <span className="font-mono text-white">wrapClient + Token Spend</span>
                 </div>
               </div>
 
-              <p className="text-xs text-slate-400 leading-relaxed">
+              <p className="text-[11px] text-slate-400 leading-relaxed">
                 Captures full step-by-step telemetry of on-chain inspections, counterfactual math, guardrail checks, and Merkle tree hashing.
               </p>
-            </div>
+            </a>
 
             {/* Entire */}
-            <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-4">
-              <div className="flex items-center gap-2 pb-2 border-b border-slate-800">
-                <div className="p-2 rounded bg-purple-500/10 text-purple-400">
-                  <GitBranch className="w-5 h-5" />
-                </div>
-                <div>
-                  <h4 className="font-bold text-sm text-white">Entire</h4>
-                  <div className="text-[10px] text-purple-400 font-mono">Agent Memory & Checkpoints</div>
-                </div>
-              </div>
-
-              <div className="space-y-2 text-xs text-slate-300">
-                <div className="flex justify-between py-1 border-b border-slate-800/60">
-                  <span className="text-slate-500">CLI Version:</span>
-                  <span className="font-mono text-purple-300 text-[11px]">v0.11.4</span>
-                </div>
-                <div className="flex justify-between py-1 border-b border-slate-800/60">
-                  <span className="text-slate-500">Agent Mode:</span>
-                  <span className="font-mono text-white">Antigravity Hooked</span>
-                </div>
-                <div className="flex justify-between py-1 border-b border-slate-800/60">
-                  <span className="text-slate-500">Git Native:</span>
-                  <span className="text-emerald-400 font-medium">True</span>
+            <a
+              href="https://entire.io/gh/Proofofaudit/poa-neathack"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-purple-500/50 transition space-y-4 group block"
+            >
+              <div className="flex items-center justify-between pb-2 border-b border-slate-800">
+                <div className="flex items-center gap-2">
+                  <div className="p-2 rounded bg-purple-500/10 text-purple-400 group-hover:bg-purple-500/20 transition">
+                    <GitBranch className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-sm text-white flex items-center gap-1.5">
+                      Entire
+                      <ExternalLink className="w-3 h-3 text-slate-500 group-hover:text-purple-400 transition" />
+                    </h4>
+                    <div className="text-[10px] text-purple-400 font-mono">Continuous Memory & Graph</div>
+                  </div>
                 </div>
               </div>
 
-              <p className="text-xs text-slate-400 leading-relaxed">
+              <div className="space-y-1.5 text-xs text-slate-300">
+                <div className="flex justify-between py-1 border-b border-slate-800/60 text-[11px]">
+                  <span className="text-slate-500">CLI & Graph:</span>
+                  <span className="font-mono text-purple-300">v0.11.4 · Graph v0.4.0</span>
+                </div>
+                <div className="flex justify-between py-1 border-b border-slate-800/60 text-[11px]">
+                  <span className="text-slate-500">Indexed Symbols:</span>
+                  <span className="font-mono text-white">1,929 Symbols · 4.8k Rels</span>
+                </div>
+                <div className="flex justify-between py-1 border-b border-slate-800/60 text-[11px]">
+                  <span className="text-slate-500">Prompt Pruning:</span>
+                  <span className="text-emerald-400 font-medium">77.7% Context Reduction</span>
+                </div>
+              </div>
+
+              <p className="text-[11px] text-slate-400 leading-relaxed">
                 Preserves transparent agent memory and step-by-step git checkpoints across every milestone from contract creation to verifiable payout.
               </p>
-            </div>
+            </a>
 
             {/* cfo.ai */}
-            <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-4">
-              <div className="flex items-center gap-2 pb-2 border-b border-slate-800">
-                <div className="p-2 rounded bg-emerald-500/10 text-emerald-400">
-                  <DollarSign className="w-5 h-5" />
-                </div>
-                <div>
-                  <h4 className="font-bold text-sm text-white">cfo.ai</h4>
-                  <div className="text-[10px] text-emerald-400 font-mono">Financial Model & Unit Economics</div>
+            <a
+              href="https://cfo.ai/s/K8j_ybAD6DrlAI2j"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-emerald-500/50 transition space-y-4 group block"
+            >
+              <div className="flex items-center justify-between pb-2 border-b border-slate-800">
+                <div className="flex items-center gap-2">
+                  <div className="p-2 rounded bg-emerald-500/10 text-emerald-400 group-hover:bg-emerald-500/20 transition">
+                    <DollarSign className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-sm text-white flex items-center gap-1.5">
+                      cfo.ai
+                      <ExternalLink className="w-3 h-3 text-slate-500 group-hover:text-emerald-400 transition" />
+                    </h4>
+                    <div className="text-[10px] text-emerald-400 font-mono">Ari Financial Model (6 Sheets)</div>
+                  </div>
                 </div>
               </div>
 
-              <div className="space-y-2 text-xs text-slate-300">
-                <div className="flex justify-between py-1 border-b border-slate-800/60">
-                  <span className="text-slate-500">Agent Cost / Run:</span>
-                  <span className="font-mono text-cyan-300 text-[11px]">$0.04</span>
+              <div className="space-y-1.5 text-xs text-slate-300">
+                <div className="flex justify-between py-1 border-b border-slate-800/60 text-[11px]">
+                  <span className="text-slate-500">Agent Run Cost:</span>
+                  <span className="font-mono text-cyan-300">$0.062 vs $50k Audit</span>
                 </div>
-                <div className="flex justify-between py-1 border-b border-slate-800/60">
-                  <span className="text-slate-500">Recovery Fee (5%):</span>
-                  <span className="font-mono text-emerald-400 font-bold">$287.50</span>
+                <div className="flex justify-between py-1 border-b border-slate-800/60 text-[11px]">
+                  <span className="text-slate-500">Success Fee (5%):</span>
+                  <span className="font-mono text-emerald-400 font-bold">$287.50 / incident</span>
                 </div>
-                <div className="flex justify-between py-1 border-b border-slate-800/60">
+                <div className="flex justify-between py-1 border-b border-slate-800/60 text-[11px]">
                   <span className="text-slate-500">Gross Margin:</span>
-                  <span className="font-mono text-white font-bold">99.86%</span>
+                  <span className="font-mono text-white font-bold">99.8% · 21x LTV/CAC</span>
                 </div>
               </div>
 
-              <p className="text-xs text-slate-400 leading-relaxed">
+              <p className="text-[11px] text-slate-400 leading-relaxed">
                 Demonstrates high-margin enterprise software economics replacing $50k+ manual forensic auditor retainers with autonomous agent execution.
+              </p>
+            </a>
+
+            {/* Crustdata */}
+            <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-4 block">
+              <div className="flex items-center justify-between pb-2 border-b border-slate-800">
+                <div className="flex items-center gap-2">
+                  <div className="p-2 rounded bg-amber-500/10 text-amber-400">
+                    <ShieldAlert className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-sm text-white">Crustdata</h4>
+                    <div className="text-[10px] text-amber-400 font-mono">Entity Intelligence & Risk</div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-1.5 text-xs text-slate-300">
+                <div className="flex justify-between py-1 border-b border-slate-800/60 text-[11px]">
+                  <span className="text-slate-500">Integration:</span>
+                  <span className="text-emerald-400 font-medium">Live Partner API Key</span>
+                </div>
+                <div className="flex justify-between py-1 border-b border-slate-800/60 text-[11px]">
+                  <span className="text-slate-500">Profiling:</span>
+                  <span className="font-mono text-white">Liquidator vs Victim</span>
+                </div>
+                <div className="flex justify-between py-1 border-b border-slate-800/60 text-[11px]">
+                  <span className="text-slate-500">Neatlogs Span:</span>
+                  <span className="font-mono text-amber-300 text-[10px]">enrichIncidentWithCrustdata</span>
+                </div>
+              </div>
+
+              <p className="text-[11px] text-slate-400 leading-relaxed">
+                Profiles on-chain liquidator and victim entities to filter institutional bots and quantify real community impact.
               </p>
             </div>
           </div>

@@ -1,0 +1,151 @@
+{
+  "network": "Base Mainnet Fork",
+  "chainId": 8453,
+  "forkBlockNumber": 52463547,
+  "timestamp": "2026-10-11T11:01:01.206Z",
+  "contracts": {
+    "distributor": "0x00E402108e6699Ba75AE2E6BE6920F7bA62BD231",
+    "restitutionToken": "0xA3Cf80b09ff9071e74a11125BD532962D5597C42",
+    "oracle": "0x71041dddad3595F9CEd3DcCFBe3D1F4b0a16Bb70",
+    "collateralToken": "0x4200000000000000000000000000000000000006"
+  },
+  "incident": {
+    "incidentId": "0x7c27e4dc3c4e90fa0cc93a7defe9b547abdde87687678cd19707102acb0583e6",
+    "baselineEthPriceUsd": 2000,
+    "faultyEthPriceUsd": 1800,
+    "dropPercent": "10.0%"
+  },
+  "report": {
+    "incidentId": "0x7c27e4dc3c4e90fa0cc93a7defe9b547abdde87687678cd19707102acb0583e6",
+    "incidentTxHash": "0xbase_oracle_manipulation_tx_001",
+    "status": "COMPLETED",
+    "summary": "Autonomous investigation verified 1 wrongful liquidations resulting from faulty price drop. Total verified restitution: 700.00 USDC.",
+    "eventsAnalyzed": 1,
+    "wrongfulLiquidationsCount": 1,
+    "totalRestitutionCalculatedUsdc": "700000000",
+    "claims": [
+      {
+        "claimIndex": 0,
+        "borrower": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+        "initialCollateralWeth": "3000000000000000000",
+        "initialDebtUsdc": "3500000000",
+        "collateralSeizedWeth": "2100000000000000000",
+        "debtRepaidUsdc": "3500000000",
+        "baselinePriceUsd": "2000.00",
+        "faultyPriceUsd": "1800.00",
+        "baselineHealthFactor": "1.3714",
+        "faultyHealthFactor": "1.2343",
+        "observedNetEquityUsd": "1800.00",
+        "counterfactualNetEquityUsd": "2500.00",
+        "restitutionAmountUsdc": "700000000",
+        "status": "VERIFIED",
+        "reason": "Wrongful liquidation triggered by faulty oracle drop. Provable net equity loss: 700.00 USD."
+      }
+    ],
+    "merkleManifest": {
+      "incidentId": "0x7c27e4dc3c4e90fa0cc93a7defe9b547abdde87687678cd19707102acb0583e6",
+      "merkleRoot": "0xce5978d10bbd0aeeedeed160b7358ee7f3ac7c6e18155c98e818ea9344362650",
+      "totalRestitutionAmount": "700000000",
+      "claimsCount": 1,
+      "claims": [
+        {
+          "claimIndex": 0,
+          "claimant": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+          "amount": "700000000",
+          "incidentId": "0x7c27e4dc3c4e90fa0cc93a7defe9b547abdde87687678cd19707102acb0583e6",
+          "proof": []
+        }
+      ],
+      "generatedAt": "2026-10-11T11:01:00.828Z",
+      "policyVersion": "POA_RESTITUTION_POLICY_V1_EQUITY_DELTA"
+    },
+    "proofCarryingManifest": {
+      "manifestVersion": "1.0.0",
+      "policyId": "POA_RESTITUTION_POLICY_V1_EQUITY_DELTA",
+      "incidentId": "0x7c27e4dc3c4e90fa0cc93a7defe9b547abdde87687678cd19707102acb0583e6",
+      "generatedAt": "2026-10-11T11:01:00.835Z",
+      "neatlogsTraceId": "trace-1791716460779-mr2h9",
+      "evidence": {
+        "incidentTxHash": "0xbase_oracle_manipulation_tx_001",
+        "oracleAddress": "0x71041dddad3595F9CEd3DcCFBe3D1F4b0a16Bb70",
+        "poolAddress": "0x3333333333333333333333333333333333333333",
+        "payoutToken": "0x00E402108e6699Ba75AE2E6BE6920F7bA62BD231",
+        "baselinePriceUsd": "2000.00",
+        "faultyPriceUsd": "1800.00",
+        "interventionPolicy": "Intervention policy substituted anomalous oracle plunge with verified TWAP benchmark. Nonces and valid transactions preserved."
+      },
+      "accountingInvariants": {
+        "equityDeltaFormula": "L_i = max(0, NetEquity_i(S_cf) - NetEquity_i(S_obs)) where NetEquity = (Collateral * P_baseline) - Debt",
+        "moralHazardExclusionRule": "Positions with baseline Health Factor < 1.0 (undercollateralized prior to incident) receive zero restitution.",
+        "integerPrecision": "18 decimals WETH collateral, 6 decimals USDC debt/payout, BigInt integer arithmetic with zero floating point representation"
+      },
+      "summary": {
+        "totalVictimsEvaluated": 1,
+        "wrongfulLiquidationsCount": 1,
+        "insolventAccountsExcluded": 0,
+        "totalRestitutionUsdc": "700000000",
+        "merkleRoot": "0xce5978d10bbd0aeeedeed160b7358ee7f3ac7c6e18155c98e818ea9344362650"
+      },
+      "claims": [
+        {
+          "claimIndex": 0,
+          "claimant": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+          "restitutionUsdc": "700000000",
+          "counterfactualEquityUsd": "2500.00",
+          "observedEquityUsd": "1800.00",
+          "merkleProof": []
+        }
+      ],
+      "cryptographicIntegritySeal": "0xa03352bbfeda5f0a2ac260168688190e38c55c6dcef3a1e339ffb50c743e5b6f"
+    },
+    "retriesAttempted": 0,
+    "executionTraceId": "trace-1791716460779-mr2h9",
+    "timestamp": "2026-10-11T11:01:00.837Z",
+    "forensicAiAssessment": {
+      "anomalyClassification": "FAULTY_ORACLE_DEVIATION",
+      "confidenceScore": 0.99,
+      "rootCauseAnalysis": "# FORENSIC INCIDENT ANALYSIS REPORT\n**Case ID:** 0xbase_oracle_manipulation_tx_001\n\n---\n\n## 1. ORACLE DEVIATION CLASSIFICATION\n\n### Price Movement Assessment\n\n| Metric | Value | Assessment |\n|--------|-------|-----------|\n| Price Delta | $200 ($2000→$1800) | 10.0% drop |\n| Deviation Magnitude | Mode...",
+      "restitutionPolicyTriggered": true,
+      "recommendedWorkflow": [
+        "inspectIncidentTransaction",
+        "readContractState",
+        "collectLiquidationEvents",
+        "discoverAffectedAccounts",
+        "replayCounterfactual",
+        "crossCheckClaims",
+        "generateMerkleManifest"
+      ],
+      "executiveSummary": "Autonomous AI reasoning confirmed anomalous -10.0% price plunge. Restitution charter activated.",
+      "tokensUsed": 2191,
+      "modelUsed": "claude-haiku",
+      "isLiveLlm": true
+    },
+    "entityEnrichment": {
+      "0x70997970C51812dc3A010C7d01b50e0d17dc79C8": {
+        "addressOrIdentifier": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+        "entityType": "INSTITUTIONAL_MARKET_MAKER",
+        "companyName": "FlashLiquidator MEV Fund",
+        "headquarters": "George Town, Cayman Islands",
+        "estimatedAUM": "$45M - $100M",
+        "riskRating": "LOW",
+        "isVerifiedEntity": true,
+        "source": "CRUSTDATA_API"
+      }
+    }
+  },
+  "claims": [
+    {
+      "claimIndex": 0,
+      "claimant": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+      "amount": "700000000",
+      "incidentId": "0x7c27e4dc3c4e90fa0cc93a7defe9b547abdde87687678cd19707102acb0583e6",
+      "proof": []
+    }
+  ],
+  "claimExecution": {
+    "txHash": "0x6ffef5f44845ec671ab321f3d49ce24f9e0b3a7db321042a6571f257d455087b",
+    "victimAddress": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+    "restitutionClaimedUsdc": "700.0",
+    "status": "CONFIRMED"
+  }
+}
