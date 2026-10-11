@@ -184,9 +184,12 @@ poa-neathack/
 │   ├── NEATLOGS_EVIDENCE.md # Neatlogs Project ID & trace tree evidence
 │   ├── ENTIRE_EVIDENCE.md   # Entire CLI git checkpoint history
 │   ├── CFO_AI_INPUTS.md     # Financial model & unit economics
-│   └── DEMO_SCRIPT.md       # 3-minute video presentation script
+│   ├── RESEARCH_FOUNDATIONS.md # Peer-reviewed academic foundations
+│   └── PAIN_PMF_ENGINEERING_MARVEL.md # Real-world pain, PMF & engineering
 ├── evidence/
-│   └── run_evidence.json    # Complete reproducible on-chain evidence output
+│   ├── run_evidence.json    # Complete reproducible on-chain evidence output
+│   ├── restitution_manifest.json # SHA-256 sealed proof-carrying restitution manifest
+│   └── evmbench_evaluation.json # Official 5/5 EVMbench machine-checked report
 └── hackathon.md             # neatHack build log companion
 ```
 

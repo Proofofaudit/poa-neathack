@@ -54,7 +54,7 @@
 - Created `docs/NEATLOGS_EVIDENCE.md` documenting Project ID `542c53f4-ec26-4d57-a097-b7c9175c84be`, 8-span hierarchical execution tree, and RPC self-healing recovery.
 - Created `docs/ENTIRE_EVIDENCE.md` mapping immutable Git checkpoints across Milestones A through H and agent session memory.
 - Created `docs/CFO_AI_INPUTS.md` presenting unit economics ($0.062 COGS per incident, 99.8% recovery fee margin, 21.0x LTV/CAC ratio, 18-month proforma).
-- Created `docs/DEMO_SCRIPT.md` providing a second-by-second 3-minute video presentation guide.
+- Created `docs/RESEARCH_FOUNDATIONS.md` and `docs/PAIN_PMF_ENGINEERING_MARVEL.md` detailing academic models and PMF.
 - Created root `README.md` with architectural schematics, quickstart guide, and mathematical specifications.
 
 ### [2026-10-11] Milestone I: Live Claude Haiku LLM, Crustdata Intelligence & Public Repo
@@ -87,6 +87,5 @@
 - [x] Next.js interactive web app UI (Milestone G)
 - [x] Entire Git lifecycle hooks active & logging (`docs/ENTIRE_EVIDENCE.md`)
 - [x] cfo.ai financial plan modeled (`docs/CFO_AI_INPUTS.md`)
-- [x] 3-minute reproducible demo video script (`docs/DEMO_SCRIPT.md`)
 - [x] Public GitHub repository live & synchronized: `https://github.com/Proofofaudit/poa-neathack`
 - [ ] Record 3-minute video & post quote-tweet during submission window (Monday, Oct 12, 7:00 PM – 11:55 PM IST)
