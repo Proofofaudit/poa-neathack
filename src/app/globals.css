@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  --background: #fbfcfd;
+  --background: #fafafc;
   --foreground: #09090b;
 }
 
@@ -14,14 +14,20 @@ body {
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image: 
-    radial-gradient(at 50% 0%, rgba(244, 245, 248, 0.9) 0px, transparent 65%),
+  background-image:
+    radial-gradient(at 50% 0%, rgba(244, 245, 248, 0.8) 0px, transparent 65%),
     radial-gradient(at 100% 0%, rgba(240, 243, 247, 0.5) 0px, transparent 40%);
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
 
-/* Modern soft diffusion shadows */
+.font-display {
+  font-family: inherit;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+/* Modern soft diffusion shadows (shadcn / Vercel style) */
 .shadow-subtle {
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.04);
 }
@@ -47,10 +53,61 @@ body {
   border-radius: 0.75rem;
 }
 
-/* Subtle modern mesh grid */
-.poa-grid-pattern {
-  background-image: radial-gradient(#e4e7eb 1px, transparent 1px);
-  background-size: 24px 24px;
+/* Vercel subtle grid backdrop */
+.poa-grid-bg {
+  background-image:
+    linear-gradient(to right, rgba(0, 0, 0, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.035) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, black 40%, transparent 80%);
+}
+
+/* Magic UI: Shine Border / Border Beam */
+@property --magic-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.magic-shine {
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--magic-angle),
+    #e4e4e7 0%,
+    #e4e4e7 70%,
+    #18181b 84%,
+    #71717a 90%,
+    #e4e4e7 96%
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: magic-spin 4.5s linear infinite;
+}
+
+@keyframes magic-spin {
+  to {
+    --magic-angle: 360deg;
+  }
+}
+
+/* Magic UI: Marquee */
+@keyframes magic-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+.magic-marquee {
+  animation: magic-scroll 28s linear infinite;
+}
+
+.group:hover .magic-marquee {
+  animation-play-state: paused;
 }
 
 /* Refined light scrollbar */
@@ -62,9 +119,9 @@ body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #d1d5db;
+  background: #d4d4d8;
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #9ca3af;
+  background: #a1a1aa;
 }

@@ -28,8 +28,19 @@ import {
   ChevronRight,
   Sparkles,
   Server,
-  Database
+  Database,
+  BarChart3,
+  Flame,
+  Fingerprint
 } from "lucide-react";
+
+import { Card, CardHeader, CardContent, CardFooter } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { ShineBorder } from "@/components/magicui/shine-border";
+import { NumberTicker } from "@/components/magicui/number-ticker";
+import { Marquee } from "@/components/magicui/marquee";
+import { AnimatedList } from "@/components/magicui/animated-list";
 
 type Network = "anvil" | "base";
 
@@ -37,7 +48,7 @@ const PIPELINE_STEPS = [
   {
     step: "01",
     title: "24/7 Block Sentinel",
-    desc: "Monitors live RPC blocks. Automatically fires when oracle price deviates >5% in a single block.",
+    desc: "Monitors live RPC blocks. Fires the moment an oracle deviates >5% in a single block.",
     tag: "Autonomous Trigger",
     icon: Clock,
   },
@@ -114,6 +125,17 @@ const INVESTIGATION_TRACES = [
     tag: "Root Published",
     duration: "27ms",
   },
+];
+
+const PARTNER_BENCHMARKS = [
+  "⚡ Foundry 11/11 Verified",
+  "🛡️ Vitest 6/6 Partition Resilience",
+  "🔬 EVMbench 5/5 ICML Aligned",
+  "📊 Neatlogs Distributed Spans",
+  "🧠 Entire AST Knowledge Graph (1,929 Symbols)",
+  "💰 cfo.ai 99.8% Gross Margin ($0.062 Run Cost)",
+  "🔍 Crustdata Entity Profiling",
+  "📜 EIP-712 Gasless Sponsored Vouchers (0 ETH)",
 ];
 
 export default function Dashboard() {
@@ -214,22 +236,20 @@ export default function Dashboard() {
   const latestTrace = evidence?.observabilityTrace;
   const merkleRoot: string | null = report?.merkleManifest?.merkleRoot || null;
 
-  const totalRestitutionDisplay = report
-    ? (Number(report.totalRestitutionCalculatedUsdc) / 1e6).toLocaleString("en-US", {
-        minimumFractionDigits: 2,
-      })
+  const totalNumeric = report
+    ? Number(report.totalRestitutionCalculatedUsdc) / 1e6
     : isBase
-    ? "700.00"
-    : "5,750.00";
+    ? 700.0
+    : 5750.0;
 
   return (
-    <div className="min-h-screen bg-[#fafafc] text-zinc-900 font-sans selection:bg-zinc-900 selection:text-white">
-      {/* ── 1. Modern Floating Header ─────────────────────────── */}
+    <div className="min-h-screen bg-[#fafafc] text-zinc-900 font-sans selection:bg-zinc-950 selection:text-white">
+      {/* ── 1. Vercel-Style Sticky Glass Navbar ───────────────────────── */}
       <header className="sticky top-0 z-50 bg-white/85 backdrop-blur-md border-b border-zinc-200/80 shadow-subtle">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
-          {/* Brand Logo & Tagline */}
+          {/* Brand Logo & Name */}
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-zinc-900 text-white flex items-center justify-center shadow-sm">
+            <div className="w-9 h-9 rounded-xl bg-zinc-950 text-white flex items-center justify-center shadow-sm">
               <Shield className="w-5 h-5 text-white" />
             </div>
             <div>
@@ -237,9 +257,9 @@ export default function Dashboard() {
                 <span className="font-bold text-base tracking-tight text-zinc-950">
                   POA <span className="text-zinc-300 font-normal">/</span> Proof of Audits
                 </span>
-                <span className="px-2 py-0.5 rounded-full text-[11px] font-mono font-medium bg-zinc-100 text-zinc-600 border border-zinc-200">
+                <Badge variant="accent" className="text-[10px] py-0 px-2 font-mono">
                   neatHack ’26
-                </span>
+                </Badge>
               </div>
               <p className="text-[11px] text-zinc-500 hidden sm:block">
                 Autonomous DeFi Incident Forensics & Cryptographic Restitution Coprocessor
@@ -247,9 +267,9 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Right Controls: Network Toggle & Action Button */}
+          {/* Right Controls: Network Switcher + Simulation Button */}
           <div className="flex items-center gap-3">
-            {/* Segmented Network Switcher Pill */}
+            {/* Segmented Network Switcher Pill (Mac/Raycast Style) */}
             <div className="relative flex items-center p-1 rounded-xl bg-zinc-100 border border-zinc-200 text-xs font-medium">
               <button
                 onClick={() => switchNetwork("anvil")}
@@ -286,10 +306,10 @@ export default function Dashboard() {
             </div>
 
             {/* Primary Action Button */}
-            <button
+            <Button
               onClick={() => triggerSimulation(selectedNetwork)}
               disabled={running}
-              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-zinc-950 hover:bg-zinc-800 active:scale-95 text-white font-medium text-xs transition disabled:opacity-50 shadow-sm"
+              className="flex items-center gap-2"
             >
               {running ? (
                 <>
@@ -299,121 +319,138 @@ export default function Dashboard() {
               ) : (
                 <>
                   <Play className="w-3.5 h-3.5 fill-current" />
-                  <span>{isBase ? "Run Base Mainnet Fork" : "Re-run On-Chain Demo"}</span>
+                  <span>{isBase ? "Run Base Fork" : "Re-run Demo"}</span>
                 </>
               )}
-            </button>
+            </Button>
           </div>
         </div>
       </header>
 
-      {/* ── Main Container ───────────────────────────────────── */}
+      {/* ── 2. Magic UI Marquee Proof Strip ───────────────────────────── */}
+      <div className="border-b border-zinc-200/70 bg-white/60 py-2 overflow-hidden">
+        <Marquee className="text-xs font-mono text-zinc-600">
+          {PARTNER_BENCHMARKS.map((item, i) => (
+            <span
+              key={i}
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-zinc-50 border border-zinc-200/80 mr-3 text-[11px] font-medium"
+            >
+              {item}
+            </span>
+          ))}
+        </Marquee>
+      </div>
+
+      {/* ── Main Container ───────────────────────────────────────────── */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-        {/* ── 2. Hero Incident Banner (Modern FinTech Overview) ── */}
-        <section className="bg-white rounded-2xl border border-zinc-200/90 shadow-card p-6 sm:p-8 space-y-6">
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-6 border-b border-zinc-100">
-            {/* Big Stat Pill */}
-            <div className="space-y-2">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200/70 text-xs font-medium">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                <span>24/7 Block Sentinel Active · Autonomous Restitution Verified</span>
-              </div>
-              <div className="flex items-baseline gap-3 pt-1">
-                <span className="text-4xl sm:text-5xl font-extrabold tracking-tight text-zinc-950 font-mono">
-                  ${totalRestitutionDisplay}
-                </span>
-                <span className="text-sm font-semibold text-zinc-500 font-mono">USDC Restitution Due</span>
-                <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                  100% Solvency Backed
-                </span>
-              </div>
-              <p className="text-xs text-zinc-500 max-w-xl">
-                Causal counterfactual execution determined exact Net Equity deltas under the legitimate $2,000 WETH price, isolating innocent borrowers from underwater positions.
-              </p>
-            </div>
-
-            {/* Bento Stat Pillars */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-              <div className="p-3.5 rounded-xl bg-zinc-50/70 border border-zinc-200/80 space-y-1">
-                <div className="text-[11px] font-medium text-zinc-500">Incident Price Shock</div>
-                <div className="text-base font-bold font-mono text-rose-600">-10.0% Oracle Drop</div>
-                <div className="text-[11px] text-zinc-400 font-mono">$2,000 → $1,800 WETH</div>
-              </div>
-
-              <div className="p-3.5 rounded-xl bg-zinc-50/70 border border-zinc-200/80 space-y-1">
-                <div className="text-[11px] font-medium text-zinc-500">Audited Positions</div>
-                <div className="text-base font-bold font-mono text-zinc-950">
-                  {isBase ? "1 Wrongful / 0 Insolvent" : "3 Wrongful / 2 Excluded"}
+        {/* ── 3. Hero Incident Banner (Magic UI ShineBorder + NumberTicker) ─ */}
+        <ShineBorder className="bg-white shadow-card">
+          <div className="p-6 sm:p-8 space-y-6">
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-6 border-b border-zinc-100">
+              {/* Big Stat Hero with Magic UI NumberTicker */}
+              <div className="space-y-2">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200/70 text-xs font-medium">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                  <span>24/7 Block Sentinel Active · $0.062 Audit Cost vs $50k Manual</span>
                 </div>
-                <div className="text-[11px] text-emerald-700 font-medium">Moral Hazard Blocked</div>
-              </div>
-
-              <div className="p-3.5 rounded-xl bg-zinc-50/70 border border-zinc-200/80 space-y-1 col-span-2 sm:col-span-1">
-                <div className="text-[11px] font-medium text-zinc-500">Merkle Tree Root</div>
-                <div className="flex items-center gap-1.5">
-                  <span className="text-xs font-bold font-mono text-zinc-900 truncate max-w-[110px]" title={merkleRoot || ""}>
-                    {merkleRoot ? `${merkleRoot.slice(0, 10)}...` : "0xce5978d1..."}
+                <div className="flex items-baseline gap-3 pt-1">
+                  <span className="text-4xl sm:text-5xl font-extrabold tracking-tight text-zinc-950 font-mono">
+                    <NumberTicker value={totalNumeric} prefix="$" decimals={2} />
                   </span>
-                  {merkleRoot && (
-                    <button
-                      onClick={() => copyToClipboard(merkleRoot, "root")}
-                      className="text-zinc-400 hover:text-zinc-900 transition"
-                      title="Copy Merkle Root"
-                    >
-                      {copiedId === "root" ? (
-                        <Check className="w-3.5 h-3.5 text-emerald-600" />
-                      ) : (
-                        <Copy className="w-3.5 h-3.5" />
-                      )}
-                    </button>
-                  )}
+                  <span className="text-sm font-semibold text-zinc-500 font-mono">USDC Restitution Due</span>
+                  <Badge variant="success">100% Solvency Backed</Badge>
                 </div>
-                <div className="text-[11px] text-zinc-400">OpenZeppelin Standard</div>
+                <p className="text-xs text-zinc-500 max-w-xl leading-relaxed">
+                  Causal counterfactual execution determined exact Net Equity deltas under the legitimate $2,000 WETH price, isolating innocent borrowers from underwater positions.
+                </p>
+              </div>
+
+              {/* Bento Stat Pillars */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                <div className="p-3.5 rounded-xl bg-zinc-50/70 border border-zinc-200/80 space-y-1">
+                  <div className="text-[11px] font-medium text-zinc-500">Incident Price Shock</div>
+                  <div className="text-base font-bold font-mono text-rose-600">-10.0% Oracle Drop</div>
+                  <div className="text-[11px] text-zinc-400 font-mono">$2,000 → $1,800 WETH</div>
+                </div>
+
+                <div className="p-3.5 rounded-xl bg-zinc-50/70 border border-zinc-200/80 space-y-1">
+                  <div className="text-[11px] font-medium text-zinc-500">Audited Positions</div>
+                  <div className="text-base font-bold font-mono text-zinc-950">
+                    {isBase ? "1 Wrongful / 0 Insolvent" : "3 Wrongful / 2 Excluded"}
+                  </div>
+                  <div className="text-[11px] text-emerald-700 font-medium">Moral Hazard Blocked</div>
+                </div>
+
+                <div className="p-3.5 rounded-xl bg-zinc-50/70 border border-zinc-200/80 space-y-1 col-span-2 sm:col-span-1">
+                  <div className="text-[11px] font-medium text-zinc-500">Merkle Tree Root</div>
+                  <div className="flex items-center gap-1.5">
+                    <span
+                      className="text-xs font-bold font-mono text-zinc-900 truncate max-w-[110px]"
+                      title={merkleRoot || ""}
+                    >
+                      {merkleRoot ? `${merkleRoot.slice(0, 10)}...` : "0xce5978d1..."}
+                    </span>
+                    {merkleRoot && (
+                      <button
+                        onClick={() => copyToClipboard(merkleRoot, "root")}
+                        className="text-zinc-400 hover:text-zinc-900 transition"
+                        title="Copy Merkle Root"
+                      >
+                        {copiedId === "root" ? (
+                          <Check className="w-3.5 h-3.5 text-emerald-600" />
+                        ) : (
+                          <Copy className="w-3.5 h-3.5" />
+                        )}
+                      </button>
+                    )}
+                  </div>
+                  <div className="text-[11px] text-zinc-400">OpenZeppelin Standard</div>
+                </div>
+              </div>
+            </div>
+
+            {/* ── 4. Connected 4-Step Pipeline Flow ───────────────── */}
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">
+                  Autonomous Incident Pipeline
+                </span>
+                <span className="text-xs font-mono text-zinc-400">
+                  Sentinel → Forensics → Math Engine → On-Chain Restitution
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+                {PIPELINE_STEPS.map((s) => {
+                  const Icon = s.icon;
+                  return (
+                    <div
+                      key={s.step}
+                      className="p-4 rounded-xl bg-zinc-50/70 hover:bg-white border border-zinc-200/80 hover:border-zinc-300 hover:shadow-card transition-all duration-200 space-y-2 group"
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <span className="w-6 h-6 rounded-lg bg-zinc-950 text-white font-mono text-xs font-bold flex items-center justify-center">
+                            {s.step}
+                          </span>
+                          <span className="text-xs font-semibold text-zinc-900">{s.title}</span>
+                        </div>
+                        <Icon className="w-4 h-4 text-zinc-400 group-hover:text-zinc-900 transition" />
+                      </div>
+                      <p className="text-xs text-zinc-600 leading-relaxed pt-0.5">{s.desc}</p>
+                      <div className="pt-1.5 flex items-center gap-1 text-[11px] font-medium text-emerald-700">
+                        <span>✓</span>
+                        <span>{s.tag}</span>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>
+        </ShineBorder>
 
-          {/* ── 3. Four-Step Connected Pipeline ────────────────── */}
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">
-                Autonomous Incident Pipeline
-              </span>
-              <span className="text-xs font-mono text-zinc-400">
-                Sentinel → Forensics → Math Engine → On-Chain Restitution
-              </span>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
-              {PIPELINE_STEPS.map((s, idx) => {
-                const Icon = s.icon;
-                return (
-                  <div
-                    key={s.step}
-                    className="p-4 rounded-xl bg-zinc-50/70 hover:bg-white border border-zinc-200/80 hover:border-zinc-300 hover:shadow-card transition-all duration-200 space-y-2 group"
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <span className="w-6 h-6 rounded-lg bg-zinc-900 text-white font-mono text-xs font-bold flex items-center justify-center">
-                          {s.step}
-                        </span>
-                        <span className="text-xs font-semibold text-zinc-900">{s.title}</span>
-                      </div>
-                      <Icon className="w-4 h-4 text-zinc-400 group-hover:text-zinc-900 transition" />
-                    </div>
-                    <p className="text-xs text-zinc-600 leading-relaxed pt-0.5">{s.desc}</p>
-                    <div className="pt-1.5 flex items-center gap-1 text-[11px] font-medium text-emerald-700">
-                      <span>✓</span>
-                      <span>{s.tag}</span>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-
-        {/* ── 4. Modern Segmented Tab Bar (Raycast / Apple Style) ── */}
+        {/* ── 5. Segmented Tab Bar (Raycast / Apple Style Pill) ─────── */}
         <div className="flex items-center p-1.5 rounded-2xl bg-zinc-100/90 border border-zinc-200/80 w-fit gap-1 shadow-inner overflow-x-auto">
           {[
             { id: "timeline", label: "Forensic Timeline & Traces", icon: Clock },
@@ -440,7 +477,7 @@ export default function Dashboard() {
           })}
         </div>
 
-        {/* ── 5. Tab Panels ───────────────────────────────────── */}
+        {/* ── 6. Tab Panels ─────────────────────────────────────────── */}
         <main>
           {/* TAB 1: Forensic Timeline & Neatlogs */}
           {activeTab === "timeline" && (
@@ -450,8 +487,8 @@ export default function Dashboard() {
               transition={{ duration: 0.2 }}
               className="grid grid-cols-1 lg:grid-cols-5 gap-6"
             >
-              {/* Left Column: 7 Investigation Steps Stepper */}
-              <div className="lg:col-span-3 bg-white rounded-2xl border border-zinc-200/90 shadow-card p-6 space-y-4">
+              {/* Left Column: 7-Step Investigation Stepper using AnimatedList */}
+              <Card className="lg:col-span-3 p-6 space-y-4">
                 <div className="flex items-center justify-between pb-4 border-b border-zinc-100">
                   <div className="flex items-center gap-2.5">
                     <div className="p-2 rounded-xl bg-zinc-100 text-zinc-800">
@@ -464,18 +501,16 @@ export default function Dashboard() {
                       <p className="text-xs font-mono text-zinc-400">investigateOracleIncident()</p>
                     </div>
                   </div>
-                  <span className="px-2.5 py-1 rounded-full text-xs font-mono font-medium bg-emerald-50 text-emerald-800 border border-emerald-200">
-                    Status: 100% Completed
-                  </span>
+                  <Badge variant="success">Status: 100% Completed</Badge>
                 </div>
 
-                <div className="space-y-3">
+                <AnimatedList delay={0.06} className="space-y-3">
                   {INVESTIGATION_TRACES.map((step) => (
                     <div
                       key={step.step}
                       className="p-3.5 rounded-xl bg-zinc-50/70 border border-zinc-200/80 hover:bg-white hover:border-zinc-300 transition flex items-start gap-3.5"
                     >
-                      <span className="w-6 h-6 rounded-lg bg-zinc-900 text-white font-mono text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <span className="w-6 h-6 rounded-lg bg-zinc-950 text-white font-mono text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">
                         {step.step}
                       </span>
                       <div className="flex-1 min-w-0">
@@ -495,7 +530,8 @@ export default function Dashboard() {
                             {step.step === 2 &&
                               `Pool: ${fixture?.lendingPoolAddress?.slice(0, 18) || "0x333333333333..."}...`}
                             {step.step === 5 && "All borrowers verified healthy at $2,000 baseline"}
-                            {step.step === 6 && `Approved Restitution: $${totalRestitutionDisplay} USDC`}
+                            {step.step === 6 &&
+                              `Approved Restitution: $${totalNumeric.toLocaleString("en-US", { minimumFractionDigits: 2 })} USDC`}
                             {step.step === 7 &&
                               `Root: ${merkleRoot ? merkleRoot.slice(0, 20) + "..." : "0xce5978d1..."}`}
                           </span>
@@ -504,11 +540,11 @@ export default function Dashboard() {
                       </div>
                     </div>
                   ))}
-                </div>
-              </div>
+                </AnimatedList>
+              </Card>
 
               {/* Right Column: Neatlogs Distributed Tracing Console */}
-              <div className="lg:col-span-2 bg-white rounded-2xl border border-zinc-200/90 shadow-card p-6 space-y-4 h-fit">
+              <Card className="lg:col-span-2 p-6 space-y-4 h-fit">
                 <div className="flex items-center justify-between pb-4 border-b border-zinc-100">
                   <div className="flex items-center gap-2">
                     <div className="p-2 rounded-xl bg-zinc-100 text-zinc-800">
@@ -576,7 +612,7 @@ export default function Dashboard() {
                     POA automatically intercepts transient RPC drops, restores connection, and completes on-chain verification seamlessly.
                   </p>
                 </div>
-              </div>
+              </Card>
             </motion.div>
           )}
 
@@ -586,126 +622,116 @@ export default function Dashboard() {
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.2 }}
-              className="bg-white rounded-2xl border border-zinc-200/90 shadow-card p-6 space-y-4"
             >
-              <div className="flex flex-col md:flex-row md:items-center justify-between pb-4 border-b border-zinc-100 gap-3">
-                <div>
-                  <h3 className="text-sm font-semibold text-zinc-950">
-                    Causal Counterfactual Balance Replay ({isBase ? "Base Mainnet Fork" : "Anvil Devnet"})
-                  </h3>
-                  <p className="text-xs text-zinc-500 mt-0.5">
-                    Replays borrower health factors under legitimate $2,000 baseline vs faulty $1,800 liquidation prices.
-                  </p>
+              <Card className="p-6 space-y-4">
+                <div className="flex flex-col md:flex-row md:items-center justify-between pb-4 border-b border-zinc-100 gap-3">
+                  <div>
+                    <h3 className="text-sm font-semibold text-zinc-950">
+                      Causal Counterfactual Balance Replay ({isBase ? "Base Mainnet Fork" : "Anvil Devnet"})
+                    </h3>
+                    <p className="text-xs text-zinc-500 mt-0.5">
+                      Replays borrower health factors under legitimate $2,000 baseline vs faulty $1,800 liquidation prices.
+                    </p>
+                  </div>
+                  <div className="text-xs font-mono text-zinc-700 bg-zinc-100 px-3 py-1.5 rounded-lg border border-zinc-200">
+                    Formula: Restitution = Net Equity (Baseline) - Net Equity (Post-Liq)
+                  </div>
                 </div>
-                <div className="text-xs font-mono text-zinc-700 bg-zinc-100 px-3 py-1.5 rounded-lg border border-zinc-200">
-                  Formula: Restitution = Net Equity (Baseline) - Net Equity (Post-Liq)
-                </div>
-              </div>
 
-              <div className="overflow-x-auto">
-                <table className="w-full text-left text-xs font-mono">
-                  <thead className="bg-zinc-50 text-zinc-500 border-b border-zinc-200">
-                    <tr>
-                      <th className="p-3.5">Borrower</th>
-                      <th className="p-3.5">Position (WETH / USDC)</th>
-                      <th className="p-3.5">Baseline HF ($2,000)</th>
-                      <th className="p-3.5">Faulty HF ($1,800)</th>
-                      <th className="p-3.5">Forensic Verdict</th>
-                      <th className="p-3.5 text-right">Approved Restitution</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-zinc-100">
-                    {isBase ? (
-                      <tr className="hover:bg-zinc-50/70 transition">
-                        <td className="p-3.5 text-zinc-950 font-semibold">0x7099...79C8</td>
-                        <td className="p-3.5 text-zinc-600">3.0 WETH / 3,500 USDC</td>
-                        <td className="p-3.5 text-emerald-700 font-semibold">1.371 (Healthy)</td>
-                        <td className="p-3.5 text-rose-600 font-semibold">1.234 (Liquidated)</td>
-                        <td className="p-3.5">
-                          <span className="px-2 py-0.5 rounded text-[11px] bg-emerald-50 text-emerald-700 border border-emerald-200 font-semibold">
-                            ELIGIBLE_WRONGFUL
-                          </span>
-                        </td>
-                        <td className="p-3.5 text-right text-emerald-700 font-bold">$700.00 USDC</td>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left text-xs font-mono">
+                    <thead className="bg-zinc-50 text-zinc-500 border-b border-zinc-200">
+                      <tr>
+                        <th className="p-3.5">Borrower</th>
+                        <th className="p-3.5">Position (WETH / USDC)</th>
+                        <th className="p-3.5">Baseline HF ($2,000)</th>
+                        <th className="p-3.5">Faulty HF ($1,800)</th>
+                        <th className="p-3.5">Forensic Verdict</th>
+                        <th className="p-3.5 text-right">Approved Restitution</th>
                       </tr>
-                    ) : (
-                      <>
+                    </thead>
+                    <tbody className="divide-y divide-zinc-100">
+                      {isBase ? (
                         <tr className="hover:bg-zinc-50/70 transition">
-                          <td className="p-3.5 text-zinc-950 font-semibold">0x3C44...93BC</td>
-                          <td className="p-3.5 text-zinc-600">10 WETH / 15,000 USDC</td>
-                          <td className="p-3.5 text-emerald-700 font-semibold">1.066 (Safe)</td>
-                          <td className="p-3.5 text-rose-600 font-semibold">0.960 (Underwater)</td>
+                          <td className="p-3.5 text-zinc-950 font-semibold">0x7099...79C8</td>
+                          <td className="p-3.5 text-zinc-600">3.0 WETH / 3,500 USDC</td>
+                          <td className="p-3.5 text-emerald-700 font-semibold">1.371 (Healthy)</td>
+                          <td className="p-3.5 text-rose-600 font-semibold">1.234 (Liquidated)</td>
                           <td className="p-3.5">
-                            <span className="px-2 py-0.5 rounded text-[11px] bg-emerald-50 text-emerald-700 border border-emerald-200 font-semibold">
-                              ELIGIBLE_WRONGFUL
-                            </span>
+                            <Badge variant="success">ELIGIBLE_WRONGFUL</Badge>
                           </td>
-                          <td className="p-3.5 text-right text-emerald-700 font-bold">$2,500.00 USDC</td>
+                          <td className="p-3.5 text-right text-emerald-700 font-bold">$700.00 USDC</td>
                         </tr>
-                        <tr className="hover:bg-zinc-50/70 transition">
-                          <td className="p-3.5 text-zinc-950 font-semibold">0x90F7...b906</td>
-                          <td className="p-3.5 text-zinc-600">5 WETH / 7,500 USDC</td>
-                          <td className="p-3.5 text-emerald-700 font-semibold">1.066 (Safe)</td>
-                          <td className="p-3.5 text-rose-600 font-semibold">0.960 (Underwater)</td>
-                          <td className="p-3.5">
-                            <span className="px-2 py-0.5 rounded text-[11px] bg-emerald-50 text-emerald-700 border border-emerald-200 font-semibold">
-                              ELIGIBLE_WRONGFUL
-                            </span>
-                          </td>
-                          <td className="p-3.5 text-right text-emerald-700 font-bold">$1,250.00 USDC</td>
-                        </tr>
-                        <tr className="hover:bg-zinc-50/70 transition">
-                          <td className="p-3.5 text-zinc-950 font-semibold">0x15d3...6A65</td>
-                          <td className="p-3.5 text-zinc-600">8 WETH / 12,000 USDC</td>
-                          <td className="p-3.5 text-emerald-700 font-semibold">1.066 (Safe)</td>
-                          <td className="p-3.5 text-rose-600 font-semibold">0.960 (Underwater)</td>
-                          <td className="p-3.5">
-                            <span className="px-2 py-0.5 rounded text-[11px] bg-emerald-50 text-emerald-700 border border-emerald-200 font-semibold">
-                              ELIGIBLE_WRONGFUL
-                            </span>
-                          </td>
-                          <td className="p-3.5 text-right text-emerald-700 font-bold">$2,000.00 USDC</td>
-                        </tr>
-                        <tr className="hover:bg-zinc-50/70 transition">
-                          <td className="p-3.5 text-zinc-400">0x9965...d016</td>
-                          <td className="p-3.5 text-zinc-400">10 WETH / 10,000 USDC</td>
-                          <td className="p-3.5 text-emerald-700">1.600 (Healthy)</td>
-                          <td className="p-3.5 text-emerald-700">1.440 (Healthy)</td>
-                          <td className="p-3.5">
-                            <span className="px-2 py-0.5 rounded text-[11px] bg-zinc-100 text-zinc-600 border border-zinc-200">
-                              EXCLUDED_UNHARMED
-                            </span>
-                          </td>
-                          <td className="p-3.5 text-right text-zinc-400">$0.00</td>
-                        </tr>
-                        <tr className="hover:bg-zinc-50/70 transition">
-                          <td className="p-3.5 text-zinc-400">0x976E...976E</td>
-                          <td className="p-3.5 text-zinc-400">5 WETH / 8,100 USDC</td>
-                          <td className="p-3.5 text-rose-600">0.987 (Insolvent)</td>
-                          <td className="p-3.5 text-rose-600">0.888 (Insolvent)</td>
-                          <td className="p-3.5">
-                            <span className="px-2 py-0.5 rounded text-[11px] bg-rose-50 text-rose-700 border border-rose-200">
-                              EXCLUDED_LEGITIMATE
-                            </span>
-                          </td>
-                          <td className="p-3.5 text-right text-rose-700">$0.00</td>
-                        </tr>
-                      </>
-                    )}
-                  </tbody>
-                </table>
-              </div>
+                      ) : (
+                        <>
+                          <tr className="hover:bg-zinc-50/70 transition">
+                            <td className="p-3.5 text-zinc-950 font-semibold">0x3C44...93BC</td>
+                            <td className="p-3.5 text-zinc-600">10 WETH / 15,000 USDC</td>
+                            <td className="p-3.5 text-emerald-700 font-semibold">1.066 (Safe)</td>
+                            <td className="p-3.5 text-rose-600 font-semibold">0.960 (Underwater)</td>
+                            <td className="p-3.5">
+                              <Badge variant="success">ELIGIBLE_WRONGFUL</Badge>
+                            </td>
+                            <td className="p-3.5 text-right text-emerald-700 font-bold">$2,500.00 USDC</td>
+                          </tr>
+                          <tr className="hover:bg-zinc-50/70 transition">
+                            <td className="p-3.5 text-zinc-950 font-semibold">0x90F7...b906</td>
+                            <td className="p-3.5 text-zinc-600">5 WETH / 7,500 USDC</td>
+                            <td className="p-3.5 text-emerald-700 font-semibold">1.066 (Safe)</td>
+                            <td className="p-3.5 text-rose-600 font-semibold">0.960 (Underwater)</td>
+                            <td className="p-3.5">
+                              <Badge variant="success">ELIGIBLE_WRONGFUL</Badge>
+                            </td>
+                            <td className="p-3.5 text-right text-emerald-700 font-bold">$1,250.00 USDC</td>
+                          </tr>
+                          <tr className="hover:bg-zinc-50/70 transition">
+                            <td className="p-3.5 text-zinc-950 font-semibold">0x15d3...6A65</td>
+                            <td className="p-3.5 text-zinc-600">8 WETH / 12,000 USDC</td>
+                            <td className="p-3.5 text-emerald-700 font-semibold">1.066 (Safe)</td>
+                            <td className="p-3.5 text-rose-600 font-semibold">0.960 (Underwater)</td>
+                            <td className="p-3.5">
+                              <Badge variant="success">ELIGIBLE_WRONGFUL</Badge>
+                            </td>
+                            <td className="p-3.5 text-right text-emerald-700 font-bold">$2,000.00 USDC</td>
+                          </tr>
+                          <tr className="hover:bg-zinc-50/70 transition">
+                            <td className="p-3.5 text-zinc-400">0x9965...d016</td>
+                            <td className="p-3.5 text-zinc-400">10 WETH / 10,000 USDC</td>
+                            <td className="p-3.5 text-emerald-700">1.600 (Healthy)</td>
+                            <td className="p-3.5 text-emerald-700">1.440 (Healthy)</td>
+                            <td className="p-3.5">
+                              <Badge variant="accent">EXCLUDED_UNHARMED</Badge>
+                            </td>
+                            <td className="p-3.5 text-right text-zinc-400">$0.00</td>
+                          </tr>
+                          <tr className="hover:bg-zinc-50/70 transition">
+                            <td className="p-3.5 text-zinc-400">0x976E...976E</td>
+                            <td className="p-3.5 text-zinc-400">5 WETH / 8,100 USDC</td>
+                            <td className="p-3.5 text-rose-600">0.987 (Insolvent)</td>
+                            <td className="p-3.5 text-rose-600">0.888 (Insolvent)</td>
+                            <td className="p-3.5">
+                              <Badge variant="danger">EXCLUDED_LEGITIMATE</Badge>
+                            </td>
+                            <td className="p-3.5 text-right text-rose-700">$0.00</td>
+                          </tr>
+                        </>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
 
-              <div className="pt-4 border-t border-zinc-100 flex flex-wrap items-center justify-between text-xs text-zinc-500 gap-2">
-                <div>
-                  {isBase
-                    ? "1 innocent victim qualified on Base Mainnet Fork."
-                    : "3 innocent victims qualified. 2 insolvent accounts excluded to prevent moral hazard."}
+                <div className="pt-4 border-t border-zinc-100 flex flex-wrap items-center justify-between text-xs text-zinc-500 gap-2">
+                  <div>
+                    {isBase
+                      ? "1 innocent victim qualified on Base Mainnet Fork."
+                      : "3 innocent victims qualified. 2 insolvent accounts excluded to prevent moral hazard."}
+                  </div>
+                  <div className="font-mono text-emerald-700 font-bold text-sm">
+                    Approved Restitution Pool: $
+                    {totalNumeric.toLocaleString("en-US", { minimumFractionDigits: 2 })} USDC
+                  </div>
                 </div>
-                <div className="font-mono text-emerald-700 font-bold text-sm">
-                  Approved Restitution Pool: ${totalRestitutionDisplay} USDC
-                </div>
-              </div>
+              </Card>
             </motion.div>
           )}
 
@@ -718,7 +744,7 @@ export default function Dashboard() {
               className="grid grid-cols-1 lg:grid-cols-5 gap-6"
             >
               {/* Left Column: Claims Portal & EIP-712 Voucher Drawer */}
-              <div className="lg:col-span-3 bg-white rounded-2xl border border-zinc-200/90 shadow-card p-6 space-y-5">
+              <Card className="lg:col-span-3 p-6 space-y-5">
                 <div className="flex items-center justify-between pb-4 border-b border-zinc-100">
                   <div className="flex items-center gap-2">
                     <div className="p-2 rounded-xl bg-zinc-100 text-zinc-800">
@@ -733,9 +759,7 @@ export default function Dashboard() {
                       </p>
                     </div>
                   </div>
-                  <span className="text-xs font-mono px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">
-                    OZ Merkle Standard
-                  </span>
+                  <Badge variant="accent">OZ Merkle Standard</Badge>
                 </div>
 
                 <div className="space-y-4">
@@ -753,7 +777,7 @@ export default function Dashboard() {
                           }}
                           className={`p-3.5 rounded-xl text-left border transition-all ${
                             selectedClaimantIndex === idx
-                              ? "bg-zinc-900 text-white border-zinc-900 shadow-sm"
+                              ? "bg-zinc-950 text-white border-zinc-950 shadow-sm ring-2 ring-zinc-950"
                               : "bg-zinc-50 hover:bg-white border-zinc-200 text-zinc-700"
                           }`}
                         >
@@ -819,21 +843,24 @@ export default function Dashboard() {
                           </span>
 
                           <div className="flex items-center gap-2">
-                            <button
+                            <Button
+                              variant="secondary"
+                              size="sm"
                               onClick={() => executeClaim("direct")}
                               disabled={claimStatus?.loading}
-                              className="px-3.5 py-1.5 rounded-lg bg-white hover:bg-zinc-50 text-zinc-800 border border-zinc-300 text-xs font-sans font-medium transition disabled:opacity-50 shadow-subtle"
                             >
                               Direct Merkle Claim
-                            </button>
-                            <button
+                            </Button>
+                            <Button
+                              variant="default"
+                              size="sm"
                               onClick={() => executeClaim("gasless")}
                               disabled={claimStatus?.loading}
-                              className="px-3.5 py-1.5 rounded-lg bg-zinc-950 hover:bg-zinc-800 text-white text-xs font-sans font-semibold transition disabled:opacity-50 flex items-center gap-1.5 shadow-sm"
+                              className="flex items-center gap-1.5"
                             >
                               <Zap className="w-3.5 h-3.5 text-amber-300" />
-                              Gasless EIP-712 Voucher (0 ETH)
-                            </button>
+                              Gasless Voucher (0 ETH)
+                            </Button>
                           </div>
                         </div>
 
@@ -874,10 +901,10 @@ export default function Dashboard() {
                     </div>
                   )}
                 </div>
-              </div>
+              </Card>
 
               {/* Right Column: 5/5 Security Guardrails */}
-              <div className="lg:col-span-2 bg-white rounded-2xl border border-zinc-200/90 shadow-card p-6 space-y-4 h-fit">
+              <Card className="lg:col-span-2 p-6 space-y-4 h-fit">
                 <div className="flex items-center justify-between pb-4 border-b border-zinc-100">
                   <div className="flex items-center gap-2">
                     <div className="p-2 rounded-xl bg-emerald-50 text-emerald-700">
@@ -888,9 +915,7 @@ export default function Dashboard() {
                       <p className="text-xs text-zinc-400">Formal Verification</p>
                     </div>
                   </div>
-                  <span className="text-xs font-mono text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
-                    5/5 PASSED
-                  </span>
+                  <Badge variant="success">5/5 PASSED</Badge>
                 </div>
 
                 <div className="space-y-2.5">
@@ -928,11 +953,11 @@ export default function Dashboard() {
                     </div>
                   ))}
                 </div>
-              </div>
+              </Card>
             </motion.div>
           )}
 
-          {/* TAB 4: Partner Integrations & Unit Economics */}
+          {/* TAB 4: Partner Proof & Unit Economics (The Showcase User Requested) */}
           {activeTab === "proof" && (
             <motion.div
               initial={{ opacity: 0, y: 8 }}
@@ -945,41 +970,43 @@ export default function Dashboard() {
                 href="https://neatlogs.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-5 rounded-2xl bg-white border border-zinc-200/90 hover:border-zinc-300 shadow-card hover:shadow-card-hover transition-all duration-200 space-y-4 group block"
+                className="group block"
               >
-                <div className="flex items-center justify-between pb-2 border-b border-zinc-100">
-                  <div className="flex items-center gap-2.5">
-                    <div className="p-2 rounded-xl bg-zinc-100 text-zinc-800">
-                      <Activity className="w-4 h-4" />
+                <Card className="p-5 h-full space-y-4 hover:shadow-card-hover hover:-translate-y-0.5 transition-all duration-200">
+                  <div className="flex items-center justify-between pb-2 border-b border-zinc-100">
+                    <div className="flex items-center gap-2.5">
+                      <div className="p-2.5 rounded-xl bg-zinc-100 text-zinc-900 group-hover:bg-zinc-950 group-hover:text-white transition">
+                        <Activity className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-sm text-zinc-950 flex items-center gap-1">
+                          Neatlogs
+                          <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400 group-hover:text-zinc-950 transition" />
+                        </h4>
+                        <div className="text-[11px] text-zinc-400 font-mono">Agent Tracing</div>
+                      </div>
                     </div>
-                    <div>
-                      <h4 className="font-semibold text-sm text-zinc-950 flex items-center gap-1">
-                        Neatlogs
-                        <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400 group-hover:text-zinc-950 transition" />
-                      </h4>
-                      <div className="text-[11px] text-zinc-400 font-mono">Tracing & Observability</div>
+                  </div>
+
+                  <div className="space-y-1.5 text-xs text-zinc-700 font-mono">
+                    <div className="flex justify-between py-1 border-b border-zinc-100 text-[11px]">
+                      <span className="text-zinc-400 font-sans">Project ID:</span>
+                      <span className="text-zinc-900">542c53f4...</span>
+                    </div>
+                    <div className="flex justify-between py-1 border-b border-zinc-100 text-[11px]">
+                      <span className="text-zinc-400 font-sans">Hierarchy:</span>
+                      <span className="text-emerald-700 font-semibold">10 Spans</span>
+                    </div>
+                    <div className="flex justify-between py-1 border-b border-zinc-100 text-[11px]">
+                      <span className="text-zinc-400 font-sans">Telemetry:</span>
+                      <span className="text-zinc-900">wrapClient</span>
                     </div>
                   </div>
-                </div>
 
-                <div className="space-y-1.5 text-xs text-zinc-700 font-mono">
-                  <div className="flex justify-between py-1 border-b border-zinc-100 text-[11px]">
-                    <span className="text-zinc-400 font-sans">Project ID:</span>
-                    <span className="text-zinc-900">542c53f4...</span>
-                  </div>
-                  <div className="flex justify-between py-1 border-b border-zinc-100 text-[11px]">
-                    <span className="text-zinc-400 font-sans">Hierarchy:</span>
-                    <span className="text-emerald-700 font-semibold">10 Spans</span>
-                  </div>
-                  <div className="flex justify-between py-1 border-b border-zinc-100 text-[11px]">
-                    <span className="text-zinc-400 font-sans">Telemetry:</span>
-                    <span className="text-zinc-900">wrapClient</span>
-                  </div>
-                </div>
-
-                <p className="text-xs text-zinc-600 leading-relaxed">
-                  Captures end-to-end distributed trace spans of on-chain inspections, BigInt counterfactual math, and Merkle tree hashing.
-                </p>
+                  <p className="text-xs text-zinc-600 leading-relaxed">
+                    Captures distributed trace spans of on-chain inspections, BigInt counterfactual math, and Merkle tree hashing.
+                  </p>
+                </Card>
               </a>
 
               {/* Entire */}
@@ -987,41 +1014,43 @@ export default function Dashboard() {
                 href="https://entire.io/gh/Proofofaudit/poa-neathack"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-5 rounded-2xl bg-white border border-zinc-200/90 hover:border-zinc-300 shadow-card hover:shadow-card-hover transition-all duration-200 space-y-4 group block"
+                className="group block"
               >
-                <div className="flex items-center justify-between pb-2 border-b border-zinc-100">
-                  <div className="flex items-center gap-2.5">
-                    <div className="p-2 rounded-xl bg-zinc-100 text-zinc-800">
-                      <GitBranch className="w-4 h-4" />
+                <Card className="p-5 h-full space-y-4 hover:shadow-card-hover hover:-translate-y-0.5 transition-all duration-200">
+                  <div className="flex items-center justify-between pb-2 border-b border-zinc-100">
+                    <div className="flex items-center gap-2.5">
+                      <div className="p-2.5 rounded-xl bg-zinc-100 text-zinc-900 group-hover:bg-zinc-950 group-hover:text-white transition">
+                        <GitBranch className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-sm text-zinc-950 flex items-center gap-1">
+                          Entire
+                          <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400 group-hover:text-zinc-950 transition" />
+                        </h4>
+                        <div className="text-[11px] text-zinc-400 font-mono">Checkpoints & Memory</div>
+                      </div>
                     </div>
-                    <div>
-                      <h4 className="font-semibold text-sm text-zinc-950 flex items-center gap-1">
-                        Entire
-                        <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400 group-hover:text-zinc-950 transition" />
-                      </h4>
-                      <div className="text-[11px] text-zinc-400 font-mono">Checkpoints & Memory</div>
+                  </div>
+
+                  <div className="space-y-1.5 text-xs text-zinc-700 font-mono">
+                    <div className="flex justify-between py-1 border-b border-zinc-100 text-[11px]">
+                      <span className="text-zinc-400 font-sans">CLI & Graph:</span>
+                      <span className="text-zinc-900">v0.11.4</span>
+                    </div>
+                    <div className="flex justify-between py-1 border-b border-zinc-100 text-[11px]">
+                      <span className="text-zinc-400 font-sans">Indexed Symbols:</span>
+                      <span className="text-zinc-900">1,929 Symbols</span>
+                    </div>
+                    <div className="flex justify-between py-1 border-b border-zinc-100 text-[11px]">
+                      <span className="text-zinc-400 font-sans">Context Pruning:</span>
+                      <span className="text-emerald-700 font-semibold">77.7% Pruned</span>
                     </div>
                   </div>
-                </div>
 
-                <div className="space-y-1.5 text-xs text-zinc-700 font-mono">
-                  <div className="flex justify-between py-1 border-b border-zinc-100 text-[11px]">
-                    <span className="text-zinc-400 font-sans">CLI & Graph:</span>
-                    <span className="text-zinc-900">v0.11.4</span>
-                  </div>
-                  <div className="flex justify-between py-1 border-b border-zinc-100 text-[11px]">
-                    <span className="text-zinc-400 font-sans">Indexed Symbols:</span>
-                    <span className="text-zinc-900">1,929 Symbols</span>
-                  </div>
-                  <div className="flex justify-between py-1 border-b border-zinc-100 text-[11px]">
-                    <span className="text-zinc-400 font-sans">Context Pruning:</span>
-                    <span className="text-emerald-700 font-semibold">77.7% Pruned</span>
-                  </div>
-                </div>
-
-                <p className="text-xs text-zinc-600 leading-relaxed">
-                  Maintains continuous AST symbol graphs, persistent memory, and transparent checkpoints across all incident phases.
-                </p>
+                  <p className="text-xs text-zinc-600 leading-relaxed">
+                    Maintains continuous AST symbol graphs, persistent memory, and transparent checkpoints across all incident phases.
+                  </p>
+                </Card>
               </a>
 
               {/* cfo.ai */}
@@ -1029,48 +1058,50 @@ export default function Dashboard() {
                 href="https://cfo.ai/s/K8j_ybAD6DrlAI2j"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-5 rounded-2xl bg-white border border-zinc-200/90 hover:border-zinc-300 shadow-card hover:shadow-card-hover transition-all duration-200 space-y-4 group block"
+                className="group block"
               >
-                <div className="flex items-center justify-between pb-2 border-b border-zinc-100">
-                  <div className="flex items-center gap-2.5">
-                    <div className="p-2 rounded-xl bg-zinc-100 text-zinc-800">
-                      <DollarSign className="w-4 h-4" />
+                <Card className="p-5 h-full space-y-4 hover:shadow-card-hover hover:-translate-y-0.5 transition-all duration-200">
+                  <div className="flex items-center justify-between pb-2 border-b border-zinc-100">
+                    <div className="flex items-center gap-2.5">
+                      <div className="p-2.5 rounded-xl bg-zinc-100 text-zinc-900 group-hover:bg-zinc-950 group-hover:text-white transition">
+                        <DollarSign className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-sm text-zinc-950 flex items-center gap-1">
+                          cfo.ai
+                          <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400 group-hover:text-zinc-950 transition" />
+                        </h4>
+                        <div className="text-[11px] text-zinc-400 font-mono">Ari Financial Model</div>
+                      </div>
                     </div>
-                    <div>
-                      <h4 className="font-semibold text-sm text-zinc-950 flex items-center gap-1">
-                        cfo.ai
-                        <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400 group-hover:text-zinc-950 transition" />
-                      </h4>
-                      <div className="text-[11px] text-zinc-400 font-mono">Ari Financial Model</div>
+                  </div>
+
+                  <div className="space-y-1.5 text-xs text-zinc-700 font-mono">
+                    <div className="flex justify-between py-1 border-b border-zinc-100 text-[11px]">
+                      <span className="text-zinc-400 font-sans">Agent Run Cost:</span>
+                      <span className="text-zinc-900">$0.062 vs $50k</span>
+                    </div>
+                    <div className="flex justify-between py-1 border-b border-zinc-100 text-[11px]">
+                      <span className="text-zinc-400 font-sans">Success Fee (5%):</span>
+                      <span className="text-emerald-700 font-bold">$287.50 / incident</span>
+                    </div>
+                    <div className="flex justify-between py-1 border-b border-zinc-100 text-[11px]">
+                      <span className="text-zinc-400 font-sans">Gross Margin:</span>
+                      <span className="text-zinc-900 font-bold">99.8% · 21x LTV</span>
                     </div>
                   </div>
-                </div>
 
-                <div className="space-y-1.5 text-xs text-zinc-700 font-mono">
-                  <div className="flex justify-between py-1 border-b border-zinc-100 text-[11px]">
-                    <span className="text-zinc-400 font-sans">Agent Run Cost:</span>
-                    <span className="text-zinc-900">$0.062 vs $50k</span>
-                  </div>
-                  <div className="flex justify-between py-1 border-b border-zinc-100 text-[11px]">
-                    <span className="text-zinc-400 font-sans">Success Fee (5%):</span>
-                    <span className="text-emerald-700 font-bold">$287.50 / incident</span>
-                  </div>
-                  <div className="flex justify-between py-1 border-b border-zinc-100 text-[11px]">
-                    <span className="text-zinc-400 font-sans">Gross Margin:</span>
-                    <span className="text-zinc-900 font-bold">99.8% · 21x LTV</span>
-                  </div>
-                </div>
-
-                <p className="text-xs text-zinc-600 leading-relaxed">
-                  Demonstrates enterprise unit economics: autonomous agent restitution replaces slow $50,000+ forensic auditor retainers.
-                </p>
+                  <p className="text-xs text-zinc-600 leading-relaxed">
+                    Demonstrates enterprise unit economics: autonomous agent restitution replaces slow $50,000+ manual forensic retainers.
+                  </p>
+                </Card>
               </a>
 
               {/* Crustdata */}
-              <div className="p-5 rounded-2xl bg-white border border-zinc-200/90 shadow-card hover:shadow-card-hover transition-all duration-200 space-y-4 block">
+              <Card className="p-5 h-full space-y-4 hover:shadow-card-hover hover:-translate-y-0.5 transition-all duration-200">
                 <div className="flex items-center justify-between pb-2 border-b border-zinc-100">
                   <div className="flex items-center gap-2.5">
-                    <div className="p-2 rounded-xl bg-zinc-100 text-zinc-800">
+                    <div className="p-2.5 rounded-xl bg-zinc-100 text-zinc-900">
                       <ShieldCheck className="w-4 h-4" />
                     </div>
                     <div>
@@ -1098,12 +1129,12 @@ export default function Dashboard() {
                 <p className="text-xs text-zinc-600 leading-relaxed">
                   Enriches on-chain accounts with entity intelligence to distinguish MEV bot liquidators from affected community members.
                 </p>
-              </div>
+              </Card>
             </motion.div>
           )}
         </main>
 
-        {/* ── 6. Modern Understated Footer ───────────────────── */}
+        {/* ── 7. Modern Understated Footer ─────────────────────────── */}
         <footer className="pt-8 pb-4 border-t border-zinc-200 text-xs text-zinc-500 flex flex-col md:flex-row items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <span className="font-medium text-zinc-700">POA (Proof of Audits)</span>
