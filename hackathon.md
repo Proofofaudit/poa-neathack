@@ -57,9 +57,16 @@
 - Created `docs/DEMO_SCRIPT.md` providing a second-by-second 3-minute video presentation guide.
 - Created root `README.md` with architectural schematics, quickstart guide, and mathematical specifications.
 
+### [2026-10-11] Milestone I: Live Claude Haiku LLM, Crustdata Intelligence & Public Repo
+- Integrated `ForensicLlmAgent` in `src/agent/llm.ts` wrapping LiteLLM Claude Haiku (`https://litellm.vision.aivar.app/v1`).
+- Integrated `CrustdataEnricher` in `src/agent/crustdata.ts` profiling borrower & liquidator wallet entities, risk rating, and institutional categorizations.
+- Expanded Neatlogs pipeline to 10 hierarchical spans with live token telemetry.
+- Verified test suite: Foundry 5/5 passing, Vitest 6/6 passing.
+- Pushed complete verified source repository to GitHub: `https://github.com/Proofofaudit/poa-neathack`.
+
 ## Demo
-- **Status:** Verified On-Chain + UI Complete + Documentation Complete (Milestones A-H complete)
-- **Scenario:** Faulty oracle price drop triggering wrongful liquidations on a simulated lending pool -> autonomous investigation -> counterfactual replay -> deterministic compensation calculation -> Merkle tree generation -> authorized restitution payout.
+- **Status:** Verified On-Chain + UI Complete + Documentation Complete + Live LLM Verified
+- **Scenario:** Faulty oracle price drop triggering wrongful liquidations on a simulated lending pool -> autonomous Claude Haiku investigation -> Crustdata entity enrichment -> counterfactual replay -> deterministic compensation calculation -> Merkle tree generation -> authorized restitution payout.
 
 ## Known Limitations & Safety Boundaries
 - Supports simulated DeFi lending oracle incidents on local Anvil test chains.
@@ -68,15 +75,18 @@
 
 ## Submission Checklist
 - [x] neatHack Web check-in confirmed
-- [x] Entire CLI installed and connected to Antigravity
+- [x] Entire CLI installed and connected to Antigravity (`docs/ENTIRE_EVIDENCE.md`)
 - [x] Neatlogs Project ID assigned (`542c53f4-ec26-4d57-a097-b7c9175c84be`)
 - [x] Working Solidity contracts with passing Foundry test suite (5/5 tests passing)
 - [x] Counterfactual engine & deterministic loss calculation
 - [x] Autonomous agent with transient failure recovery (6/6 tests passing)
-- [x] Neatlogs SDK instrumented with genuine trace evidence (`docs/NEATLOGS_EVIDENCE.md`)
+- [x] Live Claude Haiku LLM reasoning via LiteLLM & Neatlogs client wrapper
+- [x] Crustdata on-chain entity & risk enrichment integration
+- [x] Neatlogs SDK instrumented with 10-span trace tree (`docs/NEATLOGS_EVIDENCE.md`)
 - [x] End-to-end on-chain Anvil scenario runner & negative tests
 - [x] Next.js interactive web app UI (Milestone G)
-- [x] Entire Git checkpoints captured across milestones (`docs/ENTIRE_EVIDENCE.md`)
-- [x] cfo.ai financial plan exported (`docs/CFO_AI_INPUTS.md`)
+- [x] Entire Git lifecycle hooks active & logging (`docs/ENTIRE_EVIDENCE.md`)
+- [x] cfo.ai financial plan modeled (`docs/CFO_AI_INPUTS.md`)
 - [x] 3-minute reproducible demo video script (`docs/DEMO_SCRIPT.md`)
-- [ ] Public GitHub repository push and X quote-post submission
+- [x] Public GitHub repository live & synchronized: `https://github.com/Proofofaudit/poa-neathack`
+- [ ] Record 3-minute video & post quote-tweet during submission window (Monday, Oct 12, 7:00 PM – 11:55 PM IST)
