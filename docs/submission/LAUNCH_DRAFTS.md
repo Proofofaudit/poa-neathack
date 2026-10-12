@@ -1,6 +1,6 @@
 # POA submission post drafts — not published
 
-Quote the official @neatlogs launch post during October 12, 7:00–11:55 PM IST. Tag all three accounts: @neatlogs @EntireHQ @arithecfo. Then fill out the submission form; both steps are required. Links are to be supplied at 7 PM. Watch Discord for cutoff changes. Use the registered participant/team names. Public code must be synchronized before claiming it contains this release; current GitHub head is still 96da127.
+Quote the official @neatlogs launch post during October 12, 7:00–11:55 PM IST. Tag all three accounts: @neatlogs @EntireHQ @arithecfo. Then fill out the submission form; both steps are required. Links are to be supplied at 7 PM. Watch Discord for cutoff changes. Use the registered participant/team names. Public runtime code is synchronized at adf3bbb; see docs/SUBMISSION_VERIFICATION.md.
 
 ## Submission
 POA · Proof of Audits

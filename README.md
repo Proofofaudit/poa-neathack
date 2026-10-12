@@ -113,7 +113,7 @@ The historical log tool changes its plan when a provider rejects a range: it par
 
 Local traces now use the actual neatlogs SDK with an isolated in-memory exporter. With a valid configured provider credential, `npm run evidence:remote` exports the synthetic investigation and before/after regression traces, then verifies every expected span and its hierarchy through authenticated provider read-back. It never enables live LLM calls. It saves distinct remote artifacts without substituting remote-export success for persisted ingestion. Keep all credentials outside Git and rotate exposed credentials at the provider.
 
-`npm run evidence:entire` captures setup and checkpoint availability without copying private transcripts. Zero checkpoints remain explicitly incomplete evidence.
+`npm run evidence:entire` captures setup and checkpoint availability without copying private transcripts. That original collection preceded the supported attachment of the real Codex session. The public session now contains checkpoint `01M4R9C17A69686FF6780FW83Q`; see `docs/SUBMISSION_VERIFICATION.md`.
 
 `npm run business:model` reproduces the assumed commercial scenarios. The plan, assumptions, calculated CSV, three-minute storyboard and unpublished launch drafts are in `docs/submission/`. These local files do not prove use of cfo.ai or public posting. Actual cfo.ai workspace screenshots and an unchanged spreadsheet export are now retained separately in public/submission and evidence/cfo_ai_evidence.json; public posts remain unpublished.
 

@@ -35,4 +35,4 @@ Observed transfer cost includes collateral sent to the liquidator and receipt-ve
 
 ## Submission limits
 
-The deployed working tree includes upgrades beyond public commit 96da127. No GitHub push was performed. The public repository still needs synchronization before submission, subject to the user's original separate-clarification restriction. Public posts remain drafts. No prize result is guaranteed. The prototype still needs dependency remediation, independent security review and broader protocol/position support before treasury production use.
+The verified runtime upgrade is now published at GitHub commit adf3bbb, with a genuine Entire checkpoint. See docs/SUBMISSION_VERIFICATION.md for the current release. Public posts remain drafts. No prize result is guaranteed. The prototype still needs dependency remediation, independent security review and broader protocol/position support before treasury production use.

@@ -5,7 +5,7 @@ This local revision replaces the previous production-upgrade claims with a repro
 ## Completed verification
 
 - TypeScript type checking: passed.
-- JavaScript/TypeScript tests: 118 passed, including investigation policy, RPC recovery, API authorization and the MCP stdio flow.
+- JavaScript/TypeScript tests: 125 passed, including investigation policy, RPC recovery, API authorization and the MCP stdio flow.
 - Solidity tests: 20 passed, including 256 fuzz cases for partial-claim/sweep accounting.
 - Local EVM demonstration: passed; six borrowers, four observed liquidations, three eligible claims totaling 5,750 test USDC, one pre-insolvent exclusion and two untouched positions.
 - Pinned Base fork demonstration: passed with the same synthetic protocol scenario. These are isolated fork transactions, not public Base payments or a reconstruction of a historical exploit.
@@ -34,3 +34,5 @@ Previously exposed provider credentials still require immediate revocation and r
 The framework was upgraded to Next.js 16.4.0 / React 19.3.0 on Node 24. The installed dependency audit still reports 31 advisories across direct and transitive packages, including development tooling and the telemetry dependency tree. Safe automatic fixes did not clear them. Major dependency migrations need separate validation; this evidence-viewer deployment is not a claim of audited production security. Keep public execution disabled and resolve these advisories before exposing a production agent service.
 
 The primary `/live` flow now investigates a real Aave liquidation. Its original execution reproduces mainnet gas and 25 logs, and six price scenarios were executed locally. Both spot references still liquidate, so compensation remains unjustified by the evidence. The hosted agent revalidates saved proof. The updated narrated video is under three minutes; synthetic claim footage is separately labelled. See `docs/REAL_LIQUIDATION_INVESTIGATION.md`.
+
+Current verification and public links: `docs/SUBMISSION_VERIFICATION.md`. Default public Claude example works without credential entry; custom-transaction AI remains restricted. Public code commit adf3bbb and its genuine Entire checkpoint are published.

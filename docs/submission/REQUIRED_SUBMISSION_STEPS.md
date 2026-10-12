@@ -16,4 +16,4 @@ Live: https://poa-neathack.vercel.app/live
 Video: https://poa-neathack.vercel.app/watch
 Public code: https://github.com/Proofofaudit/poa-neathack
 
-The deployed upgrades remain local beyond public commit 96da127. Synchronization and publication remain pending under the earlier separate-clarification restriction. No quote-tweet or form has been submitted.
+The current runtime upgrade is published at GitHub commit adf3bbb. Social publication and form submission remain pending. No quote-tweet or form has been submitted.

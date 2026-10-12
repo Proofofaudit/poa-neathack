@@ -1,0 +1,16 @@
+{
+  "verifiedAt": "2026-10-12T14:51:09.880Z",
+  "checkpoint": "01M4R9C17A69686FF6780FW83Q",
+  "method": "Supported Entire session attach of the actual existing Codex transcript; no synthetic history",
+  "sessionId": "01a12c74-ec46-7f40-b917-d2a926c1dbb2",
+  "transcriptContainsActualWork": {
+    "reservePublicAiRun": true,
+    "planner_compact_model_after": true,
+    "125 passed": true,
+    "entire agent add codex": true
+  },
+  "reportedTokenTotalValidated": false,
+  "tokenMetricCaveat": "Entire reported an unusually large session token total; it is not used as a billing or model-run metric.",
+  "knownCredentialMatches": 0,
+  "credentialScan": "All six stored checkpoint blobs checked against configured credentials and extracted exposed credential patterns before push"
+}
