@@ -1,0 +1,4 @@
+Scenario,Customers,Monthly price,Cases,Revenue,Direct cost,Gross profit,Gross margin %,Operating result,Burn,Runway months,Break-even customers
+Conservative,3,500,3,1500,315,1185,79.00,-6015,6015,11.64,19
+Planning base,10,1000,20,10000,2200,7800,78.00,-4500,4500,15.56,16
+Upside,25,1500,75,37500,12750,24750,66.00,5150,0,Not cash-burning in this scenario,20

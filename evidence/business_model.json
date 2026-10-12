@@ -1,0 +1,115 @@
+{
+  "status": "UNVALIDATED_PLANNING_ASSUMPTIONS_NOT_CUSTOMER_OR_BILLING_DATA",
+  "currency": "USD",
+  "cashAvailableAfterReserve": 70000,
+  "assumptions": {
+    "status": "UNVALIDATED_PLANNING_ASSUMPTIONS_NOT_CUSTOMER_OR_BILLING_DATA",
+    "currency": "USD",
+    "cashAtStart": 100000,
+    "oneTimeSecurityReserve": 30000,
+    "reviewerHourlyCost": 50,
+    "scenarios": [
+      {
+        "name": "Conservative",
+        "customers": 3,
+        "monthlySubscription": 500,
+        "casesPerCustomer": 1,
+        "computePerCase": 5,
+        "reviewHoursPerCase": 2,
+        "fixedInfrastructure": 200,
+        "payroll": 6000,
+        "otherOperating": 1000
+      },
+      {
+        "name": "Planning base",
+        "customers": 10,
+        "monthlySubscription": 1000,
+        "casesPerCustomer": 2,
+        "computePerCase": 10,
+        "reviewHoursPerCase": 2,
+        "fixedInfrastructure": 300,
+        "payroll": 10000,
+        "otherOperating": 2000
+      },
+      {
+        "name": "Upside",
+        "customers": 25,
+        "monthlySubscription": 1500,
+        "casesPerCustomer": 3,
+        "computePerCase": 20,
+        "reviewHoursPerCase": 3,
+        "fixedInfrastructure": 600,
+        "payroll": 16000,
+        "otherOperating": 3000
+      }
+    ]
+  },
+  "scenarios": [
+    {
+      "name": "Conservative",
+      "customers": 3,
+      "monthlySubscription": 500,
+      "casesPerCustomer": 1,
+      "computePerCase": 5,
+      "reviewHoursPerCase": 2,
+      "fixedInfrastructure": 200,
+      "payroll": 6000,
+      "otherOperating": 1000,
+      "cases": 3,
+      "revenue": 1500,
+      "directCost": 315,
+      "grossProfit": 1185,
+      "grossMarginPercent": 79,
+      "monthlyOperatingResult": -6015,
+      "monthlyBurn": 6015,
+      "runwayMonths": 11.637572734829593,
+      "breakEvenCustomers": 19
+    },
+    {
+      "name": "Planning base",
+      "customers": 10,
+      "monthlySubscription": 1000,
+      "casesPerCustomer": 2,
+      "computePerCase": 10,
+      "reviewHoursPerCase": 2,
+      "fixedInfrastructure": 300,
+      "payroll": 10000,
+      "otherOperating": 2000,
+      "cases": 20,
+      "revenue": 10000,
+      "directCost": 2200,
+      "grossProfit": 7800,
+      "grossMarginPercent": 78,
+      "monthlyOperatingResult": -4500,
+      "monthlyBurn": 4500,
+      "runwayMonths": 15.555555555555555,
+      "breakEvenCustomers": 16
+    },
+    {
+      "name": "Upside",
+      "customers": 25,
+      "monthlySubscription": 1500,
+      "casesPerCustomer": 3,
+      "computePerCase": 20,
+      "reviewHoursPerCase": 3,
+      "fixedInfrastructure": 600,
+      "payroll": 16000,
+      "otherOperating": 3000,
+      "cases": 75,
+      "revenue": 37500,
+      "directCost": 12750,
+      "grossProfit": 24750,
+      "grossMarginPercent": 66,
+      "monthlyOperatingResult": 5150,
+      "monthlyBurn": 0,
+      "runwayMonths": null,
+      "breakEvenCustomers": 20
+    }
+  ],
+  "limitations": [
+    "All prices, costs, customer counts and starting capital are hypotheses, not actual results.",
+    "Static monthly steady-state model; excludes growth, churn, tax and working-capital timing.",
+    "Contract reviewers are variable costs separate from payroll; avoid double counting if the team performs reviews.",
+    "CFO.ai use is not established by this local calculation. Import and validate these assumptions in the actual product."
+  ]
+}

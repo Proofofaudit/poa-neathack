@@ -1,0 +1,12 @@
+{
+  "status": "UNVALIDATED_PLANNING_ASSUMPTIONS_NOT_CUSTOMER_OR_BILLING_DATA",
+  "currency": "USD",
+  "cashAtStart": 100000,
+  "oneTimeSecurityReserve": 30000,
+  "reviewerHourlyCost": 50,
+  "scenarios": [
+    { "name": "Conservative", "customers": 3, "monthlySubscription": 500, "casesPerCustomer": 1, "computePerCase": 5, "reviewHoursPerCase": 2, "fixedInfrastructure": 200, "payroll": 6000, "otherOperating": 1000 },
+    { "name": "Planning base", "customers": 10, "monthlySubscription": 1000, "casesPerCustomer": 2, "computePerCase": 10, "reviewHoursPerCase": 2, "fixedInfrastructure": 300, "payroll": 10000, "otherOperating": 2000 },
+    { "name": "Upside", "customers": 25, "monthlySubscription": 1500, "casesPerCustomer": 3, "computePerCase": 20, "reviewHoursPerCase": 3, "fixedInfrastructure": 600, "payroll": 16000, "otherOperating": 3000 }
+  ]
+}

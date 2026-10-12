@@ -1,6 +1,6 @@
 /**
  * POA Model Context Protocol (MCP) Server
- * 
+ *
  * Standard: Model Context Protocol (JSON-RPC 2.0 over stdio)
  * Enables any MCP-compliant AI client (Cursor, Claude Desktop, Antigravity) to:
  *  1. Inspect DeFi incident parameters and on-chain contract state
@@ -36,31 +36,68 @@ interface JsonRpcResponse {
 const TOOLS = [
   {
     name: "poa_replay_counterfactual",
-    description: "Execute deterministic counterfactual replay for a borrower position under an oracle intervention policy. Returns exact Net Equity delta and moral hazard status.",
+    description:
+      "Execute deterministic counterfactual replay for a borrower position under an oracle intervention policy. Returns exact Net Equity delta and moral hazard status.",
     inputSchema: {
       type: "object",
       properties: {
         claimIndex: { type: "number", description: "Index of the claim" },
-        borrowerAddress: { type: "string", description: "Borrower wallet address" },
-        collateralWeth: { type: "string", description: "Collateral amount in 18 decimals WETH (e.g. 2000000000000000000)" },
-        debtUsdc: { type: "string", description: "Debt amount in 6 decimals USDC (e.g. 2500000000)" },
-        liquidatorAddress: { type: "string", description: "Liquidator wallet address" },
-        debtCoveredUsdc: { type: "string", description: "Debt repaid by liquidator in 6 decimals USDC" },
-        collateralSeizedWeth: { type: "string", description: "Collateral seized by liquidator in 18 decimals WETH" },
-        faultyPriceUsd8Dec: { type: "string", description: "Faulty oracle price in 8 decimals (e.g. 180000000000)" },
-        baselinePriceUsd8Dec: { type: "string", description: "True baseline reference price in 8 decimals (e.g. 200000000000)" }
+        borrowerAddress: {
+          type: "string",
+          description: "Borrower wallet address",
+        },
+        collateralWeth: {
+          type: "string",
+          description:
+            "Collateral amount in 18 decimals WETH (e.g. 2000000000000000000)",
+        },
+        debtUsdc: {
+          type: "string",
+          description: "Debt amount in 6 decimals USDC (e.g. 2500000000)",
+        },
+        liquidatorAddress: {
+          type: "string",
+          description: "Liquidator wallet address",
+        },
+        debtCoveredUsdc: {
+          type: "string",
+          description: "Debt repaid by liquidator in 6 decimals USDC",
+        },
+        collateralSeizedWeth: {
+          type: "string",
+          description: "Collateral seized by liquidator in 18 decimals WETH",
+        },
+        faultyPriceUsd8Dec: {
+          type: "string",
+          description: "Faulty oracle price in 8 decimals (e.g. 180000000000)",
+        },
+        baselinePriceUsd8Dec: {
+          type: "string",
+          description:
+            "True baseline reference price in 8 decimals (e.g. 200000000000)",
+        },
       },
-      required: ["claimIndex", "borrowerAddress", "collateralWeth", "debtUsdc", "faultyPriceUsd8Dec"]
-    }
+      required: [
+        "claimIndex",
+        "borrowerAddress",
+        "collateralWeth",
+        "debtUsdc",
+        "faultyPriceUsd8Dec",
+      ],
+    },
   },
   {
     name: "poa_generate_merkle_manifest",
-    description: "Generate an OpenZeppelin StandardMerkleTree with double keccak-256 leaf hashing (CVE-2022-37454 immune) and SHA-256 sealed Proof-Carrying Restitution Manifest.",
+    description:
+      "Generate a StandardMerkleTree claim manifest from caller-supplied amounts. This tool does not investigate chain evidence or authorize payouts.",
     inputSchema: {
       type: "object",
       properties: {
         incidentId: { type: "string", description: "Hex incident identifier" },
-        incidentTxHash: { type: "string", description: "Transaction hash of the incident" },
+        incidentTxHash: {
+          type: "string",
+          description: "Transaction hash of the incident",
+        },
         claims: {
           type: "array",
           items: {
@@ -68,18 +105,19 @@ const TOOLS = [
             properties: {
               claimIndex: { type: "number" },
               claimant: { type: "string" },
-              amountUsdc: { type: "string" }
+              amountUsdc: { type: "string" },
             },
-            required: ["claimIndex", "claimant", "amountUsdc"]
-          }
-        }
+            required: ["claimIndex", "claimant", "amountUsdc"],
+          },
+        },
       },
-      required: ["incidentId", "incidentTxHash", "claims"]
-    }
+      required: ["incidentId", "incidentTxHash", "claims"],
+    },
   },
   {
     name: "poa_verify_claim_proof",
-    description: "Independently verify a victim's Merkle inclusion proof against a published restitution root.",
+    description:
+      "Independently verify a victim's Merkle inclusion proof against a published restitution root.",
     inputSchema: {
       type: "object",
       properties: {
@@ -88,11 +126,18 @@ const TOOLS = [
         claimant: { type: "string" },
         amountUsdc: { type: "string" },
         incidentId: { type: "string" },
-        proof: { type: "array", items: { type: "string" } }
+        proof: { type: "array", items: { type: "string" } },
       },
-      required: ["merkleRoot", "claimIndex", "claimant", "amountUsdc", "incidentId", "proof"]
-    }
-  }
+      required: [
+        "merkleRoot",
+        "claimIndex",
+        "claimant",
+        "amountUsdc",
+        "incidentId",
+        "proof",
+      ],
+    },
+  },
 ];
 
 function handleToolCall(name: string, args: any): any {
@@ -103,24 +148,37 @@ function handleToolCall(name: string, args: any): any {
       const debt = BigInt(args.debtUsdc);
       const faultyPrice = BigInt(args.faultyPriceUsd8Dec || "180000000000");
 
-      const liqEvent = args.debtCoveredUsdc ? {
-        txHash: "0xsimulated",
-        blockNumber: 1,
-        liquidator: args.liquidatorAddress || "0x0",
-        borrower: args.borrowerAddress,
-        debtCovered: BigInt(args.debtCoveredUsdc),
-        collateralSeized: BigInt(args.collateralSeizedWeth || "0"),
-        oraclePriceUsed: faultyPrice
-      } : undefined;
+      const liqEvent = args.debtCoveredUsdc
+        ? {
+            txHash: "0x" + "00".repeat(32),
+            blockNumber: 1,
+            liquidator: args.liquidatorAddress || "0x0",
+            borrower: args.borrowerAddress,
+            debtCovered: BigInt(args.debtCoveredUsdc),
+            collateralSeized: BigInt(args.collateralSeizedWeth || "0"),
+            oraclePriceUsed: faultyPrice,
+          }
+        : undefined;
 
       const result = CounterfactualReplayEngine.analyzeBorrowerIncident(
         claimIndex,
-        { account: args.borrowerAddress, collateralBase: collateral, debtBase: debt },
+        {
+          account: args.borrowerAddress,
+          collateralBase: collateral,
+          debtBase: debt,
+        },
         liqEvent,
-        faultyPrice
+        {
+          faultyPriceUsd8Dec: faultyPrice,
+          baselinePriceUsd8Dec: BigInt(
+            args.baselinePriceUsd8Dec || "200000000000",
+          ),
+        },
       );
 
       return {
+        inputProvenance: "CALLER_SUPPLIED_UNVERIFIED_ARITHMETIC_ONLY",
+        authorizesPayout: false,
         status: result.status,
         borrower: result.borrower,
         baselineHealthFactor: result.baselineHealthFactor,
@@ -129,7 +187,7 @@ function handleToolCall(name: string, args: any): any {
         observedNetEquityUsd: result.observedNetEquityUsd,
         restitutionUsdc: result.restitutionAmountUsdc.toString(),
         restitutionUsdcFormatted: `${(Number(result.restitutionAmountUsdc) / 1e6).toFixed(2)} USDC`,
-        reason: result.reason
+        reason: result.reason,
       };
     }
 
@@ -137,10 +195,13 @@ function handleToolCall(name: string, args: any): any {
       const claimsForTree = args.claims.map((c: any) => ({
         claimIndex: Number(c.claimIndex),
         claimant: c.claimant,
-        amount: BigInt(c.amountUsdc)
+        amount: BigInt(c.amountUsdc),
       }));
 
-      const manifest = MerkleManifestGenerator.generateManifest(args.incidentId, claimsForTree);
+      const manifest = MerkleManifestGenerator.generateManifest(
+        args.incidentId,
+        claimsForTree,
+      );
       return {
         incidentId: manifest.incidentId,
         merkleRoot: manifest.merkleRoot,
@@ -148,7 +209,12 @@ function handleToolCall(name: string, args: any): any {
         totalRestitutionFormatted: `${(Number(manifest.totalRestitutionAmount) / 1e6).toFixed(2)} USDC`,
         claimsCount: manifest.claimsCount,
         policyVersion: manifest.policyVersion,
-        leaves: manifest.claims
+        inputProvenance: "CALLER_SUPPLIED_UNVERIFIED_AMOUNTS",
+        authorizesPayout: false,
+        leaves: manifest.claims.map((c) => ({
+          ...c,
+          amount: c.amount.toString(),
+        })),
       };
     }
 
@@ -159,13 +225,13 @@ function handleToolCall(name: string, args: any): any {
         args.claimant,
         BigInt(args.amountUsdc),
         args.incidentId,
-        args.proof
+        args.proof,
       );
       return {
         valid,
         claimant: args.claimant,
         amountUsdc: args.amountUsdc,
-        merkleRoot: args.merkleRoot
+        merkleRoot: args.merkleRoot,
       };
     }
 
@@ -178,13 +244,14 @@ async function startMcpServer() {
   const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
-    terminal: false
+    terminal: false,
   });
 
   rl.on("line", (line) => {
     if (!line.trim()) return;
     try {
       const request: JsonRpcRequest = JSON.parse(line);
+      if (request.id === undefined) return; // JSON-RPC notifications receive no response.
       let response: JsonRpcResponse = { jsonrpc: "2.0", id: request.id };
 
       switch (request.method) {
@@ -193,11 +260,11 @@ async function startMcpServer() {
             protocolVersion: "2024-11-05",
             serverInfo: {
               name: "poa-restitution-mcp",
-              version: "1.0.0"
+              version: "1.0.0",
             },
             capabilities: {
-              tools: {}
-            }
+              tools: {},
+            },
           };
           break;
 
@@ -213,14 +280,14 @@ async function startMcpServer() {
               content: [
                 {
                   type: "text",
-                  text: JSON.stringify(toolOutput, null, 2)
-                }
-              ]
+                  text: JSON.stringify(toolOutput, null, 2),
+                },
+              ],
             };
           } catch (toolErr: any) {
             response.error = {
               code: -32603,
-              message: toolErr.message || "Internal tool execution error"
+              message: toolErr.message || "Internal tool execution error",
             };
           }
           break;
@@ -229,18 +296,20 @@ async function startMcpServer() {
         default:
           response.error = {
             code: -32601,
-            message: `Method not found: ${request.method}`
+            message: `Method not found: ${request.method}`,
           };
           break;
       }
 
       console.log(JSON.stringify(response));
     } catch (parseErr: any) {
-      console.log(JSON.stringify({
-        jsonrpc: "2.0",
-        id: null,
-        error: { code: -32700, message: "Parse error" }
-      }));
+      console.log(
+        JSON.stringify({
+          jsonrpc: "2.0",
+          id: null,
+          error: { code: -32700, message: "Parse error" },
+        }),
+      );
     }
   });
 }

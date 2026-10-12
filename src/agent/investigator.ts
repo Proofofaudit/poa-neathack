@@ -1,10 +1,31 @@
 import { ethers } from "ethers";
+import {
+  AdaptiveForensicReview,
+  AdaptiveReviewResult,
+} from "./adaptive-review.js";
+import { auditClaimManifest } from "./claim-auditor.js";
+import { RecoveryAction } from "../chain/historical-logs.js";
 import { neatlogs } from "../observability/neatlogs.js";
-import { CounterfactualReplayEngine, RestitutionClaimResult, LiquidationEventRecord } from "../economics/counterfactual.js";
-import { MerkleManifestGenerator, RestitutionMerkleManifest } from "../proofs/merkle.js";
-import { ManifestGenerator, ProofCarryingManifest } from "../proofs/manifest.js";
+import {
+  CounterfactualReplayEngine,
+  RestitutionClaimResult,
+} from "../economics/counterfactual.js";
+import {
+  MerkleManifestGenerator,
+  RestitutionMerkleManifest,
+} from "../proofs/merkle.js";
+import {
+  ManifestGenerator,
+  ProofCarryingManifest,
+} from "../proofs/manifest.js";
 import { ForensicLlmAgent, ForensicReasoningOutput } from "./llm.js";
 import { CrustdataEnricher, EnrichedEntityProfile } from "./crustdata.js";
+import {
+  DemoLendingAdapter,
+  EvidenceAdapter,
+  InvestigationParams,
+  ChainEvidence,
+} from "../chain/demo-adapter.js";
 
 export interface InvestigationReport {
   incidentId: string;
@@ -18,331 +39,296 @@ export interface InvestigationReport {
   merkleManifest?: RestitutionMerkleManifest;
   proofCarryingManifest?: ProofCarryingManifest;
   retriesAttempted: number;
+  recoveryActions: RecoveryAction[];
+  independentAudit?: ReturnType<typeof auditClaimManifest>;
+  adaptiveReview?: AdaptiveReviewResult;
   executionTraceId?: string;
   timestamp: string;
   forensicAiAssessment?: ForensicReasoningOutput;
   entityEnrichment?: Record<string, EnrichedEntityProfile>;
+  evidence?: Omit<ChainEvidence, "borrowers" | "liquidations">;
+  policyDecision: "AUTHORIZED_DEMO" | "WITHHELD";
+  reviewReasons: string[];
+  decisionTrail: Array<{ step: string; outcome: string }>;
 }
-
 export class POAIncidentInvestigator {
-  private provider: ethers.Provider;
-  private failNextRpcCall = false; // Injected failure flag
-
-  constructor(provider: ethers.Provider) {
-    this.provider = provider;
-  }
-
+  private failNextRpcCall = false;
+  private injectedMaxLogBlocks?: number;
+  constructor(
+    private provider: ethers.Provider,
+    private adapter: EvidenceAdapter = new DemoLendingAdapter(provider),
+    private llmAgent = new ForensicLlmAgent(),
+  ) {}
   public injectTransientRpcFailure(enabled: boolean) {
     this.failNextRpcCall = enabled;
   }
-
-  private async safeRpcCall<T>(promise: Promise<T>, timeoutMs = 1200): Promise<T | null> {
-    try {
-      const res = await Promise.race([
-        promise,
-        new Promise<never>((_, reject) => setTimeout(() => reject(new Error("RPC_TIMEOUT")), timeoutMs))
-      ]);
-      return res;
-    } catch {
-      return null;
-    }
+  public injectLogRangeLimit(maxBlocks: number) {
+    if (!Number.isSafeInteger(maxBlocks) || maxBlocks < 1)
+      throw new Error("Invalid injected range limit");
+    this.injectedMaxLogBlocks = maxBlocks;
   }
-
-  /**
-   * Autonomous Investigation Workflow
-   */
-  public async investigateOracleIncident(params: {
-    incidentId: string;
-    incidentTxHash: string;
-    oracleAddress: string;
-    poolAddress: string;
-    distributorAddress: string;
-    collateralToken: string;
-    debtToken: string;
-    baselinePrice?: bigint;
-    simulatedLiquidations?: LiquidationEventRecord[];
-    knownBorrowers?: Array<{ account: string; collateral: bigint; debt: bigint }>;
-  }): Promise<InvestigationReport> {
-    await neatlogs.init("poa-incident-investigation");
-
-    return await neatlogs.traceSpan("investigateOracleIncident", "WORKFLOW", {
-      incidentId: params.incidentId,
-      incidentTxHash: params.incidentTxHash
-    }, async () => {
-      let retriesAttempted = 0;
-      const llmAgent = new ForensicLlmAgent();
-      const crustdata = new CrustdataEnricher();
-
-      // Step 0: Autonomous AI Forensic Reasoning & Policy Decision
-      const forensicAssessment = await llmAgent.analyzeIncident({
-        incidentTxHash: params.incidentTxHash,
-        oracleAddress: params.oracleAddress,
-        poolAddress: params.poolAddress,
-        baselinePrice: (Number(params.baselinePrice || 200000000000n) / 1e8).toFixed(2),
-        faultyPrice: "1800.00",
-        priceDropPercentage: "10.0",
-        liquidationCount: params.simulatedLiquidations?.length || 3,
-        affectedBorrowers: (params.simulatedLiquidations || []).map(l => l.borrower)
-      });
-
-      // 1. Tool: inspectIncidentTransaction
-      const incidentTxData = await neatlogs.traceSpan("inspectIncidentTransaction", "TOOL", {
-        txHash: params.incidentTxHash
-      }, async () => {
-        let blockNumber = 0;
-        let timestamp = Date.now();
-        let gasUsed = "0";
-
-        if (this.provider && ethers.isHexString(params.incidentTxHash, 32)) {
-          const receipt = await this.safeRpcCall(this.provider.getTransactionReceipt(params.incidentTxHash));
-          if (receipt) {
-            blockNumber = receipt.blockNumber;
-            gasUsed = receipt.gasUsed.toString();
-            const block = await this.safeRpcCall(this.provider.getBlock(receipt.blockNumber));
-            if (block) timestamp = block.timestamp * 1000;
-          }
-        }
-
-        return {
-          txHash: params.incidentTxHash,
-          action: "ORACLE_PRICE_UPDATE",
-          targetContract: params.oracleAddress,
-          blockNumber,
-          gasUsed,
-          timestamp
+  async investigateOracleIncident(
+    params: InvestigationParams,
+  ): Promise<InvestigationReport> {
+    return neatlogs.runWorkflow(
+      "investigateOracleIncident",
+      { incidentId: params.incidentId },
+      async () => {
+        const report: InvestigationReport = {
+          incidentId: params.incidentId,
+          incidentTxHash: params.incidentTxHash,
+          status: "NEEDS_REVIEW",
+          summary: "Evidence collection incomplete; payout withheld.",
+          eventsAnalyzed: 0,
+          wrongfulLiquidationsCount: 0,
+          totalRestitutionCalculatedUsdc: "0",
+          claims: [],
+          retriesAttempted: 0,
+          recoveryActions: [],
+          timestamp: new Date().toISOString(),
+          policyDecision: "WITHHELD",
+          reviewReasons: [],
+          decisionTrail: [],
         };
-      });
-
-      // 2. Tool: readContractState
-      const oracleState = await neatlogs.traceSpan("readContractState", "TOOL", {
-        oracleAddress: params.oracleAddress
-      }, async () => {
-        let baseline = params.baselinePrice || 200000000000n;
-        let faulty = 180000000000n;
-        let threshold = 8000n;
-
-        if (this.provider && ethers.isAddress(params.oracleAddress)) {
-          try {
-            const oracle = new ethers.Contract(params.oracleAddress, [
-              "function currentPrice() view returns (uint256)",
-              "function getAssetPrice(address) view returns (uint256)",
-              "function latestRoundData() view returns (uint80, int256, uint256, uint256, uint80)"
-            ], this.provider);
-
-            const curPrice = await this.safeRpcCall(oracle.currentPrice());
-            if (curPrice && curPrice > 0n) {
-              faulty = BigInt(curPrice.toString());
-            } else {
-              const roundData = await this.safeRpcCall(oracle.latestRoundData());
-              if (roundData && roundData[1] > 0n) {
-                faulty = BigInt(roundData[1].toString());
-              }
-            }
-          } catch {
-            // Keep fallback defaults
-          }
-        }
-
-        return {
-          baselinePrice: baseline,
-          faultyPrice: faulty,
-          liquidationThresholdBps: threshold
-        };
-      });
-
-      // 3. Tool: collectLiquidationEvents (With real on-chain log filtering & retry resilience)
-      const liquidationEvents = await neatlogs.traceSpan("collectLiquidationEvents", "TOOL", {
-        poolAddress: params.poolAddress
-      }, async () => {
-        if (this.failNextRpcCall) {
-          retriesAttempted++;
-          this.failNextRpcCall = false; // Reset so next retry succeeds
-          throw new Error("RPC_TIMEOUT: JSON-RPC connection terminated unexpectedly (simulated network partition)");
-        }
-
-        // Check on-chain logs if pool is deployed and no fixtures passed
-        if ((!params.simulatedLiquidations || params.simulatedLiquidations.length === 0) && this.provider && ethers.isAddress(params.poolAddress)) {
-          try {
-            const pool = new ethers.Contract(params.poolAddress, [
-              "event Liquidation(address indexed liquidator, address indexed borrower, uint256 debtCovered, uint256 collateralSeized, uint256 oraclePriceUsed)",
-              "event LiquidationCall(address indexed collateralAsset, address indexed debtAsset, address indexed user, uint256 debtToCover, uint256 liquidatedCollateralAmount, address liquidator, bool receiveAToken)"
-            ], this.provider);
-
-            const filter = pool.filters.Liquidation ? pool.filters.Liquidation() : pool.filters.LiquidationCall();
-            const currentBlock = await this.safeRpcCall(this.provider.getBlockNumber());
-            if (currentBlock !== null) {
-              const fromBlock = Math.max(0, currentBlock - 50);
-              const logs = await this.safeRpcCall(pool.queryFilter(filter, fromBlock, currentBlock));
-
-              if (logs && logs.length > 0) {
-                return logs.map((log: any) => {
-                  const parsed = pool.interface.parseLog(log);
-                  return {
-                    txHash: log.transactionHash,
-                    blockNumber: log.blockNumber,
-                    liquidator: parsed?.args?.liquidator || "0x0000000000000000000000000000000000000000",
-                    borrower: parsed?.args?.borrower || parsed?.args?.user || "0x0000000000000000000000000000000000000000",
-                    debtCovered: BigInt(parsed?.args?.debtCovered || parsed?.args?.debtToCover || 0),
-                    collateralSeized: BigInt(parsed?.args?.collateralSeized || parsed?.args?.liquidatedCollateralAmount || 0),
-                    oraclePriceUsed: BigInt(parsed?.args?.oraclePriceUsed || oracleState.faultyPrice)
-                  };
-                });
-              }
-            }
-          } catch {
-            // Keep fallback
-          }
-        }
-
-        return params.simulatedLiquidations || [];
-      }).catch(async (initialErr) => {
-        // Retry logic: bounded retry with backoff
-        return await neatlogs.traceSpan("retryCollectLiquidationEvents", "AGENT", {
-          initialError: initialErr.message,
-          retryAttempt: 1
-        }, async () => {
-          console.log(`[Agent Recovery] Caught transient failure: "${initialErr.message}". Re-establishing RPC connection...`);
-          // Successful retry
-          return params.simulatedLiquidations || [];
-        });
-      });
-
-      // 4. Tool: discoverAffectedAccounts
-      const affectedAccounts = await neatlogs.traceSpan("discoverAffectedAccounts", "TOOL", {
-        eventsCount: liquidationEvents.length
-      }, async () => {
-        return Array.from(new Set(liquidationEvents.map(e => e.borrower)));
-      });
-
-      // 4b. Tool: Crustdata Entity & MEV Intelligence (with bytecode inspection)
-      const entityEnrichment = await crustdata.enrichEntities(affectedAccounts, "DemoLendingPool", this.provider);
-
-      // 5. Tool & Chain: replayCounterfactual
-      const analysisResults: RestitutionClaimResult[] = [];
-      const verifiedClaimsForTree: Array<{ claimIndex: number; claimant: string; amount: bigint }> = [];
-
-      await neatlogs.traceSpan("replayCounterfactual", "CHAIN", {
-        affectedAccountsCount: affectedAccounts.length
-      }, async () => {
-        let index = 0;
-        for (const borrowerAddr of affectedAccounts) {
-          let borrowerPos = params.knownBorrowers?.find(b => b.account.toLowerCase() === borrowerAddr.toLowerCase());
-          
-          // If not in knownBorrowers fixture, attempt live state query on pool contract
-          if (!borrowerPos && this.provider && ethers.isAddress(params.poolAddress)) {
-            try {
-              const pool = new ethers.Contract(params.poolAddress, [
-                "function userCollateral(address) view returns (uint256)",
-                "function userDebt(address) view returns (uint256)"
-              ], this.provider);
-              const col = await this.safeRpcCall(pool.userCollateral(borrowerAddr));
-              const dbt = await this.safeRpcCall(pool.userDebt(borrowerAddr));
-              if (col !== null && dbt !== null) {
-                borrowerPos = {
-                  account: borrowerAddr,
-                  collateral: BigInt(col.toString()),
-                  debt: BigInt(dbt.toString())
-                };
-              }
-            } catch {
-              // Graceful fallback
-            }
-          }
-
-          const liqEvent = liquidationEvents.find(e => e.borrower.toLowerCase() === borrowerAddr.toLowerCase());
-
-          if (borrowerPos) {
-            const analysis = CounterfactualReplayEngine.analyzeBorrowerIncident(
-              index,
-              {
-                account: borrowerPos.account,
-                collateralBase: borrowerPos.collateral,
-                debtBase: borrowerPos.debt
-              },
-              liqEvent,
-              {
-                baselinePriceUsd8Dec: oracleState.baselinePrice,
-                faultyPriceUsd8Dec: oracleState.faultyPrice,
-                liquidationThresholdBps: oracleState.liquidationThresholdBps
-              }
+        try {
+          if (
+            !ethers.isHexString(params.incidentId, 32) ||
+            !ethers.isHexString(params.incidentTxHash, 32)
+          )
+            throw new Error(
+              "Incident IDs and transaction hashes must be 32-byte hex values",
             );
-
-            analysisResults.push(analysis);
-
-            if (analysis.status === "VERIFIED" && analysis.restitutionAmountUsdc > 0n) {
-              verifiedClaimsForTree.push({
-                claimIndex: index,
-                claimant: analysis.borrower,
-                amount: analysis.restitutionAmountUsdc
-              });
-              index++;
-            }
-          }
-        }
-      });
-
-      // 6. Guardrail: crossCheckClaims
-      await neatlogs.traceSpan("crossCheckClaims", "GUARDRAIL", {
-        verifiedCount: verifiedClaimsForTree.length
-      }, async () => {
-        // Assert no duplicate addresses
-        const seen = new Set<string>();
-        for (const c of verifiedClaimsForTree) {
-          if (seen.has(c.claimant.toLowerCase())) {
-            throw new Error(`GUARDRAIL_VIOLATION: Duplicate claim detected for account ${c.claimant}`);
-          }
-          seen.add(c.claimant.toLowerCase());
-          if (c.amount <= 0n) {
-            throw new Error(`GUARDRAIL_VIOLATION: Zero or negative restitution amount for ${c.claimant}`);
-          }
-        }
-      });
-
-      // 7. Tool: generateMerkleManifest
-      let merkleManifest: RestitutionMerkleManifest | undefined;
-      let proofCarryingManifest: ProofCarryingManifest | undefined;
-      if (verifiedClaimsForTree.length > 0) {
-        merkleManifest = await neatlogs.traceSpan("generateMerkleManifest", "TOOL", {
-          claimsCount: verifiedClaimsForTree.length
-        }, async () => {
-          return MerkleManifestGenerator.generateManifest(params.incidentId, verifiedClaimsForTree);
-        });
-
-        if (merkleManifest) {
-          proofCarryingManifest = ManifestGenerator.createProofCarryingManifest({
-            incidentId: params.incidentId,
+          const evidence = await neatlogs.traceSpan(
+            "collectHistoricalEvidence",
+            "TOOL",
+            { protocol: params.protocol },
+            () =>
+              this.adapter.collect(
+                params,
+                () => report.retriesAttempted++,
+                (from, to) => {
+                  if (this.failNextRpcCall) {
+                    this.failNextRpcCall = false;
+                    throw new Error("Injected transient RPC failure");
+                  }
+                  if (
+                    this.injectedMaxLogBlocks &&
+                    to - from + 1 > this.injectedMaxLogBlocks
+                  )
+                    throw new Error(
+                      "Injected provider block range limit exceeded",
+                    );
+                },
+                (action) => report.recoveryActions.push(action),
+              ),
+          );
+          const { borrowers, liquidations, ...anchors } = evidence;
+          report.evidence = anchors;
+          report.eventsAnalyzed = liquidations.length;
+          report.decisionTrail.push({
+            step: "Historical evidence",
+            outcome: `${liquidations.length} liquidation logs; ${borrowers.length} historical accounts; block hashes anchored.`,
+          });
+          const assessment = await this.llmAgent.analyzeIncident({
             incidentTxHash: params.incidentTxHash,
             oracleAddress: params.oracleAddress,
             poolAddress: params.poolAddress,
-            payoutToken: params.distributorAddress,
-            baselinePriceUsd: (Number(oracleState.baselinePrice) / 1e8).toFixed(2),
-            faultyPriceUsd: (Number(oracleState.faultyPrice) / 1e8).toFixed(2),
-            claims: analysisResults,
-            merkleManifest,
-            traceId: neatlogs.getLatestTrace()?.traceId
+            baselinePrice: ethers.formatUnits(evidence.baselinePrice, 8),
+            faultyPrice: ethers.formatUnits(evidence.faultyPrice, 8),
+            priceDropPercentage: (
+              (Number(evidence.baselinePrice - evidence.faultyPrice) /
+                Number(evidence.baselinePrice)) *
+              100
+            ).toFixed(4),
+            liquidationCount: liquidations.length,
+            affectedBorrowers: liquidations.map((e) => e.borrower),
+            referencePrice: ethers.formatUnits(evidence.referencePrice, 8),
+            referenceSource: evidence.referenceSource,
+            evidenceComplete: true,
+            referenceCorroboratesBaseline:
+              evidence.referenceCorroboratesBaseline,
+          });
+          report.forensicAiAssessment = assessment;
+          const evidenceGate =
+            evidence.referenceCorroboratesBaseline &&
+            evidence.faultyPrice * 100n <= evidence.baselinePrice * 95n;
+          if (
+            !evidenceGate ||
+            !assessment.restitutionPolicyTriggered ||
+            assessment.anomalyClassification !== "FAULTY_ORACLE_DEVIATION" ||
+            assessment.confidenceScore < 0.9
+          )
+            throw new Error(
+              "Policy declined restitution or evidence does not establish a reference-corroborated deviation",
+            );
+          report.decisionTrail.push({
+            step: "Restitution policy",
+            outcome: `Approved by ${assessment.modelUsed}; reference corroborates baseline within 1%; disputed drop >=5%.`,
+          });
+          await neatlogs.traceSpan(
+            "replayCounterfactual",
+            "CHAIN",
+            { accounts: borrowers.length },
+            async () => {
+              for (const [index, position] of borrowers.entries()) {
+                const events = liquidations.filter(
+                  (e) =>
+                    e.borrower.toLowerCase() === position.account.toLowerCase(),
+                );
+                if (events.length > 1)
+                  throw new Error(
+                    "Repeated liquidation of one borrower requires transaction-level review; no partial manifest issued",
+                  );
+                report.claims.push(
+                  CounterfactualReplayEngine.analyzeBorrowerIncident(
+                    index,
+                    position,
+                    events[0],
+                    {
+                      baselinePriceUsd8Dec: evidence.baselinePrice,
+                      faultyPriceUsd8Dec: evidence.faultyPrice,
+                      liquidationThresholdBps: evidence.liquidationThresholdBps,
+                      collateralDecimals: evidence.collateralDecimals,
+                      debtDecimals: evidence.debtDecimals,
+                      debtPriceUsd8Dec: 100000000n,
+                    },
+                  ),
+                );
+              }
+            },
+          );
+          if (report.claims.some((c) => c.status === "NEEDS_REVIEW"))
+            throw new Error(
+              "At least one borrower has inconsistent liquidation evidence; all payouts withheld",
+            );
+          const claims = report.claims.filter(
+            (c) => c.status === "VERIFIED" && c.restitutionAmountUsdc > 0n,
+          );
+          const unique = new Set(claims.map((c) => c.borrower.toLowerCase()));
+          if (unique.size !== claims.length)
+            throw new Error("Duplicate claimant detected");
+          report.decisionTrail.push({
+            step: "Eligibility",
+            outcome: `${claims.length} eligible; ${report.claims.length - claims.length} excluded. No partial approval of incomplete evidence.`,
+          });
+          if (claims.length) {
+            report.merkleManifest = await neatlogs.traceSpan(
+              "generateMerkleManifest",
+              "TOOL",
+              { count: claims.length },
+              async () =>
+                MerkleManifestGenerator.generateManifest(
+                  params.incidentId,
+                  claims.map((c) => ({
+                    claimIndex: c.claimIndex,
+                    claimant: c.borrower,
+                    amount: c.restitutionAmountUsdc,
+                  })),
+                ),
+            );
+            report.independentAudit = await neatlogs.traceSpan(
+              "independentClaimAudit",
+              "GUARDRAIL",
+              { count: claims.length },
+              async () =>
+                auditClaimManifest(
+                  evidence,
+                  report.claims,
+                  report.merkleManifest!,
+                  params.incidentId,
+                ),
+            );
+            report.decisionTrail.push({
+              step: "Independent claim audit",
+              outcome: `${report.independentAudit.claimsVerified} claims verified against the conservation identity and every inclusion proof.`,
+            });
+            report.adaptiveReview = await new AdaptiveForensicReview().review(
+              evidence,
+              report.claims,
+              report.merkleManifest!,
+              params.incidentId,
+            );
+            if (!report.adaptiveReview.approved)
+              throw new Error(report.adaptiveReview.reason);
+            report.decisionTrail.push({
+              step: "Optional adaptive review",
+              outcome:
+                report.adaptiveReview.mode === "RULES_ONLY"
+                  ? "Model/tool review disabled; no model planning is claimed for this run."
+                  : `${report.adaptiveReview.steps.length} model-directed actions completed before final review approval.`,
+            });
+            report.proofCarryingManifest =
+              ManifestGenerator.createProofCarryingManifest({
+                incidentId: params.incidentId,
+                incidentTxHash: params.incidentTxHash,
+                oracleAddress: params.oracleAddress,
+                poolAddress: params.poolAddress,
+                payoutToken: params.debtToken,
+                baselinePriceUsd: ethers.formatUnits(evidence.baselinePrice, 8),
+                faultyPriceUsd: ethers.formatUnits(evidence.faultyPrice, 8),
+                claims: report.claims,
+                merkleManifest: report.merkleManifest,
+                traceId: neatlogs.getLatestTrace()?.traceId,
+                anchors: {
+                  chainId: evidence.chainId,
+                  baselineBlockNumber: evidence.baselineBlockNumber,
+                  baselineBlockHash: evidence.baselineBlockHash,
+                  incidentBlockNumber: evidence.incidentBlockNumber,
+                  incidentBlockHash: evidence.incidentBlockHash,
+                  toBlock: evidence.toBlock,
+                  endBlockHash: evidence.endBlockHash,
+                  referenceSource: evidence.referenceSource,
+                  referencePriceUsd: ethers.formatUnits(
+                    evidence.referencePrice,
+                    8,
+                  ),
+                },
+              });
+          }
+          report.wrongfulLiquidationsCount = claims.length;
+          report.totalRestitutionCalculatedUsdc = claims
+            .reduce((sum, c) => sum + c.restitutionAmountUsdc, 0n)
+            .toString();
+          report.status = "COMPLETED";
+          report.policyDecision = "AUTHORIZED_DEMO";
+          report.summary = `Synthetic protocol investigation completed from historical chain evidence: ${claims.length} eligible borrowers; ${ethers.formatUnits(report.totalRestitutionCalculatedUsdc, 6)} test USDC. Owner approval is required before registering a manifest.`;
+          report.entityEnrichment =
+            await new CrustdataEnricher().enrichEntities(
+              claims.map((c) => c.borrower),
+              params.protocol,
+              this.provider,
+            );
+        } catch (error) {
+          report.reviewReasons.push(
+            error instanceof Error ? error.message : "Investigation failed",
+          );
+          report.summary =
+            "Payout withheld: " + report.reviewReasons.join("; ");
+          report.claims = report.claims.map((c) => ({
+            ...c,
+            restitutionAmountUsdc: 0n,
+            status: c.status === "VERIFIED" ? "NEEDS_REVIEW" : c.status,
+            reason:
+              c.status === "VERIFIED"
+                ? "Whole-incident approval withheld: " +
+                  report.reviewReasons.join("; ")
+                : c.reason,
+          }));
+          report.merkleManifest = undefined;
+          report.independentAudit = undefined;
+          report.proofCarryingManifest = undefined;
+          report.totalRestitutionCalculatedUsdc = "0";
+          report.wrongfulLiquidationsCount = 0;
+          report.policyDecision = "WITHHELD";
+          report.status = "NEEDS_REVIEW";
+          report.decisionTrail.push({
+            step: "Safety stop",
+            outcome: report.reviewReasons.join("; "),
           });
         }
-      }
-
-      const totalRestitutionUsdc = verifiedClaimsForTree.reduce((acc, c) => acc + c.amount, 0n);
-
-      return {
-        incidentId: params.incidentId,
-        incidentTxHash: params.incidentTxHash,
-        status: "COMPLETED",
-        summary: `Autonomous investigation verified ${verifiedClaimsForTree.length} wrongful liquidations resulting from faulty price drop. Total verified restitution: ${(Number(totalRestitutionUsdc) / 1e6).toFixed(2)} USDC.`,
-        eventsAnalyzed: liquidationEvents.length,
-        wrongfulLiquidationsCount: verifiedClaimsForTree.length,
-        totalRestitutionCalculatedUsdc: totalRestitutionUsdc.toString(),
-        claims: analysisResults,
-        merkleManifest,
-        proofCarryingManifest,
-        retriesAttempted,
-        executionTraceId: neatlogs.getLatestTrace()?.traceId,
-        timestamp: new Date().toISOString(),
-        forensicAiAssessment: forensicAssessment,
-        entityEnrichment
-      };
-    });
+        report.executionTraceId = neatlogs.getLatestTrace()?.traceId;
+        return report;
+      },
+    );
   }
 }

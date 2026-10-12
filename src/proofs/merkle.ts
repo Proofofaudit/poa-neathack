@@ -20,27 +20,55 @@ export interface RestitutionMerkleManifest {
 }
 
 export class MerkleManifestGenerator {
-  public static readonly POLICY_VERSION = "POA_RESTITUTION_POLICY_V1_EQUITY_DELTA";
+  public static readonly POLICY_VERSION = "POA_DEMO_POLICY_V2_EQUITY_DELTA";
 
   public static generateManifest(
     incidentId: string,
-    verifiedClaims: Array<{ claimIndex: number; claimant: string; amount: bigint }>
+    verifiedClaims: Array<{
+      claimIndex: number;
+      claimant: string;
+      amount: bigint;
+    }>,
   ): RestitutionMerkleManifest {
+    if (!ethers.isHexString(incidentId, 32))
+      throw new Error("Invalid incident ID");
+    if (
+      new Set(verifiedClaims.map((c) => c.claimIndex)).size !==
+      verifiedClaims.length
+    )
+      throw new Error("Duplicate claim index");
+    if (
+      verifiedClaims.some(
+        (c) =>
+          !Number.isSafeInteger(c.claimIndex) ||
+          c.claimIndex < 0 ||
+          c.amount <= 0n ||
+          !ethers.isAddress(c.claimant) ||
+          c.claimant === ethers.ZeroAddress,
+      )
+    )
+      throw new Error("Invalid claim");
     // Filter to claims with positive compensation
-    const activeClaims = verifiedClaims.filter(c => c.amount > 0n);
+    const activeClaims = verifiedClaims.filter((c) => c.amount > 0n);
     if (activeClaims.length === 0) {
       throw new Error("Cannot generate manifest with zero valid claims");
     }
 
     // Format entries for OpenZeppelin StandardMerkleTree: [claimIndex, claimant, amount, incidentId]
-    const treeValues: Array<[number, string, string, string]> = activeClaims.map(c => [
-      c.claimIndex,
-      ethers.getAddress(c.claimant),
-      c.amount.toString(),
-      incidentId
-    ]);
+    const treeValues: Array<[number, string, string, string]> =
+      activeClaims.map((c) => [
+        c.claimIndex,
+        ethers.getAddress(c.claimant),
+        c.amount.toString(),
+        incidentId,
+      ]);
 
-    const tree = StandardMerkleTree.of(treeValues, ["uint256", "address", "uint256", "bytes32"]);
+    const tree = StandardMerkleTree.of(treeValues, [
+      "uint256",
+      "address",
+      "uint256",
+      "bytes32",
+    ]);
     const merkleRoot = tree.root;
 
     let totalAmount = 0n;
@@ -58,7 +86,7 @@ export class MerkleManifestGenerator {
         claimant,
         amount,
         incidentId,
-        proof
+        proof,
       });
     }
 
@@ -69,7 +97,7 @@ export class MerkleManifestGenerator {
       claimsCount: claimsWithProof.length,
       claims: claimsWithProof,
       generatedAt: new Date().toISOString(),
-      policyVersion: this.POLICY_VERSION
+      policyVersion: this.POLICY_VERSION,
     };
   }
 
@@ -82,16 +110,18 @@ export class MerkleManifestGenerator {
     claimant: string,
     amount: bigint,
     incidentId: string,
-    proof: string[]
+    proof: string[],
   ): boolean {
     if (!ethers.isHexString(incidentId, 32)) {
-      throw new Error(`Invalid incidentId format: expected 32-byte hex string, got ${incidentId}`);
+      throw new Error(
+        `Invalid incidentId format: expected 32-byte hex string, got ${incidentId}`,
+      );
     }
     return StandardMerkleTree.verify(
       merkleRoot,
       ["uint256", "address", "uint256", "bytes32"],
       [claimIndex, ethers.getAddress(claimant), amount.toString(), incidentId],
-      proof
+      proof,
     );
   }
 }

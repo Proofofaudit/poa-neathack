@@ -1,33 +1,50 @@
 {
-  "incidentId": "0xf20a133ecc2e2bc91a80bf723b664967a5226486ef15b0007ca1e126f3e046c8",
+  "schemaVersion": 2,
+  "source": {
+    "revision": "96da127df488502f364a267311c4a63878a8a4e2",
+    "workingTreeDirty": true,
+    "sha256": "6db0088678262857cd1a81b96e8e9c441dc5b31ef6e99afa04b0cb77b6bec9a0"
+  },
+  "network": "Local EVM",
+  "chainId": 31337,
+  "provenance": "SYNTHETIC_SCENARIO_REAL_EVM_EXECUTION",
   "fixture": {
     "chainId": 31337,
     "oracleAddress": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
-    "lendingPoolAddress": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
-    "distributorAddress": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
+    "referenceOracleAddress": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+    "deploymentBlockNumber": 7,
+    "endBlockNumber": 41,
+    "lendingPoolAddress": "0x0165878A594ca255338adfa4d48449f69242Eb8F",
+    "distributorAddress": "0xa513E6E4b8f2a923D98304ec87F64353C4D5C853",
     "wethAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
     "usdcAddress": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
     "baselinePrice": "200000000000",
     "faultyPrice": "180000000000",
-    "oracleUpdateTxHash": "0xf0a5202c616dd67f8fea28d83c970ca3b5e1bab37105cb741a2fd94ff66442d6",
+    "oracleUpdateTxHash": "0xa419986ba2a78117d5a973ceb5b9ffa02ab7b0eb8003fd057b71c81b369e08df",
     "liquidationTxs": [
       {
-        "txHash": "0xd2e47c9b62ded50525c8f58ac2b1460de46027eeef1608415ab2cabc8725b69b",
+        "txHash": "0x6c30f495b4847bf30d4c3c201a2fb2e7205c26a4209478ad02f69eb853e53a9d",
         "borrower": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
         "debtCovered": "15000000000",
         "collateralSeized": "8750000000000000000"
       },
       {
-        "txHash": "0xb3c811a7d73d65b44580699fdcccc2a1d192b208c5957b048bca236a99fc4237",
+        "txHash": "0xabda9190ec25f9f4c736f133ebf3839df15e010fc9b019fe0bdacca8a67fa301",
         "borrower": "0x90F79bf6EB2c4f870365E785982E1f101E93b906",
         "debtCovered": "7500000000",
         "collateralSeized": "4375000000000000000"
       },
       {
-        "txHash": "0xef3e6110ba8c3ae57008af607a113e08e16da359e5509669eb758eb1bdb4d7e3",
+        "txHash": "0xf24d787be42e7978c0dfad9cb4f80a6e0c5f30f6c58974f23300393a899798f6",
         "borrower": "0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65",
         "debtCovered": "12000000000",
         "collateralSeized": "7000000000000000000"
+      },
+      {
+        "txHash": "0xc27c5d6c71181f2800b0d70db1eeed9a4d500793a96e097ac3850f736b338f05",
+        "borrower": "0x14dC79964da2C08b23698B3D3cc7Ca32193d9955",
+        "debtCovered": "16500000000",
+        "collateralSeized": "9625000000000000000"
       }
     ],
     "borrowers": [
@@ -55,21 +72,26 @@
         "address": "0x976EA74026E726554dB657fA54763abd0C3a0aa9",
         "initialCollateralWeth": "10000000000000000000",
         "initialDebtUsdc": "15800000000"
+      },
+      {
+        "address": "0x14dC79964da2C08b23698B3D3cc7Ca32193d9955",
+        "initialCollateralWeth": "10000000000000000000",
+        "initialDebtUsdc": "16500000000"
       }
     ]
   },
   "report": {
-    "incidentId": "0xf20a133ecc2e2bc91a80bf723b664967a5226486ef15b0007ca1e126f3e046c8",
-    "incidentTxHash": "0xf0a5202c616dd67f8fea28d83c970ca3b5e1bab37105cb741a2fd94ff66442d6",
+    "incidentId": "0x55336de63eeead9b5150cf1af8e2bd905ec12fcc6169e7f60b4365209b405040",
+    "incidentTxHash": "0xa419986ba2a78117d5a973ceb5b9ffa02ab7b0eb8003fd057b71c81b369e08df",
     "status": "COMPLETED",
-    "summary": "Autonomous investigation verified 3 wrongful liquidations resulting from faulty price drop. Total verified restitution: 5750.00 USDC.",
-    "eventsAnalyzed": 3,
+    "summary": "Synthetic protocol investigation completed from historical chain evidence: 3 eligible borrowers; 5750.0 test USDC. Owner approval is required before registering a manifest.",
+    "eventsAnalyzed": 4,
     "wrongfulLiquidationsCount": 3,
     "totalRestitutionCalculatedUsdc": "5750000000",
     "claims": [
       {
         "claimIndex": 0,
-        "borrower": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+        "borrower": "0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc",
         "initialCollateralWeth": "10000000000000000000",
         "initialDebtUsdc": "15000000000",
         "collateralSeizedWeth": "8750000000000000000",
@@ -86,7 +108,7 @@
       },
       {
         "claimIndex": 1,
-        "borrower": "0x90F79bf6EB2c4f870365E785982E1f101E93b906",
+        "borrower": "0x90f79bf6eb2c4f870365e785982e1f101e93b906",
         "initialCollateralWeth": "5000000000000000000",
         "initialDebtUsdc": "7500000000",
         "collateralSeizedWeth": "4375000000000000000",
@@ -103,7 +125,7 @@
       },
       {
         "claimIndex": 2,
-        "borrower": "0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65",
+        "borrower": "0x15d34aaf54267db7d7c367839aaf71a00a2c6a65",
         "initialCollateralWeth": "8000000000000000000",
         "initialDebtUsdc": "12000000000",
         "collateralSeizedWeth": "7000000000000000000",
@@ -117,11 +139,140 @@
         "restitutionAmountUsdc": "2000000000",
         "status": "VERIFIED",
         "reason": "Wrongful liquidation triggered by faulty oracle drop. Provable net equity loss: 2000.00 USD."
+      },
+      {
+        "claimIndex": 3,
+        "borrower": "0x9965507d1a55bcc2695c58ba16fb37d819b0a4dc",
+        "initialCollateralWeth": "10000000000000000000",
+        "initialDebtUsdc": "10000000000",
+        "collateralSeizedWeth": "0",
+        "debtRepaidUsdc": "0",
+        "baselinePriceUsd": "2000.00",
+        "faultyPriceUsd": "1800.00",
+        "baselineHealthFactor": "1.6000",
+        "faultyHealthFactor": "1.4400",
+        "observedNetEquityUsd": "10000.00",
+        "counterfactualNetEquityUsd": "10000.00",
+        "restitutionAmountUsdc": "0",
+        "status": "EXCLUDED_LEGITIMATE",
+        "reason": "No liquidation observed; no realized loss is eligible under this policy."
+      },
+      {
+        "claimIndex": 4,
+        "borrower": "0x976ea74026e726554db657fa54763abd0c3a0aa9",
+        "initialCollateralWeth": "10000000000000000000",
+        "initialDebtUsdc": "15800000000",
+        "collateralSeizedWeth": "0",
+        "debtRepaidUsdc": "0",
+        "baselinePriceUsd": "2000.00",
+        "faultyPriceUsd": "1800.00",
+        "baselineHealthFactor": "1.0127",
+        "faultyHealthFactor": "0.9114",
+        "observedNetEquityUsd": "4200.00",
+        "counterfactualNetEquityUsd": "4200.00",
+        "restitutionAmountUsdc": "0",
+        "status": "EXCLUDED_LEGITIMATE",
+        "reason": "No liquidation observed; no realized loss is eligible under this policy."
+      },
+      {
+        "claimIndex": 5,
+        "borrower": "0x14dc79964da2c08b23698b3d3cc7ca32193d9955",
+        "initialCollateralWeth": "10000000000000000000",
+        "initialDebtUsdc": "16500000000",
+        "collateralSeizedWeth": "9625000000000000000",
+        "debtRepaidUsdc": "16500000000",
+        "baselinePriceUsd": "2000.00",
+        "faultyPriceUsd": "1800.00",
+        "baselineHealthFactor": "0.9697",
+        "faultyHealthFactor": "0.8727",
+        "observedNetEquityUsd": "750.00",
+        "counterfactualNetEquityUsd": "3500.00",
+        "restitutionAmountUsdc": "0",
+        "status": "EXCLUDED_LEGITIMATE",
+        "reason": "Position was already undercollateralized at baseline ($2000.00). Liquidation was economically legitimate."
       }
     ],
+    "retriesAttempted": 1,
+    "recoveryActions": [
+      {
+        "action": "RETRY_RPC",
+        "fromBlock": 37,
+        "toBlock": 41,
+        "reason": "Transient or unknown RPC failure; retrying the same bounded range"
+      },
+      {
+        "action": "SPLIT_LOG_RANGE",
+        "fromBlock": 37,
+        "toBlock": 41,
+        "reason": "Provider rejected range size; partition into disjoint inclusive ranges"
+      },
+      {
+        "action": "SPLIT_LOG_RANGE",
+        "fromBlock": 37,
+        "toBlock": 39,
+        "reason": "Provider rejected range size; partition into disjoint inclusive ranges"
+      }
+    ],
+    "timestamp": "2026-10-12T05:52:59.727Z",
+    "policyDecision": "AUTHORIZED_DEMO",
+    "reviewReasons": [],
+    "decisionTrail": [
+      {
+        "step": "Historical evidence",
+        "outcome": "4 liquidation logs; 6 historical accounts; block hashes anchored."
+      },
+      {
+        "step": "Restitution policy",
+        "outcome": "Approved by deterministic-policy-v2; reference corroborates baseline within 1%; disputed drop >=5%."
+      },
+      {
+        "step": "Eligibility",
+        "outcome": "3 eligible; 3 excluded. No partial approval of incomplete evidence."
+      },
+      {
+        "step": "Independent claim audit",
+        "outcome": "3 claims verified against the conservation identity and every inclusion proof."
+      },
+      {
+        "step": "Optional adaptive review",
+        "outcome": "Model/tool review disabled; no model planning is claimed for this run."
+      }
+    ],
+    "evidence": {
+      "chainId": 31337,
+      "baselineBlockNumber": 36,
+      "incidentBlockNumber": 37,
+      "toBlock": 41,
+      "baselineBlockHash": "0x87b9eb01f4cc04a0620b1fa96672401cad05d16f9139154e003bc1c39e96939d",
+      "incidentBlockHash": "0x076e3ae1fe720b70cbe4f692c5a94da010087f3e3de71e73c15dbbe6148e76ed",
+      "endBlockHash": "0xcf96ddfcc3e3bbe1289bedebcc149c05f06726d664be50f6b619aa5613164f5c",
+      "baselinePrice": "200000000000",
+      "faultyPrice": "180000000000",
+      "referencePrice": "200000000000",
+      "referenceSource": "Separate DemoOracle 0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9 (synthetic reference; not a market feed)",
+      "referenceCorroboratesBaseline": true,
+      "liquidationThresholdBps": "8000",
+      "collateralDecimals": 18,
+      "debtDecimals": 6,
+      "provenance": "SIMULATED_PROTOCOL_ON_EVM"
+    },
+    "forensicAiAssessment": {
+      "anomalyClassification": "FAULTY_ORACLE_DEVIATION",
+      "confidenceScore": 1,
+      "restitutionPolicyTriggered": true,
+      "rootCauseAnalysis": "Historical price comparison under the demo policy. Reference: Separate DemoOracle 0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9 (synthetic reference; not a market feed). This is a rule evaluation, not model inference or proof of intent.",
+      "recommendedWorkflow": [
+        "replayCounterfactual",
+        "crossCheckClaims",
+        "generateMerkleManifest"
+      ],
+      "executiveSummary": "Disputed feed diverges from the separately deployed reference. Check each borrower's eligibility.",
+      "modelUsed": "deterministic-policy-v2",
+      "isLiveLlm": false
+    },
     "merkleManifest": {
-      "incidentId": "0xf20a133ecc2e2bc91a80bf723b664967a5226486ef15b0007ca1e126f3e046c8",
-      "merkleRoot": "0x4b1839d40ccaf4ab9ff627aaae8424ca4ff52df1ebfe634fefddeb6d9f2a8247",
+      "incidentId": "0x55336de63eeead9b5150cf1af8e2bd905ec12fcc6169e7f60b4365209b405040",
+      "merkleRoot": "0x3e70e411658566331bc9fd38284a5b626379c403305ce251350ccfcf3024ef9d",
       "totalRestitutionAmount": "5750000000",
       "claimsCount": 3,
       "claims": [
@@ -129,49 +280,73 @@
           "claimIndex": 0,
           "claimant": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
           "amount": "2500000000",
-          "incidentId": "0xf20a133ecc2e2bc91a80bf723b664967a5226486ef15b0007ca1e126f3e046c8",
+          "incidentId": "0x55336de63eeead9b5150cf1af8e2bd905ec12fcc6169e7f60b4365209b405040",
           "proof": [
-            "0xcb7ab26224c0d4cd38dc898450718d1b77bc2baeeeade7e18f86fbd9b899296f",
-            "0xf168cf8a0e96668e6727dfdd76f89408f15d404b2a915579941b6c86536eaf58"
+            "0x0d5daf707497259b986a34c92008c82843a02768c74e88645324827ca142be53",
+            "0x696c74613f30f6b3d0c943da2c3845531fe2b5ef90b21e1c330d36d6b8bad5c4"
           ]
         },
         {
           "claimIndex": 1,
           "claimant": "0x90F79bf6EB2c4f870365E785982E1f101E93b906",
           "amount": "1250000000",
-          "incidentId": "0xf20a133ecc2e2bc91a80bf723b664967a5226486ef15b0007ca1e126f3e046c8",
+          "incidentId": "0x55336de63eeead9b5150cf1af8e2bd905ec12fcc6169e7f60b4365209b405040",
           "proof": [
-            "0xb79f88be1888fb1de266bea6f6807540c10aeea69f4ee0fc8708427675c3af1c",
-            "0xf168cf8a0e96668e6727dfdd76f89408f15d404b2a915579941b6c86536eaf58"
+            "0xc1b480228778d64ea6c6a07720b60e04d4a6dd5b066ccd1629df12d659e2b61f"
           ]
         },
         {
           "claimIndex": 2,
           "claimant": "0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65",
           "amount": "2000000000",
-          "incidentId": "0xf20a133ecc2e2bc91a80bf723b664967a5226486ef15b0007ca1e126f3e046c8",
+          "incidentId": "0x55336de63eeead9b5150cf1af8e2bd905ec12fcc6169e7f60b4365209b405040",
           "proof": [
-            "0x8734d62afe83c89e650b37ae518e916ff5056f7bf89b70a7039b90d4e9822328"
+            "0x53811f4ac3f8fed7d90b921a15ba2025de95b5374e84f86463c564aa40e26ccb",
+            "0x696c74613f30f6b3d0c943da2c3845531fe2b5ef90b21e1c330d36d6b8bad5c4"
           ]
         }
       ],
-      "generatedAt": "2026-10-11T13:50:56.498Z",
-      "policyVersion": "POA_RESTITUTION_POLICY_V1_EQUITY_DELTA"
+      "generatedAt": "2026-10-12T05:53:00.676Z",
+      "policyVersion": "POA_DEMO_POLICY_V2_EQUITY_DELTA"
+    },
+    "independentAudit": {
+      "verifier": "independent-conservation-v1",
+      "claimsVerified": 3,
+      "totalAmount": "5750000000",
+      "allProofsVerified": true,
+      "scope": "Internal consistency of collected synthetic-protocol evidence; not an audit of RPC authenticity"
+    },
+    "adaptiveReview": {
+      "mode": "RULES_ONLY",
+      "approved": true,
+      "reason": "Optional model/tool review disabled; deterministic evidence and independent claim audit remain required.",
+      "steps": []
     },
     "proofCarryingManifest": {
       "manifestVersion": "1.0.0",
-      "policyId": "POA_RESTITUTION_POLICY_V1_EQUITY_DELTA",
-      "incidentId": "0xf20a133ecc2e2bc91a80bf723b664967a5226486ef15b0007ca1e126f3e046c8",
-      "generatedAt": "2026-10-11T13:50:56.503Z",
-      "neatlogsTraceId": "trace-1791726656379-zn2e4",
+      "policyId": "POA_DEMO_POLICY_V2_EQUITY_DELTA",
+      "incidentId": "0x55336de63eeead9b5150cf1af8e2bd905ec12fcc6169e7f60b4365209b405040",
+      "generatedAt": "2026-10-12T05:53:00.711Z",
+      "neatlogsTraceId": "3935cc34fe9eeb4b67a1c3405fa8938d",
       "evidence": {
-        "incidentTxHash": "0xf0a5202c616dd67f8fea28d83c970ca3b5e1bab37105cb741a2fd94ff66442d6",
+        "incidentTxHash": "0xa419986ba2a78117d5a973ceb5b9ffa02ab7b0eb8003fd057b71c81b369e08df",
         "oracleAddress": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
-        "poolAddress": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
-        "payoutToken": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
-        "baselinePriceUsd": "2000.00",
-        "faultyPriceUsd": "1800.00",
-        "interventionPolicy": "Intervention policy substituted anomalous oracle plunge with verified TWAP benchmark. Nonces and valid transactions preserved."
+        "poolAddress": "0x0165878A594ca255338adfa4d48449f69242Eb8F",
+        "payoutToken": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+        "anchors": {
+          "chainId": 31337,
+          "baselineBlockNumber": 36,
+          "baselineBlockHash": "0x87b9eb01f4cc04a0620b1fa96672401cad05d16f9139154e003bc1c39e96939d",
+          "incidentBlockNumber": 37,
+          "incidentBlockHash": "0x076e3ae1fe720b70cbe4f692c5a94da010087f3e3de71e73c15dbbe6148e76ed",
+          "toBlock": 41,
+          "endBlockHash": "0xcf96ddfcc3e3bbe1289bedebcc149c05f06726d664be50f6b619aa5613164f5c",
+          "referenceSource": "Separate DemoOracle 0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9 (synthetic reference; not a market feed)",
+          "referencePriceUsd": "2000.0"
+        },
+        "baselinePriceUsd": "2000.0",
+        "faultyPriceUsd": "1800.0",
+        "interventionPolicy": "Demo policy values equity at the separately deployed synthetic reference price. This is a balance-sheet calculation, not a transaction-level EVM replay or a verified market TWAP."
       },
       "accountingInvariants": {
         "equityDeltaFormula": "L_i = max(0, NetEquity_i(S_cf) - NetEquity_i(S_obs)) where NetEquity = (Collateral * P_baseline) - Debt",
@@ -179,11 +354,11 @@
         "integerPrecision": "18 decimals WETH collateral, 6 decimals USDC debt/payout, BigInt integer arithmetic with zero floating point representation"
       },
       "summary": {
-        "totalVictimsEvaluated": 3,
+        "totalVictimsEvaluated": 6,
         "wrongfulLiquidationsCount": 3,
-        "insolventAccountsExcluded": 0,
+        "insolventAccountsExcluded": 1,
         "totalRestitutionUsdc": "5750000000",
-        "merkleRoot": "0x4b1839d40ccaf4ab9ff627aaae8424ca4ff52df1ebfe634fefddeb6d9f2a8247"
+        "merkleRoot": "0x3e70e411658566331bc9fd38284a5b626379c403305ce251350ccfcf3024ef9d"
       },
       "claims": [
         {
@@ -193,8 +368,8 @@
           "counterfactualEquityUsd": "5000.00",
           "observedEquityUsd": "2500.00",
           "merkleProof": [
-            "0xcb7ab26224c0d4cd38dc898450718d1b77bc2baeeeade7e18f86fbd9b899296f",
-            "0xf168cf8a0e96668e6727dfdd76f89408f15d404b2a915579941b6c86536eaf58"
+            "0x0d5daf707497259b986a34c92008c82843a02768c74e88645324827ca142be53",
+            "0x696c74613f30f6b3d0c943da2c3845531fe2b5ef90b21e1c330d36d6b8bad5c4"
           ]
         },
         {
@@ -204,8 +379,7 @@
           "counterfactualEquityUsd": "2500.00",
           "observedEquityUsd": "1250.00",
           "merkleProof": [
-            "0xb79f88be1888fb1de266bea6f6807540c10aeea69f4ee0fc8708427675c3af1c",
-            "0xf168cf8a0e96668e6727dfdd76f89408f15d404b2a915579941b6c86536eaf58"
+            "0xc1b480228778d64ea6c6a07720b60e04d4a6dd5b066ccd1629df12d659e2b61f"
           ]
         },
         {
@@ -215,165 +389,740 @@
           "counterfactualEquityUsd": "4000.00",
           "observedEquityUsd": "2000.00",
           "merkleProof": [
-            "0x8734d62afe83c89e650b37ae518e916ff5056f7bf89b70a7039b90d4e9822328"
+            "0x53811f4ac3f8fed7d90b921a15ba2025de95b5374e84f86463c564aa40e26ccb",
+            "0x696c74613f30f6b3d0c943da2c3845531fe2b5ef90b21e1c330d36d6b8bad5c4"
           ]
         }
       ],
-      "cryptographicIntegritySeal": "0xd06a408c1152c7531f389b2e965b8dcb6ab1f466b8eadf5de7b0159d37d2bef3"
-    },
-    "retriesAttempted": 0,
-    "executionTraceId": "trace-1791726656379-zn2e4",
-    "timestamp": "2026-10-11T13:50:56.503Z",
-    "forensicAiAssessment": {
-      "anomalyClassification": "FAULTY_ORACLE_DEVIATION",
-      "confidenceScore": 0.99,
-      "rootCauseAnalysis": "# FORENSIC INCIDENT ANALYSIS REPORT\n**POA Incident ID:** 0xf0a5202c616dd67f8fea28d83c970ca3b5e1bab37105cb741a2fd94ff66442d6\n\n---\n\n## 1. ORACLE DEVIATION CLASSIFICATION\n\n### Price Movement Analysis\n- **Magnitude:** 10.0% single-block drop ($2000 → $1800)\n- **Classification:** REQUIRES MULTI-FACTOR VA...",
-      "restitutionPolicyTriggered": true,
-      "recommendedWorkflow": [
-        "inspectIncidentTransaction",
-        "readContractState",
-        "collectLiquidationEvents",
-        "discoverAffectedAccounts",
-        "replayCounterfactual",
-        "crossCheckClaims",
-        "generateMerkleManifest"
-      ],
-      "executiveSummary": "Autonomous AI reasoning confirmed anomalous -10.0% price plunge. Restitution charter activated.",
-      "tokensUsed": 2050,
-      "modelUsed": "claude-haiku",
-      "isLiveLlm": true
+      "cryptographicIntegritySeal": "0x021a72db8154e7b608300c441c5a10806822f543a644128e3ca8405995eb7e7c"
     },
     "entityEnrichment": {
-      "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC": {
-        "addressOrIdentifier": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
-        "entityType": "RETAIL_BORROWER",
-        "riskRating": "LOW",
+      "0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc": {
+        "addressOrIdentifier": "0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc",
+        "entityType": "EOA_OR_UNDEPLOYED",
         "isVerifiedEntity": false,
-        "source": "ON_CHAIN_LABEL_REGISTRY"
+        "source": "ON_CHAIN_BYTECODE_INSPECTION",
+        "isContract": false
       },
-      "0x90F79bf6EB2c4f870365E785982E1f101E93b906": {
-        "addressOrIdentifier": "0x90F79bf6EB2c4f870365E785982E1f101E93b906",
-        "entityType": "RETAIL_BORROWER",
-        "riskRating": "LOW",
+      "0x90f79bf6eb2c4f870365e785982e1f101e93b906": {
+        "addressOrIdentifier": "0x90f79bf6eb2c4f870365e785982e1f101e93b906",
+        "entityType": "EOA_OR_UNDEPLOYED",
         "isVerifiedEntity": false,
-        "source": "ON_CHAIN_LABEL_REGISTRY"
+        "source": "ON_CHAIN_BYTECODE_INSPECTION",
+        "isContract": false
       },
-      "0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65": {
-        "addressOrIdentifier": "0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65",
-        "entityType": "RETAIL_BORROWER",
-        "riskRating": "LOW",
+      "0x15d34aaf54267db7d7c367839aaf71a00a2c6a65": {
+        "addressOrIdentifier": "0x15d34aaf54267db7d7c367839aaf71a00a2c6a65",
+        "entityType": "EOA_OR_UNDEPLOYED",
         "isVerifiedEntity": false,
-        "source": "ON_CHAIN_LABEL_REGISTRY"
+        "source": "ON_CHAIN_BYTECODE_INSPECTION",
+        "isContract": false
       }
-    }
+    },
+    "executionTraceId": "3935cc34fe9eeb4b67a1c3405fa8938d"
   },
+  "claims": [
+    {
+      "claimIndex": 0,
+      "claimant": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+      "amount": "2500000000",
+      "incidentId": "0x55336de63eeead9b5150cf1af8e2bd905ec12fcc6169e7f60b4365209b405040",
+      "proof": [
+        "0x0d5daf707497259b986a34c92008c82843a02768c74e88645324827ca142be53",
+        "0x696c74613f30f6b3d0c943da2c3845531fe2b5ef90b21e1c330d36d6b8bad5c4"
+      ]
+    },
+    {
+      "claimIndex": 1,
+      "claimant": "0x90F79bf6EB2c4f870365E785982E1f101E93b906",
+      "amount": "1250000000",
+      "incidentId": "0x55336de63eeead9b5150cf1af8e2bd905ec12fcc6169e7f60b4365209b405040",
+      "proof": [
+        "0xc1b480228778d64ea6c6a07720b60e04d4a6dd5b066ccd1629df12d659e2b61f"
+      ]
+    },
+    {
+      "claimIndex": 2,
+      "claimant": "0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65",
+      "amount": "2000000000",
+      "incidentId": "0x55336de63eeead9b5150cf1af8e2bd905ec12fcc6169e7f60b4365209b405040",
+      "proof": [
+        "0x53811f4ac3f8fed7d90b921a15ba2025de95b5374e84f86463c564aa40e26ccb",
+        "0x696c74613f30f6b3d0c943da2c3845531fe2b5ef90b21e1c330d36d6b8bad5c4"
+      ]
+    }
+  ],
   "restitutionExecuted": {
     "claimIndex": 0,
     "claimant": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
     "amountUsdc": "2500000000",
-    "txHash": "0xe18deb31e82fabad9d9ac819174636389aeb0e2653a8c8434b64edb4e49b1ea1"
+    "txHash": "0xc7e91b98cfef0556538ae133fa43cebf46f8272860f8425901eb69804e16d8e9",
+    "blockNumber": 44,
+    "method": "SPONSORED_FORWARDING",
+    "recipientEthBefore": "0",
+    "recipientEthAfter": "0",
+    "balanceBefore": "15000000000",
+    "balanceAfter": "17500000000",
+    "balanceDelta": "2500000000"
+  },
+  "registration": {
+    "txHash": "0x48cee2386c776934031a9d8c1b44800557e1d25e0fc2c4923032e45d174ef727",
+    "blockNumber": 43
+  },
+  "checks": {
+    "tamperedRejected": true,
+    "duplicateRejected": true,
+    "missingReceiptWithheld": true,
+    "historicalDiscovery": true,
+    "fixtureOverridesUsed": false,
+    "adaptiveRangeRecovery": true,
+    "independentClaimAudit": true
   },
   "observabilityTrace": {
-    "workflowName": "poa-incident-investigation",
-    "traceId": "trace-1791726656379-zn2e4",
+    "workflowName": "investigateOracleIncident",
+    "traceId": "3935cc34fe9eeb4b67a1c3405fa8938d",
+    "mode": "NEATLOGS_SDK_LOCAL",
+    "remotePersistence": "NOT_REQUESTED",
     "spans": [
       {
-        "name": "llmForensicReasoning",
-        "kind": "AGENT",
-        "durationMs": 15930,
-        "attributes": {
-          "model": "claude-haiku",
-          "mode": "LIVE_LLM",
-          "promptTokensEstimated": 450
-        },
-        "status": "OK"
-      },
-      {
-        "name": "inspectIncidentTransaction",
+        "spanId": "d5fe798e-04da-40d0-8627-3bac61b10ed4",
+        "parentSpanId": "10bbe687-a19a-4085-80af-b24f852dfe92",
+        "name": "historicalLogQuery",
         "kind": "TOOL",
-        "durationMs": 8,
+        "durationMs": 48.10063099999934,
         "attributes": {
-          "txHash": "0xf0a5202c616dd67f8fea28d83c970ca3b5e1bab37105cb741a2fd94ff66442d6"
+          "fromBlock": 37,
+          "toBlock": 41,
+          "attempt": 1
         },
         "status": "OK"
       },
       {
-        "name": "readContractState",
+        "spanId": "86233c29-9f9a-435e-a1ec-9900860ca475",
+        "parentSpanId": "10bbe687-a19a-4085-80af-b24f852dfe92",
+        "name": "historicalLogQuery",
         "kind": "TOOL",
-        "durationMs": 2,
+        "durationMs": 179.24940999999853,
         "attributes": {
-          "oracleAddress": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0"
+          "fromBlock": 37,
+          "toBlock": 41,
+          "attempt": 1
         },
-        "status": "OK"
+        "status": "ERROR",
+        "error": "Injected transient RPC failure"
       },
       {
-        "name": "collectLiquidationEvents",
+        "spanId": "ad14e154-b7dd-4e8f-b8f9-ef4ec0e4d9e5",
+        "parentSpanId": "10bbe687-a19a-4085-80af-b24f852dfe92",
+        "name": "historicalLogQuery",
         "kind": "TOOL",
-        "durationMs": 15,
+        "durationMs": 11.834780000001047,
         "attributes": {
-          "poolAddress": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9"
+          "fromBlock": 37,
+          "toBlock": 41,
+          "attempt": 2
         },
-        "status": "OK"
+        "status": "ERROR",
+        "error": "Injected provider block range limit exceeded"
       },
       {
-        "name": "discoverAffectedAccounts",
+        "spanId": "6fba2107-1b05-4fcb-abca-d1f05633540a",
+        "parentSpanId": "10bbe687-a19a-4085-80af-b24f852dfe92",
+        "name": "historicalLogQuery",
         "kind": "TOOL",
-        "durationMs": 2,
+        "durationMs": 8.495982000000367,
         "attributes": {
-          "eventsCount": 3
+          "fromBlock": 37,
+          "toBlock": 39,
+          "attempt": 3
         },
-        "status": "OK"
+        "status": "ERROR",
+        "error": "Injected provider block range limit exceeded"
       },
       {
-        "name": "enrichIncidentWithCrustdata",
+        "spanId": "93b97115-735b-4c54-a58d-a598aa8c429e",
+        "parentSpanId": "10bbe687-a19a-4085-80af-b24f852dfe92",
+        "name": "historicalLogQuery",
         "kind": "TOOL",
-        "durationMs": 9,
+        "durationMs": 13.316466000000219,
         "attributes": {
-          "addressesCount": 3,
-          "protocol": "DemoLendingPool",
-          "hasCrustdataKey": true
+          "fromBlock": 37,
+          "toBlock": 38,
+          "attempt": 4
         },
         "status": "OK"
       },
       {
+        "spanId": "765da759-6b91-4e22-91af-2d062e07dbe7",
+        "parentSpanId": "10bbe687-a19a-4085-80af-b24f852dfe92",
+        "name": "historicalLogQuery",
+        "kind": "TOOL",
+        "durationMs": 13.01171499999873,
+        "attributes": {
+          "fromBlock": 39,
+          "toBlock": 39,
+          "attempt": 5
+        },
+        "status": "OK"
+      },
+      {
+        "spanId": "d081cc27-7a60-47a0-9016-9ba3ed18833e",
+        "parentSpanId": "10bbe687-a19a-4085-80af-b24f852dfe92",
+        "name": "historicalLogQuery",
+        "kind": "TOOL",
+        "durationMs": 9.59871000000021,
+        "attributes": {
+          "fromBlock": 40,
+          "toBlock": 41,
+          "attempt": 6
+        },
+        "status": "OK"
+      },
+      {
+        "spanId": "fb3731d2-9298-42b4-92a4-bbcf860073cb",
+        "parentSpanId": "10bbe687-a19a-4085-80af-b24f852dfe92",
+        "name": "historicalLogQuery",
+        "kind": "TOOL",
+        "durationMs": 11.502673000000868,
+        "attributes": {
+          "fromBlock": 37,
+          "toBlock": 41,
+          "attempt": 1
+        },
+        "status": "OK"
+      },
+      {
+        "spanId": "51ee2a44-212d-4d06-96c0-ff795fe127aa",
+        "parentSpanId": "10bbe687-a19a-4085-80af-b24f852dfe92",
+        "name": "historicalLogQuery",
+        "kind": "TOOL",
+        "durationMs": 14.367858999999953,
+        "attributes": {
+          "fromBlock": 7,
+          "toBlock": 36,
+          "attempt": 1
+        },
+        "status": "OK"
+      },
+      {
+        "spanId": "c69fdcfe-b896-4166-b2fd-81c88613bcf7",
+        "parentSpanId": "10bbe687-a19a-4085-80af-b24f852dfe92",
+        "name": "historicalLogQuery",
+        "kind": "TOOL",
+        "durationMs": 15.537269000000379,
+        "attributes": {
+          "fromBlock": 37,
+          "toBlock": 41,
+          "attempt": 1
+        },
+        "status": "OK"
+      },
+      {
+        "spanId": "10bbe687-a19a-4085-80af-b24f852dfe92",
+        "parentSpanId": "7bb32a1a-a4fe-48e1-bf8a-6c5389cd8602",
+        "name": "collectHistoricalEvidence",
+        "kind": "TOOL",
+        "durationMs": 884.2669649999989,
+        "attributes": {
+          "protocol": "DEMO_LENDING_V1"
+        },
+        "status": "OK"
+      },
+      {
+        "spanId": "90b92469-2e61-46a2-929f-e82ba424ea3e",
+        "parentSpanId": "7bb32a1a-a4fe-48e1-bf8a-6c5389cd8602",
+        "name": "evaluateRestitutionPolicy",
+        "kind": "GUARDRAIL",
+        "durationMs": 5.738019999998869,
+        "attributes": {
+          "mode": "DETERMINISTIC_RULES",
+          "source": "Separate DemoOracle 0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9 (synthetic reference; not a market feed)"
+        },
+        "status": "OK"
+      },
+      {
+        "spanId": "e771034c-1e2c-4573-81c2-83868b1cc9df",
+        "parentSpanId": "7bb32a1a-a4fe-48e1-bf8a-6c5389cd8602",
         "name": "replayCounterfactual",
         "kind": "CHAIN",
-        "durationMs": 4,
+        "durationMs": 5.355668000000151,
         "attributes": {
-          "affectedAccountsCount": 3
+          "accounts": 6
         },
         "status": "OK"
       },
       {
-        "name": "crossCheckClaims",
-        "kind": "GUARDRAIL",
-        "durationMs": 1,
-        "attributes": {
-          "verifiedCount": 3
-        },
-        "status": "OK"
-      },
-      {
+        "spanId": "b6c60bcf-411c-46c5-8ebc-c18720cbe71e",
+        "parentSpanId": "7bb32a1a-a4fe-48e1-bf8a-6c5389cd8602",
         "name": "generateMerkleManifest",
         "kind": "TOOL",
-        "durationMs": 80,
+        "durationMs": 52.50750699999844,
         "attributes": {
-          "claimsCount": 3
+          "count": 3
         },
         "status": "OK"
       },
       {
+        "spanId": "00c4d1a4-879c-446c-abb8-ebcf58254011",
+        "parentSpanId": "7bb32a1a-a4fe-48e1-bf8a-6c5389cd8602",
+        "name": "independentClaimAudit",
+        "kind": "GUARDRAIL",
+        "durationMs": 20.925796999999875,
+        "attributes": {
+          "count": 3
+        },
+        "status": "OK"
+      },
+      {
+        "spanId": "7bb32a1a-a4fe-48e1-bf8a-6c5389cd8602",
         "name": "investigateOracleIncident",
         "kind": "WORKFLOW",
-        "durationMs": 16085,
+        "durationMs": 1023.9296190000005,
         "attributes": {
-          "incidentId": "0xf20a133ecc2e2bc91a80bf723b664967a5226486ef15b0007ca1e126f3e046c8",
-          "incidentTxHash": "0xf0a5202c616dd67f8fea28d83c970ca3b5e1bab37105cb741a2fd94ff66442d6"
+          "incidentId": "0x55336de63eeead9b5150cf1af8e2bd905ec12fcc6169e7f60b4365209b405040"
         },
         "status": "OK"
       }
     ],
-    "totalDurationMs": 32136
+    "sdkSpans": [
+      {
+        "traceId": "3935cc34fe9eeb4b67a1c3405fa8938d",
+        "spanId": "c1c163063f690cef",
+        "parentSpanId": "cbc2d9e78929623a",
+        "name": "historicalLogQuery",
+        "attributes": {
+          "neatlogs.span.kind": "tool",
+          "neatlogs.tool.input": "{\"fromBlock\":37,\"toBlock\":41,\"attempt\":1}",
+          "neatlogs.tool.output": "[{\"_type\":\"log\",\"address\":\"0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0\",\"blockHash\":\"0x076e3ae1fe720b70cbe4f692c5a94da010087f3e3de71e73c15dbbe6148e76ed\",\"blockNumber\":37,\"data\":\"0x00000000000000000000000000000000000000000000000000000029e8d60800000000000000000000000000000000000000000000000000000000006acc75bb000000000000000000000000000000000000000000000000000000000000006000000000000000000000000000000000000000000000000000000000000000114641554c54595f44524f505f3130504354000000000000000000000000000000\",\"index\":0,\"removed\":false,\"topics\":[\"0x6ee8c3a1d6f34ba7d23dc9668a1710acde60efd22f625c58cdfff0d39bfbc72e\",\"0x0000000000000000000000005fbdb2315678afecb367f032d93f642f64180aa3\"],\"transactionHash\":\"0xa419986ba2a78117d5a973ceb5b9ffa02ab7b0eb8003fd057b71c81b369e08df\",\"transactionIndex\":0}]",
+          "service.name": "investigateOracleIncident",
+          "telemetry.sdk.language": "nodejs",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.30.1",
+          "service.version": "1.1.28",
+          "neatlogs.workflow_name": "investigateOracleIncident",
+          "neatlogs.tags": "poa,synthetic-demo",
+          "fromBlock": 37,
+          "toBlock": 41,
+          "attempt": 1,
+          "_span_name": "historicalLogQuery",
+          "neatlogs.instrumentation.name": "neatlogs.trace",
+          "neatlogs.metrics.duration_ms": 27.0272
+        },
+        "status": {
+          "code": 0
+        }
+      },
+      {
+        "traceId": "3935cc34fe9eeb4b67a1c3405fa8938d",
+        "spanId": "3415cd95cd5d3b8c",
+        "parentSpanId": "cbc2d9e78929623a",
+        "name": "historicalLogQuery",
+        "attributes": {
+          "neatlogs.span.kind": "tool",
+          "neatlogs.tool.input": "{\"fromBlock\":37,\"toBlock\":41,\"attempt\":1}",
+          "service.name": "investigateOracleIncident",
+          "telemetry.sdk.language": "nodejs",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.30.1",
+          "service.version": "1.1.28",
+          "neatlogs.workflow_name": "investigateOracleIncident",
+          "neatlogs.tags": "poa,synthetic-demo",
+          "fromBlock": 37,
+          "toBlock": 41,
+          "attempt": 1,
+          "_span_name": "historicalLogQuery",
+          "neatlogs.instrumentation.name": "neatlogs.trace",
+          "neatlogs.metrics.duration_ms": 174.891264
+        },
+        "status": {
+          "code": 2,
+          "message": "Injected transient RPC failure"
+        }
+      },
+      {
+        "traceId": "3935cc34fe9eeb4b67a1c3405fa8938d",
+        "spanId": "f281ac1712f2765a",
+        "parentSpanId": "cbc2d9e78929623a",
+        "name": "historicalLogQuery",
+        "attributes": {
+          "neatlogs.span.kind": "tool",
+          "neatlogs.tool.input": "{\"fromBlock\":37,\"toBlock\":41,\"attempt\":2}",
+          "service.name": "investigateOracleIncident",
+          "telemetry.sdk.language": "nodejs",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.30.1",
+          "service.version": "1.1.28",
+          "neatlogs.workflow_name": "investigateOracleIncident",
+          "neatlogs.tags": "poa,synthetic-demo",
+          "fromBlock": 37,
+          "toBlock": 41,
+          "attempt": 2,
+          "_span_name": "historicalLogQuery",
+          "neatlogs.instrumentation.name": "neatlogs.trace",
+          "neatlogs.metrics.duration_ms": 6.007808
+        },
+        "status": {
+          "code": 2,
+          "message": "Injected provider block range limit exceeded"
+        }
+      },
+      {
+        "traceId": "3935cc34fe9eeb4b67a1c3405fa8938d",
+        "spanId": "ec2fe018aa2364a9",
+        "parentSpanId": "cbc2d9e78929623a",
+        "name": "historicalLogQuery",
+        "attributes": {
+          "neatlogs.span.kind": "tool",
+          "neatlogs.tool.input": "{\"fromBlock\":37,\"toBlock\":39,\"attempt\":3}",
+          "service.name": "investigateOracleIncident",
+          "telemetry.sdk.language": "nodejs",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.30.1",
+          "service.version": "1.1.28",
+          "neatlogs.workflow_name": "investigateOracleIncident",
+          "neatlogs.tags": "poa,synthetic-demo",
+          "fromBlock": 37,
+          "toBlock": 39,
+          "attempt": 3,
+          "_span_name": "historicalLogQuery",
+          "neatlogs.instrumentation.name": "neatlogs.trace",
+          "neatlogs.metrics.duration_ms": 5.446912
+        },
+        "status": {
+          "code": 2,
+          "message": "Injected provider block range limit exceeded"
+        }
+      },
+      {
+        "traceId": "3935cc34fe9eeb4b67a1c3405fa8938d",
+        "spanId": "9af3ebb937ec7c0e",
+        "parentSpanId": "cbc2d9e78929623a",
+        "name": "historicalLogQuery",
+        "attributes": {
+          "neatlogs.span.kind": "tool",
+          "neatlogs.tool.input": "{\"fromBlock\":37,\"toBlock\":38,\"attempt\":4}",
+          "neatlogs.tool.output": "[{\"_type\":\"log\",\"address\":\"0x0165878A594ca255338adfa4d48449f69242Eb8F\",\"blockHash\":\"0x74f918c23f8f3852f3cb2ae3d517166a310a3f1178bc02723a2c7e4d972183a2\",\"blockNumber\":38,\"data\":\"0x000000000000000000000000000000000000000000000000000000037e11d600000000000000000000000000000000000000000000000000796e3ea3f8ab000000000000000000000000000000000000000000000000000000000029e8d60800\",\"index\":2,\"removed\":false,\"topics\":[\"0xdae396a61eac13e7200c22da9864447e6695c8d73e28c623bbecd889024f8b36\",\"0x00000000000000000000000070997970c51812dc3a010c7d01b50e0d17dc79c8\",\"0x0000000000000000000000003c44cdddb6a900fa2b585dd299e03d12fa4293bc\"],\"transactionHash\":\"0x6c30f495b4847bf30d4c3c201a2fb2e7205c26a4209478ad02f69eb853e53a9d\",\"transactionIndex\":0}]",
+          "service.name": "investigateOracleIncident",
+          "telemetry.sdk.language": "nodejs",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.30.1",
+          "service.version": "1.1.28",
+          "neatlogs.workflow_name": "investigateOracleIncident",
+          "neatlogs.tags": "poa,synthetic-demo",
+          "fromBlock": 37,
+          "toBlock": 38,
+          "attempt": 4,
+          "_span_name": "historicalLogQuery",
+          "neatlogs.instrumentation.name": "neatlogs.trace",
+          "neatlogs.metrics.duration_ms": 8.815104
+        },
+        "status": {
+          "code": 0
+        }
+      },
+      {
+        "traceId": "3935cc34fe9eeb4b67a1c3405fa8938d",
+        "spanId": "fed9e4a773e14d75",
+        "parentSpanId": "cbc2d9e78929623a",
+        "name": "historicalLogQuery",
+        "attributes": {
+          "neatlogs.span.kind": "tool",
+          "neatlogs.tool.input": "{\"fromBlock\":39,\"toBlock\":39,\"attempt\":5}",
+          "neatlogs.tool.output": "[{\"_type\":\"log\",\"address\":\"0x0165878A594ca255338adfa4d48449f69242Eb8F\",\"blockHash\":\"0x7715ef2593ffac2b9de164969344a54936c9ad05606a3852adeb58c8b415f7a0\",\"blockNumber\":39,\"data\":\"0x00000000000000000000000000000000000000000000000000000001bf08eb000000000000000000000000000000000000000000000000003cb71f51fc55800000000000000000000000000000000000000000000000000000000029e8d60800\",\"index\":2,\"removed\":false,\"topics\":[\"0xdae396a61eac13e7200c22da9864447e6695c8d73e28c623bbecd889024f8b36\",\"0x00000000000000000000000070997970c51812dc3a010c7d01b50e0d17dc79c8\",\"0x00000000000000000000000090f79bf6eb2c4f870365e785982e1f101e93b906\"],\"transactionHash\":\"0xabda9190ec25f9f4c736f133ebf3839df15e010fc9b019fe0bdacca8a67fa301\",\"transactionIndex\":0}]",
+          "service.name": "investigateOracleIncident",
+          "telemetry.sdk.language": "nodejs",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.30.1",
+          "service.version": "1.1.28",
+          "neatlogs.workflow_name": "investigateOracleIncident",
+          "neatlogs.tags": "poa,synthetic-demo",
+          "fromBlock": 39,
+          "toBlock": 39,
+          "attempt": 5,
+          "_span_name": "historicalLogQuery",
+          "neatlogs.instrumentation.name": "neatlogs.trace",
+          "neatlogs.metrics.duration_ms": 9.420544
+        },
+        "status": {
+          "code": 0
+        }
+      },
+      {
+        "traceId": "3935cc34fe9eeb4b67a1c3405fa8938d",
+        "spanId": "d3ef46bd0737954e",
+        "parentSpanId": "cbc2d9e78929623a",
+        "name": "historicalLogQuery",
+        "attributes": {
+          "neatlogs.span.kind": "tool",
+          "neatlogs.tool.input": "{\"fromBlock\":40,\"toBlock\":41,\"attempt\":6}",
+          "neatlogs.tool.output": "[{\"_type\":\"log\",\"address\":\"0x0165878A594ca255338adfa4d48449f69242Eb8F\",\"blockHash\":\"0x80eec38ba5c6a6bca00ce905e7926b1b9e39ef5377c0768503b6c84e8c73bf9b\",\"blockNumber\":40,\"data\":\"0x00000000000000000000000000000000000000000000000000000002cb4178000000000000000000000000000000000000000000000000006124fee993bc000000000000000000000000000000000000000000000000000000000029e8d60800\",\"index\":2,\"removed\":false,\"topics\":[\"0xdae396a61eac13e7200c22da9864447e6695c8d73e28c623bbecd889024f8b36\",\"0x00000000000000000000000070997970c51812dc3a010c7d01b50e0d17dc79c8\",\"0x00000000000000000000000015d34aaf54267db7d7c367839aaf71a00a2c6a65\"],\"transactionHash\":\"0xf24d787be42e7978c0dfad9cb4f80a6e0c5f30f6c58974f23300393a899798f6\",\"transactionIndex\":0},{\"_type\":\"log\",\"address\":\"0x0165878A594ca255338adfa4d48449f69242Eb8F\",\"blockHash\":\"0xcf96ddfcc3e3bbe1289bedebcc149c05f06726d664be50f6b619aa5613164f5c\",\"blockNumber\":41,\"data\":\"0x00000000000000000000000000000000000000000000000000000003d77a05000000000000000000000000000000000000000000000000008592de812b22800000000000000000000000000000000000000000000000000000000029e8d60800\",\"index\":2,\"removed\":false,\"topics\":[\"0xdae396a61eac13e7200c22da9864447e6695c8d73e28c623bbecd889024f8b36\",\"0x00000000000000000000000070997970c51812dc3a010c7d01b50e0d17dc79c8\",\"0x00000000000000000000000014dc79964da2c08b23698b3d3cc7ca32193d9955\"],\"transactionHash\":\"0xc27c5d6c71181f2800b0d70db1eeed9a4d500793a96e097ac3850f736b338f05\",\"transactionIndex\":0}]",
+          "service.name": "investigateOracleIncident",
+          "telemetry.sdk.language": "nodejs",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.30.1",
+          "service.version": "1.1.28",
+          "neatlogs.workflow_name": "investigateOracleIncident",
+          "neatlogs.tags": "poa,synthetic-demo",
+          "fromBlock": 40,
+          "toBlock": 41,
+          "attempt": 6,
+          "_span_name": "historicalLogQuery",
+          "neatlogs.instrumentation.name": "neatlogs.trace",
+          "neatlogs.metrics.duration_ms": 8.19712
+        },
+        "status": {
+          "code": 0
+        }
+      },
+      {
+        "traceId": "3935cc34fe9eeb4b67a1c3405fa8938d",
+        "spanId": "2bf6cbfeda125bed",
+        "parentSpanId": "cbc2d9e78929623a",
+        "name": "historicalLogQuery",
+        "attributes": {
+          "neatlogs.span.kind": "tool",
+          "neatlogs.tool.input": "{\"fromBlock\":37,\"toBlock\":41,\"attempt\":1}",
+          "neatlogs.tool.output": "[]",
+          "service.name": "investigateOracleIncident",
+          "telemetry.sdk.language": "nodejs",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.30.1",
+          "service.version": "1.1.28",
+          "neatlogs.workflow_name": "investigateOracleIncident",
+          "neatlogs.tags": "poa,synthetic-demo",
+          "fromBlock": 37,
+          "toBlock": 41,
+          "attempt": 1,
+          "_span_name": "historicalLogQuery",
+          "neatlogs.instrumentation.name": "neatlogs.trace",
+          "neatlogs.metrics.duration_ms": 7.958528
+        },
+        "status": {
+          "code": 0
+        }
+      },
+      {
+        "traceId": "3935cc34fe9eeb4b67a1c3405fa8938d",
+        "spanId": "6e1cb73f1e7b9f54",
+        "parentSpanId": "cbc2d9e78929623a",
+        "name": "historicalLogQuery",
+        "attributes": {
+          "neatlogs.span.kind": "tool",
+          "neatlogs.tool.input": "{\"fromBlock\":7,\"toBlock\":36,\"attempt\":1}",
+          "neatlogs.tool.output": "[{\"_type\":\"log\",\"address\":\"0x0165878A594ca255338adfa4d48449f69242Eb8F\",\"blockHash\":\"0xfae5ebfddc7845d33296d06a3f5739ac311ebaf60c25d22e4490448dd313abab\",\"blockNumber\":14,\"data\":\"0x0000000000000000000000000000000000000000000000008ac7230489e80000\",\"index\":1,\"removed\":false,\"topics\":[\"0xe1fffcc4923d04b559f4d29a8bfc6cda04eb5b0d3c460751c2402c5c5cc9109c\",\"0x0000000000000000000000003c44cdddb6a900fa2b585dd299e03d12fa4293bc\"],\"transactionHash\":\"0x61e3d61287b5b8b0bb04f3978479a3fa6ac41380d0322b52ddf77249cd73f8b0\",\"transactionIndex\":0},{\"_type\":\"log\",\"address\":\"0x0165878A594ca255338adfa4d48449f69242Eb8F\",\"blockHash\":\"0x08a9d7ccf88814b52ba1e0607a56aff53106ef50fe5f5b7500c5b5dda6e32100\",\"blockNumber\":18,\"data\":\"0x0000000000000000000000000000000000000000000000004563918244f40000\",\"index\":1,\"removed\":false,\"topics\":[\"0xe1fffcc4923d04b559f4d29a8bfc6cda04eb5b0d3c460751c2402c5c5cc9109c\",\"0x00000000000000000000000090f79bf6eb2c4f870365e785982e1f101e93b906\"],\"transactionHash\":\"0x298865b0bea0124ba2f9e48e50f93eaed56e20dee9d8561ab51c748fec69236a\",\"transactionIndex\":0},{\"_type\":\"log\",\"address\":\"0x0165878A594ca255338adfa4d48449f69242Eb8F\",\"blockHash\":\"0xc0848e953635128da0623a294323a05380fbf473d2db739e44b82a6d805c7e9c\",\"blockNumber\":22,\"data\":\"0x0000000000000000000000000000000000000000000000006f05b59d3b200000\",\"index\":1,\"removed\":false,\"topics\":[\"0xe1fffcc4923d04b559f4d29a8bfc6cda04eb5b0d3c460751c2402c5c5cc9109c\",\"0x00000000000000000000000015d34aaf54267db7d7c367839aaf71a00a2c6a65\"],\"transactionHash\":\"0x41f09db6cafe11180ad05a5ebfcd1210989ca5cb2a2abbac29f9ee8a348ebe6d\",\"transactionIndex\":0},{\"_type\":\"log\",\"address\":\"0x0165878A594ca255338adfa4d48449f69242Eb8F\",\"blockHash\":\"0x96d031e099ef07b302232cbe21d6a615bffc953b8d41e2dffa30057dc4d9fb7c\",\"blockNumber\":26,\"data\":\"0x0000000000000000000000000000000000000000000000008ac7230489e80000\",\"index\":1,\"removed\":false,\"topics\":[\"0xe1fffcc4923d04b559f4d29a8bfc6cda04eb5b0d3c460751c2402c5c5cc9109c\",\"0x0000000000000000000000009965507d1a55bcc2695c58ba16fb37d819b0a4dc\"],\"transactionHash\":\"0x39c15d0f51b154324522c6fcd743089a0586e22c71a6af0530b94c51e3a05faf\",\"transactionIndex\":0},{\"_type\":\"log\",\"address\":\"0x0165878A594ca255338adfa4d48449f69242Eb8F\",\"blockHash\":\"0x5d19b225650779598c4db0e60e747aa56d0f5c8933e72ad9bf8e5d4ea2928b5d\",\"blockNumber\":30,\"data\":\"0x0000000000000000000000000000000000000000000000008ac7230489e80000\",\"index\":1,\"removed\":false,\"topics\":[\"0xe1fffcc4923d04b559f4d29a8bfc6cda04eb5b0d3c460751c2402c5c5cc9109c\",\"0x000000000000000000000000976ea74026e726554db657fa54763abd0c3a0aa9\"],\"transactionHash\":\"0x4e639dba011885ed7d8c4c010dc83e021676388834f9a5a70c0c5a56b1df9ab6\",\"transactionIndex\":0},{\"_type\":\"log\",\"address\":\"0x0165878A594ca255338adfa4d48449f69242Eb8F\",\"blockHash\":\"0xc249293e80296aa42f12ff9569576ce64e86d546f5a1e64d77baa8491e4cb7c9\",\"blockNumber\":34,\"data\":\"0x0000000000000000000000000000000000000000000000008ac7230489e80000\",\"index\":1,\"removed\":false,\"topics\":[\"0xe1fffcc4923d04b559f4d29a8bfc6cda04eb5b0d3c460751c2402c5c5cc9109c\",\"0x00000000000000000000000014dc79964da2c08b23698b3d3cc7ca32193d9955\"],\"transactionHash\":\"0x645ae9cf4b71b380bcf77eb8913562c4436b40340b6bc62980dd09cdf65602da\",\"transactionIndex\":0}]",
+          "service.name": "investigateOracleIncident",
+          "telemetry.sdk.language": "nodejs",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.30.1",
+          "service.version": "1.1.28",
+          "neatlogs.workflow_name": "investigateOracleIncident",
+          "neatlogs.tags": "poa,synthetic-demo",
+          "fromBlock": 7,
+          "toBlock": 36,
+          "attempt": 1,
+          "_span_name": "historicalLogQuery",
+          "neatlogs.instrumentation.name": "neatlogs.trace",
+          "neatlogs.metrics.duration_ms": 11.723008
+        },
+        "status": {
+          "code": 0
+        }
+      },
+      {
+        "traceId": "3935cc34fe9eeb4b67a1c3405fa8938d",
+        "spanId": "726602045932006a",
+        "parentSpanId": "cbc2d9e78929623a",
+        "name": "historicalLogQuery",
+        "attributes": {
+          "neatlogs.span.kind": "tool",
+          "neatlogs.tool.input": "{\"fromBlock\":37,\"toBlock\":41,\"attempt\":1}",
+          "neatlogs.tool.output": "[]",
+          "service.name": "investigateOracleIncident",
+          "telemetry.sdk.language": "nodejs",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.30.1",
+          "service.version": "1.1.28",
+          "neatlogs.workflow_name": "investigateOracleIncident",
+          "neatlogs.tags": "poa,synthetic-demo",
+          "fromBlock": 37,
+          "toBlock": 41,
+          "attempt": 1,
+          "_span_name": "historicalLogQuery",
+          "neatlogs.instrumentation.name": "neatlogs.trace",
+          "neatlogs.metrics.duration_ms": 12.239616
+        },
+        "status": {
+          "code": 0
+        }
+      },
+      {
+        "traceId": "3935cc34fe9eeb4b67a1c3405fa8938d",
+        "spanId": "cbc2d9e78929623a",
+        "parentSpanId": "4107a8b5627d2110",
+        "name": "collectHistoricalEvidence",
+        "attributes": {
+          "neatlogs.span.kind": "tool",
+          "neatlogs.tool.input": "{\"protocol\":\"DEMO_LENDING_V1\"}",
+          "neatlogs.tool.output": "{\"chainId\":31337,\"baselineBlockNumber\":36,\"incidentBlockNumber\":37,\"toBlock\":41,\"baselineBlockHash\":\"0x87b9eb01f4cc04a0620b1fa96672401cad05d16f9139154e003bc1c39e96939d\",\"incidentBlockHash\":\"0x076e3ae1fe720b70cbe4f692c5a94da010087f3e3de71e73c15dbbe6148e76ed\",\"endBlockHash\":\"0xcf96ddfcc3e3bbe1289bedebcc149c05f06726d664be50f6b619aa5613164f5c\",\"baselinePrice\":\"200000000000\",\"faultyPrice\":\"180000000000\",\"referencePrice\":\"200000000000\",\"referenceSource\":\"Separate DemoOracle 0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9 (synthetic reference; not a market feed)\",\"referenceCorroboratesBaseline\":true,\"liquidationThresholdBps\":\"8000\",\"collateralDecimals\":18,\"debtDecimals\":6,\"borrowers\":[{\"account\":\"0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc\",\"collateralBase\":\"10000000000000000000\",\"debtBase\":\"15000000000\"},{\"account\":\"0x90f79bf6eb2c4f870365e785982e1f101e93b906\",\"collateralBase\":\"5000000000000000000\",\"debtBase\":\"7500000000\"},{\"account\":\"0x15d34aaf54267db7d7c367839aaf71a00a2c6a65\",\"collateralBase\":\"8000000000000000000\",\"debtBase\":\"12000000000\"},{\"account\":\"0x9965507d1a55bcc2695c58ba16fb37d819b0a4dc\",\"collateralBase\":\"10000000000000000000\",\"debtBase\":\"10000000000\"},{\"account\":\"0x976ea74026e726554db657fa54763abd0c3a0aa9\",\"collateralBase\":\"10000000000000000000\",\"debtBase\":\"15800000000\"},{\"account\":\"0x14dc79964da2c08b23698b3d3cc7ca32193d9955\",\"collateralBase\":\"10000000000000000000\",\"debtBase\":\"16500000000\"}],\"liquidations\":[{\"txHash\":\"0x6c30f495b4847bf30d4c3c201a2fb2e7205c26a4209478ad02f69eb853e53a9d\",\"blockNumber\":38,\"logIndex\":2,\"liquidator\":\"0x70997970C51812dc3A010C7d01b50e0d17dc79C8\",\"borrower\":\"0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC\",\"debtCovered\":\"15000000000\",\"collateralSeized\":\"8750000000000000000\",\"oraclePriceUsed\":\"180000000000\"},{\"txHash\":\"0xabda9190ec25f9f4c736f133ebf3839df15e010fc9b019fe0bdacca8a67fa301\",\"blockNumber\":39,\"logIndex\":2,\"liquidator\":\"0x70997970C51812dc3A010C7d01b50e0d17dc79C8\",\"borrower\":\"0x90F79bf6EB2c4f870365E785982E1f101E93b906\",\"debtCovered\":\"7500000000\",\"collateralSeized\":\"4375000000000000000\",\"oraclePriceUsed\":\"180000000000\"},{\"txHash\":\"0xf24d787be42e7978c0dfad9cb4f80a6e0c5f30f6c58974f23300393a899798f6\",\"blockNumber\":40,\"logIndex\":2,\"liquidator\":\"0x70997970C51812dc3A010C7d01b50e0d17dc79C8\",\"borrower\":\"0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65\",\"debtCovered\":\"12000000000\",\"collateralSeized\":\"7000000000000000000\",\"oraclePriceUsed\":\"180000000000\"},{\"txHash\":\"0xc27c5d6c71181f2800b0d70db1eeed9a4d500793a96e097ac3850f736b338f05\",\"blockNumber\":41,\"logIndex\":2,\"liquidator\":\"0x70997970C51812dc3A010C7d01b50e0d17dc79C8\",\"borrower\":\"0x14dC79964da2C08b23698B3D3cc7Ca32193d9955\",\"debtCovered\":\"16500000000\",\"collateralSeized\":\"9625000000000000000\",\"oraclePriceUsed\":\"180000000000\"}],\"provenance\":\"SIMULATED_PROTOCOL_ON_EVM\"}",
+          "service.name": "investigateOracleIncident",
+          "telemetry.sdk.language": "nodejs",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.30.1",
+          "service.version": "1.1.28",
+          "neatlogs.workflow_name": "investigateOracleIncident",
+          "neatlogs.tags": "poa,synthetic-demo",
+          "protocol": "DEMO_LENDING_V1",
+          "_span_name": "collectHistoricalEvidence",
+          "neatlogs.instrumentation.name": "neatlogs.trace",
+          "neatlogs.metrics.duration_ms": 867.330048
+        },
+        "status": {
+          "code": 0
+        }
+      },
+      {
+        "traceId": "3935cc34fe9eeb4b67a1c3405fa8938d",
+        "spanId": "3e451a2ad896d17f",
+        "parentSpanId": "4107a8b5627d2110",
+        "name": "evaluateRestitutionPolicy",
+        "attributes": {
+          "neatlogs.span.kind": "guardrail",
+          "neatlogs.guardrail.input": "{\"mode\":\"DETERMINISTIC_RULES\",\"source\":\"Separate DemoOracle 0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9 (synthetic reference; not a market feed)\"}",
+          "neatlogs.guardrail.output": "{\"anomalyClassification\":\"FAULTY_ORACLE_DEVIATION\",\"confidenceScore\":1,\"restitutionPolicyTriggered\":true,\"rootCauseAnalysis\":\"Historical price comparison under the demo policy. Reference: Separate DemoOracle 0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9 (synthetic reference; not a market feed). This is a rule evaluation, not model inference or proof of intent.\",\"recommendedWorkflow\":[\"replayCounterfactual\",\"crossCheckClaims\",\"generateMerkleManifest\"],\"executiveSummary\":\"Disputed feed diverges from the separately deployed reference. Check each borrower's eligibility.\",\"modelUsed\":\"deterministic-policy-v2\",\"isLiveLlm\":false}",
+          "service.name": "investigateOracleIncident",
+          "telemetry.sdk.language": "nodejs",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.30.1",
+          "service.version": "1.1.28",
+          "neatlogs.workflow_name": "investigateOracleIncident",
+          "neatlogs.tags": "poa,synthetic-demo",
+          "mode": "DETERMINISTIC_RULES",
+          "source": "Separate DemoOracle 0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9 (synthetic reference; not a market feed)",
+          "_span_name": "evaluateRestitutionPolicy",
+          "neatlogs.instrumentation.name": "neatlogs.trace",
+          "neatlogs.metrics.duration_ms": 1.972992
+        },
+        "status": {
+          "code": 0
+        }
+      },
+      {
+        "traceId": "3935cc34fe9eeb4b67a1c3405fa8938d",
+        "spanId": "0ee955d09518f486",
+        "parentSpanId": "4107a8b5627d2110",
+        "name": "replayCounterfactual",
+        "attributes": {
+          "neatlogs.span.kind": "chain",
+          "neatlogs.chain.input": "{\"accounts\":6}",
+          "service.name": "investigateOracleIncident",
+          "telemetry.sdk.language": "nodejs",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.30.1",
+          "service.version": "1.1.28",
+          "neatlogs.workflow_name": "investigateOracleIncident",
+          "neatlogs.tags": "poa,synthetic-demo",
+          "accounts": 6,
+          "_span_name": "replayCounterfactual",
+          "neatlogs.instrumentation.name": "neatlogs.trace",
+          "neatlogs.metrics.duration_ms": 4.214784
+        },
+        "status": {
+          "code": 0
+        }
+      },
+      {
+        "traceId": "3935cc34fe9eeb4b67a1c3405fa8938d",
+        "spanId": "90c66616f66e5be7",
+        "parentSpanId": "4107a8b5627d2110",
+        "name": "generateMerkleManifest",
+        "attributes": {
+          "neatlogs.span.kind": "tool",
+          "neatlogs.tool.input": "{\"count\":3}",
+          "neatlogs.tool.output": "{\"incidentId\":\"0x55336de63eeead9b5150cf1af8e2bd905ec12fcc6169e7f60b4365209b405040\",\"merkleRoot\":\"0x3e70e411658566331bc9fd38284a5b626379c403305ce251350ccfcf3024ef9d\",\"totalRestitutionAmount\":\"5750000000\",\"claimsCount\":3,\"claims\":[{\"claimIndex\":0,\"claimant\":\"0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC\",\"amount\":\"2500000000\",\"incidentId\":\"0x55336de63eeead9b5150cf1af8e2bd905ec12fcc6169e7f60b4365209b405040\",\"proof\":[\"0x0d5daf707497259b986a34c92008c82843a02768c74e88645324827ca142be53\",\"0x696c74613f30f6b3d0c943da2c3845531fe2b5ef90b21e1c330d36d6b8bad5c4\"]},{\"claimIndex\":1,\"claimant\":\"0x90F79bf6EB2c4f870365E785982E1f101E93b906\",\"amount\":\"1250000000\",\"incidentId\":\"0x55336de63eeead9b5150cf1af8e2bd905ec12fcc6169e7f60b4365209b405040\",\"proof\":[\"0xc1b480228778d64ea6c6a07720b60e04d4a6dd5b066ccd1629df12d659e2b61f\"]},{\"claimIndex\":2,\"claimant\":\"0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65\",\"amount\":\"2000000000\",\"incidentId\":\"0x55336de63eeead9b5150cf1af8e2bd905ec12fcc6169e7f60b4365209b405040\",\"proof\":[\"0x53811f4ac3f8fed7d90b921a15ba2025de95b5374e84f86463c564aa40e26ccb\",\"0x696c74613f30f6b3d0c943da2c3845531fe2b5ef90b21e1c330d36d6b8bad5c4\"]}],\"generatedAt\":\"2026-10-12T05:53:00.676Z\",\"policyVersion\":\"POA_DEMO_POLICY_V2_EQUITY_DELTA\"}",
+          "service.name": "investigateOracleIncident",
+          "telemetry.sdk.language": "nodejs",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.30.1",
+          "service.version": "1.1.28",
+          "neatlogs.workflow_name": "investigateOracleIncident",
+          "neatlogs.tags": "poa,synthetic-demo",
+          "count": 3,
+          "_span_name": "generateMerkleManifest",
+          "neatlogs.instrumentation.name": "neatlogs.trace",
+          "neatlogs.metrics.duration_ms": 48.688128
+        },
+        "status": {
+          "code": 0
+        }
+      },
+      {
+        "traceId": "3935cc34fe9eeb4b67a1c3405fa8938d",
+        "spanId": "1632e2e10d92f9db",
+        "parentSpanId": "4107a8b5627d2110",
+        "name": "independentClaimAudit",
+        "attributes": {
+          "neatlogs.span.kind": "guardrail",
+          "neatlogs.guardrail.input": "{\"count\":3}",
+          "neatlogs.guardrail.output": "{\"verifier\":\"independent-conservation-v1\",\"claimsVerified\":3,\"totalAmount\":\"5750000000\",\"allProofsVerified\":true,\"scope\":\"Internal consistency of collected synthetic-protocol evidence; not an audit of RPC authenticity\"}",
+          "service.name": "investigateOracleIncident",
+          "telemetry.sdk.language": "nodejs",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.30.1",
+          "service.version": "1.1.28",
+          "neatlogs.workflow_name": "investigateOracleIncident",
+          "neatlogs.tags": "poa,synthetic-demo",
+          "count": 3,
+          "_span_name": "independentClaimAudit",
+          "neatlogs.instrumentation.name": "neatlogs.trace",
+          "neatlogs.metrics.duration_ms": 19.553536
+        },
+        "status": {
+          "code": 0
+        }
+      },
+      {
+        "traceId": "3935cc34fe9eeb4b67a1c3405fa8938d",
+        "spanId": "4107a8b5627d2110",
+        "name": "investigateOracleIncident",
+        "attributes": {
+          "neatlogs.span.kind": "workflow",
+          "neatlogs.workflow.input": "{\"incidentId\":\"0x55336de63eeead9b5150cf1af8e2bd905ec12fcc6169e7f60b4365209b405040\"}",
+          "neatlogs.workflow.output": "{\"incidentId\":\"0x55336de63eeead9b5150cf1af8e2bd905ec12fcc6169e7f60b4365209b405040\",\"incidentTxHash\":\"0xa419986ba2a78117d5a973ceb5b9ffa02ab7b0eb8003fd057b71c81b369e08df\",\"status\":\"COMPLETED\",\"summary\":\"Synthetic protocol investigation completed from historical chain evidence: 3 eligible borrowers; 5750.0 test USDC. Owner approval is required before registering a manifest.\",\"eventsAnalyzed\":4,\"wrongfulLiquidationsCount\":3,\"totalRestitutionCalculatedUsdc\":\"5750000000\",\"claims\":[{\"claimIndex\":0,\"borrower\":\"0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc\",\"initialCollateralWeth\":\"10000000000000000000\",\"initialDebtUsdc\":\"15000000000\",\"collateralSeizedWeth\":\"8750000000000000000\",\"debtRepaidUsdc\":\"15000000000\",\"baselinePriceUsd\":\"2000.00\",\"faultyPriceUsd\":\"1800.00\",\"baselineHealthFactor\":\"1.0667\",\"faultyHealthFactor\":\"0.9600\",\"observedNetEquityUsd\":\"2500.00\",\"counterfactualNetEquityUsd\":\"5000.00\",\"restitutionAmountUsdc\":\"2500000000\",\"status\":\"VERIFIED\",\"reason\":\"Wrongful liquidation triggered by faulty oracle drop. Provable net equity loss: 2500.00 USD.\"},{\"claimIndex\":1,\"borrower\":\"0x90f79bf6eb2c4f870365e785982e1f101e93b906\",\"initialCollateralWeth\":\"5000000000000000000\",\"initialDebtUsdc\":\"7500000000\",\"collateralSeizedWeth\":\"4375000000000000000\",\"debtRepaidUsdc\":\"7500000000\",\"baselinePriceUsd\":\"2000.00\",\"faultyPriceUsd\":\"1800.00\",\"baselineHealthFactor\":\"1.0667\",\"faultyHealthFactor\":\"0.9600\",\"observedNetEquityUsd\":\"1250.00\",\"counterfactualNetEquityUsd\":\"2500.00\",\"restitutionAmountUsdc\":\"1250000000\",\"status\":\"VERIFIED\",\"reason\":\"Wrongful liquidation triggered by faulty oracle drop. Provable net equity loss: 1250.00 USD.\"},{\"claimIndex\":2,\"borrower\":\"0x15d34aaf54267db7d7c367839aaf71a00a2c6a65\",\"initialCollateralWeth\":\"8000000000000000000\",\"initialDebtUsdc\":\"12000000000\",\"collateralSeizedWeth\":\"7000000000000000000\",\"debtRepaidUsdc\":\"12000000000\",\"baselinePriceUsd\":\"2000.00\",\"faultyPriceUsd\":\"1800.00\",\"baselineHealthFactor\":\"1.0667\",\"faultyHealthFactor\":\"0.9600\",\"observedNetEquityUsd\":\"2000.00\",\"counterfactualNetEquityUsd\":\"4000.00\",\"restitutionAmountUsdc\":\"2000000000\",\"status\":\"VERIFIED\",\"reason\":\"Wrongful liquidation triggered by faulty oracle drop. Provable net equity loss: 2000.00 USD.\"},{\"claimIndex\":3,\"borrower\":\"0x9965507d1a55bcc2695c58ba16fb37d819b0a4dc\",\"initialCollateralWeth\":\"10000000000000000000\",\"initialDebtUsdc\":\"10000000000\",\"collateralSeizedWeth\":\"0\",\"debtRepaidUsdc\":\"0\",\"baselinePriceUsd\":\"2000.00\",\"faultyPriceUsd\":\"1800.00\",\"baselineHealthFactor\":\"1.6000\",\"faultyHealthFactor\":\"1.4400\",\"observedNetEquityUsd\":\"10000.00\",\"counterfactualNetEquityUsd\":\"10000.00\",\"restitutionAmountUsdc\":\"0\",\"status\":\"EXCLUDED_LEGITIMATE\",\"reason\":\"No liquidation observed; no realized loss is eligible under this policy.\"},{\"claimIndex\":4,\"borrower\":\"0x976ea74026e726554db657fa54763abd0c3a0aa9\",\"initialCollateralWeth\":\"10000000000000000000\",\"initialDebtUsdc\":\"15800000000\",\"collateralSeizedWeth\":\"0\",\"debtRepaidUsdc\":\"0\",\"baselinePriceUsd\":\"2000.00\",\"faultyPriceUsd\":\"1800.00\",\"baselineHealthFactor\":\"1.0127\",\"faultyHealthFactor\":\"0.9114\",\"observedNetEquityUsd\":\"4200.00\",\"counterfactualNetEquityUsd\":\"4200.00\",\"restitutionAmountUsdc\":\"0\",\"status\":\"EXCLUDED_LEGITIMATE\",\"reason\":\"No liquidation observed; no realized loss is eligible under this policy.\"},{\"claimIndex\":5,\"borrower\":\"0x14dc79964da2c08b23698b3d3cc7ca32193d9955\",\"initialCollateralWeth\":\"10000000000000000000\",\"initialDebtUsdc\":\"16500000000\",\"collateralSeizedWeth\":\"9625000000000000000\",\"debtRepaidUsdc\":\"16500000000\",\"baselinePriceUsd\":\"2000.00\",\"faultyPriceUsd\":\"1800.00\",\"baselineHealthFactor\":\"0.9697\",\"faultyHealthFactor\":\"0.8727\",\"observedNetEquityUsd\":\"750.00\",\"counterfactualNetEquityUsd\":\"3500.00\",\"restitutionAmountUsdc\":\"0\",\"status\":\"EXCLUDED_LEGITIMATE\",\"reason\":\"Position was already undercollateralized at baseline ($2000.00). Liquidation was economically legitimate.\"}],\"retriesAttempted\":1,\"recoveryActions\":[{\"action\":\"RETRY_RPC\",\"fromBlock\":37,\"toBlock\":41,\"reason\":\"Transient or unknown RPC failure; retrying the same bounded range\"},{\"action\":\"SPLIT_LOG_RANGE\",\"fromBlock\":37,\"toBlock\":41,\"reason\":\"Provider rejected range size; partition into disjoint inclusive ranges\"},{\"action\":\"SPLIT_LOG_RANGE\",\"fromBlock\":37,\"toBlock\":39,\"reason\":\"Provider rejected range size; partition into disjoint inclusive ranges\"}],\"timestamp\":\"2026-10-12T05:52:59.727Z\",\"policyDecision\":\"AUTHORIZED_DEMO\",\"reviewReasons\":[],\"decisionTrail\":[{\"step\":\"Historical evidence\",\"outcome\":\"4 liquidation logs; 6 historical accounts; block hashes anchored.\"},{\"step\":\"Restitution policy\",\"outcome\":\"Approved by deterministic-policy-v2; reference corroborates baseline within 1%; disputed drop >=5%.\"},{\"step\":\"Eligibility\",\"outcome\":\"3 eligible; 3 excluded. No partial approval of incomplete evidence.\"},{\"step\":\"Independent claim audit\",\"outcome\":\"3 claims verified against the conservation identity and every inclusion proof.\"},{\"step\":\"Optional adaptive review\",\"outcome\":\"Model/tool review disabled; no model planning is claimed for this run.\"}],\"evidence\":{\"chainId\":31337,\"baselineBlockNumber\":36,\"incidentBlockNumber\":37,\"toBlock\":41,\"baselineBlockHash\":\"0x87b9eb01f4cc04a0620b1fa96672401cad05d16f9139154e003bc1c39e96939d\",\"incidentBlockHash\":\"0x076e3ae1fe720b70cbe4f692c5a94da010087f3e3de71e73c15dbbe6148e76ed\",\"endBlockHash\":\"0xcf96ddfcc3e3bbe1289bedebcc149c05f06726d664be50f6b619aa5613164f5c\",\"baselinePrice\":\"200000000000\",\"faultyPrice\":\"180000000000\",\"referencePrice\":\"200000000000\",\"referenceSource\":\"Separate DemoOracle 0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9 (synthetic reference; not a market feed)\",\"referenceCorroboratesBaseline\":true,\"liquidationThresholdBps\":\"8000\",\"collateralDecimals\":18,\"debtDecimals\":6,\"provenance\":\"SIMULATED_PROTOCOL_ON_EVM\"},\"forensicAiAssessment\":{\"anomalyClassification\":\"FAULTY_ORACLE_DEVIATION\",\"confidenceScore\":1,\"restitutionPolicyTriggered\":true,\"rootCauseAnalysis\":\"Historical price comparison under the demo policy. Reference: Separate DemoOracle 0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9 (synthetic reference; not a market feed). This is a rule evaluation, not model inference or proof of intent.\",\"recommendedWorkflow\":[\"replayCounterfactual\",\"crossCheckClaims\",\"generateMerkleManifest\"],\"executiveSummary\":\"Disputed feed diverges from the separately deployed reference. Check each borrower's eligibility.\",\"modelUsed\":\"deterministic-policy-v2\",\"isLiveLlm\":false},\"merkleManifest\":{\"incidentId\":\"0x55336de63eeead9b5150cf1af8e2bd905ec12fcc6169e7f60b4365209b405040\",\"merkleRoot\":\"0x3e70e411658566331bc9fd38284a5b626379c403305ce251350ccfcf3024ef9d\",\"totalRestitutionAmount\":\"5750000000\",\"claimsCount\":3,\"claims\":[{\"claimIndex\":0,\"claimant\":\"0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC\",\"amount\":\"2500000000\",\"incidentId\":\"0x55336de63eeead9b5150cf1af8e2bd905ec12fcc6169e7f60b4365209b405040\",\"proof\":[\"0x0d5daf707497259b986a34c92008c82843a02768c74e88645324827ca142be53\",\"0x696c74613f30f6b3d0c943da2c3845531fe2b5ef90b21e1c330d36d6b8bad5c4\"]},{\"claimIndex\":1,\"claimant\":\"0x90F79bf6EB2c4f870365E785982E1f101E93b906\",\"amount\":\"1250000000\",\"incidentId\":\"0x55336de63eeead9b5150cf1af8e2bd905ec12fcc6169e7f60b4365209b405040\",\"proof\":[\"0xc1b480228778d64ea6c6a07720b60e04d4a6dd5b066ccd1629df12d659e2b61f\"]},{\"claimIndex\":2,\"claimant\":\"0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65\",\"amount\":\"2000000000\",\"incidentId\":\"0x55336de63eeead9b5150cf1af8e2bd905ec12fcc6169e7f60b4365209b405040\",\"proof\":[\"0x53811f4ac3f8fed7d90b921a15ba2025de95b5374e84f86463c564aa40e26ccb\",\"0x696c74613f30f6b3d0c943da2c3845531fe2b5ef90b21e1c330d36d6b8bad5c4\"]}],\"generatedAt\":\"2026-10-12T05:53:00.676Z\",\"policyVersion\":\"POA_DEMO_POLICY_V2_EQUITY_DELTA\"},\"independentAudit\":{\"verifier\":\"independent-conservation-v1\",\"claimsVerified\":3,\"totalAmount\":\"5750000000\",\"allProofsVerified\":true,\"scope\":\"Internal consistency of collected synthetic-protocol evidence; not an audit of RPC authenticity\"},\"adaptiveReview\":{\"mode\":\"RULES_ONLY\",\"approved\":true,\"reason\":\"Optional model/tool review disabled; deterministic evidence and independent claim audit remain required.\",\"steps\":[]},\"proofCarryingManifest\":{\"manifestVersion\":\"1.0.0\",\"policyId\":\"POA_DEMO_POLICY_V2_EQUITY_DELTA\",\"incidentId\":\"0x55336de63eeead9b5150cf1af8e2bd905ec12fcc6169e7f60b4365209b405040\",\"generatedAt\":\"2026-10-12T05:53:00.711Z\",\"neatlogsTraceId\":\"3935cc34fe9eeb4b67a1c3405fa8938d\",\"evidence\":{\"incidentTxHash\":\"0xa419986ba2a78117d5a973ceb5b9ffa02ab7b0eb8003fd057b71c81b369e08df\",\"oracleAddress\":\"0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0\",\"poolAddress\":\"0x0165878A594ca255338adfa4d48449f69242Eb8F\",\"payoutToken\":\"0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512\",\"anchors\":{\"chainId\":31337,\"baselineBlockNumber\":36,\"baselineBlockHash\":\"0x87b9eb01f4cc04a0620b1fa96672401cad05d16f9139154e003bc1c39e96939d\",\"incidentBlockNumber\":37,\"incidentBlockHash\":\"0x076e3ae1fe720b70cbe4f692c5a94da010087f3e3de71e73c15dbbe6148e76ed\",\"toBlock\":41,\"endBlockHash\":\"0xcf96ddfcc3e3bbe1289bedebcc149c05f06726d664be50f6b619aa5613164f5c\",\"referenceSource\":\"Separate DemoOracle 0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9 (synthetic reference; not a market feed)\",\"referencePriceUsd\":\"2000.0\"},\"baselinePriceUsd\":\"2000.0\",\"faultyPriceUsd\":\"1800.0\",\"interventionPolicy\":\"Demo policy values equity at the separately deployed synthetic reference price. This is a balance-sheet calculation, not a transaction-level EVM replay or a verified market TWAP.\"},\"accountingInvariants\":{\"equityDeltaFormula\":\"L_i = max(0, NetEquity_i(S_cf) - NetEquity_i(S_obs)) where NetEquity = (Collateral * P_baseline) - Debt\",\"moralHazardExclusionRule\":\"Positions with baseline Health Factor < 1.0 (undercollateralized prior to incident) receive zero restitution.\",\"integerPrecision\":\"18 decimals WETH collateral, 6 decimals USDC debt/payout, BigInt integer arithmetic with zero floating point representation\"},\"summary\":{\"totalVictimsEvaluated\":6,\"wrongfulLiquidationsCount\":3,\"insolventAccountsExcluded\":1,\"totalRestitutionUsdc\":\"5750000000\",\"merkleRoot\":\"0x3e70e411658566331bc9fd38284a5b626379c403305ce251350ccfcf3024ef9d\"},\"claims\":[{\"claimIndex\":0,\"claimant\":\"0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC\",\"restitutionUsdc\":\"2500000000\",\"counterfactualEquityUsd\":\"5000.00\",\"observedEquityUsd\":\"2500.00\",\"merkleProof\":[\"0x0d5daf707497259b986a34c92008c82843a02768c74e88645324827ca142be53\",\"0x696c74613f30f6b3d0c943da2c3845531fe2b5ef90b21e1c330d36d6b8bad5c4\"]},{\"claimIndex\":1,\"claimant\":\"0x90F79bf6EB2c4f870365E785982E1f101E93b906\",\"restitutionUsdc\":\"1250000000\",\"counterfactualEquityUsd\":\"2500.00\",\"observedEquityUsd\":\"1250.00\",\"merkleProof\":[\"0xc1b480228778d64ea6c6a07720b60e04d4a6dd5b066ccd1629df12d659e2b61f\"]},{\"claimIndex\":2,\"claimant\":\"0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65\",\"restitutionUsdc\":\"2000000000\",\"counterfactualEquityUsd\":\"4000.00\",\"observedEquityUsd\":\"2000.00\",\"merkleProof\":[\"0x53811f4ac3f8fed7d90b921a15ba2025de95b5374e84f86463c564aa40e26ccb\",\"0x696c74613f30f6b3d0c943da2c3845531fe2b5ef90b21e1c330d36d6b8bad5c4\"]}],\"cryptographicIntegritySeal\":\"0x021a72db8154e7b608300c441c5a10806822f543a644128e3ca8405995eb7e7c\"},\"entityEnrichment\":{\"0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc\":{\"addressOrIdentifier\":\"0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc\",\"entityType\":\"EOA_OR_UNDEPLOYED\",\"isVerifiedEntity\":false,\"source\":\"ON_CHAIN_BYTECODE_INSPECTION\",\"isContract\":false},\"0x90f79bf6eb2c4f870365e785982e1f101e93b906\":{\"addressOrIdentifier\":\"0x90f79bf6eb2c4f870365e785982e1f101e93b906\",\"entityType\":\"EOA_OR_UNDEPLOYED\",\"isVerifiedEntity\":false,\"source\":\"ON_CHAIN_BYTECODE_INSPECTION\",\"isContract\":false},\"0x15d34aaf54267db7d7c367839aaf71a00a2c6a65\":{\"addressOrIdentifier\":\"0x15d34aaf54267db7d7c367839aaf71a00a2c6a65\",\"entityType\":\"EOA_OR_UNDEPLOYED\",\"isVerifiedEntity\":false,\"source\":\"ON_CHAIN_BYTECODE_INSPECTION\",\"isContract\":false}},\"executionTraceId\":\"3935cc34fe9eeb4b67a1c3405fa8938d\"}",
+          "service.name": "investigateOracleIncident",
+          "telemetry.sdk.language": "nodejs",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.30.1",
+          "service.version": "1.1.28",
+          "neatlogs.workflow_name": "investigateOracleIncident",
+          "neatlogs.tags": "poa,synthetic-demo",
+          "incidentId": "0x55336de63eeead9b5150cf1af8e2bd905ec12fcc6169e7f60b4365209b405040",
+          "neatlogs.trace.output": "{\"status\":\"COMPLETED\",\"policyDecision\":\"AUTHORIZED_DEMO\",\"eventsAnalyzed\":4,\"totalRestitutionCalculatedUsdc\":\"5750000000\",\"reviewReasons\":[]}",
+          "_span_name": "investigateOracleIncident",
+          "neatlogs.instrumentation.name": "neatlogs.trace",
+          "neatlogs.metrics.duration_ms": 1007.21408
+        },
+        "status": {
+          "code": 0
+        }
+      },
+      {
+        "traceId": "3935cc34fe9eeb4b67a1c3405fa8938d",
+        "spanId": "8df76f2c4cde0b99",
+        "parentSpanId": "4107a8b5627d2110",
+        "name": "neatlogs.trace.complete",
+        "attributes": {
+          "neatlogs.trace.complete": true,
+          "neatlogs.internal": true,
+          "neatlogs.span.kind": "Neatlogs.INTERNAL",
+          "neatlogs.tags": "poa,synthetic-demo"
+        },
+        "status": {
+          "code": 0
+        }
+      }
+    ],
+    "totalDurationMs": 1025.0621179999998,
+    "exportSucceeded": true
   },
-  "completedAt": "2026-10-11T13:50:56.931Z"
+  "completedAt": "2026-10-12T05:53:01.217Z"
 }

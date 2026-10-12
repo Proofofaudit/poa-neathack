@@ -1,0 +1,161 @@
+WEBVTT
+
+1
+00:00:00.100 --> 00:00:02.686
+A liquidation happens in seconds.
+
+2
+00:00:02.636 --> 00:00:06.522
+Proving that an oracle fault caused an unfair loss takes evidence.
+
+3
+00:00:06.522 --> 00:00:12.204
+POA helps protocol risk teams investigate a dispute and decide whether compensation is justified.
+
+4
+00:00:12.204 --> 00:00:17.045
+This is a real Aave liquidation on Base, from May fourteenth, twenty twenty four.
+
+5
+00:00:17.045 --> 00:00:25.727
+The hosted agent verifies the receipt, reconstructs every active borrower reserve, reads configured oracle sources, and compares historical exchange prices.
+
+6
+00:00:25.727 --> 00:00:28.090
+Its evidence is downloadable.
+
+7
+00:00:28.090 --> 00:00:31.681
+The architecture separates planning from financial decisions.
+
+8
+00:00:31.681 --> 00:00:35.306
+A live Claude model chooses bounded, read-only tools.
+
+9
+00:00:35.306 --> 00:00:38.704
+Code checks dependencies, amounts and block anchors.
+
+10
+00:00:38.704 --> 00:00:43.534
+The model cannot sign a transaction, approve a treasury proposal, or send funds.
+
+11
+00:00:43.534 --> 00:00:47.284
+Public visitors can run the rule planner without a model key.
+
+12
+00:00:47.284 --> 00:00:51.454
+This borrower held USDC collateral and WETH debt.
+
+13
+00:00:51.454 --> 00:00:54.409
+The baseline health factor was just below one.
+
+14
+00:00:54.409 --> 00:00:58.284
+Five and thirty minute exchange averages gave conflicting answers.
+
+15
+00:00:58.284 --> 00:01:02.795
+A healthy result under one average is not enough to prove an unfair liquidation.
+
+16
+00:01:02.795 --> 00:01:09.181
+We reproduced the actual signed transaction in a local archive fork, after replaying its preceding block transaction.
+
+17
+00:01:09.181 --> 00:01:15.988
+Gas use matches mainnet at eight hundred forty three thousand nine hundred twenty four, and all twenty five emitted logs match in order.
+
+18
+00:01:15.988 --> 00:01:20.090
+Then we ran six price scenarios against the historical contracts.
+
+19
+00:01:20.090 --> 00:01:23.988
+Both exchange spot price scenarios still liquidate the borrower.
+
+20
+00:01:23.988 --> 00:01:28.295
+Three averaging scenarios block liquidation with Aave's health factor check.
+
+21
+00:01:28.295 --> 00:01:32.147
+This demonstrates price sensitivity, not an oracle fault.
+
+22
+00:01:32.147 --> 00:01:38.386
+Coinbase completed pre incident candles add market context; later trades are excluded from causal evidence.
+
+23
+00:01:38.386 --> 00:01:41.772
+The hosted agent revalidates saved replay evidence.
+
+24
+00:01:41.772 --> 00:01:45.238
+It does not claim to create a fresh fork on every request.
+
+25
+00:01:45.238 --> 00:01:48.965
+The result is no compensation justified by this evidence.
+
+26
+00:01:48.965 --> 00:01:53.840
+Observed transfer costs are reported separately from oracle attributable damage.
+
+27
+00:01:53.840 --> 00:01:58.590
+That distinction protects a treasury from paying a persuasive but unsupported claim.
+
+28
+00:01:58.590 --> 00:02:03.022
+Other transactions need their own replay and supported position analysis.
+
+29
+00:02:03.022 --> 00:02:06.147
+Neatlogs records real tool and model calls.
+
+30
+00:02:06.147 --> 00:02:11.465
+Fifteen recorded traces were read back from its server with their expected spans and parent links.
+
+31
+00:02:11.465 --> 00:02:15.647
+A rejected model action remained visible, and the agent recovered.
+
+32
+00:02:15.647 --> 00:02:20.613
+One hundred eighteen automated tests pass, including missing evidence and payout gates.
+
+33
+00:02:20.613 --> 00:02:25.249
+Entire Graph helped locate the investigation code and inspect affected callers.
+
+34
+00:02:25.249 --> 00:02:28.511
+We retain its actual output and coverage limits.
+
+35
+00:02:28.511 --> 00:02:34.534
+The actual cfo dot ai plan models a protocol risk subscription, delivery costs, and runway.
+
+36
+00:02:34.534 --> 00:02:38.772
+Pricing and opening cash are assumptions, not customers or revenue.
+
+37
+00:02:38.772 --> 00:02:44.522
+A separate synthetic incident demonstrates the compensation path with test tokens and a sponsored claim.
+
+38
+00:02:44.522 --> 00:02:47.329
+It is not a payout to this real borrower.
+
+39
+00:02:47.329 --> 00:02:51.386
+POA makes the evidence, exclusions and decision inspectable.
+
+40
+00:02:51.386 --> 00:02:56.147
+Try the live investigation, download the replay proof, and challenge the conclusion.

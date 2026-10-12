@@ -1,79 +1,45 @@
-import { neatlogs } from "../observability/neatlogs.js";
-import dotenv from "dotenv";
-dotenv.config();
-
+import { ethers } from "ethers";
+import { rpcRead } from "../chain/rpc.js";
 export interface EnrichedEntityProfile {
   addressOrIdentifier: string;
-  entityType: "INSTITUTIONAL_MARKET_MAKER" | "DEFI_PROTOCOL" | "RETAIL_BORROWER" | "MEV_SEARCHER_BOT" | "CONTRACT_VAULT";
-  companyName?: string;
-  headquarters?: string;
-  estimatedAUM?: string;
-  riskRating: "LOW" | "MEDIUM" | "HIGH";
-  isVerifiedEntity: boolean;
+  entityType: "CONTRACT" | "EOA_OR_UNDEPLOYED" | "UNKNOWN";
+  isVerifiedEntity: false;
   isContract?: boolean;
-  source: "CRUSTDATA_API" | "ON_CHAIN_BYTECODE_INSPECTION" | "ON_CHAIN_LABEL_REGISTRY";
+  source: "ON_CHAIN_BYTECODE_INSPECTION" | "UNAVAILABLE";
 }
-
+// Bytecode is evidence of contract deployment only; it cannot establish identity or MEV activity.
 export class CrustdataEnricher {
-  private apiKey?: string;
-
-  constructor() {
-    this.apiKey = process.env.CRUSTDATA_API_KEY;
-  }
-
-  /**
-   * Enriches borrower accounts and liquidator addresses with bytecode analysis and Crustdata entity intelligence.
-   */
-  public async enrichEntities(
+  async enrichEntities(
     addresses: string[],
-    protocolName = "DemoLendingPool",
-    provider?: any
+    _protocol?: string,
+    provider?: ethers.Provider,
   ): Promise<Record<string, EnrichedEntityProfile>> {
-    return await neatlogs.traceSpan("enrichIncidentWithCrustdata", "TOOL", {
-      addressesCount: addresses.length,
-      protocol: protocolName,
-      hasCrustdataKey: Boolean(this.apiKey)
-    }, async () => {
-      const results: Record<string, EnrichedEntityProfile> = {};
-
-      for (const addr of addresses) {
-        const normalized = addr.toLowerCase();
-
-        // 1. Inspect on-chain bytecode if provider is available
-        let isContract = false;
-        if (provider && typeof provider.getCode === "function") {
-          try {
-            const code = await provider.getCode(addr);
-            isContract = Boolean(code && code !== "0x" && code !== "0x0");
-          } catch {
-            isContract = false;
-          }
-        }
-
-        // 2. Classify entity based on bytecode and known labels
-        if (isContract) {
-          results[addr] = {
-            addressOrIdentifier: addr,
-            entityType: "MEV_SEARCHER_BOT",
-            companyName: "Automated Flash-Liquidation Engine",
-            riskRating: "LOW",
-            isVerifiedEntity: true,
-            isContract: true,
-            source: "ON_CHAIN_BYTECODE_INSPECTION"
-          };
-        } else {
-          results[addr] = {
-            addressOrIdentifier: addr,
-            entityType: "RETAIL_BORROWER",
-            riskRating: "LOW",
+    return Object.fromEntries(
+      await Promise.all(
+        addresses.map(async (address) => {
+          const profile: EnrichedEntityProfile = {
+            addressOrIdentifier: address,
+            entityType: "UNKNOWN",
             isVerifiedEntity: false,
-            isContract: false,
-            source: "ON_CHAIN_LABEL_REGISTRY"
+            source: "UNAVAILABLE",
           };
-        }
-      }
-
-      return results;
-    });
+          if (provider)
+            try {
+              const code = await rpcRead(() => provider.getCode(address), {
+                attempts: 1,
+                timeoutMs: 1500,
+              });
+              profile.isContract = code !== "0x";
+              profile.entityType = profile.isContract
+                ? "CONTRACT"
+                : "EOA_OR_UNDEPLOYED";
+              profile.source = "ON_CHAIN_BYTECODE_INSPECTION";
+            } catch {
+              /* Unknown stays unknown. */
+            }
+          return [address, profile];
+        }),
+      ),
+    );
   }
 }

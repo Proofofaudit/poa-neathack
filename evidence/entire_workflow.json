@@ -1,0 +1,13 @@
+{
+  "collectedAt": "2026-10-11T21:13:52.446Z",
+  "commands": [
+    "entire status",
+    "entire checkpoint list --json"
+  ],
+  "enabled": true,
+  "checkpointCount": 0,
+  "checkpointEvidenceAvailable": false,
+  "status": "SETUP_VERIFIED_CHECKPOINT_EVIDENCE_MISSING",
+  "role": "Repository agent guidance and source-history inspection during the upgrade; no graph optimization or checkpoint coverage is claimed.",
+  "privacy": "Checkpoint transcripts are not copied into this artifact; review for credentials before public sharing."
+}

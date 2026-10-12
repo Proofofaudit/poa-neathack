@@ -1,17 +1,28 @@
 {
   "manifestVersion": "1.0.0",
-  "policyId": "POA_RESTITUTION_POLICY_V1_EQUITY_DELTA",
-  "incidentId": "0xf20a133ecc2e2bc91a80bf723b664967a5226486ef15b0007ca1e126f3e046c8",
-  "generatedAt": "2026-10-11T13:50:56.503Z",
-  "neatlogsTraceId": "trace-1791726656379-zn2e4",
+  "policyId": "POA_DEMO_POLICY_V2_EQUITY_DELTA",
+  "incidentId": "0x55336de63eeead9b5150cf1af8e2bd905ec12fcc6169e7f60b4365209b405040",
+  "generatedAt": "2026-10-12T05:54:54.178Z",
+  "neatlogsTraceId": "3ed222968e44548a4c7c0bf9a2aa72c1",
   "evidence": {
-    "incidentTxHash": "0xf0a5202c616dd67f8fea28d83c970ca3b5e1bab37105cb741a2fd94ff66442d6",
+    "incidentTxHash": "0xa419986ba2a78117d5a973ceb5b9ffa02ab7b0eb8003fd057b71c81b369e08df",
     "oracleAddress": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
-    "poolAddress": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
-    "payoutToken": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
-    "baselinePriceUsd": "2000.00",
-    "faultyPriceUsd": "1800.00",
-    "interventionPolicy": "Intervention policy substituted anomalous oracle plunge with verified TWAP benchmark. Nonces and valid transactions preserved."
+    "poolAddress": "0x0165878A594ca255338adfa4d48449f69242Eb8F",
+    "payoutToken": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+    "anchors": {
+      "chainId": 31337,
+      "baselineBlockNumber": 36,
+      "baselineBlockHash": "0x07a5466d8a9dfb88aa1f9b0e2914b5fcaca7098982afaa5221c4e2453f994579",
+      "incidentBlockNumber": 37,
+      "incidentBlockHash": "0xecfe5083ce0184c975cd21dbb24bc3c6b5996351ac4f7aa683bfc39ed480a51f",
+      "toBlock": 41,
+      "endBlockHash": "0x4638697581955874904d259e056135697a8649daa70f47a68f290f9f61bf8e1a",
+      "referenceSource": "Separate DemoOracle 0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9 (synthetic reference; not a market feed)",
+      "referencePriceUsd": "2000.0"
+    },
+    "baselinePriceUsd": "2000.0",
+    "faultyPriceUsd": "1800.0",
+    "interventionPolicy": "Demo policy values equity at the separately deployed synthetic reference price. This is a balance-sheet calculation, not a transaction-level EVM replay or a verified market TWAP."
   },
   "accountingInvariants": {
     "equityDeltaFormula": "L_i = max(0, NetEquity_i(S_cf) - NetEquity_i(S_obs)) where NetEquity = (Collateral * P_baseline) - Debt",
@@ -19,11 +30,11 @@
     "integerPrecision": "18 decimals WETH collateral, 6 decimals USDC debt/payout, BigInt integer arithmetic with zero floating point representation"
   },
   "summary": {
-    "totalVictimsEvaluated": 3,
+    "totalVictimsEvaluated": 6,
     "wrongfulLiquidationsCount": 3,
-    "insolventAccountsExcluded": 0,
+    "insolventAccountsExcluded": 1,
     "totalRestitutionUsdc": "5750000000",
-    "merkleRoot": "0x4b1839d40ccaf4ab9ff627aaae8424ca4ff52df1ebfe634fefddeb6d9f2a8247"
+    "merkleRoot": "0x3e70e411658566331bc9fd38284a5b626379c403305ce251350ccfcf3024ef9d"
   },
   "claims": [
     {
@@ -33,8 +44,8 @@
       "counterfactualEquityUsd": "5000.00",
       "observedEquityUsd": "2500.00",
       "merkleProof": [
-        "0xcb7ab26224c0d4cd38dc898450718d1b77bc2baeeeade7e18f86fbd9b899296f",
-        "0xf168cf8a0e96668e6727dfdd76f89408f15d404b2a915579941b6c86536eaf58"
+        "0x0d5daf707497259b986a34c92008c82843a02768c74e88645324827ca142be53",
+        "0x696c74613f30f6b3d0c943da2c3845531fe2b5ef90b21e1c330d36d6b8bad5c4"
       ]
     },
     {
@@ -44,8 +55,7 @@
       "counterfactualEquityUsd": "2500.00",
       "observedEquityUsd": "1250.00",
       "merkleProof": [
-        "0xb79f88be1888fb1de266bea6f6807540c10aeea69f4ee0fc8708427675c3af1c",
-        "0xf168cf8a0e96668e6727dfdd76f89408f15d404b2a915579941b6c86536eaf58"
+        "0xc1b480228778d64ea6c6a07720b60e04d4a6dd5b066ccd1629df12d659e2b61f"
       ]
     },
     {
@@ -55,9 +65,10 @@
       "counterfactualEquityUsd": "4000.00",
       "observedEquityUsd": "2000.00",
       "merkleProof": [
-        "0x8734d62afe83c89e650b37ae518e916ff5056f7bf89b70a7039b90d4e9822328"
+        "0x53811f4ac3f8fed7d90b921a15ba2025de95b5374e84f86463c564aa40e26ccb",
+        "0x696c74613f30f6b3d0c943da2c3845531fe2b5ef90b21e1c330d36d6b8bad5c4"
       ]
     }
   ],
-  "cryptographicIntegritySeal": "0xd06a408c1152c7531f389b2e965b8dcb6ab1f466b8eadf5de7b0159d37d2bef3"
+  "cryptographicIntegritySeal": "0x5c22e2cce8b4955fe662ac36daa31a2b20260ccda0cb46f0f55454311e8a631e"
 }

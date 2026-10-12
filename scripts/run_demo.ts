@@ -1,231 +1,267 @@
 import { ethers } from "ethers";
-import fs from "fs";
-import path from "path";
-import { spawn, ChildProcess } from "child_process";
-import { DeFiIncidentSimulator, ScenarioFixtureData } from "../src/chain/simulator.js";
+import fs from "node:fs";
+import path from "node:path";
+import assert from "node:assert/strict";
+import { DeFiIncidentSimulator } from "../src/chain/simulator.js";
 import { POAIncidentInvestigator } from "../src/agent/investigator.js";
 import { neatlogs } from "../src/observability/neatlogs.js";
+import { sourceFingerprint } from "./source_fingerprint.js";
+import { startSandbox } from "../src/chain/sandbox.js";
 
-async function sleep(ms: number) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-async function ensureAnvilRunning(): Promise<{ anvilProcess?: ChildProcess; rpcUrl: string }> {
-  const rpcUrl = "http://127.0.0.1:8545";
-  const provider = new ethers.JsonRpcProvider(rpcUrl, undefined, { cacheTimeout: -1, batchMaxCount: 1 });
-
+async function expectRevert(operation: () => Promise<unknown>, reason: string) {
   try {
-    await provider.getBlockNumber();
-    console.log("[Anvil] Reusing already running local Anvil node; resetting state to genesis...");
-    await provider.send("anvil_reset", []);
-    return { rpcUrl };
-  } catch (err) {
-    console.log("[Anvil] Starting fresh local Anvil node...");
-    const anvilBin = path.join(process.env.HOME || "/home/vamshi", ".foundry/bin/anvil");
-    const proc = spawn(anvilBin, ["--port", "8545", "--silent"], { detached: true });
-    await sleep(1500);
-    return { anvilProcess: proc, rpcUrl };
+    await operation();
+  } catch (error) {
+    assert.match(String(error), new RegExp(reason));
+    return true;
   }
+  throw new Error(`Expected on-chain rejection: ${reason}`);
 }
-
 async function main() {
-  console.log("================================================================================");
-  console.log("  POA (Proof of Audits) — neatHack 2026 End-to-End Incident Restitution Demo");
-  console.log("================================================================================\n");
-
-  const { anvilProcess, rpcUrl } = await ensureAnvilRunning();
-  const provider = new ethers.JsonRpcProvider(rpcUrl, undefined, { cacheTimeout: -1, batchMaxCount: 1 });
-
+  const fork = process.env.POA_BASE_FORK === "true";
+  const sandbox = await startSandbox(fork);
+  const { provider, rpcUrl } = sandbox;
   try {
-    // -------------------------------------------------------------------------
-    // Phase 1: On-Chain Incident Simulation
-    // -------------------------------------------------------------------------
-    console.log("▶ Phase 1: Setting up DeFi lending pool & triggering faulty oracle update...");
+    console.log(
+      `POA evidence demo | ${fork ? "Base fork" : "local EVM"} | synthetic lending protocol, oracle and test tokens`,
+    );
     const simulator = await DeFiIncidentSimulator.createFromAnvil(rpcUrl);
     const fixture = await simulator.runFullScenario();
-
-    console.log(`  ✓ Deployed DemoOracle at: ${fixture.oracleAddress}`);
-    console.log(`  ✓ Deployed DemoLendingPool at: ${fixture.lendingPoolAddress}`);
-    console.log(`  ✓ Deployed RestitutionDistributor at: ${fixture.distributorAddress}`);
-    console.log(`  ✓ Seeded 5 borrower positions.`);
-    console.log(`  ✓ Triggered Faulty Oracle Drop (-10%: $2000 -> $1800). Tx: ${fixture.oracleUpdateTxHash.substring(0, 18)}...`);
-    console.log(`  ✓ Executed ${fixture.liquidationTxs.length} real on-chain liquidations on underwater borrowers.\n`);
-
-    // -------------------------------------------------------------------------
-    // Phase 2: Autonomous Agent Investigation & Counterfactual Replay
-    // -------------------------------------------------------------------------
-    console.log("▶ Phase 2: Launching POA Autonomous Investigator Agent...");
-    const investigator = new POAIncidentInvestigator(provider);
-    const incidentId = ethers.keccak256(ethers.toUtf8Bytes(`ORACLE_INCIDENT_${fixture.oracleUpdateTxHash}`));
-
-    const simulatedEvents = fixture.liquidationTxs.map(l => ({
-      txHash: l.txHash,
-      blockNumber: 1,
-      liquidator: "0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d",
-      borrower: l.borrower,
-      debtCovered: BigInt(l.debtCovered),
-      collateralSeized: BigInt(l.collateralSeized),
-      oraclePriceUsed: BigInt(fixture.faultyPrice)
-    }));
-
-    const knownBorrowers = fixture.borrowers.map(b => ({
-      account: b.address,
-      collateral: BigInt(b.initialCollateralWeth),
-      debt: BigInt(b.initialDebtUsdc)
-    }));
-
-    const report = await investigator.investigateOracleIncident({
-      incidentId,
+    const params = {
+      incidentId: ethers.keccak256(
+        ethers.toUtf8Bytes(fixture.oracleUpdateTxHash),
+      ),
       incidentTxHash: fixture.oracleUpdateTxHash,
       oracleAddress: fixture.oracleAddress,
+      referenceOracleAddress: fixture.referenceOracleAddress,
       poolAddress: fixture.lendingPoolAddress,
       distributorAddress: fixture.distributorAddress,
       collateralToken: fixture.wethAddress,
       debtToken: fixture.usdcAddress,
-      baselinePrice: BigInt(fixture.baselinePrice),
-      simulatedLiquidations: simulatedEvents,
-      knownBorrowers
-    });
-
-    console.log(`  ✓ Investigation Status: ${report.status}`);
-    if (report.forensicAiAssessment) {
-      console.log(`  ✓ AI Forensic Reasoner [${report.forensicAiAssessment.modelUsed}]: ${report.forensicAiAssessment.executiveSummary}`);
-      console.log(`  ✓ Root Cause: ${report.forensicAiAssessment.rootCauseAnalysis}`);
+      protocol: "DEMO_LENDING_V1" as const,
+      deploymentBlockNumber: fixture.deploymentBlockNumber,
+      toBlock: fixture.endBlockNumber,
+    };
+    const investigator = new POAIncidentInvestigator(provider);
+    // Exercise a real retry of the log query; no substitute fixture is returned.
+    investigator.injectTransientRpcFailure(true);
+    investigator.injectLogRangeLimit(2);
+    const report = await investigator.investigateOracleIncident(params);
+    if (report.status !== "COMPLETED") {
+      const destination = process.env.POA_DEMO_EVIDENCE_FILE;
+      if (destination) {
+        fs.writeFileSync(destination, JSON.stringify({
+          schemaVersion: 2, generatedAt: new Date().toISOString(), source: sourceFingerprint(),
+          environment: { mode: fork ? "BASE_FORK" : "LOCAL_EVM", syntheticScenario: true },
+          report, restitutionExecuted: null,
+          observabilityTrace: neatlogs.recordedTraces.find(t => t.traceId === report.executionTraceId),
+        }, (_, value) => typeof value === "bigint" ? value.toString() : value, 2));
+      }
+      await neatlogs.flush();
     }
-    if (report.entityEnrichment) {
-      console.log(`  ✓ Crustdata Entity Intelligence: Profiled ${Object.keys(report.entityEnrichment).length} incident addresses.`);
-    }
-    console.log(`  ✓ Analyzed Liquidation Events: ${report.eventsAnalyzed}`);
-    console.log(`  ✓ Identified Wrongful Liquidations: ${report.wrongfulLiquidationsCount} of ${fixture.liquidationTxs.length}`);
-    console.log(`  ✓ Total Verified Restitution: ${(Number(report.totalRestitutionCalculatedUsdc) / 1e6).toFixed(2)} USDC`);
-    console.log(`  ✓ Merkle Root: ${report.merkleManifest?.merkleRoot}\n`);
-
-    // -------------------------------------------------------------------------
-    // Phase 3: Payout Authorization & On-Chain Distribution
-    // -------------------------------------------------------------------------
-    console.log("▶ Phase 3: Authorizing & Executing Verified Restitution Payouts...");
-    const mnemonic = "test test test test test test test test test test test junk";
-    const deployer = ethers.HDNodeWallet.fromPhrase(mnemonic, "", "m/44'/60'/0'/0/0").connect(provider);
-    const contractsDir = path.resolve(process.cwd(), "contracts/out");
-    const distArtifact = JSON.parse(fs.readFileSync(path.join(contractsDir, "RestitutionDistributor.sol/RestitutionDistributor.json"), "utf8"));
-    const erc20Artifact = JSON.parse(fs.readFileSync(path.join(contractsDir, "MockERC20.sol/MockERC20.json"), "utf8"));
-
-    const distributor = new ethers.Contract(fixture.distributorAddress, distArtifact.abi, deployer);
-    const usdc = new ethers.Contract(fixture.usdcAddress, erc20Artifact.abi, deployer);
-
-    const totalRestitution = BigInt(report.totalRestitutionCalculatedUsdc);
-    // Mint compensation tokens to distributor
-    await (await (usdc as any).mint(fixture.distributorAddress, totalRestitution)).wait();
-
-    // Register incident manifest on-chain
-    const registerTx = await (distributor as any).registerIncident(
-      incidentId,
-      report.merkleManifest!.merkleRoot,
-      totalRestitution,
+    assert.equal(report.status, "COMPLETED", report.summary);
+    assert.equal(report.policyDecision, "AUTHORIZED_DEMO");
+    assert.equal(report.eventsAnalyzed, 4);
+    assert.equal(report.wrongfulLiquidationsCount, 3);
+    assert.equal(report.totalRestitutionCalculatedUsdc, "5750000000");
+    assert.equal(report.retriesAttempted, 1);
+    assert.ok(
+      report.recoveryActions.some((a) => a.action === "SPLIT_LOG_RANGE"),
+    );
+    assert.equal(report.independentAudit?.claimsVerified, 3);
+    assert.ok(
+      report.claims.some((c) =>
+        c.reason.includes("already undercollateralized"),
+      ),
+    );
+    assert.equal(
+      report.claims.filter((c) => c.collateralSeizedWeth === "0").length,
+      2,
+    );
+    assert.ok(report.merkleManifest);
+    const successfulTrace = neatlogs.recordedTraces.find(
+      (t) => t.traceId === report.executionTraceId,
+    );
+    assert.ok(
+      successfulTrace?.sdkSpans.some(
+        (s) => s.name === "historicalLogQuery" && s.status.code === 2,
+      ),
+      "Actual SDK must capture the injected failed action",
+    );
+    console.log(report.summary);
+    const signer = new ethers.NonceManager(
+      ethers.HDNodeWallet.fromPhrase(
+        "test test test test test test test test test test test junk",
+        "",
+        "m/44'/60'/0'/0/0",
+      ).connect(provider),
+    );
+    const artifacts = path.resolve("contracts/out");
+    const distributor = new ethers.Contract(
+      fixture.distributorAddress,
+      JSON.parse(
+        fs.readFileSync(
+          path.join(
+            artifacts,
+            "RestitutionDistributor.sol/RestitutionDistributor.json",
+          ),
+          "utf8",
+        ),
+      ).abi,
+      signer,
+    );
+    const usdc = new ethers.Contract(
       fixture.usdcAddress,
-      "POA_RESTITUTION_POLICY_V1_EQUITY_DELTA"
+      JSON.parse(
+        fs.readFileSync(
+          path.join(artifacts, "MockERC20.sol/MockERC20.json"),
+          "utf8",
+        ),
+      ).abi,
+      signer,
     );
-    await registerTx.wait();
-    console.log(`  ✓ Incident registered on-chain in RestitutionDistributor (Policy: POA_RESTITUTION_POLICY_V1_EQUITY_DELTA).`);
-
-    // Execute real claim for Victim 1
-    const claim1 = report.merkleManifest!.claims[0];
-    const victim1Signer = ethers.HDNodeWallet.fromPhrase(mnemonic, "", "m/44'/60'/0'/0/2").connect(provider);
-    const balBefore = await (usdc as any).balanceOf(claim1.claimant);
-
-    const claimTx = await (distributor.connect(victim1Signer) as any).claim(
-      incidentId,
-      claim1.claimIndex,
-      claim1.claimant,
-      claim1.amount,
-      claim1.proof
+    await (
+      await usdc.mint(
+        fixture.distributorAddress,
+        BigInt(report.totalRestitutionCalculatedUsdc),
+      )
+    ).wait();
+    const registered = await (
+      await distributor.registerIncident(
+        params.incidentId,
+        report.merkleManifest.merkleRoot,
+        report.totalRestitutionCalculatedUsdc,
+        fixture.usdcAddress,
+        "POA_DEMO_POLICY_V2_EQUITY_DELTA",
+      )
+    ).wait();
+    const claim = report.merkleManifest.claims[0];
+    const tamperedRejected = await expectRevert(
+      () =>
+        distributor.claim.staticCall(
+          params.incidentId,
+          claim.claimIndex,
+          claim.claimant,
+          claim.amount + 1n,
+          claim.proof,
+        ),
+      "Invalid Merkle proof",
     );
-    await claimTx.wait();
-    const balAfter = await (usdc as any).balanceOf(claim1.claimant);
-
-    console.log(`  ✓ Victim 1 (${claim1.claimant.substring(0, 10)}...) successfully claimed ${(Number(claim1.amount) / 1e6).toFixed(2)} USDC!`);
-    console.log(`  ✓ Balance Change Verified: +${(Number(balAfter - balBefore) / 1e6).toFixed(2)} USDC.\n`);
-
-    // -------------------------------------------------------------------------
-    // Phase 4: Adversarial & Recovery Tests
-    // -------------------------------------------------------------------------
-    console.log("▶ Phase 4: Adversarial Guardrails & Negative Tests...");
-    let duplicateRejected = false;
-    try {
-      await (distributor.connect(victim1Signer) as any).claim(
-        incidentId,
-        claim1.claimIndex,
-        claim1.claimant,
-        claim1.amount,
-        claim1.proof
-      );
-    } catch (err: any) {
-      duplicateRejected = true;
-      console.log(`  ✓ Negative Test Passed: Duplicate claim was rejected on-chain ("Claim has already been executed").`);
-    }
-
-    let tamperedRejected = false;
-    try {
-      await (distributor.connect(victim1Signer) as any).claim(
-        incidentId,
-        claim1.claimIndex,
-        claim1.claimant,
-        claim1.amount + 1000000000n, // Tampered amount
-        claim1.proof
-      );
-    } catch (err: any) {
-      tamperedRejected = true;
-      console.log(`  ✓ Negative Test Passed: Tampered claim amount was rejected ("Invalid Merkle proof").\n`);
-    }
-
-    // -------------------------------------------------------------------------
-    // Phase 5: Neatlogs Observability Summary
-    // -------------------------------------------------------------------------
-    console.log("▶ Phase 5: Neatlogs Observability Evidence...");
-    const latestTrace = neatlogs.getLatestTrace();
-    console.log(`  ✓ Active Neatlogs Trace ID: ${latestTrace?.traceId}`);
-    console.log(`  ✓ Recorded Spans: ${latestTrace?.spans.length}`);
-    latestTrace?.spans.forEach((s, idx) => {
-      console.log(`     [${idx + 1}] ${s.kind.padEnd(10)} | ${s.name.padEnd(30)} | ${s.durationMs}ms | ${s.status}`);
+    await provider.send("anvil_setBalance", [claim.claimant, "0x0"]);
+    const recipientEthBefore = await provider.getBalance(claim.claimant);
+    const before = await usdc.balanceOf(claim.claimant);
+    // Permissionless forwarding pays the leaf claimant; the sender cannot redirect funds.
+    const receipt = await (
+      await distributor.claim(
+        params.incidentId,
+        claim.claimIndex,
+        claim.claimant,
+        claim.amount,
+        claim.proof,
+      )
+    ).wait();
+    const after = await usdc.balanceOf(claim.claimant);
+    assert.equal(after - before, claim.amount);
+    const recipientEthAfter = await provider.getBalance(claim.claimant);
+    assert.equal(recipientEthBefore, 0n);
+    assert.equal(recipientEthAfter, 0n);
+    const duplicateRejected = await expectRevert(
+      () =>
+        distributor.claim.staticCall(
+          params.incidentId,
+          claim.claimIndex,
+          claim.claimant,
+          claim.amount,
+          claim.proof,
+        ),
+      "Claim has already been executed",
+    );
+    const missing = await investigator.investigateOracleIncident({
+      ...params,
+      incidentTxHash: "0x" + "ff".repeat(32),
     });
-
-    // Save evidence artifact
-    const evidencePath = path.resolve(process.cwd(), "evidence/run_evidence.json");
-    fs.writeFileSync(evidencePath, JSON.stringify({
-      incidentId,
+    assert.equal(missing.status, "NEEDS_REVIEW");
+    assert.equal(missing.merkleManifest, undefined);
+    const evidence = {
+      schemaVersion: 2,
+      source: sourceFingerprint(),
+      network: fork ? "Base Mainnet Fork" : "Local EVM",
+      chainId: fixture.chainId,
+      provenance: "SYNTHETIC_SCENARIO_REAL_EVM_EXECUTION",
+      forkBlockNumber: sandbox.forkBlockNumber,
       fixture,
       report,
+      claims: report.merkleManifest.claims,
       restitutionExecuted: {
-        claimIndex: claim1.claimIndex,
-        claimant: claim1.claimant,
-        amountUsdc: claim1.amount.toString(),
-        txHash: claimTx.hash
+        claimIndex: claim.claimIndex,
+        claimant: claim.claimant,
+        amountUsdc: claim.amount.toString(),
+        txHash: receipt.hash,
+        blockNumber: receipt.blockNumber,
+        method: "SPONSORED_FORWARDING",
+        recipientEthBefore: recipientEthBefore.toString(),
+        recipientEthAfter: recipientEthAfter.toString(),
+        balanceBefore: before.toString(),
+        balanceAfter: after.toString(),
+        balanceDelta: (after - before).toString(),
       },
-      observabilityTrace: latestTrace,
-      completedAt: new Date().toISOString()
-    }, (key, value) => typeof value === "bigint" ? value.toString() : value, 2));
-
-    if (report.proofCarryingManifest) {
-      const manifestPath = path.resolve(process.cwd(), "evidence/restitution_manifest.json");
-      fs.writeFileSync(manifestPath, JSON.stringify(report.proofCarryingManifest, null, 2));
-      console.log(`  ✓ Proof-Carrying Restitution Manifest exported to: ${manifestPath}`);
-    }
-
+      registration: {
+        txHash: registered.hash,
+        blockNumber: registered.blockNumber,
+      },
+      checks: {
+        tamperedRejected,
+        duplicateRejected,
+        missingReceiptWithheld: missing.status === "NEEDS_REVIEW",
+        historicalDiscovery: true,
+        fixtureOverridesUsed: false,
+        adaptiveRangeRecovery: report.recoveryActions.some(
+          (a) => a.action === "SPLIT_LOG_RANGE",
+        ),
+        independentClaimAudit:
+          report.independentAudit?.allProofsVerified === true,
+      },
+      observabilityTrace: neatlogs.recordedTraces.find(
+        (t) => t.traceId === report.executionTraceId,
+      ),
+      completedAt: new Date().toISOString(),
+    };
+    fs.mkdirSync("evidence", { recursive: true });
+    const output =
+      process.env.POA_DEMO_EVIDENCE_FILE ||
+      (fork
+        ? "evidence/base_fork_evidence.json"
+        : "evidence/run_evidence.json");
+    fs.writeFileSync(
+      output,
+      JSON.stringify(
+        evidence,
+        (_, v) => (typeof v === "bigint" ? v.toString() : v),
+        2,
+      ),
+    );
+    fs.writeFileSync(
+      fork
+        ? "evidence/base_fork_manifest.json"
+        : "evidence/restitution_manifest.json",
+      JSON.stringify(report.proofCarryingManifest, null, 2),
+    );
     await neatlogs.flush();
-
-    console.log(`\n✓ Full verification evidence saved to: ${evidencePath}`);
-    console.log("================================================================================");
-    console.log("  DEMO RUN COMPLETED SUCCESSFULLY: 100% VERIFIED ON-CHAIN RESTITUTION");
-    console.log("================================================================================");
-
+    console.log(
+      `PASS: three eligible borrowers, one pre-insolvent exclusion, two untouched positions; ${ethers.formatUnits(after - before, 6)} test USDC paid. Tamper, duplicate and missing-evidence checks passed. Evidence: ${output}`,
+    );
+    console.log(
+      "The sandbox stops now. Saved transactions describe this isolated run and are not public mainnet transactions.",
+    );
   } finally {
-    if (anvilProcess) {
-      anvilProcess.kill();
-    }
+    provider.destroy();
+    sandbox.process.kill();
   }
 }
-
-main().catch(err => {
-  console.error("FATAL ERROR in demo run:", err);
-  process.exit(1);
+main().catch((error) => {
+  console.error(
+    "Demo failed:",
+    error instanceof Error ? error.message : "Unknown failure",
+  );
+  process.exitCode = 1;
 });

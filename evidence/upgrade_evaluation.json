@@ -1,0 +1,1304 @@
+{
+  "schemaVersion": 1,
+  "scope": "Project-owned economic policy regression evaluation; synthetic unit inputs, not production accuracy or official EVMbench",
+  "baseline": {
+    "revision": "96da127df488502f364a267311c4a63878a8a4e2",
+    "sourceSha256": "de5f7a137e3ceef70c53fd8da5d2e826cca179d1bd0a670950fd9b2d543e713a",
+    "cases": 12,
+    "passed": 3,
+    "unsafeAuthorizations": 8
+  },
+  "current": {
+    "revision": "96da127df488502f364a267311c4a63878a8a4e2",
+    "workingTreeDirty": true,
+    "sha256": "6db0088678262857cd1a81b96e8e9c441dc5b31ef6e99afa04b0cb77b6bec9a0",
+    "cases": 12,
+    "passed": 12,
+    "unsafeAuthorizations": 0
+  },
+  "rows": [
+    {
+      "case": "Eligible threshold crossing",
+      "version": "baseline-96da127",
+      "expectedAmount": "2500000000",
+      "observedAmount": "2500000000",
+      "outcome": "VERIFIED",
+      "passed": true,
+      "unsafeAuthorization": false,
+      "durationMs": 33.36963999999989
+    },
+    {
+      "case": "No observed liquidation",
+      "version": "baseline-96da127",
+      "expectedAmount": "0",
+      "observedAmount": "0",
+      "outcome": "EXCLUDED_LEGITIMATE",
+      "passed": true,
+      "unsafeAuthorization": false,
+      "durationMs": 5.541978999999628
+    },
+    {
+      "case": "Pre-insolvent account",
+      "version": "baseline-96da127",
+      "expectedAmount": "0",
+      "observedAmount": "0",
+      "outcome": "EXCLUDED_LEGITIMATE",
+      "passed": true,
+      "unsafeAuthorization": false,
+      "durationMs": 2.3302029999995284
+    },
+    {
+      "case": "Healthy at disputed price",
+      "version": "baseline-96da127",
+      "expectedAmount": "0",
+      "observedAmount": "700000000",
+      "outcome": "VERIFIED",
+      "passed": false,
+      "unsafeAuthorization": true,
+      "durationMs": 2.425876000000244
+    },
+    {
+      "case": "Wrong borrower event",
+      "version": "baseline-96da127",
+      "expectedAmount": "0",
+      "observedAmount": "2500000000",
+      "outcome": "VERIFIED",
+      "passed": false,
+      "unsafeAuthorization": true,
+      "durationMs": 6.098564999999326
+    },
+    {
+      "case": "Seized collateral exceeds position",
+      "version": "baseline-96da127",
+      "expectedAmount": "0",
+      "observedAmount": "7000000000",
+      "outcome": "VERIFIED",
+      "passed": false,
+      "unsafeAuthorization": true,
+      "durationMs": 2.7729600000002392
+    },
+    {
+      "case": "Repaid debt exceeds position",
+      "version": "baseline-96da127",
+      "expectedAmount": "0",
+      "observedAmount": "1500000000",
+      "outcome": "VERIFIED",
+      "passed": false,
+      "unsafeAuthorization": true,
+      "durationMs": 11.898611000000528
+    },
+    {
+      "case": "Negative debt repayment",
+      "version": "baseline-96da127",
+      "expectedAmount": "0",
+      "observedAmount": "17500000001",
+      "outcome": "VERIFIED",
+      "passed": false,
+      "unsafeAuthorization": true,
+      "durationMs": 5.659396999999444
+    },
+    {
+      "case": "Event oracle price mismatch",
+      "version": "baseline-96da127",
+      "expectedAmount": "0",
+      "observedAmount": "2500000000",
+      "outcome": "VERIFIED",
+      "passed": false,
+      "unsafeAuthorization": true,
+      "durationMs": 4.699524999999994
+    },
+    {
+      "case": "Zero baseline configuration",
+      "version": "baseline-96da127",
+      "expectedAmount": "0",
+      "observedAmount": "2500000000",
+      "outcome": "VERIFIED",
+      "passed": false,
+      "unsafeAuthorization": true,
+      "durationMs": 3.1448749999999563
+    },
+    {
+      "case": "Zero threshold configuration",
+      "version": "baseline-96da127",
+      "expectedAmount": "0",
+      "observedAmount": "2500000000",
+      "outcome": "VERIFIED",
+      "passed": false,
+      "unsafeAuthorization": true,
+      "durationMs": 3.177625000000262
+    },
+    {
+      "case": "Zero-decimal collateral",
+      "version": "baseline-96da127",
+      "expectedAmount": "3000000000",
+      "observedAmount": "0",
+      "outcome": "EXCLUDED_LEGITIMATE",
+      "passed": false,
+      "unsafeAuthorization": false,
+      "durationMs": 3.1951170000002094
+    },
+    {
+      "case": "Eligible threshold crossing",
+      "version": "current",
+      "expectedAmount": "2500000000",
+      "observedAmount": "2500000000",
+      "outcome": "VERIFIED",
+      "passed": true,
+      "unsafeAuthorization": false,
+      "durationMs": 5.678391999999803
+    },
+    {
+      "case": "No observed liquidation",
+      "version": "current",
+      "expectedAmount": "0",
+      "observedAmount": "0",
+      "outcome": "EXCLUDED_LEGITIMATE",
+      "passed": true,
+      "unsafeAuthorization": false,
+      "durationMs": 2.2088029999995342
+    },
+    {
+      "case": "Pre-insolvent account",
+      "version": "current",
+      "expectedAmount": "0",
+      "observedAmount": "0",
+      "outcome": "EXCLUDED_LEGITIMATE",
+      "passed": true,
+      "unsafeAuthorization": false,
+      "durationMs": 3.8664209999997183
+    },
+    {
+      "case": "Healthy at disputed price",
+      "version": "current",
+      "expectedAmount": "0",
+      "observedAmount": "0",
+      "outcome": "NEEDS_REVIEW",
+      "passed": true,
+      "unsafeAuthorization": false,
+      "durationMs": 6.424595999999838
+    },
+    {
+      "case": "Wrong borrower event",
+      "version": "current",
+      "expectedAmount": "0",
+      "observedAmount": "0",
+      "outcome": "NEEDS_REVIEW",
+      "passed": true,
+      "unsafeAuthorization": false,
+      "durationMs": 4.3791760000003705
+    },
+    {
+      "case": "Seized collateral exceeds position",
+      "version": "current",
+      "expectedAmount": "0",
+      "observedAmount": "0",
+      "outcome": "NEEDS_REVIEW",
+      "passed": true,
+      "unsafeAuthorization": false,
+      "durationMs": 4.864795999999842
+    },
+    {
+      "case": "Repaid debt exceeds position",
+      "version": "current",
+      "expectedAmount": "0",
+      "observedAmount": "0",
+      "outcome": "NEEDS_REVIEW",
+      "passed": true,
+      "unsafeAuthorization": false,
+      "durationMs": 5.198296000000482
+    },
+    {
+      "case": "Negative debt repayment",
+      "version": "current",
+      "expectedAmount": "0",
+      "observedAmount": "0",
+      "outcome": "NEEDS_REVIEW",
+      "passed": true,
+      "unsafeAuthorization": false,
+      "durationMs": 4.620677000000796
+    },
+    {
+      "case": "Event oracle price mismatch",
+      "version": "current",
+      "expectedAmount": "0",
+      "observedAmount": "0",
+      "outcome": "NEEDS_REVIEW",
+      "passed": true,
+      "unsafeAuthorization": false,
+      "durationMs": 3.190244000000348
+    },
+    {
+      "case": "Zero baseline configuration",
+      "version": "current",
+      "expectedAmount": "0",
+      "observedAmount": "0",
+      "outcome": "REJECTED_INVALID_INPUT",
+      "passed": true,
+      "unsafeAuthorization": false,
+      "durationMs": 400.5078960000001
+    },
+    {
+      "case": "Zero threshold configuration",
+      "version": "current",
+      "expectedAmount": "0",
+      "observedAmount": "0",
+      "outcome": "REJECTED_INVALID_INPUT",
+      "passed": true,
+      "unsafeAuthorization": false,
+      "durationMs": 2.8511090000001786
+    },
+    {
+      "case": "Zero-decimal collateral",
+      "version": "current",
+      "expectedAmount": "3000000000",
+      "observedAmount": "3000000000",
+      "outcome": "VERIFIED",
+      "passed": true,
+      "unsafeAuthorization": false,
+      "durationMs": 2.226650999999947
+    }
+  ],
+  "traces": [
+    {
+      "workflowName": "policy-evaluation-baseline-96da127",
+      "traceId": "5bd8edc36e34428cfe91cf9630cbd340",
+      "mode": "NEATLOGS_SDK_LOCAL",
+      "remotePersistence": "NOT_REQUESTED",
+      "spans": [
+        {
+          "spanId": "4fab7686-b9af-4399-a90b-e6a644f0f46b",
+          "parentSpanId": "bafc9be4-abb2-4877-a62d-316ba6606cb6",
+          "name": "Eligible threshold crossing",
+          "kind": "GUARDRAIL",
+          "durationMs": 33.220980000000054,
+          "attributes": {
+            "version": "baseline-96da127",
+            "expectedAmount": "2500000000"
+          },
+          "status": "OK"
+        },
+        {
+          "spanId": "5fc56857-52d8-4a3a-be38-5adbc796016c",
+          "parentSpanId": "bafc9be4-abb2-4877-a62d-316ba6606cb6",
+          "name": "No observed liquidation",
+          "kind": "GUARDRAIL",
+          "durationMs": 5.476305999999568,
+          "attributes": {
+            "version": "baseline-96da127",
+            "expectedAmount": "0"
+          },
+          "status": "OK"
+        },
+        {
+          "spanId": "3b8d47b9-4d5a-4a57-839c-f258e7c4e4d7",
+          "parentSpanId": "bafc9be4-abb2-4877-a62d-316ba6606cb6",
+          "name": "Pre-insolvent account",
+          "kind": "GUARDRAIL",
+          "durationMs": 2.3009899999997288,
+          "attributes": {
+            "version": "baseline-96da127",
+            "expectedAmount": "0"
+          },
+          "status": "OK"
+        },
+        {
+          "spanId": "e7706886-b41d-4335-93ca-2eef3fa22df9",
+          "parentSpanId": "bafc9be4-abb2-4877-a62d-316ba6606cb6",
+          "name": "Healthy at disputed price",
+          "kind": "GUARDRAIL",
+          "durationMs": 2.398411999999553,
+          "attributes": {
+            "version": "baseline-96da127",
+            "expectedAmount": "0"
+          },
+          "status": "OK"
+        },
+        {
+          "spanId": "aba112b4-cdc4-4408-ad7e-6dc53950f825",
+          "parentSpanId": "bafc9be4-abb2-4877-a62d-316ba6606cb6",
+          "name": "Wrong borrower event",
+          "kind": "GUARDRAIL",
+          "durationMs": 6.067836999999599,
+          "attributes": {
+            "version": "baseline-96da127",
+            "expectedAmount": "0"
+          },
+          "status": "OK"
+        },
+        {
+          "spanId": "0f0dae0f-63f9-4c6c-a461-110e76afdffd",
+          "parentSpanId": "bafc9be4-abb2-4877-a62d-316ba6606cb6",
+          "name": "Seized collateral exceeds position",
+          "kind": "GUARDRAIL",
+          "durationMs": 2.73869299999933,
+          "attributes": {
+            "version": "baseline-96da127",
+            "expectedAmount": "0"
+          },
+          "status": "OK"
+        },
+        {
+          "spanId": "ba43966f-4fae-4021-aa28-34284b34f966",
+          "parentSpanId": "bafc9be4-abb2-4877-a62d-316ba6606cb6",
+          "name": "Repaid debt exceeds position",
+          "kind": "GUARDRAIL",
+          "durationMs": 11.857049000000188,
+          "attributes": {
+            "version": "baseline-96da127",
+            "expectedAmount": "0"
+          },
+          "status": "OK"
+        },
+        {
+          "spanId": "770c9697-e68a-4511-9988-4aa14d664166",
+          "parentSpanId": "bafc9be4-abb2-4877-a62d-316ba6606cb6",
+          "name": "Negative debt repayment",
+          "kind": "GUARDRAIL",
+          "durationMs": 5.6216599999997925,
+          "attributes": {
+            "version": "baseline-96da127",
+            "expectedAmount": "0"
+          },
+          "status": "OK"
+        },
+        {
+          "spanId": "7018963d-3003-4e50-9784-ae713f0ae9c0",
+          "parentSpanId": "bafc9be4-abb2-4877-a62d-316ba6606cb6",
+          "name": "Event oracle price mismatch",
+          "kind": "GUARDRAIL",
+          "durationMs": 4.627055000000837,
+          "attributes": {
+            "version": "baseline-96da127",
+            "expectedAmount": "0"
+          },
+          "status": "OK"
+        },
+        {
+          "spanId": "f64b3be6-0f0c-4e5f-b651-0af7a58e957e",
+          "parentSpanId": "bafc9be4-abb2-4877-a62d-316ba6606cb6",
+          "name": "Zero baseline configuration",
+          "kind": "GUARDRAIL",
+          "durationMs": 3.05839399999968,
+          "attributes": {
+            "version": "baseline-96da127",
+            "expectedAmount": "0"
+          },
+          "status": "OK"
+        },
+        {
+          "spanId": "316b3af7-5552-47de-96cf-1f66eb29bbb6",
+          "parentSpanId": "bafc9be4-abb2-4877-a62d-316ba6606cb6",
+          "name": "Zero threshold configuration",
+          "kind": "GUARDRAIL",
+          "durationMs": 3.13618999999926,
+          "attributes": {
+            "version": "baseline-96da127",
+            "expectedAmount": "0"
+          },
+          "status": "OK"
+        },
+        {
+          "spanId": "9c9a5728-c30e-4a67-b377-c5459bbd46cc",
+          "parentSpanId": "bafc9be4-abb2-4877-a62d-316ba6606cb6",
+          "name": "Zero-decimal collateral",
+          "kind": "GUARDRAIL",
+          "durationMs": 3.082715999999891,
+          "attributes": {
+            "version": "baseline-96da127",
+            "expectedAmount": "3000000000"
+          },
+          "status": "OK"
+        },
+        {
+          "spanId": "bafc9be4-abb2-4877-a62d-316ba6606cb6",
+          "name": "policy-evaluation-baseline-96da127",
+          "kind": "WORKFLOW",
+          "durationMs": 98.98544599999968,
+          "attributes": {
+            "cases": 12,
+            "label": "baseline-96da127"
+          },
+          "status": "OK"
+        }
+      ],
+      "sdkSpans": [
+        {
+          "traceId": "5bd8edc36e34428cfe91cf9630cbd340",
+          "spanId": "e5299056386a11db",
+          "parentSpanId": "c9ef516073c1735d",
+          "name": "Eligible threshold crossing",
+          "attributes": {
+            "neatlogs.span.kind": "guardrail",
+            "neatlogs.guardrail.input": "{\"version\":\"baseline-96da127\",\"expectedAmount\":\"2500000000\"}",
+            "neatlogs.guardrail.output": "{\"claimIndex\":0,\"borrower\":\"0x1111111111111111111111111111111111111111\",\"initialCollateralWeth\":\"10000000000000000000\",\"initialDebtUsdc\":\"15000000000\",\"collateralSeizedWeth\":\"8750000000000000000\",\"debtRepaidUsdc\":\"15000000000\",\"baselinePriceUsd\":\"2000.00\",\"faultyPriceUsd\":\"1800.00\",\"baselineHealthFactor\":\"1.0667\",\"faultyHealthFactor\":\"0.9600\",\"observedNetEquityUsd\":\"2500.00\",\"counterfactualNetEquityUsd\":\"5000.00\",\"restitutionAmountUsdc\":\"2500000000\",\"status\":\"VERIFIED\",\"reason\":\"Wrongful liquidation triggered by faulty oracle drop. Provable net equity loss: 2500.00 USD.\"}",
+            "service.name": "policy-evaluation-baseline-96da127",
+            "telemetry.sdk.language": "nodejs",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.30.1",
+            "service.version": "1.1.28",
+            "neatlogs.workflow_name": "policy-evaluation-baseline-96da127",
+            "neatlogs.tags": "poa,synthetic-demo",
+            "version": "baseline-96da127",
+            "expectedAmount": "2500000000",
+            "_span_name": "Eligible threshold crossing",
+            "neatlogs.instrumentation.name": "neatlogs.trace",
+            "neatlogs.metrics.duration_ms": 8.863488
+          },
+          "status": {
+            "code": 0
+          }
+        },
+        {
+          "traceId": "5bd8edc36e34428cfe91cf9630cbd340",
+          "spanId": "c0f4763b337d5397",
+          "parentSpanId": "c9ef516073c1735d",
+          "name": "No observed liquidation",
+          "attributes": {
+            "neatlogs.span.kind": "guardrail",
+            "neatlogs.guardrail.input": "{\"version\":\"baseline-96da127\",\"expectedAmount\":\"0\"}",
+            "neatlogs.guardrail.output": "{\"claimIndex\":0,\"borrower\":\"0x1111111111111111111111111111111111111111\",\"initialCollateralWeth\":\"10000000000000000000\",\"initialDebtUsdc\":\"15000000000\",\"collateralSeizedWeth\":\"0\",\"debtRepaidUsdc\":\"0\",\"baselinePriceUsd\":\"2000.00\",\"faultyPriceUsd\":\"1800.00\",\"baselineHealthFactor\":\"1.0667\",\"faultyHealthFactor\":\"0.9600\",\"observedNetEquityUsd\":\"5000.00\",\"counterfactualNetEquityUsd\":\"5000.00\",\"restitutionAmountUsdc\":\"0\",\"status\":\"EXCLUDED_LEGITIMATE\",\"reason\":\"Position maintained healthy collateral buffer; no liquidation occurred.\"}",
+            "service.name": "policy-evaluation-baseline-96da127",
+            "telemetry.sdk.language": "nodejs",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.30.1",
+            "service.version": "1.1.28",
+            "neatlogs.workflow_name": "policy-evaluation-baseline-96da127",
+            "neatlogs.tags": "poa,synthetic-demo",
+            "version": "baseline-96da127",
+            "expectedAmount": "0",
+            "_span_name": "No observed liquidation",
+            "neatlogs.instrumentation.name": "neatlogs.trace",
+            "neatlogs.metrics.duration_ms": 1.602816
+          },
+          "status": {
+            "code": 0
+          }
+        },
+        {
+          "traceId": "5bd8edc36e34428cfe91cf9630cbd340",
+          "spanId": "eb7fbe316d96fb6b",
+          "parentSpanId": "c9ef516073c1735d",
+          "name": "Pre-insolvent account",
+          "attributes": {
+            "neatlogs.span.kind": "guardrail",
+            "neatlogs.guardrail.input": "{\"version\":\"baseline-96da127\",\"expectedAmount\":\"0\"}",
+            "neatlogs.guardrail.output": "{\"claimIndex\":0,\"borrower\":\"0x1111111111111111111111111111111111111111\",\"initialCollateralWeth\":\"10000000000000000000\",\"initialDebtUsdc\":\"16500000000\",\"collateralSeizedWeth\":\"8750000000000000000\",\"debtRepaidUsdc\":\"16500000000\",\"baselinePriceUsd\":\"2000.00\",\"faultyPriceUsd\":\"1800.00\",\"baselineHealthFactor\":\"0.9697\",\"faultyHealthFactor\":\"0.8727\",\"observedNetEquityUsd\":\"2500.00\",\"counterfactualNetEquityUsd\":\"3500.00\",\"restitutionAmountUsdc\":\"0\",\"status\":\"EXCLUDED_LEGITIMATE\",\"reason\":\"Position was already undercollateralized at baseline ($2000.00). Liquidation was economically legitimate.\"}",
+            "service.name": "policy-evaluation-baseline-96da127",
+            "telemetry.sdk.language": "nodejs",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.30.1",
+            "service.version": "1.1.28",
+            "neatlogs.workflow_name": "policy-evaluation-baseline-96da127",
+            "neatlogs.tags": "poa,synthetic-demo",
+            "version": "baseline-96da127",
+            "expectedAmount": "0",
+            "_span_name": "Pre-insolvent account",
+            "neatlogs.instrumentation.name": "neatlogs.trace",
+            "neatlogs.metrics.duration_ms": 0.702976
+          },
+          "status": {
+            "code": 0
+          }
+        },
+        {
+          "traceId": "5bd8edc36e34428cfe91cf9630cbd340",
+          "spanId": "df6c0cb35d12bbdf",
+          "parentSpanId": "c9ef516073c1735d",
+          "name": "Healthy at disputed price",
+          "attributes": {
+            "neatlogs.span.kind": "guardrail",
+            "neatlogs.guardrail.input": "{\"version\":\"baseline-96da127\",\"expectedAmount\":\"0\"}",
+            "neatlogs.guardrail.output": "{\"claimIndex\":0,\"borrower\":\"0x1111111111111111111111111111111111111111\",\"initialCollateralWeth\":\"3000000000000000000\",\"initialDebtUsdc\":\"3500000000\",\"collateralSeizedWeth\":\"2100000000000000000\",\"debtRepaidUsdc\":\"3500000000\",\"baselinePriceUsd\":\"2000.00\",\"faultyPriceUsd\":\"1800.00\",\"baselineHealthFactor\":\"1.3714\",\"faultyHealthFactor\":\"1.2343\",\"observedNetEquityUsd\":\"1800.00\",\"counterfactualNetEquityUsd\":\"2500.00\",\"restitutionAmountUsdc\":\"700000000\",\"status\":\"VERIFIED\",\"reason\":\"Wrongful liquidation triggered by faulty oracle drop. Provable net equity loss: 700.00 USD.\"}",
+            "service.name": "policy-evaluation-baseline-96da127",
+            "telemetry.sdk.language": "nodejs",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.30.1",
+            "service.version": "1.1.28",
+            "neatlogs.workflow_name": "policy-evaluation-baseline-96da127",
+            "neatlogs.tags": "poa,synthetic-demo",
+            "version": "baseline-96da127",
+            "expectedAmount": "0",
+            "_span_name": "Healthy at disputed price",
+            "neatlogs.instrumentation.name": "neatlogs.trace",
+            "neatlogs.metrics.duration_ms": 0.535552
+          },
+          "status": {
+            "code": 0
+          }
+        },
+        {
+          "traceId": "5bd8edc36e34428cfe91cf9630cbd340",
+          "spanId": "64ecefcd406d24f3",
+          "parentSpanId": "c9ef516073c1735d",
+          "name": "Wrong borrower event",
+          "attributes": {
+            "neatlogs.span.kind": "guardrail",
+            "neatlogs.guardrail.input": "{\"version\":\"baseline-96da127\",\"expectedAmount\":\"0\"}",
+            "neatlogs.guardrail.output": "{\"claimIndex\":0,\"borrower\":\"0x1111111111111111111111111111111111111111\",\"initialCollateralWeth\":\"10000000000000000000\",\"initialDebtUsdc\":\"15000000000\",\"collateralSeizedWeth\":\"8750000000000000000\",\"debtRepaidUsdc\":\"15000000000\",\"baselinePriceUsd\":\"2000.00\",\"faultyPriceUsd\":\"1800.00\",\"baselineHealthFactor\":\"1.0667\",\"faultyHealthFactor\":\"0.9600\",\"observedNetEquityUsd\":\"2500.00\",\"counterfactualNetEquityUsd\":\"5000.00\",\"restitutionAmountUsdc\":\"2500000000\",\"status\":\"VERIFIED\",\"reason\":\"Wrongful liquidation triggered by faulty oracle drop. Provable net equity loss: 2500.00 USD.\"}",
+            "service.name": "policy-evaluation-baseline-96da127",
+            "telemetry.sdk.language": "nodejs",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.30.1",
+            "service.version": "1.1.28",
+            "neatlogs.workflow_name": "policy-evaluation-baseline-96da127",
+            "neatlogs.tags": "poa,synthetic-demo",
+            "version": "baseline-96da127",
+            "expectedAmount": "0",
+            "_span_name": "Wrong borrower event",
+            "neatlogs.instrumentation.name": "neatlogs.trace",
+            "neatlogs.metrics.duration_ms": 0.579584
+          },
+          "status": {
+            "code": 0
+          }
+        },
+        {
+          "traceId": "5bd8edc36e34428cfe91cf9630cbd340",
+          "spanId": "c56d93c3175f8124",
+          "parentSpanId": "c9ef516073c1735d",
+          "name": "Seized collateral exceeds position",
+          "attributes": {
+            "neatlogs.span.kind": "guardrail",
+            "neatlogs.guardrail.input": "{\"version\":\"baseline-96da127\",\"expectedAmount\":\"0\"}",
+            "neatlogs.guardrail.output": "{\"claimIndex\":0,\"borrower\":\"0x1111111111111111111111111111111111111111\",\"initialCollateralWeth\":\"10000000000000000000\",\"initialDebtUsdc\":\"15000000000\",\"collateralSeizedWeth\":\"11000000000000000000\",\"debtRepaidUsdc\":\"15000000000\",\"baselinePriceUsd\":\"2000.00\",\"faultyPriceUsd\":\"1800.00\",\"baselineHealthFactor\":\"1.0667\",\"faultyHealthFactor\":\"0.9600\",\"observedNetEquityUsd\":\"-2000.00\",\"counterfactualNetEquityUsd\":\"5000.00\",\"restitutionAmountUsdc\":\"7000000000\",\"status\":\"VERIFIED\",\"reason\":\"Wrongful liquidation triggered by faulty oracle drop. Provable net equity loss: 7000.00 USD.\"}",
+            "service.name": "policy-evaluation-baseline-96da127",
+            "telemetry.sdk.language": "nodejs",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.30.1",
+            "service.version": "1.1.28",
+            "neatlogs.workflow_name": "policy-evaluation-baseline-96da127",
+            "neatlogs.tags": "poa,synthetic-demo",
+            "version": "baseline-96da127",
+            "expectedAmount": "0",
+            "_span_name": "Seized collateral exceeds position",
+            "neatlogs.instrumentation.name": "neatlogs.trace",
+            "neatlogs.metrics.duration_ms": 0.680448
+          },
+          "status": {
+            "code": 0
+          }
+        },
+        {
+          "traceId": "5bd8edc36e34428cfe91cf9630cbd340",
+          "spanId": "4815cb34f279b15a",
+          "parentSpanId": "c9ef516073c1735d",
+          "name": "Repaid debt exceeds position",
+          "attributes": {
+            "neatlogs.span.kind": "guardrail",
+            "neatlogs.guardrail.input": "{\"version\":\"baseline-96da127\",\"expectedAmount\":\"0\"}",
+            "neatlogs.guardrail.output": "{\"claimIndex\":0,\"borrower\":\"0x1111111111111111111111111111111111111111\",\"initialCollateralWeth\":\"10000000000000000000\",\"initialDebtUsdc\":\"15000000000\",\"collateralSeizedWeth\":\"8750000000000000000\",\"debtRepaidUsdc\":\"16000000000\",\"baselinePriceUsd\":\"2000.00\",\"faultyPriceUsd\":\"1800.00\",\"baselineHealthFactor\":\"1.0667\",\"faultyHealthFactor\":\"0.9600\",\"observedNetEquityUsd\":\"3500.00\",\"counterfactualNetEquityUsd\":\"5000.00\",\"restitutionAmountUsdc\":\"1500000000\",\"status\":\"VERIFIED\",\"reason\":\"Wrongful liquidation triggered by faulty oracle drop. Provable net equity loss: 1500.00 USD.\"}",
+            "service.name": "policy-evaluation-baseline-96da127",
+            "telemetry.sdk.language": "nodejs",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.30.1",
+            "service.version": "1.1.28",
+            "neatlogs.workflow_name": "policy-evaluation-baseline-96da127",
+            "neatlogs.tags": "poa,synthetic-demo",
+            "version": "baseline-96da127",
+            "expectedAmount": "0",
+            "_span_name": "Repaid debt exceeds position",
+            "neatlogs.instrumentation.name": "neatlogs.trace",
+            "neatlogs.metrics.duration_ms": 0.699136
+          },
+          "status": {
+            "code": 0
+          }
+        },
+        {
+          "traceId": "5bd8edc36e34428cfe91cf9630cbd340",
+          "spanId": "900b6c5433885aa3",
+          "parentSpanId": "c9ef516073c1735d",
+          "name": "Negative debt repayment",
+          "attributes": {
+            "neatlogs.span.kind": "guardrail",
+            "neatlogs.guardrail.input": "{\"version\":\"baseline-96da127\",\"expectedAmount\":\"0\"}",
+            "neatlogs.guardrail.output": "{\"claimIndex\":0,\"borrower\":\"0x1111111111111111111111111111111111111111\",\"initialCollateralWeth\":\"10000000000000000000\",\"initialDebtUsdc\":\"15000000000\",\"collateralSeizedWeth\":\"8750000000000000000\",\"debtRepaidUsdc\":\"-1\",\"baselinePriceUsd\":\"2000.00\",\"faultyPriceUsd\":\"1800.00\",\"baselineHealthFactor\":\"1.0667\",\"faultyHealthFactor\":\"0.9600\",\"observedNetEquityUsd\":\"-12500.00\",\"counterfactualNetEquityUsd\":\"5000.00\",\"restitutionAmountUsdc\":\"17500000001\",\"status\":\"VERIFIED\",\"reason\":\"Wrongful liquidation triggered by faulty oracle drop. Provable net equity loss: 17500.00 USD.\"}",
+            "service.name": "policy-evaluation-baseline-96da127",
+            "telemetry.sdk.language": "nodejs",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.30.1",
+            "service.version": "1.1.28",
+            "neatlogs.workflow_name": "policy-evaluation-baseline-96da127",
+            "neatlogs.tags": "poa,synthetic-demo",
+            "version": "baseline-96da127",
+            "expectedAmount": "0",
+            "_span_name": "Negative debt repayment",
+            "neatlogs.instrumentation.name": "neatlogs.trace",
+            "neatlogs.metrics.duration_ms": 3.209472
+          },
+          "status": {
+            "code": 0
+          }
+        },
+        {
+          "traceId": "5bd8edc36e34428cfe91cf9630cbd340",
+          "spanId": "19e69f741498747d",
+          "parentSpanId": "c9ef516073c1735d",
+          "name": "Event oracle price mismatch",
+          "attributes": {
+            "neatlogs.span.kind": "guardrail",
+            "neatlogs.guardrail.input": "{\"version\":\"baseline-96da127\",\"expectedAmount\":\"0\"}",
+            "neatlogs.guardrail.output": "{\"claimIndex\":0,\"borrower\":\"0x1111111111111111111111111111111111111111\",\"initialCollateralWeth\":\"10000000000000000000\",\"initialDebtUsdc\":\"15000000000\",\"collateralSeizedWeth\":\"8750000000000000000\",\"debtRepaidUsdc\":\"15000000000\",\"baselinePriceUsd\":\"2000.00\",\"faultyPriceUsd\":\"1800.00\",\"baselineHealthFactor\":\"1.0667\",\"faultyHealthFactor\":\"0.9600\",\"observedNetEquityUsd\":\"2500.00\",\"counterfactualNetEquityUsd\":\"5000.00\",\"restitutionAmountUsdc\":\"2500000000\",\"status\":\"VERIFIED\",\"reason\":\"Wrongful liquidation triggered by faulty oracle drop. Provable net equity loss: 2500.00 USD.\"}",
+            "service.name": "policy-evaluation-baseline-96da127",
+            "telemetry.sdk.language": "nodejs",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.30.1",
+            "service.version": "1.1.28",
+            "neatlogs.workflow_name": "policy-evaluation-baseline-96da127",
+            "neatlogs.tags": "poa,synthetic-demo",
+            "version": "baseline-96da127",
+            "expectedAmount": "0",
+            "_span_name": "Event oracle price mismatch",
+            "neatlogs.instrumentation.name": "neatlogs.trace",
+            "neatlogs.metrics.duration_ms": 1.517824
+          },
+          "status": {
+            "code": 0
+          }
+        },
+        {
+          "traceId": "5bd8edc36e34428cfe91cf9630cbd340",
+          "spanId": "97655334a1a2b244",
+          "parentSpanId": "c9ef516073c1735d",
+          "name": "Zero baseline configuration",
+          "attributes": {
+            "neatlogs.span.kind": "guardrail",
+            "neatlogs.guardrail.input": "{\"version\":\"baseline-96da127\",\"expectedAmount\":\"0\"}",
+            "neatlogs.guardrail.output": "{\"claimIndex\":0,\"borrower\":\"0x1111111111111111111111111111111111111111\",\"initialCollateralWeth\":\"10000000000000000000\",\"initialDebtUsdc\":\"15000000000\",\"collateralSeizedWeth\":\"8750000000000000000\",\"debtRepaidUsdc\":\"15000000000\",\"baselinePriceUsd\":\"2000.00\",\"faultyPriceUsd\":\"1800.00\",\"baselineHealthFactor\":\"1.0667\",\"faultyHealthFactor\":\"0.9600\",\"observedNetEquityUsd\":\"2500.00\",\"counterfactualNetEquityUsd\":\"5000.00\",\"restitutionAmountUsdc\":\"2500000000\",\"status\":\"VERIFIED\",\"reason\":\"Wrongful liquidation triggered by faulty oracle drop. Provable net equity loss: 2500.00 USD.\"}",
+            "service.name": "policy-evaluation-baseline-96da127",
+            "telemetry.sdk.language": "nodejs",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.30.1",
+            "service.version": "1.1.28",
+            "neatlogs.workflow_name": "policy-evaluation-baseline-96da127",
+            "neatlogs.tags": "poa,synthetic-demo",
+            "version": "baseline-96da127",
+            "expectedAmount": "0",
+            "_span_name": "Zero baseline configuration",
+            "neatlogs.instrumentation.name": "neatlogs.trace",
+            "neatlogs.metrics.duration_ms": 1.291264
+          },
+          "status": {
+            "code": 0
+          }
+        },
+        {
+          "traceId": "5bd8edc36e34428cfe91cf9630cbd340",
+          "spanId": "440948e5e1d25e08",
+          "parentSpanId": "c9ef516073c1735d",
+          "name": "Zero threshold configuration",
+          "attributes": {
+            "neatlogs.span.kind": "guardrail",
+            "neatlogs.guardrail.input": "{\"version\":\"baseline-96da127\",\"expectedAmount\":\"0\"}",
+            "neatlogs.guardrail.output": "{\"claimIndex\":0,\"borrower\":\"0x1111111111111111111111111111111111111111\",\"initialCollateralWeth\":\"10000000000000000000\",\"initialDebtUsdc\":\"15000000000\",\"collateralSeizedWeth\":\"8750000000000000000\",\"debtRepaidUsdc\":\"15000000000\",\"baselinePriceUsd\":\"2000.00\",\"faultyPriceUsd\":\"1800.00\",\"baselineHealthFactor\":\"1.0667\",\"faultyHealthFactor\":\"0.9600\",\"observedNetEquityUsd\":\"2500.00\",\"counterfactualNetEquityUsd\":\"5000.00\",\"restitutionAmountUsdc\":\"2500000000\",\"status\":\"VERIFIED\",\"reason\":\"Wrongful liquidation triggered by faulty oracle drop. Provable net equity loss: 2500.00 USD.\"}",
+            "service.name": "policy-evaluation-baseline-96da127",
+            "telemetry.sdk.language": "nodejs",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.30.1",
+            "service.version": "1.1.28",
+            "neatlogs.workflow_name": "policy-evaluation-baseline-96da127",
+            "neatlogs.tags": "poa,synthetic-demo",
+            "version": "baseline-96da127",
+            "expectedAmount": "0",
+            "_span_name": "Zero threshold configuration",
+            "neatlogs.instrumentation.name": "neatlogs.trace",
+            "neatlogs.metrics.duration_ms": 0.854784
+          },
+          "status": {
+            "code": 0
+          }
+        },
+        {
+          "traceId": "5bd8edc36e34428cfe91cf9630cbd340",
+          "spanId": "17cba564b67a1a80",
+          "parentSpanId": "c9ef516073c1735d",
+          "name": "Zero-decimal collateral",
+          "attributes": {
+            "neatlogs.span.kind": "guardrail",
+            "neatlogs.guardrail.input": "{\"version\":\"baseline-96da127\",\"expectedAmount\":\"3000000000\"}",
+            "neatlogs.guardrail.output": "{\"claimIndex\":0,\"borrower\":\"0x1111111111111111111111111111111111111111\",\"initialCollateralWeth\":\"10\",\"initialDebtUsdc\":\"15000000000\",\"collateralSeizedWeth\":\"9\",\"debtRepaidUsdc\":\"15000000000\",\"baselinePriceUsd\":\"2000.00\",\"faultyPriceUsd\":\"1800.00\",\"baselineHealthFactor\":\"0.0000\",\"faultyHealthFactor\":\"0.0000\",\"observedNetEquityUsd\":\"0.00\",\"counterfactualNetEquityUsd\":\"-15000.00\",\"restitutionAmountUsdc\":\"0\",\"status\":\"EXCLUDED_LEGITIMATE\",\"reason\":\"Position was already undercollateralized at baseline ($2000.00). Liquidation was economically legitimate.\"}",
+            "service.name": "policy-evaluation-baseline-96da127",
+            "telemetry.sdk.language": "nodejs",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.30.1",
+            "service.version": "1.1.28",
+            "neatlogs.workflow_name": "policy-evaluation-baseline-96da127",
+            "neatlogs.tags": "poa,synthetic-demo",
+            "version": "baseline-96da127",
+            "expectedAmount": "3000000000",
+            "_span_name": "Zero-decimal collateral",
+            "neatlogs.instrumentation.name": "neatlogs.trace",
+            "neatlogs.metrics.duration_ms": 1.097984
+          },
+          "status": {
+            "code": 0
+          }
+        },
+        {
+          "traceId": "5bd8edc36e34428cfe91cf9630cbd340",
+          "spanId": "c9ef516073c1735d",
+          "name": "policy-evaluation-baseline-96da127",
+          "attributes": {
+            "neatlogs.span.kind": "workflow",
+            "neatlogs.workflow.input": "{\"cases\":12,\"label\":\"baseline-96da127\"}",
+            "service.name": "policy-evaluation-baseline-96da127",
+            "telemetry.sdk.language": "nodejs",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.30.1",
+            "service.version": "1.1.28",
+            "neatlogs.workflow_name": "policy-evaluation-baseline-96da127",
+            "neatlogs.tags": "poa,synthetic-demo",
+            "cases": 12,
+            "label": "baseline-96da127",
+            "neatlogs.trace.output": "{\"status\":\"EXCLUDED_LEGITIMATE\",\"amount\":\"0\",\"reason\":\"Position was already undercollateralized at baseline ($2000.00). Liquidation was economically legitimate.\"}",
+            "_span_name": "policy-evaluation-baseline-96da127",
+            "neatlogs.instrumentation.name": "neatlogs.trace",
+            "neatlogs.metrics.duration_ms": 93.096704
+          },
+          "status": {
+            "code": 0
+          }
+        },
+        {
+          "traceId": "5bd8edc36e34428cfe91cf9630cbd340",
+          "spanId": "6c5a539bdeb28c09",
+          "parentSpanId": "c9ef516073c1735d",
+          "name": "neatlogs.trace.complete",
+          "attributes": {
+            "neatlogs.trace.complete": true,
+            "neatlogs.internal": true,
+            "neatlogs.span.kind": "Neatlogs.INTERNAL",
+            "neatlogs.tags": "poa,synthetic-demo"
+          },
+          "status": {
+            "code": 0
+          }
+        }
+      ],
+      "totalDurationMs": 99.67524000000049,
+      "exportSucceeded": true
+    },
+    {
+      "workflowName": "policy-evaluation-current",
+      "traceId": "274e8570798681626a613c690b245a31",
+      "mode": "NEATLOGS_SDK_LOCAL",
+      "remotePersistence": "NOT_REQUESTED",
+      "spans": [
+        {
+          "spanId": "3d134d11-928a-4f47-9bf4-c54142cb1c1b",
+          "parentSpanId": "210be027-029a-40e7-adad-51d7c1fc1423",
+          "name": "Eligible threshold crossing",
+          "kind": "GUARDRAIL",
+          "durationMs": 5.611871000000065,
+          "attributes": {
+            "version": "current",
+            "expectedAmount": "2500000000"
+          },
+          "status": "OK"
+        },
+        {
+          "spanId": "d4f31a0a-4556-49c0-934e-349acee33705",
+          "parentSpanId": "210be027-029a-40e7-adad-51d7c1fc1423",
+          "name": "No observed liquidation",
+          "kind": "GUARDRAIL",
+          "durationMs": 2.1906129999997574,
+          "attributes": {
+            "version": "current",
+            "expectedAmount": "0"
+          },
+          "status": "OK"
+        },
+        {
+          "spanId": "19c7043c-4708-4488-b0d1-b1d1ea54aee1",
+          "parentSpanId": "210be027-029a-40e7-adad-51d7c1fc1423",
+          "name": "Pre-insolvent account",
+          "kind": "GUARDRAIL",
+          "durationMs": 3.841566000000057,
+          "attributes": {
+            "version": "current",
+            "expectedAmount": "0"
+          },
+          "status": "OK"
+        },
+        {
+          "spanId": "b48bd686-8a34-4e4f-a8ca-83a32c378023",
+          "parentSpanId": "210be027-029a-40e7-adad-51d7c1fc1423",
+          "name": "Healthy at disputed price",
+          "kind": "GUARDRAIL",
+          "durationMs": 6.373322000000371,
+          "attributes": {
+            "version": "current",
+            "expectedAmount": "0"
+          },
+          "status": "OK"
+        },
+        {
+          "spanId": "6b7b15e5-c0a7-4f6e-9e33-f7fe7cf9e1a4",
+          "parentSpanId": "210be027-029a-40e7-adad-51d7c1fc1423",
+          "name": "Wrong borrower event",
+          "kind": "GUARDRAIL",
+          "durationMs": 4.352637999999388,
+          "attributes": {
+            "version": "current",
+            "expectedAmount": "0"
+          },
+          "status": "OK"
+        },
+        {
+          "spanId": "fe9405d5-0faa-4cdf-abd0-166195aa5b8f",
+          "parentSpanId": "210be027-029a-40e7-adad-51d7c1fc1423",
+          "name": "Seized collateral exceeds position",
+          "kind": "GUARDRAIL",
+          "durationMs": 4.828258999999889,
+          "attributes": {
+            "version": "current",
+            "expectedAmount": "0"
+          },
+          "status": "OK"
+        },
+        {
+          "spanId": "4ff176fd-acbe-4555-9892-d4a496933d27",
+          "parentSpanId": "210be027-029a-40e7-adad-51d7c1fc1423",
+          "name": "Repaid debt exceeds position",
+          "kind": "GUARDRAIL",
+          "durationMs": 5.1568059999999605,
+          "attributes": {
+            "version": "current",
+            "expectedAmount": "0"
+          },
+          "status": "OK"
+        },
+        {
+          "spanId": "50cf6c96-5b9c-4dec-ac6f-204b9796de44",
+          "parentSpanId": "210be027-029a-40e7-adad-51d7c1fc1423",
+          "name": "Negative debt repayment",
+          "kind": "GUARDRAIL",
+          "durationMs": 4.5837430000001405,
+          "attributes": {
+            "version": "current",
+            "expectedAmount": "0"
+          },
+          "status": "OK"
+        },
+        {
+          "spanId": "28d7dd63-08f6-4be7-9021-26b14182b402",
+          "parentSpanId": "210be027-029a-40e7-adad-51d7c1fc1423",
+          "name": "Event oracle price mismatch",
+          "kind": "GUARDRAIL",
+          "durationMs": 3.1740039999995133,
+          "attributes": {
+            "version": "current",
+            "expectedAmount": "0"
+          },
+          "status": "OK"
+        },
+        {
+          "spanId": "dd113045-e8e1-4112-92b6-6e2bde2d399f",
+          "parentSpanId": "210be027-029a-40e7-adad-51d7c1fc1423",
+          "name": "Zero baseline configuration",
+          "kind": "GUARDRAIL",
+          "durationMs": 400.4861259999998,
+          "attributes": {
+            "version": "current",
+            "expectedAmount": "0"
+          },
+          "status": "ERROR",
+          "error": "Invalid asset configuration or position"
+        },
+        {
+          "spanId": "946b545f-6d51-429d-a835-6e5d62caf2ae",
+          "parentSpanId": "210be027-029a-40e7-adad-51d7c1fc1423",
+          "name": "Zero threshold configuration",
+          "kind": "GUARDRAIL",
+          "durationMs": 2.8171800000000076,
+          "attributes": {
+            "version": "current",
+            "expectedAmount": "0"
+          },
+          "status": "ERROR",
+          "error": "Invalid asset configuration or position"
+        },
+        {
+          "spanId": "d0e9c945-ca39-4ab5-b9dd-82624e54c35e",
+          "parentSpanId": "210be027-029a-40e7-adad-51d7c1fc1423",
+          "name": "Zero-decimal collateral",
+          "kind": "GUARDRAIL",
+          "durationMs": 2.196293999999398,
+          "attributes": {
+            "version": "current",
+            "expectedAmount": "3000000000"
+          },
+          "status": "OK"
+        },
+        {
+          "spanId": "210be027-029a-40e7-adad-51d7c1fc1423",
+          "name": "policy-evaluation-current",
+          "kind": "WORKFLOW",
+          "durationMs": 449.1711270000005,
+          "attributes": {
+            "cases": 12,
+            "label": "current"
+          },
+          "status": "OK"
+        }
+      ],
+      "sdkSpans": [
+        {
+          "traceId": "274e8570798681626a613c690b245a31",
+          "spanId": "41991a4199a2aba6",
+          "parentSpanId": "70fcf784ef860683",
+          "name": "Eligible threshold crossing",
+          "attributes": {
+            "neatlogs.span.kind": "guardrail",
+            "neatlogs.guardrail.input": "{\"version\":\"current\",\"expectedAmount\":\"2500000000\"}",
+            "neatlogs.guardrail.output": "{\"claimIndex\":0,\"borrower\":\"0x1111111111111111111111111111111111111111\",\"initialCollateralWeth\":\"10000000000000000000\",\"initialDebtUsdc\":\"15000000000\",\"collateralSeizedWeth\":\"8750000000000000000\",\"debtRepaidUsdc\":\"15000000000\",\"baselinePriceUsd\":\"2000.00\",\"faultyPriceUsd\":\"1800.00\",\"baselineHealthFactor\":\"1.0667\",\"faultyHealthFactor\":\"0.9600\",\"observedNetEquityUsd\":\"2500.00\",\"counterfactualNetEquityUsd\":\"5000.00\",\"restitutionAmountUsdc\":\"2500000000\",\"status\":\"VERIFIED\",\"reason\":\"Wrongful liquidation triggered by faulty oracle drop. Provable net equity loss: 2500.00 USD.\"}",
+            "service.name": "policy-evaluation-current",
+            "telemetry.sdk.language": "nodejs",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.30.1",
+            "service.version": "1.1.28",
+            "neatlogs.workflow_name": "policy-evaluation-current",
+            "neatlogs.tags": "poa,synthetic-demo",
+            "version": "current",
+            "expectedAmount": "2500000000",
+            "_span_name": "Eligible threshold crossing",
+            "neatlogs.instrumentation.name": "neatlogs.trace",
+            "neatlogs.metrics.duration_ms": 3.179776
+          },
+          "status": {
+            "code": 0
+          }
+        },
+        {
+          "traceId": "274e8570798681626a613c690b245a31",
+          "spanId": "1c9d3d899751f024",
+          "parentSpanId": "70fcf784ef860683",
+          "name": "No observed liquidation",
+          "attributes": {
+            "neatlogs.span.kind": "guardrail",
+            "neatlogs.guardrail.input": "{\"version\":\"current\",\"expectedAmount\":\"0\"}",
+            "neatlogs.guardrail.output": "{\"claimIndex\":0,\"borrower\":\"0x1111111111111111111111111111111111111111\",\"initialCollateralWeth\":\"10000000000000000000\",\"initialDebtUsdc\":\"15000000000\",\"collateralSeizedWeth\":\"0\",\"debtRepaidUsdc\":\"0\",\"baselinePriceUsd\":\"2000.00\",\"faultyPriceUsd\":\"1800.00\",\"baselineHealthFactor\":\"1.0667\",\"faultyHealthFactor\":\"0.9600\",\"observedNetEquityUsd\":\"5000.00\",\"counterfactualNetEquityUsd\":\"5000.00\",\"restitutionAmountUsdc\":\"0\",\"status\":\"EXCLUDED_LEGITIMATE\",\"reason\":\"No liquidation observed; no realized loss is eligible under this policy.\"}",
+            "service.name": "policy-evaluation-current",
+            "telemetry.sdk.language": "nodejs",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.30.1",
+            "service.version": "1.1.28",
+            "neatlogs.workflow_name": "policy-evaluation-current",
+            "neatlogs.tags": "poa,synthetic-demo",
+            "version": "current",
+            "expectedAmount": "0",
+            "_span_name": "No observed liquidation",
+            "neatlogs.instrumentation.name": "neatlogs.trace",
+            "neatlogs.metrics.duration_ms": 0.849664
+          },
+          "status": {
+            "code": 0
+          }
+        },
+        {
+          "traceId": "274e8570798681626a613c690b245a31",
+          "spanId": "1dae292cdf2940ab",
+          "parentSpanId": "70fcf784ef860683",
+          "name": "Pre-insolvent account",
+          "attributes": {
+            "neatlogs.span.kind": "guardrail",
+            "neatlogs.guardrail.input": "{\"version\":\"current\",\"expectedAmount\":\"0\"}",
+            "neatlogs.guardrail.output": "{\"claimIndex\":0,\"borrower\":\"0x1111111111111111111111111111111111111111\",\"initialCollateralWeth\":\"10000000000000000000\",\"initialDebtUsdc\":\"16500000000\",\"collateralSeizedWeth\":\"8750000000000000000\",\"debtRepaidUsdc\":\"16500000000\",\"baselinePriceUsd\":\"2000.00\",\"faultyPriceUsd\":\"1800.00\",\"baselineHealthFactor\":\"0.9697\",\"faultyHealthFactor\":\"0.8727\",\"observedNetEquityUsd\":\"2500.00\",\"counterfactualNetEquityUsd\":\"3500.00\",\"restitutionAmountUsdc\":\"0\",\"status\":\"EXCLUDED_LEGITIMATE\",\"reason\":\"Position was already undercollateralized at baseline ($2000.00). Liquidation was economically legitimate.\"}",
+            "service.name": "policy-evaluation-current",
+            "telemetry.sdk.language": "nodejs",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.30.1",
+            "service.version": "1.1.28",
+            "neatlogs.workflow_name": "policy-evaluation-current",
+            "neatlogs.tags": "poa,synthetic-demo",
+            "version": "current",
+            "expectedAmount": "0",
+            "_span_name": "Pre-insolvent account",
+            "neatlogs.instrumentation.name": "neatlogs.trace",
+            "neatlogs.metrics.duration_ms": 1.123584
+          },
+          "status": {
+            "code": 0
+          }
+        },
+        {
+          "traceId": "274e8570798681626a613c690b245a31",
+          "spanId": "199e21b63dc223f6",
+          "parentSpanId": "70fcf784ef860683",
+          "name": "Healthy at disputed price",
+          "attributes": {
+            "neatlogs.span.kind": "guardrail",
+            "neatlogs.guardrail.input": "{\"version\":\"current\",\"expectedAmount\":\"0\"}",
+            "neatlogs.guardrail.output": "{\"claimIndex\":0,\"borrower\":\"0x1111111111111111111111111111111111111111\",\"initialCollateralWeth\":\"3000000000000000000\",\"initialDebtUsdc\":\"3500000000\",\"collateralSeizedWeth\":\"0\",\"debtRepaidUsdc\":\"0\",\"baselinePriceUsd\":\"2000.00\",\"faultyPriceUsd\":\"1800.00\",\"baselineHealthFactor\":\"1.3714\",\"faultyHealthFactor\":\"1.2343\",\"observedNetEquityUsd\":\"2500.00\",\"counterfactualNetEquityUsd\":\"2500.00\",\"restitutionAmountUsdc\":\"0\",\"status\":\"NEEDS_REVIEW\",\"reason\":\"Liquidation evidence is inconsistent, exceeds the position, or does not cross the liquidation threshold under the disputed price.\"}",
+            "service.name": "policy-evaluation-current",
+            "telemetry.sdk.language": "nodejs",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.30.1",
+            "service.version": "1.1.28",
+            "neatlogs.workflow_name": "policy-evaluation-current",
+            "neatlogs.tags": "poa,synthetic-demo",
+            "version": "current",
+            "expectedAmount": "0",
+            "_span_name": "Healthy at disputed price",
+            "neatlogs.instrumentation.name": "neatlogs.trace",
+            "neatlogs.metrics.duration_ms": 3.522816
+          },
+          "status": {
+            "code": 0
+          }
+        },
+        {
+          "traceId": "274e8570798681626a613c690b245a31",
+          "spanId": "66340484e4579b7f",
+          "parentSpanId": "70fcf784ef860683",
+          "name": "Wrong borrower event",
+          "attributes": {
+            "neatlogs.span.kind": "guardrail",
+            "neatlogs.guardrail.input": "{\"version\":\"current\",\"expectedAmount\":\"0\"}",
+            "neatlogs.guardrail.output": "{\"claimIndex\":0,\"borrower\":\"0x1111111111111111111111111111111111111111\",\"initialCollateralWeth\":\"10000000000000000000\",\"initialDebtUsdc\":\"15000000000\",\"collateralSeizedWeth\":\"0\",\"debtRepaidUsdc\":\"0\",\"baselinePriceUsd\":\"2000.00\",\"faultyPriceUsd\":\"1800.00\",\"baselineHealthFactor\":\"1.0667\",\"faultyHealthFactor\":\"0.9600\",\"observedNetEquityUsd\":\"5000.00\",\"counterfactualNetEquityUsd\":\"5000.00\",\"restitutionAmountUsdc\":\"0\",\"status\":\"NEEDS_REVIEW\",\"reason\":\"Liquidation evidence is inconsistent, exceeds the position, or does not cross the liquidation threshold under the disputed price.\"}",
+            "service.name": "policy-evaluation-current",
+            "telemetry.sdk.language": "nodejs",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.30.1",
+            "service.version": "1.1.28",
+            "neatlogs.workflow_name": "policy-evaluation-current",
+            "neatlogs.tags": "poa,synthetic-demo",
+            "version": "current",
+            "expectedAmount": "0",
+            "_span_name": "Wrong borrower event",
+            "neatlogs.instrumentation.name": "neatlogs.trace",
+            "neatlogs.metrics.duration_ms": 1.3568
+          },
+          "status": {
+            "code": 0
+          }
+        },
+        {
+          "traceId": "274e8570798681626a613c690b245a31",
+          "spanId": "a451544c08a15891",
+          "parentSpanId": "70fcf784ef860683",
+          "name": "Seized collateral exceeds position",
+          "attributes": {
+            "neatlogs.span.kind": "guardrail",
+            "neatlogs.guardrail.input": "{\"version\":\"current\",\"expectedAmount\":\"0\"}",
+            "neatlogs.guardrail.output": "{\"claimIndex\":0,\"borrower\":\"0x1111111111111111111111111111111111111111\",\"initialCollateralWeth\":\"10000000000000000000\",\"initialDebtUsdc\":\"15000000000\",\"collateralSeizedWeth\":\"0\",\"debtRepaidUsdc\":\"0\",\"baselinePriceUsd\":\"2000.00\",\"faultyPriceUsd\":\"1800.00\",\"baselineHealthFactor\":\"1.0667\",\"faultyHealthFactor\":\"0.9600\",\"observedNetEquityUsd\":\"5000.00\",\"counterfactualNetEquityUsd\":\"5000.00\",\"restitutionAmountUsdc\":\"0\",\"status\":\"NEEDS_REVIEW\",\"reason\":\"Liquidation evidence is inconsistent, exceeds the position, or does not cross the liquidation threshold under the disputed price.\"}",
+            "service.name": "policy-evaluation-current",
+            "telemetry.sdk.language": "nodejs",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.30.1",
+            "service.version": "1.1.28",
+            "neatlogs.workflow_name": "policy-evaluation-current",
+            "neatlogs.tags": "poa,synthetic-demo",
+            "version": "current",
+            "expectedAmount": "0",
+            "_span_name": "Seized collateral exceeds position",
+            "neatlogs.instrumentation.name": "neatlogs.trace",
+            "neatlogs.metrics.duration_ms": 1.798144
+          },
+          "status": {
+            "code": 0
+          }
+        },
+        {
+          "traceId": "274e8570798681626a613c690b245a31",
+          "spanId": "081fe5491c9fe838",
+          "parentSpanId": "70fcf784ef860683",
+          "name": "Repaid debt exceeds position",
+          "attributes": {
+            "neatlogs.span.kind": "guardrail",
+            "neatlogs.guardrail.input": "{\"version\":\"current\",\"expectedAmount\":\"0\"}",
+            "neatlogs.guardrail.output": "{\"claimIndex\":0,\"borrower\":\"0x1111111111111111111111111111111111111111\",\"initialCollateralWeth\":\"10000000000000000000\",\"initialDebtUsdc\":\"15000000000\",\"collateralSeizedWeth\":\"0\",\"debtRepaidUsdc\":\"0\",\"baselinePriceUsd\":\"2000.00\",\"faultyPriceUsd\":\"1800.00\",\"baselineHealthFactor\":\"1.0667\",\"faultyHealthFactor\":\"0.9600\",\"observedNetEquityUsd\":\"5000.00\",\"counterfactualNetEquityUsd\":\"5000.00\",\"restitutionAmountUsdc\":\"0\",\"status\":\"NEEDS_REVIEW\",\"reason\":\"Liquidation evidence is inconsistent, exceeds the position, or does not cross the liquidation threshold under the disputed price.\"}",
+            "service.name": "policy-evaluation-current",
+            "telemetry.sdk.language": "nodejs",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.30.1",
+            "service.version": "1.1.28",
+            "neatlogs.workflow_name": "policy-evaluation-current",
+            "neatlogs.tags": "poa,synthetic-demo",
+            "version": "current",
+            "expectedAmount": "0",
+            "_span_name": "Repaid debt exceeds position",
+            "neatlogs.instrumentation.name": "neatlogs.trace",
+            "neatlogs.metrics.duration_ms": 1.990912
+          },
+          "status": {
+            "code": 0
+          }
+        },
+        {
+          "traceId": "274e8570798681626a613c690b245a31",
+          "spanId": "f2d39dcc2c650584",
+          "parentSpanId": "70fcf784ef860683",
+          "name": "Negative debt repayment",
+          "attributes": {
+            "neatlogs.span.kind": "guardrail",
+            "neatlogs.guardrail.input": "{\"version\":\"current\",\"expectedAmount\":\"0\"}",
+            "neatlogs.guardrail.output": "{\"claimIndex\":0,\"borrower\":\"0x1111111111111111111111111111111111111111\",\"initialCollateralWeth\":\"10000000000000000000\",\"initialDebtUsdc\":\"15000000000\",\"collateralSeizedWeth\":\"0\",\"debtRepaidUsdc\":\"0\",\"baselinePriceUsd\":\"2000.00\",\"faultyPriceUsd\":\"1800.00\",\"baselineHealthFactor\":\"1.0667\",\"faultyHealthFactor\":\"0.9600\",\"observedNetEquityUsd\":\"5000.00\",\"counterfactualNetEquityUsd\":\"5000.00\",\"restitutionAmountUsdc\":\"0\",\"status\":\"NEEDS_REVIEW\",\"reason\":\"Liquidation evidence is inconsistent, exceeds the position, or does not cross the liquidation threshold under the disputed price.\"}",
+            "service.name": "policy-evaluation-current",
+            "telemetry.sdk.language": "nodejs",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.30.1",
+            "service.version": "1.1.28",
+            "neatlogs.workflow_name": "policy-evaluation-current",
+            "neatlogs.tags": "poa,synthetic-demo",
+            "version": "current",
+            "expectedAmount": "0",
+            "_span_name": "Negative debt repayment",
+            "neatlogs.instrumentation.name": "neatlogs.trace",
+            "neatlogs.metrics.duration_ms": 1.558528
+          },
+          "status": {
+            "code": 0
+          }
+        },
+        {
+          "traceId": "274e8570798681626a613c690b245a31",
+          "spanId": "d0488c1dbf05f486",
+          "parentSpanId": "70fcf784ef860683",
+          "name": "Event oracle price mismatch",
+          "attributes": {
+            "neatlogs.span.kind": "guardrail",
+            "neatlogs.guardrail.input": "{\"version\":\"current\",\"expectedAmount\":\"0\"}",
+            "neatlogs.guardrail.output": "{\"claimIndex\":0,\"borrower\":\"0x1111111111111111111111111111111111111111\",\"initialCollateralWeth\":\"10000000000000000000\",\"initialDebtUsdc\":\"15000000000\",\"collateralSeizedWeth\":\"0\",\"debtRepaidUsdc\":\"0\",\"baselinePriceUsd\":\"2000.00\",\"faultyPriceUsd\":\"1800.00\",\"baselineHealthFactor\":\"1.0667\",\"faultyHealthFactor\":\"0.9600\",\"observedNetEquityUsd\":\"5000.00\",\"counterfactualNetEquityUsd\":\"5000.00\",\"restitutionAmountUsdc\":\"0\",\"status\":\"NEEDS_REVIEW\",\"reason\":\"Liquidation evidence is inconsistent, exceeds the position, or does not cross the liquidation threshold under the disputed price.\"}",
+            "service.name": "policy-evaluation-current",
+            "telemetry.sdk.language": "nodejs",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.30.1",
+            "service.version": "1.1.28",
+            "neatlogs.workflow_name": "policy-evaluation-current",
+            "neatlogs.tags": "poa,synthetic-demo",
+            "version": "current",
+            "expectedAmount": "0",
+            "_span_name": "Event oracle price mismatch",
+            "neatlogs.instrumentation.name": "neatlogs.trace",
+            "neatlogs.metrics.duration_ms": 0.635136
+          },
+          "status": {
+            "code": 0
+          }
+        },
+        {
+          "traceId": "274e8570798681626a613c690b245a31",
+          "spanId": "eb33cd082d9900f3",
+          "parentSpanId": "70fcf784ef860683",
+          "name": "Zero baseline configuration",
+          "attributes": {
+            "neatlogs.span.kind": "guardrail",
+            "neatlogs.guardrail.input": "{\"version\":\"current\",\"expectedAmount\":\"0\"}",
+            "service.name": "policy-evaluation-current",
+            "telemetry.sdk.language": "nodejs",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.30.1",
+            "service.version": "1.1.28",
+            "neatlogs.workflow_name": "policy-evaluation-current",
+            "neatlogs.tags": "poa,synthetic-demo",
+            "version": "current",
+            "expectedAmount": "0",
+            "_span_name": "Zero baseline configuration",
+            "neatlogs.instrumentation.name": "neatlogs.trace",
+            "neatlogs.metrics.duration_ms": 398.93504
+          },
+          "status": {
+            "code": 2,
+            "message": "Invalid asset configuration or position"
+          }
+        },
+        {
+          "traceId": "274e8570798681626a613c690b245a31",
+          "spanId": "8a10f69937c51320",
+          "parentSpanId": "70fcf784ef860683",
+          "name": "Zero threshold configuration",
+          "attributes": {
+            "neatlogs.span.kind": "guardrail",
+            "neatlogs.guardrail.input": "{\"version\":\"current\",\"expectedAmount\":\"0\"}",
+            "service.name": "policy-evaluation-current",
+            "telemetry.sdk.language": "nodejs",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.30.1",
+            "service.version": "1.1.28",
+            "neatlogs.workflow_name": "policy-evaluation-current",
+            "neatlogs.tags": "poa,synthetic-demo",
+            "version": "current",
+            "expectedAmount": "0",
+            "_span_name": "Zero threshold configuration",
+            "neatlogs.instrumentation.name": "neatlogs.trace",
+            "neatlogs.metrics.duration_ms": 1.421824
+          },
+          "status": {
+            "code": 2,
+            "message": "Invalid asset configuration or position"
+          }
+        },
+        {
+          "traceId": "274e8570798681626a613c690b245a31",
+          "spanId": "b09ba01a057b0704",
+          "parentSpanId": "70fcf784ef860683",
+          "name": "Zero-decimal collateral",
+          "attributes": {
+            "neatlogs.span.kind": "guardrail",
+            "neatlogs.guardrail.input": "{\"version\":\"current\",\"expectedAmount\":\"3000000000\"}",
+            "neatlogs.guardrail.output": "{\"claimIndex\":0,\"borrower\":\"0x1111111111111111111111111111111111111111\",\"initialCollateralWeth\":\"10\",\"initialDebtUsdc\":\"15000000000\",\"collateralSeizedWeth\":\"9\",\"debtRepaidUsdc\":\"15000000000\",\"baselinePriceUsd\":\"2000.00\",\"faultyPriceUsd\":\"1800.00\",\"baselineHealthFactor\":\"1.0667\",\"faultyHealthFactor\":\"0.9600\",\"observedNetEquityUsd\":\"2000.00\",\"counterfactualNetEquityUsd\":\"5000.00\",\"restitutionAmountUsdc\":\"3000000000\",\"status\":\"VERIFIED\",\"reason\":\"Wrongful liquidation triggered by faulty oracle drop. Provable net equity loss: 3000.00 USD.\"}",
+            "service.name": "policy-evaluation-current",
+            "telemetry.sdk.language": "nodejs",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.30.1",
+            "service.version": "1.1.28",
+            "neatlogs.workflow_name": "policy-evaluation-current",
+            "neatlogs.tags": "poa,synthetic-demo",
+            "version": "current",
+            "expectedAmount": "3000000000",
+            "_span_name": "Zero-decimal collateral",
+            "neatlogs.instrumentation.name": "neatlogs.trace",
+            "neatlogs.metrics.duration_ms": 0.685056
+          },
+          "status": {
+            "code": 0
+          }
+        },
+        {
+          "traceId": "274e8570798681626a613c690b245a31",
+          "spanId": "70fcf784ef860683",
+          "name": "policy-evaluation-current",
+          "attributes": {
+            "neatlogs.span.kind": "workflow",
+            "neatlogs.workflow.input": "{\"cases\":12,\"label\":\"current\"}",
+            "service.name": "policy-evaluation-current",
+            "telemetry.sdk.language": "nodejs",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.30.1",
+            "service.version": "1.1.28",
+            "neatlogs.workflow_name": "policy-evaluation-current",
+            "neatlogs.tags": "poa,synthetic-demo",
+            "cases": 12,
+            "label": "current",
+            "neatlogs.trace.output": "{\"status\":\"VERIFIED\",\"amount\":\"3000000000\",\"reason\":\"Wrongful liquidation triggered by faulty oracle drop. Provable net equity loss: 3000.00 USD.\"}",
+            "_span_name": "policy-evaluation-current",
+            "neatlogs.instrumentation.name": "neatlogs.trace",
+            "neatlogs.metrics.duration_ms": 446.703616
+          },
+          "status": {
+            "code": 0
+          }
+        },
+        {
+          "traceId": "274e8570798681626a613c690b245a31",
+          "spanId": "b004ca0b7e5fe996",
+          "parentSpanId": "70fcf784ef860683",
+          "name": "neatlogs.trace.complete",
+          "attributes": {
+            "neatlogs.trace.complete": true,
+            "neatlogs.internal": true,
+            "neatlogs.span.kind": "Neatlogs.INTERNAL",
+            "neatlogs.tags": "poa,synthetic-demo"
+          },
+          "status": {
+            "code": 0
+          }
+        }
+      ],
+      "totalDurationMs": 449.28828200000044,
+      "exportSucceeded": true
+    }
+  ],
+  "evaluatedAt": "2026-10-12T05:53:20.048Z"
+}

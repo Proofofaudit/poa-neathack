@@ -1,11 +1,11 @@
 {
   "name": "poa-neathack",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build --webpack",
     "start": "next start",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -13,11 +13,20 @@
     "contracts:build": "export PATH=$HOME/.foundry/bin:$PATH && (cd contracts && forge build)",
     "contracts:test": "export PATH=$HOME/.foundry/bin:$PATH && (cd contracts && forge test -v)",
     "test:benchmark": "tsx scripts/benchmark_evmbench.ts",
-    "verify:release": "npm run typecheck && npm run contracts:test && npm test && npm run build",
+    "verify:release": "npm run typecheck && npm run contracts:test && npm test && npm run demo:local && npm run evidence:verify && npm run test:benchmark && npm run test:upgrade && npm run test:missions && npm run business:model && npm run build",
     "mcp": "tsx src/mcp/server.ts",
-    "sentinel:watch": "DEMO_MODE=true tsx scripts/watch_production_sentinel.ts",
+    "sentinel:watch": "tsx scripts/watch_production_sentinel.ts",
     "demo:all": "bash scripts/demo_all.sh",
-    "demo:base-fork": "tsx scripts/run_base_fork.ts"
+    "demo:base-fork": "tsx scripts/run_base_fork.ts",
+    "demo:local": "POA_LLM_ENABLED=false POA_TELEMETRY_ENABLED=false tsx scripts/run_demo.ts",
+    "evidence:verify": "tsx scripts/verify_evidence.ts",
+    "test:upgrade": "POA_TELEMETRY_ENABLED=false tsx scripts/evaluate_upgrade.ts",
+    "business:model": "tsx scripts/business_model.ts",
+    "evidence:remote": "POA_LLM_ENABLED=false POA_TELEMETRY_ENABLED=true POA_DEMO_EVIDENCE_FILE=evidence/remote_run_evidence.json tsx scripts/run_demo.ts && POA_TELEMETRY_ENABLED=true tsx scripts/evaluate_upgrade.ts && tsx scripts/verify_remote_traces.ts evidence/remote_run_evidence.json evidence/upgrade_evaluation_remote.json",
+    "evidence:entire": "tsx scripts/collect_entire_evidence.ts",
+    "test:missions": "POA_LLM_ENABLED=false POA_TELEMETRY_ENABLED=false tsx scripts/evaluate_missions.ts",
+    "inspect:base": "tsx scripts/inspect_base.ts",
+    "agent:base": "tsx scripts/run_live_agent.ts"
   },
   "dependencies": {
     "@openzeppelin/merkle-tree": "^1.0.7",
@@ -28,22 +37,25 @@
     "framer-motion": "^14.1.0",
     "lucide-react": "^1.55.0",
     "neatlogs": "latest",
-    "next": "^14.2.24",
+    "next": "16.4.0",
     "openai": "^6.49.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
     "tailwind-merge": "^3.7.0",
     "zod": "^3.24.2"
   },
   "devDependencies": {
     "@types/node": "^20.17.24",
-    "@types/react": "^18.3.18",
-    "@types/react-dom": "^18.3.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
     "autoprefixer": "^10.4.20",
     "postcss": "^8.5.3",
     "tailwindcss": "^3.4.17",
     "tsx": "^4.19.3",
     "typescript": "^5.8.2",
     "vitest": "^2.1.9"
+  },
+  "engines": {
+    "node": "24.x"
   }
 }

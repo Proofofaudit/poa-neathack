@@ -12,6 +12,7 @@ contract RestitutionDistributor is Ownable {
     struct IncidentManifest {
         bytes32 merkleRoot;
         uint256 totalAmount;
+        uint256 remainingAmount;
         address payoutToken;
         bool finalized;
         uint256 registeredAt;
@@ -19,6 +20,7 @@ contract RestitutionDistributor is Ownable {
     }
 
     mapping(bytes32 => IncidentManifest) public incidents;
+    mapping(bytes32 => bool) public wasRegistered;
     // incidentId => claimIndex => claimed
     mapping(bytes32 => mapping(uint256 => bool)) public isClaimed;
 
@@ -58,7 +60,7 @@ contract RestitutionDistributor is Ownable {
         address payoutToken,
         string calldata policyVersion
     ) external onlyOwner {
-        require(!incidents[incidentId].finalized, "Incident already registered and finalized");
+        require(!wasRegistered[incidentId], "Incident already registered and finalized");
         require(merkleRoot != bytes32(0), "Merkle root cannot be zero");
         require(payoutToken != address(0), "Payout token cannot be zero");
         require(totalAmount > 0, "Total amount must be > 0");
@@ -68,10 +70,12 @@ contract RestitutionDistributor is Ownable {
         require(contractBalance >= totalCommittedTokens[payoutToken] + totalAmount, "Distributor contract has insufficient uncommitted funding");
 
         totalCommittedTokens[payoutToken] += totalAmount;
+        wasRegistered[incidentId] = true;
 
         incidents[incidentId] = IncidentManifest({
             merkleRoot: merkleRoot,
             totalAmount: totalAmount,
+            remainingAmount: totalAmount,
             payoutToken: payoutToken,
             finalized: true,
             registeredAt: block.timestamp,
@@ -91,8 +95,9 @@ contract RestitutionDistributor is Ownable {
         uint256 amount,
         bytes32[] calldata merkleProof
     ) external {
-        IncidentManifest memory manifest = incidents[incidentId];
+        IncidentManifest storage manifest = incidents[incidentId];
         require(manifest.finalized, "Incident manifest not registered or finalized");
+        require(block.timestamp < manifest.registeredAt + 180 days, "Incident claim window expired");
         require(!isClaimed[incidentId][claimIndex], "Claim has already been executed");
 
         // OpenZeppelin StandardMerkleTree leaf: keccak256(bytes.concat(keccak256(abi.encode(claimIndex, claimant, amount, incidentId))))
@@ -103,13 +108,12 @@ contract RestitutionDistributor is Ownable {
             "Invalid Merkle proof for restitution claim"
         );
 
+        require(amount > 0 && amount <= manifest.remainingAmount, "Claim exceeds incident balance");
+
         isClaimed[incidentId][claimIndex] = true;
 
-        if (totalCommittedTokens[manifest.payoutToken] >= amount) {
-            totalCommittedTokens[manifest.payoutToken] -= amount;
-        } else {
-            totalCommittedTokens[manifest.payoutToken] = 0;
-        }
+        manifest.remainingAmount -= amount;
+        totalCommittedTokens[manifest.payoutToken] -= amount;
 
         IERC20(manifest.payoutToken).safeTransfer(claimant, amount);
 
@@ -125,13 +129,10 @@ contract RestitutionDistributor is Ownable {
         require(block.timestamp >= manifest.registeredAt + 180 days, "Incident claim window not expired");
         require(recipient != address(0), "Recipient cannot be zero");
 
-        uint256 remainingCommitted = manifest.totalAmount;
+        uint256 remainingCommitted = manifest.remainingAmount;
+        manifest.remainingAmount = 0;
         manifest.finalized = false;
-        if (totalCommittedTokens[manifest.payoutToken] >= remainingCommitted) {
-            totalCommittedTokens[manifest.payoutToken] -= remainingCommitted;
-        } else {
-            totalCommittedTokens[manifest.payoutToken] = 0;
-        }
+        totalCommittedTokens[manifest.payoutToken] -= remainingCommitted;
 
         IERC20(manifest.payoutToken).safeTransfer(recipient, remainingCommitted);
 

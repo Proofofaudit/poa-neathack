@@ -110,6 +110,8 @@ contract EIP712RestitutionDistributor is CumulativeRestitutionDistributor, EIP71
         require(cumulativeEntitlement > alreadyClaimed, "No new claimable balance available for this epoch");
 
         uint256 claimableDelta = cumulativeEntitlement - alreadyClaimed;
+        require(totalPaid + claimableDelta <= epochs[currentEpoch].totalCumulativeAllocated, "Claim exceeds epoch allocation");
+        totalPaid += claimableDelta;
         cumulativeClaimed[claimant] = cumulativeEntitlement;
 
         // Payout transferred directly to victim, NOT the relayer

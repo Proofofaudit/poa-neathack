@@ -1,0 +1,47 @@
+{
+  "status": "VERIFIED_WORKSPACE_AND_EXPORT",
+  "verifiedAt": "2026-10-12T05:47:13.120586+00:00",
+  "source": "cfo.ai authenticated workspace UI and downloaded spreadsheet",
+  "pageTitle": "POA \u2014 Financial Forecast",
+  "scope": "Planning forecast, not historical actuals; prospective product scope exceeds current synthetic adapter",
+  "period": "October 2026\u2013September 2029",
+  "currency": "USD",
+  "assumptions": {
+    "monthlySubscriptionPerProtocol": 3500,
+    "openingCashPlaceholder": 500000,
+    "customerAcquisitionCost": 9200,
+    "monthlyChurn": "1/42",
+    "investigationsPerProtocolPerMonth": 100,
+    "grossMarginTargetPercent": 99.8,
+    "contingencyFees": "Only verified losses actually recovered and disbursed; not contracted ARR"
+  },
+  "observedForecast": {
+    "annualRevenue": [
+      446833,
+      3664859,
+      8567917
+    ],
+    "year3EndingCashPreview": 7526616,
+    "lowestMonthlyCashPreview": 371449,
+    "cashOutPreview": "No crossing under saved assumptions"
+  },
+  "export": {
+    "url": "/submission/cfo-ai-financial-forecast.xlsx",
+    "sha256": "04990aa7e074b8ef27fc582718fb253313c721eb291841ea2da3c894890abb60",
+    "bytes": 243586
+  },
+  "screenshot": "/submission/cfo-ai-forecast.png",
+  "limitations": [
+    "Not verified customers, contracts, funding or revenue",
+    "99.8% margin is a target, not measured delivery cost",
+    "The separate local three-scenario model uses different assumptions",
+    "Export retained unchanged; no independent formula audit"
+  ],
+  "observedUnitEconomics": {
+    "variableProcessingCostAssumption": 0.062,
+    "subscriptionOnlyRevenueLtv": 147000,
+    "subscriptionOnlyGrossProfitLtv": 146706,
+    "subscriptionOnlyPaybackMonths": 2.63,
+    "comparisonCaveat": "Human-retainer / narrow incident-cost ratio is not apples-to-apples savings"
+  }
+}

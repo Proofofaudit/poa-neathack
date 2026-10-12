@@ -1,0 +1,16 @@
+.git/
+.entire/
+.codex/
+.env
+.env.*
+node_modules/
+.next/
+.vercel/
+contracts/out/
+contracts/cache/
+contracts/lib/
+*.log
+*.tsbuildinfo
+evidence/.demo.lock
+work/
+outputs/

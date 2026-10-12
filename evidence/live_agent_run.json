@@ -1,0 +1,399 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "revision": "96da127df488502f364a267311c4a63878a8a4e2",
+    "workingTreeDirty": true,
+    "sha256": "a09a1070f1e88e7f9e378864c5e565543ccbae7c93914dd4a8da4f12dd77ad1d"
+  },
+  "report": {
+    "runId": "0x270b56fcefd9b79735108f786fd2b86f",
+    "goal": "Audit the live Aave Base market and its sampled oracle sources",
+    "mode": "DETERMINISTIC_PLANNER",
+    "status": "COMPLETED",
+    "startedAt": "2026-10-12T06:29:49.628Z",
+    "chainId": 8453,
+    "policyDecision": "WITHHELD",
+    "steps": [
+      {
+        "action": "READ_MARKET",
+        "reason": "Gather the next required evidence based on prior observations",
+        "status": "OK",
+        "observation": {
+          "pool": "0xA238Dd80C259a72e81d7e4664a9801593F98d1c5",
+          "providerAddress": "0xe20fCBdBfFC4Dd138cE8b2E6FBb6CB49777ad64D",
+          "oracleAddress": "0x2Cc0Fc26eD4563A5ce5e8bdcfe1A2878676Ae156",
+          "blockNumber": 52498616,
+          "blockHash": "0x35ef8f8a9a0ec6b751f7affbee37a16b8be78860f68e0cf9106468799038e155",
+          "blockTimestamp": 1791786579,
+          "reserveCount": 15,
+          "sampledAssets": [
+            {
+              "asset": "0x4200000000000000000000000000000000000006",
+              "priceBaseUnits": "255351009062"
+            },
+            {
+              "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+              "priceBaseUnits": "99985526"
+            },
+            {
+              "asset": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+              "priceBaseUnits": "8366102800000"
+            }
+          ],
+          "baseCurrencyUnit": "100000000",
+          "coverage": "Incident assets, or WETH/USDC/cbBTC for a market scan; not every reserve"
+        }
+      },
+      {
+        "action": "CHECK_ORACLE_SOURCES",
+        "reason": "Gather the next required evidence based on prior observations",
+        "status": "OK",
+        "observation": {
+          "blockNumber": 52498616,
+          "feeds": [
+            {
+              "asset": "0x4200000000000000000000000000000000000006",
+              "source": "0x9dA00D23465282005DB222a441a663eE7B9dfCc8",
+              "hasBytecode": true,
+              "aavePriceBaseUnits": "255351009062",
+              "round": {
+                "roundId": "36893488147419187286",
+                "answer": "255351009062",
+                "updatedAt": 1791785795,
+                "answeredInRound": "36893488147419187286",
+                "decimals": 8,
+                "ageSeconds": 784
+              },
+              "roundStatus": "READ",
+              "independentReference": false
+            },
+            {
+              "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+              "source": "0xf52D010c7d4ecBfda92c2509900593CE34535D86",
+              "hasBytecode": true,
+              "aavePriceBaseUnits": "99985526",
+              "round": null,
+              "roundStatus": "UNAVAILABLE_OR_ADAPTER",
+              "independentReference": false
+            },
+            {
+              "asset": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+              "source": "0x3A932b286715abc4A86a4ACAF68A6cdD89E0d446",
+              "hasBytecode": true,
+              "aavePriceBaseUnits": "8366102800000",
+              "round": {
+                "roundId": "36893488147419199322",
+                "answer": "8366102800000",
+                "updatedAt": 1791786475,
+                "answeredInRound": "36893488147419199322",
+                "decimals": 8,
+                "ageSeconds": 104
+              },
+              "roundStatus": "READ",
+              "independentReference": false
+            }
+          ],
+          "caveat": "These are Aave's own configured sources, not independent price corroboration. Feed-specific heartbeat and adapter semantics are not verified."
+        }
+      },
+      {
+        "action": "VERIFY_BLOCKS",
+        "reason": "Gather the next required evidence based on prior observations",
+        "status": "OK",
+        "observation": {
+          "verified": true,
+          "blocks": [
+            {
+              "blockNumber": 52498616,
+              "blockHash": "0x35ef8f8a9a0ec6b751f7affbee37a16b8be78860f68e0cf9106468799038e155"
+            }
+          ],
+          "finality": "L2 block consistency checked; Ethereum settlement finality not established"
+        }
+      }
+    ],
+    "observations": {
+      "READ_MARKET": {
+        "pool": "0xA238Dd80C259a72e81d7e4664a9801593F98d1c5",
+        "providerAddress": "0xe20fCBdBfFC4Dd138cE8b2E6FBb6CB49777ad64D",
+        "oracleAddress": "0x2Cc0Fc26eD4563A5ce5e8bdcfe1A2878676Ae156",
+        "blockNumber": 52498616,
+        "blockHash": "0x35ef8f8a9a0ec6b751f7affbee37a16b8be78860f68e0cf9106468799038e155",
+        "blockTimestamp": 1791786579,
+        "reserveCount": 15,
+        "sampledAssets": [
+          {
+            "asset": "0x4200000000000000000000000000000000000006",
+            "priceBaseUnits": "255351009062"
+          },
+          {
+            "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+            "priceBaseUnits": "99985526"
+          },
+          {
+            "asset": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+            "priceBaseUnits": "8366102800000"
+          }
+        ],
+        "baseCurrencyUnit": "100000000",
+        "coverage": "Incident assets, or WETH/USDC/cbBTC for a market scan; not every reserve"
+      },
+      "CHECK_ORACLE_SOURCES": {
+        "blockNumber": 52498616,
+        "feeds": [
+          {
+            "asset": "0x4200000000000000000000000000000000000006",
+            "source": "0x9dA00D23465282005DB222a441a663eE7B9dfCc8",
+            "hasBytecode": true,
+            "aavePriceBaseUnits": "255351009062",
+            "round": {
+              "roundId": "36893488147419187286",
+              "answer": "255351009062",
+              "updatedAt": 1791785795,
+              "answeredInRound": "36893488147419187286",
+              "decimals": 8,
+              "ageSeconds": 784
+            },
+            "roundStatus": "READ",
+            "independentReference": false
+          },
+          {
+            "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+            "source": "0xf52D010c7d4ecBfda92c2509900593CE34535D86",
+            "hasBytecode": true,
+            "aavePriceBaseUnits": "99985526",
+            "round": null,
+            "roundStatus": "UNAVAILABLE_OR_ADAPTER",
+            "independentReference": false
+          },
+          {
+            "asset": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+            "source": "0x3A932b286715abc4A86a4ACAF68A6cdD89E0d446",
+            "hasBytecode": true,
+            "aavePriceBaseUnits": "8366102800000",
+            "round": {
+              "roundId": "36893488147419199322",
+              "answer": "8366102800000",
+              "updatedAt": 1791786475,
+              "answeredInRound": "36893488147419199322",
+              "decimals": 8,
+              "ageSeconds": 104
+            },
+            "roundStatus": "READ",
+            "independentReference": false
+          }
+        ],
+        "caveat": "These are Aave's own configured sources, not independent price corroboration. Feed-specific heartbeat and adapter semantics are not verified."
+      },
+      "VERIFY_BLOCKS": {
+        "verified": true,
+        "blocks": [
+          {
+            "blockNumber": 52498616,
+            "blockHash": "0x35ef8f8a9a0ec6b751f7affbee37a16b8be78860f68e0cf9106468799038e155"
+          }
+        ],
+        "finality": "L2 block consistency checked; Ethereum settlement finality not established"
+      }
+    },
+    "findings": [
+      "Verified pool registration; 15 reserves; 3 assets sampled at block 52498616.",
+      "Source round read for 0x4200000000000000000000000000000000000006; age 784s. Its heartbeat policy is unverified.",
+      "Source round read for 0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf; age 104s. Its heartbeat policy is unverified."
+    ],
+    "limitations": [
+      "No compensation amount or payout is authorized.",
+      "Configured protocol oracle sources are not independent market references.",
+      "Block-boundary snapshots cannot prove a liquidation was wrongful.",
+      "Source 0xf52D010c7d4ecBfda92c2509900593CE34535D86 did not expose readable Chainlink rounds; adapter semantics need separate verification."
+    ],
+    "tokensUsed": 0,
+    "completedAt": "2026-10-12T06:29:55.102Z",
+    "traceId": "d18bd15fb03a4ad93ae9d0b68c21c80d"
+  },
+  "observabilityTrace": {
+    "workflowName": "liveAaveInvestigation",
+    "traceId": "d18bd15fb03a4ad93ae9d0b68c21c80d",
+    "mode": "NEATLOGS_SDK_LOCAL",
+    "remotePersistence": "NOT_REQUESTED",
+    "spans": [
+      {
+        "spanId": "349d5391-3e96-404e-a673-1aea1eea4742",
+        "parentSpanId": "6baeb9b0-25cc-493b-afab-f3354b162a3a",
+        "name": "READ_MARKET",
+        "kind": "TOOL",
+        "durationMs": 3461.598557000001,
+        "attributes": {
+          "turn": 0,
+          "attempt": 0,
+          "chainId": 8453
+        },
+        "status": "OK"
+      },
+      {
+        "spanId": "fe5e1877-bb61-4c89-8764-94ee9c1f846b",
+        "parentSpanId": "6baeb9b0-25cc-493b-afab-f3354b162a3a",
+        "name": "CHECK_ORACLE_SOURCES",
+        "kind": "TOOL",
+        "durationMs": 1390.5331569999998,
+        "attributes": {
+          "turn": 1,
+          "attempt": 0,
+          "chainId": 8453
+        },
+        "status": "OK"
+      },
+      {
+        "spanId": "ad7da245-62d2-45ea-88e6-1055605a07b5",
+        "parentSpanId": "6baeb9b0-25cc-493b-afab-f3354b162a3a",
+        "name": "VERIFY_BLOCKS",
+        "kind": "TOOL",
+        "durationMs": 619.395939,
+        "attributes": {
+          "turn": 2,
+          "attempt": 0,
+          "chainId": 8453
+        },
+        "status": "OK"
+      },
+      {
+        "spanId": "6baeb9b0-25cc-493b-afab-f3354b162a3a",
+        "name": "liveAaveInvestigation",
+        "kind": "WORKFLOW",
+        "durationMs": 5521.363845000001,
+        "attributes": {
+          "chainId": 8453,
+          "provenance": "BASE_MAINNET",
+          "transactionHash": null
+        },
+        "status": "OK"
+      }
+    ],
+    "sdkSpans": [
+      {
+        "traceId": "d18bd15fb03a4ad93ae9d0b68c21c80d",
+        "spanId": "2704e9232e0bf90a",
+        "parentSpanId": "732c759f0d142101",
+        "name": "READ_MARKET",
+        "attributes": {
+          "neatlogs.span.kind": "tool",
+          "neatlogs.tool.input": "{\"turn\":0,\"attempt\":0,\"chainId\":8453}",
+          "neatlogs.tool.output": "{\"pool\":\"0xA238Dd80C259a72e81d7e4664a9801593F98d1c5\",\"providerAddress\":\"0xe20fCBdBfFC4Dd138cE8b2E6FBb6CB49777ad64D\",\"oracleAddress\":\"0x2Cc0Fc26eD4563A5ce5e8bdcfe1A2878676Ae156\",\"blockNumber\":52498616,\"blockHash\":\"0x35ef8f8a9a0ec6b751f7affbee37a16b8be78860f68e0cf9106468799038e155\",\"blockTimestamp\":1791786579,\"reserveCount\":15,\"sampledAssets\":[{\"asset\":\"0x4200000000000000000000000000000000000006\",\"priceBaseUnits\":\"255351009062\"},{\"asset\":\"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\",\"priceBaseUnits\":\"99985526\"},{\"asset\":\"0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf\",\"priceBaseUnits\":\"8366102800000\"}],\"baseCurrencyUnit\":\"100000000\",\"coverage\":\"Incident assets, or WETH/USDC/cbBTC for a market scan; not every reserve\"}",
+          "service.name": "liveAaveInvestigation",
+          "telemetry.sdk.language": "nodejs",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.30.1",
+          "service.version": "1.1.28",
+          "neatlogs.workflow_name": "liveAaveInvestigation",
+          "neatlogs.tags": "poa,base-mainnet",
+          "turn": 0,
+          "attempt": 0,
+          "chainId": 8453,
+          "_span_name": "READ_MARKET",
+          "neatlogs.instrumentation.name": "neatlogs.trace",
+          "neatlogs.metrics.duration_ms": 3384.179712
+        },
+        "status": {
+          "code": 0
+        }
+      },
+      {
+        "traceId": "d18bd15fb03a4ad93ae9d0b68c21c80d",
+        "spanId": "c28f659775900132",
+        "parentSpanId": "732c759f0d142101",
+        "name": "CHECK_ORACLE_SOURCES",
+        "attributes": {
+          "neatlogs.span.kind": "tool",
+          "neatlogs.tool.input": "{\"turn\":1,\"attempt\":0,\"chainId\":8453}",
+          "neatlogs.tool.output": "{\"blockNumber\":52498616,\"feeds\":[{\"asset\":\"0x4200000000000000000000000000000000000006\",\"source\":\"0x9dA00D23465282005DB222a441a663eE7B9dfCc8\",\"hasBytecode\":true,\"aavePriceBaseUnits\":\"255351009062\",\"round\":{\"roundId\":\"36893488147419187286\",\"answer\":\"255351009062\",\"updatedAt\":1791785795,\"answeredInRound\":\"36893488147419187286\",\"decimals\":8,\"ageSeconds\":784},\"roundStatus\":\"READ\",\"independentReference\":false},{\"asset\":\"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\",\"source\":\"0xf52D010c7d4ecBfda92c2509900593CE34535D86\",\"hasBytecode\":true,\"aavePriceBaseUnits\":\"99985526\",\"round\":null,\"roundStatus\":\"UNAVAILABLE_OR_ADAPTER\",\"independentReference\":false},{\"asset\":\"0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf\",\"source\":\"0x3A932b286715abc4A86a4ACAF68A6cdD89E0d446\",\"hasBytecode\":true,\"aavePriceBaseUnits\":\"8366102800000\",\"round\":{\"roundId\":\"36893488147419199322\",\"answer\":\"8366102800000\",\"updatedAt\":1791786475,\"answeredInRound\":\"36893488147419199322\",\"decimals\":8,\"ageSeconds\":104},\"roundStatus\":\"READ\",\"independentReference\":false}],\"caveat\":\"These are Aave's own configured sources, not independent price corroboration. Feed-specific heartbeat and adapter semantics are not verified.\"}",
+          "service.name": "liveAaveInvestigation",
+          "telemetry.sdk.language": "nodejs",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.30.1",
+          "service.version": "1.1.28",
+          "neatlogs.workflow_name": "liveAaveInvestigation",
+          "neatlogs.tags": "poa,base-mainnet",
+          "turn": 1,
+          "attempt": 0,
+          "chainId": 8453,
+          "_span_name": "CHECK_ORACLE_SOURCES",
+          "neatlogs.instrumentation.name": "neatlogs.trace",
+          "neatlogs.metrics.duration_ms": 1385.567488
+        },
+        "status": {
+          "code": 0
+        }
+      },
+      {
+        "traceId": "d18bd15fb03a4ad93ae9d0b68c21c80d",
+        "spanId": "b236680aaa9b8ada",
+        "parentSpanId": "732c759f0d142101",
+        "name": "VERIFY_BLOCKS",
+        "attributes": {
+          "neatlogs.span.kind": "tool",
+          "neatlogs.tool.input": "{\"turn\":2,\"attempt\":0,\"chainId\":8453}",
+          "neatlogs.tool.output": "{\"verified\":true,\"blocks\":[{\"blockNumber\":52498616,\"blockHash\":\"0x35ef8f8a9a0ec6b751f7affbee37a16b8be78860f68e0cf9106468799038e155\"}],\"finality\":\"L2 block consistency checked; Ethereum settlement finality not established\"}",
+          "service.name": "liveAaveInvestigation",
+          "telemetry.sdk.language": "nodejs",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.30.1",
+          "service.version": "1.1.28",
+          "neatlogs.workflow_name": "liveAaveInvestigation",
+          "neatlogs.tags": "poa,base-mainnet",
+          "turn": 2,
+          "attempt": 0,
+          "chainId": 8453,
+          "_span_name": "VERIFY_BLOCKS",
+          "neatlogs.instrumentation.name": "neatlogs.trace",
+          "neatlogs.metrics.duration_ms": 615.062272
+        },
+        "status": {
+          "code": 0
+        }
+      },
+      {
+        "traceId": "d18bd15fb03a4ad93ae9d0b68c21c80d",
+        "spanId": "732c759f0d142101",
+        "name": "liveAaveInvestigation",
+        "attributes": {
+          "neatlogs.span.kind": "workflow",
+          "neatlogs.workflow.input": "{\"chainId\":8453,\"provenance\":\"BASE_MAINNET\",\"transactionHash\":null}",
+          "neatlogs.workflow.output": "{\"runId\":\"0x270b56fcefd9b79735108f786fd2b86f\",\"goal\":\"Audit the live Aave Base market and its sampled oracle sources\",\"mode\":\"DETERMINISTIC_PLANNER\",\"status\":\"COMPLETED\",\"startedAt\":\"2026-10-12T06:29:49.628Z\",\"chainId\":8453,\"policyDecision\":\"WITHHELD\",\"steps\":[{\"action\":\"READ_MARKET\",\"reason\":\"Gather the next required evidence based on prior observations\",\"status\":\"OK\",\"observation\":{\"pool\":\"0xA238Dd80C259a72e81d7e4664a9801593F98d1c5\",\"providerAddress\":\"0xe20fCBdBfFC4Dd138cE8b2E6FBb6CB49777ad64D\",\"oracleAddress\":\"0x2Cc0Fc26eD4563A5ce5e8bdcfe1A2878676Ae156\",\"blockNumber\":52498616,\"blockHash\":\"0x35ef8f8a9a0ec6b751f7affbee37a16b8be78860f68e0cf9106468799038e155\",\"blockTimestamp\":1791786579,\"reserveCount\":15,\"sampledAssets\":[{\"asset\":\"0x4200000000000000000000000000000000000006\",\"priceBaseUnits\":\"255351009062\"},{\"asset\":\"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\",\"priceBaseUnits\":\"99985526\"},{\"asset\":\"0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf\",\"priceBaseUnits\":\"8366102800000\"}],\"baseCurrencyUnit\":\"100000000\",\"coverage\":\"Incident assets, or WETH/USDC/cbBTC for a market scan; not every reserve\"}},{\"action\":\"CHECK_ORACLE_SOURCES\",\"reason\":\"Gather the next required evidence based on prior observations\",\"status\":\"OK\",\"observation\":{\"blockNumber\":52498616,\"feeds\":[{\"asset\":\"0x4200000000000000000000000000000000000006\",\"source\":\"0x9dA00D23465282005DB222a441a663eE7B9dfCc8\",\"hasBytecode\":true,\"aavePriceBaseUnits\":\"255351009062\",\"round\":{\"roundId\":\"36893488147419187286\",\"answer\":\"255351009062\",\"updatedAt\":1791785795,\"answeredInRound\":\"36893488147419187286\",\"decimals\":8,\"ageSeconds\":784},\"roundStatus\":\"READ\",\"independentReference\":false},{\"asset\":\"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\",\"source\":\"0xf52D010c7d4ecBfda92c2509900593CE34535D86\",\"hasBytecode\":true,\"aavePriceBaseUnits\":\"99985526\",\"round\":null,\"roundStatus\":\"UNAVAILABLE_OR_ADAPTER\",\"independentReference\":false},{\"asset\":\"0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf\",\"source\":\"0x3A932b286715abc4A86a4ACAF68A6cdD89E0d446\",\"hasBytecode\":true,\"aavePriceBaseUnits\":\"8366102800000\",\"round\":{\"roundId\":\"36893488147419199322\",\"answer\":\"8366102800000\",\"updatedAt\":1791786475,\"answeredInRound\":\"36893488147419199322\",\"decimals\":8,\"ageSeconds\":104},\"roundStatus\":\"READ\",\"independentReference\":false}],\"caveat\":\"These are Aave's own configured sources, not independent price corroboration. Feed-specific heartbeat and adapter semantics are not verified.\"}},{\"action\":\"VERIFY_BLOCKS\",\"reason\":\"Gather the next required evidence based on prior observations\",\"status\":\"OK\",\"observation\":{\"verified\":true,\"blocks\":[{\"blockNumber\":52498616,\"blockHash\":\"0x35ef8f8a9a0ec6b751f7affbee37a16b8be78860f68e0cf9106468799038e155\"}],\"finality\":\"L2 block consistency checked; Ethereum settlement finality not established\"}}],\"observations\":{\"READ_MARKET\":{\"pool\":\"0xA238Dd80C259a72e81d7e4664a9801593F98d1c5\",\"providerAddress\":\"0xe20fCBdBfFC4Dd138cE8b2E6FBb6CB49777ad64D\",\"oracleAddress\":\"0x2Cc0Fc26eD4563A5ce5e8bdcfe1A2878676Ae156\",\"blockNumber\":52498616,\"blockHash\":\"0x35ef8f8a9a0ec6b751f7affbee37a16b8be78860f68e0cf9106468799038e155\",\"blockTimestamp\":1791786579,\"reserveCount\":15,\"sampledAssets\":[{\"asset\":\"0x4200000000000000000000000000000000000006\",\"priceBaseUnits\":\"255351009062\"},{\"asset\":\"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\",\"priceBaseUnits\":\"99985526\"},{\"asset\":\"0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf\",\"priceBaseUnits\":\"8366102800000\"}],\"baseCurrencyUnit\":\"100000000\",\"coverage\":\"Incident assets, or WETH/USDC/cbBTC for a market scan; not every reserve\"},\"CHECK_ORACLE_SOURCES\":{\"blockNumber\":52498616,\"feeds\":[{\"asset\":\"0x4200000000000000000000000000000000000006\",\"source\":\"0x9dA00D23465282005DB222a441a663eE7B9dfCc8\",\"hasBytecode\":true,\"aavePriceBaseUnits\":\"255351009062\",\"round\":{\"roundId\":\"36893488147419187286\",\"answer\":\"255351009062\",\"updatedAt\":1791785795,\"answeredInRound\":\"36893488147419187286\",\"decimals\":8,\"ageSeconds\":784},\"roundStatus\":\"READ\",\"independentReference\":false},{\"asset\":\"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\",\"source\":\"0xf52D010c7d4ecBfda92c2509900593CE34535D86\",\"hasBytecode\":true,\"aavePriceBaseUnits\":\"99985526\",\"round\":null,\"roundStatus\":\"UNAVAILABLE_OR_ADAPTER\",\"independentReference\":false},{\"asset\":\"0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf\",\"source\":\"0x3A932b286715abc4A86a4ACAF68A6cdD89E0d446\",\"hasBytecode\":true,\"aavePriceBaseUnits\":\"8366102800000\",\"round\":{\"roundId\":\"36893488147419199322\",\"answer\":\"8366102800000\",\"updatedAt\":1791786475,\"answeredInRound\":\"36893488147419199322\",\"decimals\":8,\"ageSeconds\":104},\"roundStatus\":\"READ\",\"independentReference\":false}],\"caveat\":\"These are Aave's own configured sources, not independent price corroboration. Feed-specific heartbeat and adapter semantics are not verified.\"},\"VERIFY_BLOCKS\":{\"verified\":true,\"blocks\":[{\"blockNumber\":52498616,\"blockHash\":\"0x35ef8f8a9a0ec6b751f7affbee37a16b8be78860f68e0cf9106468799038e155\"}],\"finality\":\"L2 block consistency checked; Ethereum settlement finality not established\"}},\"findings\":[\"Verified pool registration; 15 reserves; 3 assets sampled at block 52498616.\",\"Source round read for 0x4200000000000000000000000000000000000006; age 784s. Its heartbeat policy is unverified.\",\"Source round read for 0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf; age 104s. Its heartbeat policy is unverified.\"],\"limitations\":[\"No compensation amount or payout is authorized.\",\"Configured protocol oracle sources are not independent market references.\",\"Block-boundary snapshots cannot prove a liquidation was wrongful.\",\"Source 0xf52D010c7d4ecBfda92c2509900593CE34535D86 did not expose readable Chainlink rounds; adapter semantics need separate verification.\"],\"tokensUsed\":0,\"completedAt\":\"2026-10-12T06:29:55.102Z\",\"traceId\":\"d18bd15fb03a4ad93ae9d0b68c21c80d\"}",
+          "service.name": "liveAaveInvestigation",
+          "telemetry.sdk.language": "nodejs",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.30.1",
+          "service.version": "1.1.28",
+          "neatlogs.workflow_name": "liveAaveInvestigation",
+          "neatlogs.tags": "poa,base-mainnet",
+          "chainId": 8453,
+          "provenance": "BASE_MAINNET",
+          "neatlogs.trace.output": "{\"status\":\"COMPLETED\",\"policyDecision\":\"WITHHELD\"}",
+          "_span_name": "liveAaveInvestigation",
+          "neatlogs.instrumentation.name": "neatlogs.trace",
+          "neatlogs.metrics.duration_ms": 5495.858688
+        },
+        "status": {
+          "code": 0
+        }
+      },
+      {
+        "traceId": "d18bd15fb03a4ad93ae9d0b68c21c80d",
+        "spanId": "fc3163c9cf25fd33",
+        "parentSpanId": "732c759f0d142101",
+        "name": "neatlogs.trace.complete",
+        "attributes": {
+          "neatlogs.trace.complete": true,
+          "neatlogs.internal": true,
+          "neatlogs.span.kind": "Neatlogs.INTERNAL",
+          "neatlogs.tags": "poa,base-mainnet"
+        },
+        "status": {
+          "code": 0
+        }
+      }
+    ],
+    "totalDurationMs": 5523.915975999999,
+    "exportSucceeded": true
+  }
+}

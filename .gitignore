@@ -11,3 +11,8 @@ contracts/cache/
 *.log
 *.tsbuildinfo
 .DS_Store
+
+evidence/.demo.lock
+.vercel/
+.vercel
+.env*

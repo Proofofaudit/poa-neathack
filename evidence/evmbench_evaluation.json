@@ -1,77 +1,58 @@
 {
-  "title": "POA EVMbench (ICML 2026 Aligned) Autonomous Restitution Evaluation Report",
-  "totalSuites": 5,
-  "passedSuites": 5,
-  "successRate": "100.0%",
-  "totalDurationMs": 14100,
+  "schemaVersion": 2,
+  "title": "POA project regression and Merkle timing benchmark",
+  "officialEvmbench": false,
+  "environment": {
+    "node": "v24.21.0"
+  },
   "results": [
     {
-      "benchmarkId": "EVMBENCH-01",
-      "name": "Oracle Liquidation Cascade Replay",
-      "academicCitation": "TxRay (arXiv 2026) & Perez et al. (Financial Crypto 2021)",
-      "category": "EXECUTION_INTEGRITY",
-      "status": "PASSED",
+      "name": "Eligible threshold-crossing loss",
+      "passed": true,
+      "durationMs": 2.2483099999999467,
       "metrics": {
-        "baselineHF": "1.2800",
-        "faultyHF": "1.1520",
-        "restitutionUsdc": "250.00",
-        "reconstructionFidelity": "100.0%"
-      },
-      "durationMs": 0
+        "amount": "2500000000"
+      }
     },
     {
-      "benchmarkId": "EVMBENCH-02",
-      "name": "Moral Hazard Prevention (Insolvent Excluded)",
-      "academicCitation": "Euler Finance Sub-Account Debt Replay Methodology (2023)",
-      "category": "ACCOUNTING_INTEGRITY",
-      "status": "PASSED",
-      "metrics": {
-        "baselineHF": "0.7273",
-        "restitutionAmount": "0",
-        "exclusionReason": "Position was already undercollateralized at baseline ($2000.00). Liquidation was economically legitimate."
-      },
-      "durationMs": 1
+      "name": "Pre-insolvent account excluded",
+      "passed": true,
+      "durationMs": 0.2755000000001928
     },
     {
-      "benchmarkId": "EVMBENCH-03",
-      "name": "Cryptographic Second-Preimage Immunity",
-      "academicCitation": "CVE-2022-37454 & OpenZeppelin StandardMerkleTree Standard",
-      "category": "DISTRIBUTION_INTEGRITY",
-      "status": "PASSED",
-      "metrics": {
-        "leafHashing": "Double Keccak-256 [keccak256(concat(keccak256(...)))]",
-        "tamperedResistance": "100%",
-        "merkleRoot": "0x50a3f0066d7259758ea82b2b9043977217843185a893a32ff9960cf5825f7da4"
-      },
-      "durationMs": 32
+      "name": "Healthy at disputed price withheld",
+      "passed": true,
+      "durationMs": 0.29659200000014607
     },
     {
-      "benchmarkId": "EVMBENCH-04",
-      "name": "RPC Partition Recovery & Self-Healing",
-      "academicCitation": "AgentScope (2024) Multi-Layer Fault Tolerance Architecture",
-      "category": "AGENT_RESILIENCE",
-      "status": "PASSED",
+      "name": "Merkle generate and verify (10 claims)",
+      "passed": true,
+      "durationMs": 80.52149499999996,
       "metrics": {
-        "retriesAttempted": 1,
-        "recoveryStatus": "AUTOMATIC_FAILOVER_SUCCESS",
-        "neatlogsTraceId": "trace-1791746710631-u1v0d"
-      },
-      "durationMs": 14063
+        "claims": 10,
+        "verifiedProofs": 10
+      }
     },
     {
-      "benchmarkId": "EVMBENCH-05",
-      "name": "Entire Graph CPG Context Optimization",
-      "academicCitation": "LLMxCPG (USENIX Security 2025) Context-Aware Vulnerability Slicing",
-      "category": "CONTEXT_EFFICIENCY",
-      "status": "PASSED",
+      "name": "Merkle generate and verify (100 claims)",
+      "passed": true,
+      "durationMs": 343.1496189999998,
       "metrics": {
-        "monolithicByteSize": 90294,
-        "cpgSliceByteSize": 11971,
-        "contextPruningRatio": "86.7%",
-        "scannedCodebase": "Live AST disk scans"
-      },
-      "durationMs": 3
+        "claims": 100,
+        "verifiedProofs": 100
+      }
+    },
+    {
+      "name": "Merkle generate and verify (1000 claims)",
+      "passed": true,
+      "durationMs": 4339.631726,
+      "metrics": {
+        "claims": 1000,
+        "verifiedProofs": 1000
+      }
     }
   ],
-  "evaluatedAt": "2026-10-11T19:25:10.765Z"
+  "passed": 6,
+  "total": 6,
+  "evaluatedAt": "2026-10-12T05:53:12.826Z"
 }

@@ -1,0 +1,265 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "revision": "96da127df488502f364a267311c4a63878a8a4e2",
+    "workingTreeDirty": true,
+    "sha256": "083b180ff1ee8032acb0bd5b2ca612967cb5e9f28d96aaee3894588f21433e2c"
+  },
+  "report": {
+    "runId": "0xd95c1ddcab6df2b68f9ea94d611035f4",
+    "goal": "Audit the live Aave Base market and its sampled oracle sources",
+    "mode": "DETERMINISTIC_PLANNER",
+    "status": "NEEDS_REVIEW",
+    "startedAt": "2026-10-12T06:28:08.554Z",
+    "chainId": 8453,
+    "policyDecision": "WITHHELD",
+    "steps": [
+      {
+        "action": "READ_MARKET",
+        "reason": "Gather the next required evidence based on prior observations",
+        "status": "ERROR",
+        "observation": {
+          "attempt": 1,
+          "reason": "RPC read or evidence validation failed; no replacement evidence",
+          "recovery": "Retry this tool once"
+        }
+      },
+      {
+        "action": "READ_MARKET",
+        "reason": "Gather the next required evidence based on prior observations",
+        "status": "ERROR",
+        "observation": {
+          "attempt": 2,
+          "reason": "RPC read or evidence validation failed; no replacement evidence",
+          "recovery": "Preserve failure and finish with missing evidence"
+        }
+      },
+      {
+        "action": "VERIFY_BLOCKS",
+        "reason": "Gather the next required evidence based on prior observations",
+        "status": "OK",
+        "observation": {
+          "verified": true,
+          "blocks": [
+            {
+              "blockNumber": 52498566,
+              "blockHash": "0xf71f7aa3931c722eb0c179176b87ed30a102b34dbbd8d5f20b8ed8ed240f9f72"
+            }
+          ],
+          "finality": "L2 block consistency checked; Ethereum settlement finality not established"
+        }
+      }
+    ],
+    "observations": {
+      "VERIFY_BLOCKS": {
+        "verified": true,
+        "blocks": [
+          {
+            "blockNumber": 52498566,
+            "blockHash": "0xf71f7aa3931c722eb0c179176b87ed30a102b34dbbd8d5f20b8ed8ed240f9f72"
+          }
+        ],
+        "finality": "L2 block consistency checked; Ethereum settlement finality not established"
+      }
+    },
+    "findings": [
+      "Investigation incomplete; preserve the evidence and request review."
+    ],
+    "limitations": [
+      "No compensation amount or payout is authorized.",
+      "Configured protocol oracle sources are not independent market references.",
+      "Block-boundary snapshots cannot prove a liquidation was wrongful.",
+      "Unavailable tools: READ_MARKET. No successful result is inferred for these checks."
+    ],
+    "tokensUsed": 0,
+    "completedAt": "2026-10-12T06:28:12.137Z",
+    "traceId": "bd231f5a758137b848eda70019e9ce49"
+  },
+  "observabilityTrace": {
+    "workflowName": "liveAaveInvestigation",
+    "traceId": "bd231f5a758137b848eda70019e9ce49",
+    "mode": "NEATLOGS_SDK_LOCAL",
+    "remotePersistence": "NOT_REQUESTED",
+    "spans": [
+      {
+        "spanId": "394cf6be-67d2-4bc0-b652-7206ff88b227",
+        "parentSpanId": "e6f4700b-9eaf-4e8e-b7f4-3baa351c3ebf",
+        "name": "READ_MARKET",
+        "kind": "TOOL",
+        "durationMs": 1913.137471,
+        "attributes": {
+          "turn": 0,
+          "attempt": 0,
+          "chainId": 8453
+        },
+        "status": "ERROR",
+        "error": "missing revert data (action=\"call\", data=null, reason=null, transaction={ \"data\": \"0xfe65acfe\", \"to\": \"0xA238Dd80C259a72e81d7e4664a9801593F98d1c5\" }, invocation=null, revert=null, code=CALL_EXCEPTION, version=6.17.0)"
+      },
+      {
+        "spanId": "e91a97ce-eab3-4784-9a22-840f9281dc14",
+        "parentSpanId": "e6f4700b-9eaf-4e8e-b7f4-3baa351c3ebf",
+        "name": "READ_MARKET",
+        "kind": "TOOL",
+        "durationMs": 1109.054089000001,
+        "attributes": {
+          "turn": 0,
+          "attempt": 1,
+          "chainId": 8453
+        },
+        "status": "ERROR",
+        "error": "missing revert data (action=\"call\", data=null, reason=null, transaction={ \"data\": \"0xfe65acfe\", \"to\": \"0xA238Dd80C259a72e81d7e4664a9801593F98d1c5\" }, invocation=null, revert=null, code=CALL_EXCEPTION, version=6.17.0)"
+      },
+      {
+        "spanId": "0297114f-2669-4fdf-a3f7-060253c69b0a",
+        "parentSpanId": "e6f4700b-9eaf-4e8e-b7f4-3baa351c3ebf",
+        "name": "VERIFY_BLOCKS",
+        "kind": "TOOL",
+        "durationMs": 559.3539430000001,
+        "attributes": {
+          "turn": 1,
+          "attempt": 0,
+          "chainId": 8453
+        },
+        "status": "OK"
+      },
+      {
+        "spanId": "e6f4700b-9eaf-4e8e-b7f4-3baa351c3ebf",
+        "name": "liveAaveInvestigation",
+        "kind": "WORKFLOW",
+        "durationMs": 3636.7330930000007,
+        "attributes": {
+          "chainId": 8453,
+          "provenance": "BASE_MAINNET",
+          "transactionHash": null
+        },
+        "status": "OK"
+      }
+    ],
+    "sdkSpans": [
+      {
+        "traceId": "bd231f5a758137b848eda70019e9ce49",
+        "spanId": "1777e08caf165743",
+        "parentSpanId": "04ce8d8b1489642e",
+        "name": "READ_MARKET",
+        "attributes": {
+          "neatlogs.span.kind": "tool",
+          "neatlogs.tool.input": "{\"turn\":0,\"attempt\":0,\"chainId\":8453}",
+          "service.name": "liveAaveInvestigation",
+          "telemetry.sdk.language": "nodejs",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.30.1",
+          "service.version": "1.1.28",
+          "neatlogs.workflow_name": "liveAaveInvestigation",
+          "neatlogs.tags": "poa,base-mainnet",
+          "turn": 0,
+          "attempt": 0,
+          "chainId": 8453,
+          "_span_name": "READ_MARKET",
+          "neatlogs.instrumentation.name": "neatlogs.trace",
+          "neatlogs.metrics.duration_ms": 1883.325184
+        },
+        "status": {
+          "code": 2,
+          "message": "missing revert data (action=\"call\", data=null, reason=null, transaction={ \"data\": \"0xfe65acfe\", \"to\": \"0xA238Dd80C259a72e81d7e4664a9801593F98d1c5\" }, invocation=null, revert=null, code=CALL_EXCEPTION, version=6.17.0)"
+        }
+      },
+      {
+        "traceId": "bd231f5a758137b848eda70019e9ce49",
+        "spanId": "78454b8007199da0",
+        "parentSpanId": "04ce8d8b1489642e",
+        "name": "READ_MARKET",
+        "attributes": {
+          "neatlogs.span.kind": "tool",
+          "neatlogs.tool.input": "{\"turn\":0,\"attempt\":1,\"chainId\":8453}",
+          "service.name": "liveAaveInvestigation",
+          "telemetry.sdk.language": "nodejs",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.30.1",
+          "service.version": "1.1.28",
+          "neatlogs.workflow_name": "liveAaveInvestigation",
+          "neatlogs.tags": "poa,base-mainnet",
+          "turn": 0,
+          "attempt": 1,
+          "chainId": 8453,
+          "_span_name": "READ_MARKET",
+          "neatlogs.instrumentation.name": "neatlogs.trace",
+          "neatlogs.metrics.duration_ms": 1100.091136
+        },
+        "status": {
+          "code": 2,
+          "message": "missing revert data (action=\"call\", data=null, reason=null, transaction={ \"data\": \"0xfe65acfe\", \"to\": \"0xA238Dd80C259a72e81d7e4664a9801593F98d1c5\" }, invocation=null, revert=null, code=CALL_EXCEPTION, version=6.17.0)"
+        }
+      },
+      {
+        "traceId": "bd231f5a758137b848eda70019e9ce49",
+        "spanId": "cf5033607fbe896f",
+        "parentSpanId": "04ce8d8b1489642e",
+        "name": "VERIFY_BLOCKS",
+        "attributes": {
+          "neatlogs.span.kind": "tool",
+          "neatlogs.tool.input": "{\"turn\":1,\"attempt\":0,\"chainId\":8453}",
+          "neatlogs.tool.output": "{\"verified\":true,\"blocks\":[{\"blockNumber\":52498566,\"blockHash\":\"0xf71f7aa3931c722eb0c179176b87ed30a102b34dbbd8d5f20b8ed8ed240f9f72\"}],\"finality\":\"L2 block consistency checked; Ethereum settlement finality not established\"}",
+          "service.name": "liveAaveInvestigation",
+          "telemetry.sdk.language": "nodejs",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.30.1",
+          "service.version": "1.1.28",
+          "neatlogs.workflow_name": "liveAaveInvestigation",
+          "neatlogs.tags": "poa,base-mainnet",
+          "turn": 1,
+          "attempt": 0,
+          "chainId": 8453,
+          "_span_name": "VERIFY_BLOCKS",
+          "neatlogs.instrumentation.name": "neatlogs.trace",
+          "neatlogs.metrics.duration_ms": 555.625728
+        },
+        "status": {
+          "code": 0
+        }
+      },
+      {
+        "traceId": "bd231f5a758137b848eda70019e9ce49",
+        "spanId": "04ce8d8b1489642e",
+        "name": "liveAaveInvestigation",
+        "attributes": {
+          "neatlogs.span.kind": "workflow",
+          "neatlogs.workflow.input": "{\"chainId\":8453,\"provenance\":\"BASE_MAINNET\",\"transactionHash\":null}",
+          "neatlogs.workflow.output": "{\"runId\":\"0xd95c1ddcab6df2b68f9ea94d611035f4\",\"goal\":\"Audit the live Aave Base market and its sampled oracle sources\",\"mode\":\"DETERMINISTIC_PLANNER\",\"status\":\"NEEDS_REVIEW\",\"startedAt\":\"2026-10-12T06:28:08.554Z\",\"chainId\":8453,\"policyDecision\":\"WITHHELD\",\"steps\":[{\"action\":\"READ_MARKET\",\"reason\":\"Gather the next required evidence based on prior observations\",\"status\":\"ERROR\",\"observation\":{\"attempt\":1,\"reason\":\"RPC read or evidence validation failed; no replacement evidence\",\"recovery\":\"Retry this tool once\"}},{\"action\":\"READ_MARKET\",\"reason\":\"Gather the next required evidence based on prior observations\",\"status\":\"ERROR\",\"observation\":{\"attempt\":2,\"reason\":\"RPC read or evidence validation failed; no replacement evidence\",\"recovery\":\"Preserve failure and finish with missing evidence\"}},{\"action\":\"VERIFY_BLOCKS\",\"reason\":\"Gather the next required evidence based on prior observations\",\"status\":\"OK\",\"observation\":{\"verified\":true,\"blocks\":[{\"blockNumber\":52498566,\"blockHash\":\"0xf71f7aa3931c722eb0c179176b87ed30a102b34dbbd8d5f20b8ed8ed240f9f72\"}],\"finality\":\"L2 block consistency checked; Ethereum settlement finality not established\"}}],\"observations\":{\"VERIFY_BLOCKS\":{\"verified\":true,\"blocks\":[{\"blockNumber\":52498566,\"blockHash\":\"0xf71f7aa3931c722eb0c179176b87ed30a102b34dbbd8d5f20b8ed8ed240f9f72\"}],\"finality\":\"L2 block consistency checked; Ethereum settlement finality not established\"}},\"findings\":[\"Investigation incomplete; preserve the evidence and request review.\"],\"limitations\":[\"No compensation amount or payout is authorized.\",\"Configured protocol oracle sources are not independent market references.\",\"Block-boundary snapshots cannot prove a liquidation was wrongful.\",\"Unavailable tools: READ_MARKET. No successful result is inferred for these checks.\"],\"tokensUsed\":0,\"completedAt\":\"2026-10-12T06:28:12.137Z\",\"traceId\":\"bd231f5a758137b848eda70019e9ce49\"}",
+          "service.name": "liveAaveInvestigation",
+          "telemetry.sdk.language": "nodejs",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.30.1",
+          "service.version": "1.1.28",
+          "neatlogs.workflow_name": "liveAaveInvestigation",
+          "neatlogs.tags": "poa,base-mainnet",
+          "chainId": 8453,
+          "provenance": "BASE_MAINNET",
+          "neatlogs.trace.output": "{\"status\":\"NEEDS_REVIEW\",\"policyDecision\":\"WITHHELD\"}",
+          "_span_name": "liveAaveInvestigation",
+          "neatlogs.instrumentation.name": "neatlogs.trace",
+          "neatlogs.metrics.duration_ms": 3606.234112
+        },
+        "status": {
+          "code": 0
+        }
+      },
+      {
+        "traceId": "bd231f5a758137b848eda70019e9ce49",
+        "spanId": "5302b3c731df903a",
+        "parentSpanId": "04ce8d8b1489642e",
+        "name": "neatlogs.trace.complete",
+        "attributes": {
+          "neatlogs.trace.complete": true,
+          "neatlogs.internal": true,
+          "neatlogs.span.kind": "Neatlogs.INTERNAL",
+          "neatlogs.tags": "poa,base-mainnet"
+        },
+        "status": {
+          "code": 0
+        }
+      }
+    ],
+    "totalDurationMs": 3638.396653,
+    "exportSucceeded": true
+  }
+}

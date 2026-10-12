@@ -1,0 +1,21 @@
+{
+  "verifiedAt": "2026-10-12T14:44:26.749Z",
+  "scope": "Two actual model runs of the same real liquidation; model action ordering and failure counts differ. This is an observed run comparison, not a deterministic benchmark or billed-cost measurement.",
+  "transactionHash": "0xf52b76fdd031a03ffbc903a397897af04ea7b6d293a5e79cefa640e02e12ca21",
+  "before": {
+    "file": "evidence/real_liquidation_replay_agent.json",
+    "tokens": 43704,
+    "rejectedActions": 1,
+    "traceId": "b7e45b703fe5e1c1476b939e45f3647a"
+  },
+  "after": {
+    "file": "evidence/planner_compact_model_after.json",
+    "tokens": 3380,
+    "rejectedActions": 0,
+    "traceId": "6c1c0938da1f24ff6b62b1ba7eae739f"
+  },
+  "reportedTokenReductionPercent": 92.27,
+  "causalAssessmentIdentical": true,
+  "fullToolEvidencePreserved": true,
+  "sourceUnchangedDuringAfterRun": true
+}

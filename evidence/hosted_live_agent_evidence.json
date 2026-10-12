@@ -1,0 +1,294 @@
+{
+  "schemaVersion": 1,
+  "deployment": "https://poa-neathack-jd62nfjwv-proof-of-audits.vercel.app",
+  "report": {
+    "runId": "0xc539887667f9218e65b1f2b5e015ebd0",
+    "goal": "Audit the live Aave Base market and its sampled oracle sources",
+    "mode": "LIVE_MODEL",
+    "status": "COMPLETED",
+    "startedAt": "2026-10-12T06:44:58.184Z",
+    "chainId": 8453,
+    "policyDecision": "WITHHELD",
+    "steps": [
+      {
+        "action": "READ_MARKET",
+        "reason": "Read the registered pool, reserve list and sampled protocol prices at a recorded block.",
+        "plannerRationaleUnverified": "Retrieve Aave Base market configuration, asset list, collateral/debt parameters, and oracle source addresses to begin audit of pricing mechanisms and risk settings.",
+        "status": "OK",
+        "observation": {
+          "pool": "0xA238Dd80C259a72e81d7e4664a9801593F98d1c5",
+          "providerAddress": "0xe20fCBdBfFC4Dd138cE8b2E6FBb6CB49777ad64D",
+          "oracleAddress": "0x2Cc0Fc26eD4563A5ce5e8bdcfe1A2878676Ae156",
+          "blockNumber": 52499071,
+          "blockHash": "0x2a93add30c9274a7c64e82b6f312f6bac6ac2bdd5beafd94eda2cfd20d2147d6",
+          "blockTimestamp": 1791787489,
+          "reserveCount": 15,
+          "sampledAssets": [
+            {
+              "asset": "0x4200000000000000000000000000000000000006",
+              "priceBaseUnits": "256223000000"
+            },
+            {
+              "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+              "priceBaseUnits": "99985526"
+            },
+            {
+              "asset": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+              "priceBaseUnits": "8385473786950"
+            }
+          ],
+          "baseCurrencyUnit": "100000000",
+          "coverage": "Incident assets, or WETH/USDC/cbBTC for a market scan; not every reserve"
+        }
+      },
+      {
+        "action": "CHECK_ORACLE_SOURCES",
+        "reason": "Read configured oracle source contracts and available round data; record unsupported adapters.",
+        "plannerRationaleUnverified": "Verify oracle source addresses and pricing mechanisms for the 3 sampled assets (WETH, USDC, cbBTC) to audit price feed reliability, staleness, and potential manipulation vectors.",
+        "status": "OK",
+        "observation": {
+          "blockNumber": 52499071,
+          "feeds": [
+            {
+              "asset": "0x4200000000000000000000000000000000000006",
+              "source": "0x9dA00D23465282005DB222a441a663eE7B9dfCc8",
+              "hasBytecode": true,
+              "aavePriceBaseUnits": "256223000000",
+              "round": {
+                "roundId": "36893488147419187288",
+                "answer": "256223000000",
+                "updatedAt": 1791786845,
+                "answeredInRound": "36893488147419187288",
+                "decimals": 8,
+                "ageSeconds": 644
+              },
+              "roundStatus": "READ",
+              "independentReference": false
+            },
+            {
+              "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+              "source": "0xf52D010c7d4ecBfda92c2509900593CE34535D86",
+              "hasBytecode": true,
+              "aavePriceBaseUnits": "99985526",
+              "round": null,
+              "roundStatus": "UNAVAILABLE_OR_ADAPTER",
+              "independentReference": false
+            },
+            {
+              "asset": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+              "source": "0x3A932b286715abc4A86a4ACAF68A6cdD89E0d446",
+              "hasBytecode": true,
+              "aavePriceBaseUnits": "8385473786950",
+              "round": {
+                "roundId": "36893488147419199324",
+                "answer": "8385473786950",
+                "updatedAt": 1791786805,
+                "answeredInRound": "36893488147419199324",
+                "decimals": 8,
+                "ageSeconds": 684
+              },
+              "roundStatus": "READ",
+              "independentReference": false
+            }
+          ],
+          "caveat": "These are Aave's own configured sources, not independent price corroboration. Feed-specific heartbeat and adapter semantics are not verified."
+        }
+      },
+      {
+        "action": "VERIFY_BLOCKS",
+        "reason": "Recheck collected block hashes for consistency. This does not establish settlement finality.",
+        "plannerRationaleUnverified": "Verify block 52499071 integrity and confirm oracle round timestamps (644s, 684s old) are within acceptable staleness thresholds for Aave Base market risk assessment.",
+        "status": "OK",
+        "observation": {
+          "verified": true,
+          "blocks": [
+            {
+              "blockNumber": 52499071,
+              "blockHash": "0x2a93add30c9274a7c64e82b6f312f6bac6ac2bdd5beafd94eda2cfd20d2147d6"
+            }
+          ],
+          "finality": "L2 block consistency checked; Ethereum settlement finality not established"
+        }
+      },
+      {
+        "action": "FINALIZE",
+        "reason": "Finish the investigation using verified tool results and disclose evidence limits. Compensation remains withheld.",
+        "plannerRationaleUnverified": "All required audit steps completed: market configuration read, oracle sources verified (WETH/USDC/cbBTC feeds), block integrity confirmed. USDC feed unavailable but WETH and cbBTC prices current (<12min old). No additional tools available.",
+        "status": "OK",
+        "observation": {
+          "completionVerified": true,
+          "compensationAuthorized": false
+        }
+      }
+    ],
+    "observations": {
+      "READ_MARKET": {
+        "pool": "0xA238Dd80C259a72e81d7e4664a9801593F98d1c5",
+        "providerAddress": "0xe20fCBdBfFC4Dd138cE8b2E6FBb6CB49777ad64D",
+        "oracleAddress": "0x2Cc0Fc26eD4563A5ce5e8bdcfe1A2878676Ae156",
+        "blockNumber": 52499071,
+        "blockHash": "0x2a93add30c9274a7c64e82b6f312f6bac6ac2bdd5beafd94eda2cfd20d2147d6",
+        "blockTimestamp": 1791787489,
+        "reserveCount": 15,
+        "sampledAssets": [
+          {
+            "asset": "0x4200000000000000000000000000000000000006",
+            "priceBaseUnits": "256223000000"
+          },
+          {
+            "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+            "priceBaseUnits": "99985526"
+          },
+          {
+            "asset": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+            "priceBaseUnits": "8385473786950"
+          }
+        ],
+        "baseCurrencyUnit": "100000000",
+        "coverage": "Incident assets, or WETH/USDC/cbBTC for a market scan; not every reserve"
+      },
+      "CHECK_ORACLE_SOURCES": {
+        "blockNumber": 52499071,
+        "feeds": [
+          {
+            "asset": "0x4200000000000000000000000000000000000006",
+            "source": "0x9dA00D23465282005DB222a441a663eE7B9dfCc8",
+            "hasBytecode": true,
+            "aavePriceBaseUnits": "256223000000",
+            "round": {
+              "roundId": "36893488147419187288",
+              "answer": "256223000000",
+              "updatedAt": 1791786845,
+              "answeredInRound": "36893488147419187288",
+              "decimals": 8,
+              "ageSeconds": 644
+            },
+            "roundStatus": "READ",
+            "independentReference": false
+          },
+          {
+            "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+            "source": "0xf52D010c7d4ecBfda92c2509900593CE34535D86",
+            "hasBytecode": true,
+            "aavePriceBaseUnits": "99985526",
+            "round": null,
+            "roundStatus": "UNAVAILABLE_OR_ADAPTER",
+            "independentReference": false
+          },
+          {
+            "asset": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+            "source": "0x3A932b286715abc4A86a4ACAF68A6cdD89E0d446",
+            "hasBytecode": true,
+            "aavePriceBaseUnits": "8385473786950",
+            "round": {
+              "roundId": "36893488147419199324",
+              "answer": "8385473786950",
+              "updatedAt": 1791786805,
+              "answeredInRound": "36893488147419199324",
+              "decimals": 8,
+              "ageSeconds": 684
+            },
+            "roundStatus": "READ",
+            "independentReference": false
+          }
+        ],
+        "caveat": "These are Aave's own configured sources, not independent price corroboration. Feed-specific heartbeat and adapter semantics are not verified."
+      },
+      "VERIFY_BLOCKS": {
+        "verified": true,
+        "blocks": [
+          {
+            "blockNumber": 52499071,
+            "blockHash": "0x2a93add30c9274a7c64e82b6f312f6bac6ac2bdd5beafd94eda2cfd20d2147d6"
+          }
+        ],
+        "finality": "L2 block consistency checked; Ethereum settlement finality not established"
+      }
+    },
+    "findings": [
+      "Verified pool registration; 15 reserves; 3 assets sampled at block 52499071.",
+      "Source round read for 0x4200000000000000000000000000000000000006; age 644s. Its heartbeat policy is unverified.",
+      "Source round read for 0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf; age 684s. Its heartbeat policy is unverified."
+    ],
+    "limitations": [
+      "No compensation amount or payout is authorized.",
+      "Configured protocol oracle sources are not independent market references.",
+      "Block-boundary snapshots cannot prove a liquidation was wrongful.",
+      "Source 0xf52D010c7d4ecBfda92c2509900593CE34535D86 did not expose readable Chainlink rounds; adapter semantics need separate verification."
+    ],
+    "tokensUsed": 3372,
+    "model": "claude-haiku",
+    "completedAt": "2026-10-12T06:45:03.635Z",
+    "traceId": "630b186ee03e6f0c57cb47a982548a6b"
+  },
+  "traceVerification": {
+    "verifiedAt": "2026-10-12T06:52:56.647Z",
+    "status": "VERIFIED_READBACK",
+    "traceId": "630b186ee03e6f0c57cb47a982548a6b",
+    "provider": "neatlogs",
+    "spanCount": 12,
+    "modelCalls": 4,
+    "hierarchyVerified": true,
+    "spans": [
+      {
+        "name": "claude-haiku",
+        "spanId": "63dbdd248634a4d5",
+        "parentSpanId": "7e83b5568f348ee7"
+      },
+      {
+        "name": "chooseLiveInvestigationTool",
+        "spanId": "7e83b5568f348ee7",
+        "parentSpanId": "5144baa20561f675"
+      },
+      {
+        "name": "liveAaveInvestigation",
+        "spanId": "5144baa20561f675"
+      },
+      {
+        "name": "READ_MARKET",
+        "spanId": "a627d2fbfee2520a",
+        "parentSpanId": "5144baa20561f675"
+      },
+      {
+        "name": "claude-haiku",
+        "spanId": "e09c372e60277a6a",
+        "parentSpanId": "c24a2b35b5a1c712"
+      },
+      {
+        "name": "chooseLiveInvestigationTool",
+        "spanId": "c24a2b35b5a1c712",
+        "parentSpanId": "5144baa20561f675"
+      },
+      {
+        "name": "CHECK_ORACLE_SOURCES",
+        "spanId": "7f35b30767469509",
+        "parentSpanId": "5144baa20561f675"
+      },
+      {
+        "name": "claude-haiku",
+        "spanId": "0a4e99ce9c66ad3a",
+        "parentSpanId": "e656d3fc0b1a8114"
+      },
+      {
+        "name": "chooseLiveInvestigationTool",
+        "spanId": "e656d3fc0b1a8114",
+        "parentSpanId": "5144baa20561f675"
+      },
+      {
+        "name": "VERIFY_BLOCKS",
+        "spanId": "fc63429731e99bcc",
+        "parentSpanId": "5144baa20561f675"
+      },
+      {
+        "name": "claude-haiku",
+        "spanId": "aa4bc0207a19f3eb",
+        "parentSpanId": "9fc52ea425972117"
+      },
+      {
+        "name": "chooseLiveInvestigationTool",
+        "spanId": "9fc52ea425972117",
+        "parentSpanId": "5144baa20561f675"
+      }
+    ]
+  }
+}

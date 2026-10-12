@@ -1,0 +1,38 @@
+name: Verify prototype
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      POA_LLM_ENABLED: 'false'
+      POA_TELEMETRY_ENABLED: 'false'
+      NEXT_TELEMETRY_DISABLED: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: v1.5.1
+      - run: npm ci
+      - run: npm run verify:release
+      - uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: verified-demo-evidence
+          path: |
+            evidence/run_evidence.json
+            evidence/restitution_manifest.json
+            evidence/evmbench_evaluation.json
+            evidence/upgrade_evaluation.json
+            evidence/business_model.json
+            evidence/mission_evaluation.json

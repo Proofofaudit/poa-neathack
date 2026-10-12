@@ -17,6 +17,17 @@ export interface ProofCarryingManifest {
     baselinePriceUsd: string;
     faultyPriceUsd: string;
     interventionPolicy: string;
+    anchors?: {
+      chainId: number;
+      baselineBlockNumber: number;
+      baselineBlockHash: string;
+      incidentBlockNumber: number;
+      incidentBlockHash: string;
+      toBlock: number;
+      endBlockHash: string;
+      referenceSource: string;
+      referencePriceUsd: string;
+    };
   };
   accountingInvariants: {
     equityDeltaFormula: string;
@@ -42,7 +53,7 @@ export interface ProofCarryingManifest {
 }
 
 export class ManifestGenerator {
-  public static readonly POLICY_ID = "POA_RESTITUTION_POLICY_V1_EQUITY_DELTA";
+  public static readonly POLICY_ID = "POA_DEMO_POLICY_V2_EQUITY_DELTA";
 
   public static createProofCarryingManifest(params: {
     incidentId: string;
@@ -55,19 +66,24 @@ export class ManifestGenerator {
     claims: RestitutionClaimResult[];
     merkleManifest: RestitutionMerkleManifest;
     traceId?: string;
+    anchors?: ProofCarryingManifest["evidence"]["anchors"];
   }): ProofCarryingManifest {
-    const verifiedClaims = params.claims.filter(c => c.status === "VERIFIED");
-    const excludedClaims = params.claims.filter(c => c.status === "EXCLUDED_LEGITIMATE");
+    const verifiedClaims = params.claims.filter((c) => c.status === "VERIFIED");
+    const excludedClaims = params.claims.filter(
+      (c) => c.status === "EXCLUDED_LEGITIMATE",
+    );
 
-    const claimEntries = params.merkleManifest.claims.map(manifestItem => {
-      const claimDetail = verifiedClaims.find(c => c.claimIndex === manifestItem.claimIndex);
+    const claimEntries = params.merkleManifest.claims.map((manifestItem) => {
+      const claimDetail = verifiedClaims.find(
+        (c) => c.claimIndex === manifestItem.claimIndex,
+      );
       return {
         claimIndex: manifestItem.claimIndex,
         claimant: manifestItem.claimant,
         restitutionUsdc: manifestItem.amount.toString(),
         counterfactualEquityUsd: claimDetail?.counterfactualNetEquityUsd || "0",
         observedEquityUsd: claimDetail?.observedNetEquityUsd || "0",
-        merkleProof: manifestItem.proof
+        merkleProof: manifestItem.proof,
       };
     });
 
@@ -82,32 +98,43 @@ export class ManifestGenerator {
         oracleAddress: params.oracleAddress,
         poolAddress: params.poolAddress,
         payoutToken: params.payoutToken,
+        anchors: params.anchors,
         baselinePriceUsd: params.baselinePriceUsd,
         faultyPriceUsd: params.faultyPriceUsd,
-        interventionPolicy: "Intervention policy substituted anomalous oracle plunge with verified TWAP benchmark. Nonces and valid transactions preserved."
+        interventionPolicy:
+          "Demo policy values equity at the separately deployed synthetic reference price. This is a balance-sheet calculation, not a transaction-level EVM replay or a verified market TWAP.",
       },
       accountingInvariants: {
-        equityDeltaFormula: "L_i = max(0, NetEquity_i(S_cf) - NetEquity_i(S_obs)) where NetEquity = (Collateral * P_baseline) - Debt",
-        moralHazardExclusionRule: "Positions with baseline Health Factor < 1.0 (undercollateralized prior to incident) receive zero restitution.",
-        integerPrecision: "18 decimals WETH collateral, 6 decimals USDC debt/payout, BigInt integer arithmetic with zero floating point representation"
+        equityDeltaFormula:
+          "L_i = max(0, NetEquity_i(S_cf) - NetEquity_i(S_obs)) where NetEquity = (Collateral * P_baseline) - Debt",
+        moralHazardExclusionRule:
+          "Positions with baseline Health Factor < 1.0 (undercollateralized prior to incident) receive zero restitution.",
+        integerPrecision:
+          "18 decimals WETH collateral, 6 decimals USDC debt/payout, BigInt integer arithmetic with zero floating point representation",
       },
       summary: {
         totalVictimsEvaluated: params.claims.length,
         wrongfulLiquidationsCount: verifiedClaims.length,
-        insolventAccountsExcluded: excludedClaims.length,
-        totalRestitutionUsdc: params.merkleManifest.totalRestitutionAmount.toString(),
-        merkleRoot: params.merkleManifest.merkleRoot
+        insolventAccountsExcluded: excludedClaims.filter((c) =>
+          c.reason.includes("already undercollateralized"),
+        ).length,
+        totalRestitutionUsdc:
+          params.merkleManifest.totalRestitutionAmount.toString(),
+        merkleRoot: params.merkleManifest.merkleRoot,
       },
-      claims: claimEntries
+      claims: claimEntries,
     };
 
     // Generate deterministic cryptographic integrity seal over the manifest
     const payloadString = JSON.stringify(preliminaryPayload);
-    const integritySeal = crypto.createHash("sha256").update(payloadString).digest("hex");
+    const integritySeal = crypto
+      .createHash("sha256")
+      .update(payloadString)
+      .digest("hex");
 
     return {
       ...preliminaryPayload,
-      cryptographicIntegritySeal: `0x${integritySeal}`
+      cryptographicIntegritySeal: `0x${integritySeal}`,
     };
   }
 }

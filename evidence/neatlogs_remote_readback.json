@@ -1,0 +1,2314 @@
+{
+  "schemaVersion": 1,
+  "status": "VERIFIED_READBACK",
+  "provider": "neatlogs",
+  "records": [
+    {
+      "file": "evidence/remote_run_evidence.json",
+      "traceId": "3ed222968e44548a4c7c0bf9a2aa72c1",
+      "workflowName": "investigateOracleIncident",
+      "verifiedAt": "2026-10-12T14:45:42.625Z",
+      "expectedSpans": 16,
+      "observedSpans": 16,
+      "hierarchyVerified": true,
+      "providerApiPath": "/api/traces/v3/3ed222968e44548a4c7c0bf9a2aa72c1",
+      "providerResponseSha256": "88c769790bd9b26d8e6255ed525cc4a0c2905e6701bd5c5ef6e8d31b06106bd7",
+      "spans": [
+        {
+          "name": "collectHistoricalEvidence",
+          "spanId": "0cad77c4fba988ab",
+          "parentSpanId": "801e39cef5f4a4cb",
+          "traceId": "3ed222968e44548a4c7c0bf9a2aa72c1",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "investigateOracleIncident",
+          "spanId": "801e39cef5f4a4cb",
+          "traceId": "3ed222968e44548a4c7c0bf9a2aa72c1",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "historicalLogQuery",
+          "spanId": "fe17cdb90f8d9713",
+          "parentSpanId": "0cad77c4fba988ab",
+          "traceId": "3ed222968e44548a4c7c0bf9a2aa72c1",
+          "status": "ERROR"
+        },
+        {
+          "name": "historicalLogQuery",
+          "spanId": "5a86e7d87800e962",
+          "parentSpanId": "0cad77c4fba988ab",
+          "traceId": "3ed222968e44548a4c7c0bf9a2aa72c1",
+          "status": "ERROR"
+        },
+        {
+          "name": "historicalLogQuery",
+          "spanId": "40caca19adeb2f02",
+          "parentSpanId": "0cad77c4fba988ab",
+          "traceId": "3ed222968e44548a4c7c0bf9a2aa72c1",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "historicalLogQuery",
+          "spanId": "1e75f7fd8f641a1d",
+          "parentSpanId": "0cad77c4fba988ab",
+          "traceId": "3ed222968e44548a4c7c0bf9a2aa72c1",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "historicalLogQuery",
+          "spanId": "7f756b1d9fba0bde",
+          "parentSpanId": "0cad77c4fba988ab",
+          "traceId": "3ed222968e44548a4c7c0bf9a2aa72c1",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "historicalLogQuery",
+          "spanId": "202275626c247586",
+          "parentSpanId": "0cad77c4fba988ab",
+          "traceId": "3ed222968e44548a4c7c0bf9a2aa72c1",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "historicalLogQuery",
+          "spanId": "fc8a6217c8dd9d9f",
+          "parentSpanId": "0cad77c4fba988ab",
+          "traceId": "3ed222968e44548a4c7c0bf9a2aa72c1",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "historicalLogQuery",
+          "spanId": "2511202293bdcafc",
+          "parentSpanId": "0cad77c4fba988ab",
+          "traceId": "3ed222968e44548a4c7c0bf9a2aa72c1",
+          "status": "ERROR"
+        },
+        {
+          "name": "historicalLogQuery",
+          "spanId": "c6a07457eace7103",
+          "parentSpanId": "0cad77c4fba988ab",
+          "traceId": "3ed222968e44548a4c7c0bf9a2aa72c1",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "evaluateRestitutionPolicy",
+          "spanId": "858fa8844ad89d69",
+          "parentSpanId": "801e39cef5f4a4cb",
+          "traceId": "3ed222968e44548a4c7c0bf9a2aa72c1",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "replayCounterfactual",
+          "spanId": "fefa6663900ccc48",
+          "parentSpanId": "801e39cef5f4a4cb",
+          "traceId": "3ed222968e44548a4c7c0bf9a2aa72c1",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "historicalLogQuery",
+          "spanId": "bc60b3207bb4965a",
+          "parentSpanId": "0cad77c4fba988ab",
+          "traceId": "3ed222968e44548a4c7c0bf9a2aa72c1",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "generateMerkleManifest",
+          "spanId": "34bc80b490679469",
+          "parentSpanId": "801e39cef5f4a4cb",
+          "traceId": "3ed222968e44548a4c7c0bf9a2aa72c1",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "independentClaimAudit",
+          "spanId": "b87d063933697036",
+          "parentSpanId": "801e39cef5f4a4cb",
+          "traceId": "3ed222968e44548a4c7c0bf9a2aa72c1",
+          "status": "SUCCESS"
+        }
+      ]
+    },
+    {
+      "file": "evidence/upgrade_evaluation_remote.json",
+      "traceId": "6f1269d7424f686ff15f55b8a8699836",
+      "workflowName": "policy-evaluation-baseline-96da127",
+      "verifiedAt": "2026-10-12T14:45:44.093Z",
+      "expectedSpans": 13,
+      "observedSpans": 13,
+      "hierarchyVerified": true,
+      "providerApiPath": "/api/traces/v3/6f1269d7424f686ff15f55b8a8699836",
+      "providerResponseSha256": "ac0941675cf6f6b9b3ac21d25595662bbaa9190e40b41a6003bde37014eb36a1",
+      "spans": [
+        {
+          "name": "Zero-decimal collateral",
+          "spanId": "655affd7e5203b65",
+          "parentSpanId": "9e517ee91af237c0",
+          "traceId": "6f1269d7424f686ff15f55b8a8699836",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "Healthy at disputed price",
+          "spanId": "5f0caa7db0848014",
+          "parentSpanId": "9e517ee91af237c0",
+          "traceId": "6f1269d7424f686ff15f55b8a8699836",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "Pre-insolvent account",
+          "spanId": "844de361e58cd533",
+          "parentSpanId": "9e517ee91af237c0",
+          "traceId": "6f1269d7424f686ff15f55b8a8699836",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "Seized collateral exceeds position",
+          "spanId": "12e8a5308e2a1cec",
+          "parentSpanId": "9e517ee91af237c0",
+          "traceId": "6f1269d7424f686ff15f55b8a8699836",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "Wrong borrower event",
+          "spanId": "602c631feaf1ca74",
+          "parentSpanId": "9e517ee91af237c0",
+          "traceId": "6f1269d7424f686ff15f55b8a8699836",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "Zero baseline configuration",
+          "spanId": "97a82e204f5e18c9",
+          "parentSpanId": "9e517ee91af237c0",
+          "traceId": "6f1269d7424f686ff15f55b8a8699836",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "Zero threshold configuration",
+          "spanId": "bc61e8c932b70783",
+          "parentSpanId": "9e517ee91af237c0",
+          "traceId": "6f1269d7424f686ff15f55b8a8699836",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "No observed liquidation",
+          "spanId": "cc9425e4f8519593",
+          "parentSpanId": "9e517ee91af237c0",
+          "traceId": "6f1269d7424f686ff15f55b8a8699836",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "Event oracle price mismatch",
+          "spanId": "3bcd5fd7bc55ce7d",
+          "parentSpanId": "9e517ee91af237c0",
+          "traceId": "6f1269d7424f686ff15f55b8a8699836",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "Eligible threshold crossing",
+          "spanId": "c3d1e335fd02372d",
+          "parentSpanId": "9e517ee91af237c0",
+          "traceId": "6f1269d7424f686ff15f55b8a8699836",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "Repaid debt exceeds position",
+          "spanId": "1569151308375d26",
+          "parentSpanId": "9e517ee91af237c0",
+          "traceId": "6f1269d7424f686ff15f55b8a8699836",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "Negative debt repayment",
+          "spanId": "691030e8b939a5b0",
+          "parentSpanId": "9e517ee91af237c0",
+          "traceId": "6f1269d7424f686ff15f55b8a8699836",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "policy-evaluation-baseline-96da127",
+          "spanId": "9e517ee91af237c0",
+          "traceId": "6f1269d7424f686ff15f55b8a8699836",
+          "status": "SUCCESS"
+        }
+      ]
+    },
+    {
+      "file": "evidence/upgrade_evaluation_remote.json",
+      "traceId": "84ff604da9cf89def54863b096cd0594",
+      "workflowName": "policy-evaluation-current",
+      "verifiedAt": "2026-10-12T14:45:44.717Z",
+      "expectedSpans": 13,
+      "observedSpans": 13,
+      "hierarchyVerified": true,
+      "providerApiPath": "/api/traces/v3/84ff604da9cf89def54863b096cd0594",
+      "providerResponseSha256": "d453ac63864ee5a74b5b4edd6399179697cb613ad506f5284871d11333a96b0f",
+      "spans": [
+        {
+          "name": "Event oracle price mismatch",
+          "spanId": "44443b40ab3ef9d8",
+          "parentSpanId": "60115e7ec2555fa6",
+          "traceId": "84ff604da9cf89def54863b096cd0594",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "Repaid debt exceeds position",
+          "spanId": "861951ed73490a8b",
+          "parentSpanId": "60115e7ec2555fa6",
+          "traceId": "84ff604da9cf89def54863b096cd0594",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "Pre-insolvent account",
+          "spanId": "5949faaf715295a4",
+          "parentSpanId": "60115e7ec2555fa6",
+          "traceId": "84ff604da9cf89def54863b096cd0594",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "No observed liquidation",
+          "spanId": "f4ff7852fa0849da",
+          "parentSpanId": "60115e7ec2555fa6",
+          "traceId": "84ff604da9cf89def54863b096cd0594",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "Seized collateral exceeds position",
+          "spanId": "c0594bb9b0f899b3",
+          "parentSpanId": "60115e7ec2555fa6",
+          "traceId": "84ff604da9cf89def54863b096cd0594",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "Healthy at disputed price",
+          "spanId": "2bcfd407ad2977ef",
+          "parentSpanId": "60115e7ec2555fa6",
+          "traceId": "84ff604da9cf89def54863b096cd0594",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "Wrong borrower event",
+          "spanId": "b5dcd666a96aad63",
+          "parentSpanId": "60115e7ec2555fa6",
+          "traceId": "84ff604da9cf89def54863b096cd0594",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "Eligible threshold crossing",
+          "spanId": "3e5e9abbe3ebce96",
+          "parentSpanId": "60115e7ec2555fa6",
+          "traceId": "84ff604da9cf89def54863b096cd0594",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "Negative debt repayment",
+          "spanId": "e74c5624037fd72e",
+          "parentSpanId": "60115e7ec2555fa6",
+          "traceId": "84ff604da9cf89def54863b096cd0594",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "Zero baseline configuration",
+          "spanId": "2fabd781b4650461",
+          "parentSpanId": "60115e7ec2555fa6",
+          "traceId": "84ff604da9cf89def54863b096cd0594",
+          "status": "ERROR"
+        },
+        {
+          "name": "policy-evaluation-current",
+          "spanId": "60115e7ec2555fa6",
+          "traceId": "84ff604da9cf89def54863b096cd0594",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "Zero-decimal collateral",
+          "spanId": "59e52e22596e4b73",
+          "parentSpanId": "60115e7ec2555fa6",
+          "traceId": "84ff604da9cf89def54863b096cd0594",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "Zero threshold configuration",
+          "spanId": "f1b1fed4b920f7f9",
+          "parentSpanId": "60115e7ec2555fa6",
+          "traceId": "84ff604da9cf89def54863b096cd0594",
+          "status": "ERROR"
+        }
+      ]
+    },
+    {
+      "file": "evidence/live_model_before_evidence.json",
+      "traceId": "351213aeaecb4da84958d3a5fd0c8e35",
+      "workflowName": "investigateOracleIncident",
+      "verifiedAt": "2026-10-12T14:45:45.579Z",
+      "expectedSpans": 14,
+      "observedSpans": 14,
+      "hierarchyVerified": true,
+      "providerApiPath": "/api/traces/v3/351213aeaecb4da84958d3a5fd0c8e35",
+      "providerResponseSha256": "53737b31aa0edf692a29e6899a7fa3c15d9849ea6634f466cec84bf8253b1cbc",
+      "spans": [
+        {
+          "name": "historicalLogQuery",
+          "spanId": "a6004b94d8e2d62a",
+          "parentSpanId": "f997549bfb00f5ff",
+          "traceId": "351213aeaecb4da84958d3a5fd0c8e35",
+          "status": "ERROR"
+        },
+        {
+          "name": "historicalLogQuery",
+          "spanId": "a42748ccb89f619f",
+          "parentSpanId": "f997549bfb00f5ff",
+          "traceId": "351213aeaecb4da84958d3a5fd0c8e35",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "historicalLogQuery",
+          "spanId": "07c597326bad6c4f",
+          "parentSpanId": "f997549bfb00f5ff",
+          "traceId": "351213aeaecb4da84958d3a5fd0c8e35",
+          "status": "ERROR"
+        },
+        {
+          "name": "historicalLogQuery",
+          "spanId": "4dd51681ae64909c",
+          "parentSpanId": "f997549bfb00f5ff",
+          "traceId": "351213aeaecb4da84958d3a5fd0c8e35",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "historicalLogQuery",
+          "spanId": "c4610483bcaecc67",
+          "parentSpanId": "f997549bfb00f5ff",
+          "traceId": "351213aeaecb4da84958d3a5fd0c8e35",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "historicalLogQuery",
+          "spanId": "113d2fe5d363bad8",
+          "parentSpanId": "f997549bfb00f5ff",
+          "traceId": "351213aeaecb4da84958d3a5fd0c8e35",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "historicalLogQuery",
+          "spanId": "cec7d7a44b5b667a",
+          "parentSpanId": "f997549bfb00f5ff",
+          "traceId": "351213aeaecb4da84958d3a5fd0c8e35",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "historicalLogQuery",
+          "spanId": "a09ad7bcadfd65ab",
+          "parentSpanId": "f997549bfb00f5ff",
+          "traceId": "351213aeaecb4da84958d3a5fd0c8e35",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "historicalLogQuery",
+          "spanId": "7fd3c4fae86e9ed9",
+          "parentSpanId": "f997549bfb00f5ff",
+          "traceId": "351213aeaecb4da84958d3a5fd0c8e35",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "historicalLogQuery",
+          "spanId": "d5407a854ba38ced",
+          "parentSpanId": "f997549bfb00f5ff",
+          "traceId": "351213aeaecb4da84958d3a5fd0c8e35",
+          "status": "ERROR"
+        },
+        {
+          "name": "collectHistoricalEvidence",
+          "spanId": "f997549bfb00f5ff",
+          "parentSpanId": "adb098454feaef35",
+          "traceId": "351213aeaecb4da84958d3a5fd0c8e35",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "a920783b8107055b",
+          "parentSpanId": "317e589385859810",
+          "traceId": "351213aeaecb4da84958d3a5fd0c8e35",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "llmForensicReasoning",
+          "spanId": "317e589385859810",
+          "parentSpanId": "adb098454feaef35",
+          "traceId": "351213aeaecb4da84958d3a5fd0c8e35",
+          "status": "ERROR"
+        },
+        {
+          "name": "investigateOracleIncident",
+          "spanId": "adb098454feaef35",
+          "traceId": "351213aeaecb4da84958d3a5fd0c8e35",
+          "status": "SUCCESS"
+        }
+      ]
+    },
+    {
+      "file": "evidence/live_model_format_failure_evidence.json",
+      "traceId": "7f253d1810ad6ca8b74e7fb1e878a09f",
+      "workflowName": "investigateOracleIncident",
+      "verifiedAt": "2026-10-12T14:45:46.450Z",
+      "expectedSpans": 19,
+      "observedSpans": 19,
+      "hierarchyVerified": true,
+      "providerApiPath": "/api/traces/v3/7f253d1810ad6ca8b74e7fb1e878a09f",
+      "providerResponseSha256": "ce2a001f559ece8540e9e03d667f59bf7aa96107cab0bb4742908e25389a5727",
+      "spans": [
+        {
+          "name": "historicalLogQuery",
+          "spanId": "84966b370250ab7d",
+          "parentSpanId": "276bbef0383e1bee",
+          "traceId": "7f253d1810ad6ca8b74e7fb1e878a09f",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "historicalLogQuery",
+          "spanId": "bfff1872754a2d91",
+          "parentSpanId": "276bbef0383e1bee",
+          "traceId": "7f253d1810ad6ca8b74e7fb1e878a09f",
+          "status": "ERROR"
+        },
+        {
+          "name": "collectHistoricalEvidence",
+          "spanId": "276bbef0383e1bee",
+          "parentSpanId": "c89c1f2f3be434eb",
+          "traceId": "7f253d1810ad6ca8b74e7fb1e878a09f",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "investigateOracleIncident",
+          "spanId": "c89c1f2f3be434eb",
+          "traceId": "7f253d1810ad6ca8b74e7fb1e878a09f",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "historicalLogQuery",
+          "spanId": "570d673bf98ca7b7",
+          "parentSpanId": "276bbef0383e1bee",
+          "traceId": "7f253d1810ad6ca8b74e7fb1e878a09f",
+          "status": "ERROR"
+        },
+        {
+          "name": "historicalLogQuery",
+          "spanId": "9e00596b98dc7f7b",
+          "parentSpanId": "276bbef0383e1bee",
+          "traceId": "7f253d1810ad6ca8b74e7fb1e878a09f",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "historicalLogQuery",
+          "spanId": "bf0ff423dad5af38",
+          "parentSpanId": "276bbef0383e1bee",
+          "traceId": "7f253d1810ad6ca8b74e7fb1e878a09f",
+          "status": "ERROR"
+        },
+        {
+          "name": "historicalLogQuery",
+          "spanId": "571f0b8342c18acb",
+          "parentSpanId": "276bbef0383e1bee",
+          "traceId": "7f253d1810ad6ca8b74e7fb1e878a09f",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "historicalLogQuery",
+          "spanId": "90867b62bb22d35a",
+          "parentSpanId": "276bbef0383e1bee",
+          "traceId": "7f253d1810ad6ca8b74e7fb1e878a09f",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "historicalLogQuery",
+          "spanId": "a73e076c86d6ca92",
+          "parentSpanId": "276bbef0383e1bee",
+          "traceId": "7f253d1810ad6ca8b74e7fb1e878a09f",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "historicalLogQuery",
+          "spanId": "e6a0ffc07003f21c",
+          "parentSpanId": "276bbef0383e1bee",
+          "traceId": "7f253d1810ad6ca8b74e7fb1e878a09f",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "historicalLogQuery",
+          "spanId": "79d1d03868ea1597",
+          "parentSpanId": "276bbef0383e1bee",
+          "traceId": "7f253d1810ad6ca8b74e7fb1e878a09f",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "8a2d97e83f292b43",
+          "parentSpanId": "6aabbafe14d14479",
+          "traceId": "7f253d1810ad6ca8b74e7fb1e878a09f",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "llmForensicReasoning",
+          "spanId": "6aabbafe14d14479",
+          "parentSpanId": "c89c1f2f3be434eb",
+          "traceId": "7f253d1810ad6ca8b74e7fb1e878a09f",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "replayCounterfactual",
+          "spanId": "4331ceaa56e80479",
+          "parentSpanId": "c89c1f2f3be434eb",
+          "traceId": "7f253d1810ad6ca8b74e7fb1e878a09f",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "generateMerkleManifest",
+          "spanId": "8a4f9b3ff10ec05b",
+          "parentSpanId": "c89c1f2f3be434eb",
+          "traceId": "7f253d1810ad6ca8b74e7fb1e878a09f",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "independentClaimAudit",
+          "spanId": "2fc22aa9d9f41a0e",
+          "parentSpanId": "c89c1f2f3be434eb",
+          "traceId": "7f253d1810ad6ca8b74e7fb1e878a09f",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "f6bd2c5bf0645dd7",
+          "parentSpanId": "3625f980ed349c05",
+          "traceId": "7f253d1810ad6ca8b74e7fb1e878a09f",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseForensicReviewTool",
+          "spanId": "3625f980ed349c05",
+          "parentSpanId": "c89c1f2f3be434eb",
+          "traceId": "7f253d1810ad6ca8b74e7fb1e878a09f",
+          "status": "SUCCESS"
+        }
+      ]
+    },
+    {
+      "file": "evidence/live_model_run_evidence.json",
+      "traceId": "3dc25ff13abf032fde2b49b22f1b0197",
+      "workflowName": "investigateOracleIncident",
+      "verifiedAt": "2026-10-12T14:45:47.363Z",
+      "expectedSpans": 32,
+      "observedSpans": 32,
+      "hierarchyVerified": true,
+      "providerApiPath": "/api/traces/v3/3dc25ff13abf032fde2b49b22f1b0197",
+      "providerResponseSha256": "292508d87552a929dfd1292decf2d494dcb3e61d9dc25beba1fcd532fe42f10b",
+      "spans": [
+        {
+          "name": "historicalLogQuery",
+          "spanId": "899172ce85748c92",
+          "parentSpanId": "ab1512b44593eb83",
+          "traceId": "3dc25ff13abf032fde2b49b22f1b0197",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "historicalLogQuery",
+          "spanId": "85f225128d627b1b",
+          "parentSpanId": "ab1512b44593eb83",
+          "traceId": "3dc25ff13abf032fde2b49b22f1b0197",
+          "status": "ERROR"
+        },
+        {
+          "name": "collectHistoricalEvidence",
+          "spanId": "ab1512b44593eb83",
+          "parentSpanId": "55bb1a0390c774dd",
+          "traceId": "3dc25ff13abf032fde2b49b22f1b0197",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "investigateOracleIncident",
+          "spanId": "55bb1a0390c774dd",
+          "traceId": "3dc25ff13abf032fde2b49b22f1b0197",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "historicalLogQuery",
+          "spanId": "282482416a5b8d9e",
+          "parentSpanId": "ab1512b44593eb83",
+          "traceId": "3dc25ff13abf032fde2b49b22f1b0197",
+          "status": "ERROR"
+        },
+        {
+          "name": "historicalLogQuery",
+          "spanId": "8be79f93da4a7a77",
+          "parentSpanId": "ab1512b44593eb83",
+          "traceId": "3dc25ff13abf032fde2b49b22f1b0197",
+          "status": "ERROR"
+        },
+        {
+          "name": "historicalLogQuery",
+          "spanId": "5555012daece9833",
+          "parentSpanId": "ab1512b44593eb83",
+          "traceId": "3dc25ff13abf032fde2b49b22f1b0197",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "historicalLogQuery",
+          "spanId": "cee5be6dbf36d76b",
+          "parentSpanId": "ab1512b44593eb83",
+          "traceId": "3dc25ff13abf032fde2b49b22f1b0197",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "historicalLogQuery",
+          "spanId": "16082a8f0b9c3b8f",
+          "parentSpanId": "ab1512b44593eb83",
+          "traceId": "3dc25ff13abf032fde2b49b22f1b0197",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "historicalLogQuery",
+          "spanId": "2eb78066162c5666",
+          "parentSpanId": "ab1512b44593eb83",
+          "traceId": "3dc25ff13abf032fde2b49b22f1b0197",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "historicalLogQuery",
+          "spanId": "21dcb232e23007ab",
+          "parentSpanId": "ab1512b44593eb83",
+          "traceId": "3dc25ff13abf032fde2b49b22f1b0197",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "historicalLogQuery",
+          "spanId": "3c41598fc47366ad",
+          "parentSpanId": "ab1512b44593eb83",
+          "traceId": "3dc25ff13abf032fde2b49b22f1b0197",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "dbf583ca4c6b010a",
+          "parentSpanId": "2c7a8cbb12f10b03",
+          "traceId": "3dc25ff13abf032fde2b49b22f1b0197",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "llmForensicReasoning",
+          "spanId": "2c7a8cbb12f10b03",
+          "parentSpanId": "55bb1a0390c774dd",
+          "traceId": "3dc25ff13abf032fde2b49b22f1b0197",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "replayCounterfactual",
+          "spanId": "fa55dc2de481777c",
+          "parentSpanId": "55bb1a0390c774dd",
+          "traceId": "3dc25ff13abf032fde2b49b22f1b0197",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "independentClaimAudit",
+          "spanId": "03ec21f5da4b2d47",
+          "parentSpanId": "55bb1a0390c774dd",
+          "traceId": "3dc25ff13abf032fde2b49b22f1b0197",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "generateMerkleManifest",
+          "spanId": "835fa73b7a5de83b",
+          "parentSpanId": "55bb1a0390c774dd",
+          "traceId": "3dc25ff13abf032fde2b49b22f1b0197",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "54665b4655b3e858",
+          "parentSpanId": "da855a062dec7a5a",
+          "traceId": "3dc25ff13abf032fde2b49b22f1b0197",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseForensicReviewTool",
+          "spanId": "da855a062dec7a5a",
+          "parentSpanId": "55bb1a0390c774dd",
+          "traceId": "3dc25ff13abf032fde2b49b22f1b0197",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "COMPARE_REFERENCE",
+          "spanId": "c50eadde828491a4",
+          "parentSpanId": "55bb1a0390c774dd",
+          "traceId": "3dc25ff13abf032fde2b49b22f1b0197",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "validateForensicAction",
+          "spanId": "bf84ba7a95af9ffa",
+          "parentSpanId": "55bb1a0390c774dd",
+          "traceId": "3dc25ff13abf032fde2b49b22f1b0197",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "bb0349abc49a0462",
+          "parentSpanId": "2014fccf4eb641d8",
+          "traceId": "3dc25ff13abf032fde2b49b22f1b0197",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseForensicReviewTool",
+          "spanId": "2014fccf4eb641d8",
+          "parentSpanId": "55bb1a0390c774dd",
+          "traceId": "3dc25ff13abf032fde2b49b22f1b0197",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "INSPECT_BORROWERS",
+          "spanId": "5084f08393f5a358",
+          "parentSpanId": "55bb1a0390c774dd",
+          "traceId": "3dc25ff13abf032fde2b49b22f1b0197",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "validateForensicAction",
+          "spanId": "7e3847096f10805e",
+          "parentSpanId": "55bb1a0390c774dd",
+          "traceId": "3dc25ff13abf032fde2b49b22f1b0197",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "4d9152baaf61aab1",
+          "parentSpanId": "aab4e4d3ba429d06",
+          "traceId": "3dc25ff13abf032fde2b49b22f1b0197",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseForensicReviewTool",
+          "spanId": "aab4e4d3ba429d06",
+          "parentSpanId": "55bb1a0390c774dd",
+          "traceId": "3dc25ff13abf032fde2b49b22f1b0197",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "validateForensicAction",
+          "spanId": "4d277bcf2304b0d7",
+          "parentSpanId": "55bb1a0390c774dd",
+          "traceId": "3dc25ff13abf032fde2b49b22f1b0197",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "VERIFY_MANIFEST",
+          "spanId": "9ab3fd789cdb373a",
+          "parentSpanId": "55bb1a0390c774dd",
+          "traceId": "3dc25ff13abf032fde2b49b22f1b0197",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "8c207bbcf6e06d45",
+          "parentSpanId": "8a25a918d863559d",
+          "traceId": "3dc25ff13abf032fde2b49b22f1b0197",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseForensicReviewTool",
+          "spanId": "8a25a918d863559d",
+          "parentSpanId": "55bb1a0390c774dd",
+          "traceId": "3dc25ff13abf032fde2b49b22f1b0197",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "validateForensicAction",
+          "spanId": "76763bbb7b03d6a0",
+          "parentSpanId": "55bb1a0390c774dd",
+          "traceId": "3dc25ff13abf032fde2b49b22f1b0197",
+          "status": "SUCCESS"
+        }
+      ]
+    },
+    {
+      "file": "evidence/live_agent_model_before.json",
+      "traceId": "c8f03d538f2fc78e7313b669f033f218",
+      "workflowName": "liveAaveInvestigation",
+      "verifiedAt": "2026-10-12T14:45:48.261Z",
+      "expectedSpans": 14,
+      "observedSpans": 14,
+      "hierarchyVerified": true,
+      "providerApiPath": "/api/traces/v3/c8f03d538f2fc78e7313b669f033f218",
+      "providerResponseSha256": "d38e26894c06f14df1c2899b7e328685eddae4b40ea180c1fa62e6335aa4433a",
+      "spans": [
+        {
+          "name": "claude-haiku",
+          "spanId": "95bd7857e4aed8e1",
+          "parentSpanId": "bfba5e7901fcc49c",
+          "traceId": "c8f03d538f2fc78e7313b669f033f218",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "bfba5e7901fcc49c",
+          "parentSpanId": "e1b2c0f380c6c3e6",
+          "traceId": "c8f03d538f2fc78e7313b669f033f218",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "liveAaveInvestigation",
+          "spanId": "e1b2c0f380c6c3e6",
+          "traceId": "c8f03d538f2fc78e7313b669f033f218",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "READ_MARKET",
+          "spanId": "b4868d554de5b207",
+          "parentSpanId": "e1b2c0f380c6c3e6",
+          "traceId": "c8f03d538f2fc78e7313b669f033f218",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "557bcf3de927245f",
+          "parentSpanId": "58234b429395b70c",
+          "traceId": "c8f03d538f2fc78e7313b669f033f218",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "58234b429395b70c",
+          "parentSpanId": "e1b2c0f380c6c3e6",
+          "traceId": "c8f03d538f2fc78e7313b669f033f218",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "CHECK_ORACLE_SOURCES",
+          "spanId": "b91e022316da77dc",
+          "parentSpanId": "e1b2c0f380c6c3e6",
+          "traceId": "c8f03d538f2fc78e7313b669f033f218",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "fa03df942d0fb5c4",
+          "parentSpanId": "057b91553512144d",
+          "traceId": "c8f03d538f2fc78e7313b669f033f218",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "057b91553512144d",
+          "parentSpanId": "e1b2c0f380c6c3e6",
+          "traceId": "c8f03d538f2fc78e7313b669f033f218",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "VERIFY_BLOCKS",
+          "spanId": "266cdaa953b62454",
+          "parentSpanId": "e1b2c0f380c6c3e6",
+          "traceId": "c8f03d538f2fc78e7313b669f033f218",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "96275ac99cda7495",
+          "parentSpanId": "b2fb158e404a3f42",
+          "traceId": "c8f03d538f2fc78e7313b669f033f218",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "b2fb158e404a3f42",
+          "parentSpanId": "e1b2c0f380c6c3e6",
+          "traceId": "c8f03d538f2fc78e7313b669f033f218",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "30a0373770c2fdd0",
+          "parentSpanId": "0337f285a85ab0ec",
+          "traceId": "c8f03d538f2fc78e7313b669f033f218",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "0337f285a85ab0ec",
+          "parentSpanId": "e1b2c0f380c6c3e6",
+          "traceId": "c8f03d538f2fc78e7313b669f033f218",
+          "status": "SUCCESS"
+        }
+      ]
+    },
+    {
+      "file": "evidence/live_agent_model_run.json",
+      "traceId": "e76af587d028ffd1096d8c7cea97cc67",
+      "workflowName": "liveAaveInvestigation",
+      "verifiedAt": "2026-10-12T14:45:49.186Z",
+      "expectedSpans": 12,
+      "observedSpans": 12,
+      "hierarchyVerified": true,
+      "providerApiPath": "/api/traces/v3/e76af587d028ffd1096d8c7cea97cc67",
+      "providerResponseSha256": "cb74ed82e53e4a92a8a79333535953fa655cc749b3178af9a840560a34510b05",
+      "spans": [
+        {
+          "name": "claude-haiku",
+          "spanId": "364ca46b4b05ceae",
+          "parentSpanId": "29f071942a7b53d2",
+          "traceId": "e76af587d028ffd1096d8c7cea97cc67",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "29f071942a7b53d2",
+          "parentSpanId": "fb23c37bdfd32a03",
+          "traceId": "e76af587d028ffd1096d8c7cea97cc67",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "liveAaveInvestigation",
+          "spanId": "fb23c37bdfd32a03",
+          "traceId": "e76af587d028ffd1096d8c7cea97cc67",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "READ_MARKET",
+          "spanId": "5a12c37ded978630",
+          "parentSpanId": "fb23c37bdfd32a03",
+          "traceId": "e76af587d028ffd1096d8c7cea97cc67",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "7d66564aeaa02d99",
+          "parentSpanId": "030383695b78e56b",
+          "traceId": "e76af587d028ffd1096d8c7cea97cc67",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "030383695b78e56b",
+          "parentSpanId": "fb23c37bdfd32a03",
+          "traceId": "e76af587d028ffd1096d8c7cea97cc67",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "CHECK_ORACLE_SOURCES",
+          "spanId": "69ab0ee628772b63",
+          "parentSpanId": "fb23c37bdfd32a03",
+          "traceId": "e76af587d028ffd1096d8c7cea97cc67",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "a37a48436860d528",
+          "parentSpanId": "ddc07f385f5b7955",
+          "traceId": "e76af587d028ffd1096d8c7cea97cc67",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "ddc07f385f5b7955",
+          "parentSpanId": "fb23c37bdfd32a03",
+          "traceId": "e76af587d028ffd1096d8c7cea97cc67",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "VERIFY_BLOCKS",
+          "spanId": "af53923a5d305c50",
+          "parentSpanId": "fb23c37bdfd32a03",
+          "traceId": "e76af587d028ffd1096d8c7cea97cc67",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "3311bb665b942702",
+          "parentSpanId": "698ec537e9851dba",
+          "traceId": "e76af587d028ffd1096d8c7cea97cc67",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "698ec537e9851dba",
+          "parentSpanId": "fb23c37bdfd32a03",
+          "traceId": "e76af587d028ffd1096d8c7cea97cc67",
+          "status": "SUCCESS"
+        }
+      ]
+    },
+    {
+      "file": "evidence/live_agent_rpc_failure.json",
+      "traceId": "4e57eeba6c1f791fd16d65e60b7bb16c",
+      "workflowName": "liveAaveInvestigation",
+      "verifiedAt": "2026-10-12T14:45:49.870Z",
+      "expectedSpans": 7,
+      "observedSpans": 7,
+      "hierarchyVerified": true,
+      "providerApiPath": "/api/traces/v3/4e57eeba6c1f791fd16d65e60b7bb16c",
+      "providerResponseSha256": "0546bcf885ba49457c1f8cdc2ee9347dc6a50f8a2df1105575787da40d4e5e0b",
+      "spans": [
+        {
+          "name": "claude-haiku",
+          "spanId": "27ce1ab05dda7e83",
+          "parentSpanId": "44737f3c3bafc2e9",
+          "traceId": "4e57eeba6c1f791fd16d65e60b7bb16c",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "44737f3c3bafc2e9",
+          "parentSpanId": "bea16b8dade847ad",
+          "traceId": "4e57eeba6c1f791fd16d65e60b7bb16c",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "liveAaveInvestigation",
+          "spanId": "bea16b8dade847ad",
+          "traceId": "4e57eeba6c1f791fd16d65e60b7bb16c",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "READ_TRANSACTION",
+          "spanId": "92f8007072c8042e",
+          "parentSpanId": "bea16b8dade847ad",
+          "traceId": "4e57eeba6c1f791fd16d65e60b7bb16c",
+          "status": "ERROR"
+        },
+        {
+          "name": "READ_TRANSACTION",
+          "spanId": "489d3f5156fb80d9",
+          "parentSpanId": "bea16b8dade847ad",
+          "traceId": "4e57eeba6c1f791fd16d65e60b7bb16c",
+          "status": "ERROR"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "48a8266af23a4b2a",
+          "parentSpanId": "521186982f976c56",
+          "traceId": "4e57eeba6c1f791fd16d65e60b7bb16c",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "521186982f976c56",
+          "parentSpanId": "bea16b8dade847ad",
+          "traceId": "4e57eeba6c1f791fd16d65e60b7bb16c",
+          "status": "SUCCESS"
+        }
+      ]
+    },
+    {
+      "file": "evidence/live_agent_transaction_run.json",
+      "traceId": "9490f113bec9bfdbc9a501c730ce9a8f",
+      "workflowName": "liveAaveInvestigation",
+      "verifiedAt": "2026-10-12T14:45:50.630Z",
+      "expectedSpans": 11,
+      "observedSpans": 11,
+      "hierarchyVerified": true,
+      "providerApiPath": "/api/traces/v3/9490f113bec9bfdbc9a501c730ce9a8f",
+      "providerResponseSha256": "4bf652080576aca786e988c7e9d86ffd3d94da8e8352954fa72a39fb84555599",
+      "spans": [
+        {
+          "name": "claude-haiku",
+          "spanId": "ea0dadce7a44b72c",
+          "parentSpanId": "0b6e4de4067a187b",
+          "traceId": "9490f113bec9bfdbc9a501c730ce9a8f",
+          "status": "ERROR"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "0b6e4de4067a187b",
+          "parentSpanId": "da82c7d3c7ff245e",
+          "traceId": "9490f113bec9bfdbc9a501c730ce9a8f",
+          "status": "ERROR"
+        },
+        {
+          "name": "liveAaveInvestigation",
+          "spanId": "da82c7d3c7ff245e",
+          "traceId": "9490f113bec9bfdbc9a501c730ce9a8f",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "3d42901f48525430",
+          "parentSpanId": "5fb6c30f6d17b721",
+          "traceId": "9490f113bec9bfdbc9a501c730ce9a8f",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "5fb6c30f6d17b721",
+          "parentSpanId": "da82c7d3c7ff245e",
+          "traceId": "9490f113bec9bfdbc9a501c730ce9a8f",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "READ_TRANSACTION",
+          "spanId": "e62dcebc061a1a20",
+          "parentSpanId": "da82c7d3c7ff245e",
+          "traceId": "9490f113bec9bfdbc9a501c730ce9a8f",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "89eefc26ab3a9de9",
+          "parentSpanId": "4cf2df59d651a739",
+          "traceId": "9490f113bec9bfdbc9a501c730ce9a8f",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "4cf2df59d651a739",
+          "parentSpanId": "da82c7d3c7ff245e",
+          "traceId": "9490f113bec9bfdbc9a501c730ce9a8f",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "VERIFY_BLOCKS",
+          "spanId": "782cbd21c8d539e6",
+          "parentSpanId": "da82c7d3c7ff245e",
+          "traceId": "9490f113bec9bfdbc9a501c730ce9a8f",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "7b8169aacb514123",
+          "parentSpanId": "8f99947e2144cacc",
+          "traceId": "9490f113bec9bfdbc9a501c730ce9a8f",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "8f99947e2144cacc",
+          "parentSpanId": "da82c7d3c7ff245e",
+          "traceId": "9490f113bec9bfdbc9a501c730ce9a8f",
+          "status": "SUCCESS"
+        }
+      ]
+    },
+    {
+      "file": "evidence/real_liquidation_model_format_failure.json",
+      "traceId": "263405aa59452df7bf240d80124d99e8",
+      "workflowName": "liveAaveInvestigation",
+      "verifiedAt": "2026-10-12T14:45:51.885Z",
+      "expectedSpans": 17,
+      "observedSpans": 17,
+      "hierarchyVerified": true,
+      "providerApiPath": "/api/traces/v3/263405aa59452df7bf240d80124d99e8",
+      "providerResponseSha256": "80a969ecb0812a2a3a2f2828731e6d4c8bf84f0e43db3de5dc9cc691ca7e7e8e",
+      "spans": [
+        {
+          "name": "claude-haiku",
+          "spanId": "5e2fa619333e8c13",
+          "parentSpanId": "3654573664fd7e81",
+          "traceId": "263405aa59452df7bf240d80124d99e8",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "3654573664fd7e81",
+          "parentSpanId": "77dac61c84d2f247",
+          "traceId": "263405aa59452df7bf240d80124d99e8",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "liveAaveInvestigation",
+          "spanId": "77dac61c84d2f247",
+          "traceId": "263405aa59452df7bf240d80124d99e8",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "FIND_LIQUIDATION",
+          "spanId": "00b02d0213ea6743",
+          "parentSpanId": "77dac61c84d2f247",
+          "traceId": "263405aa59452df7bf240d80124d99e8",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "eae1622178579cd3",
+          "parentSpanId": "014114defb79d087",
+          "traceId": "263405aa59452df7bf240d80124d99e8",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "014114defb79d087",
+          "parentSpanId": "77dac61c84d2f247",
+          "traceId": "263405aa59452df7bf240d80124d99e8",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "READ_TRANSACTION",
+          "spanId": "a4334ab1fb2d05b7",
+          "parentSpanId": "77dac61c84d2f247",
+          "traceId": "263405aa59452df7bf240d80124d99e8",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "1d845ed5b4475d9f",
+          "parentSpanId": "116bda9c660d2318",
+          "traceId": "263405aa59452df7bf240d80124d99e8",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "116bda9c660d2318",
+          "parentSpanId": "77dac61c84d2f247",
+          "traceId": "263405aa59452df7bf240d80124d99e8",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "READ_MARKET",
+          "spanId": "76b4c031748fcbb0",
+          "parentSpanId": "77dac61c84d2f247",
+          "traceId": "263405aa59452df7bf240d80124d99e8",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "b65d73db2bf87f4f",
+          "parentSpanId": "61d364c73a61165e",
+          "traceId": "263405aa59452df7bf240d80124d99e8",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "61d364c73a61165e",
+          "parentSpanId": "77dac61c84d2f247",
+          "traceId": "263405aa59452df7bf240d80124d99e8",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "READ_BORROWER_HISTORY",
+          "spanId": "927e8683901a01f4",
+          "parentSpanId": "77dac61c84d2f247",
+          "traceId": "263405aa59452df7bf240d80124d99e8",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "0242f2cb61cad651",
+          "parentSpanId": "2cc6bc5d4b03a1ef",
+          "traceId": "263405aa59452df7bf240d80124d99e8",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "2cc6bc5d4b03a1ef",
+          "parentSpanId": "77dac61c84d2f247",
+          "traceId": "263405aa59452df7bf240d80124d99e8",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "5dd2c05e0c1c11b2",
+          "parentSpanId": "fa531ab888b0c36a",
+          "traceId": "263405aa59452df7bf240d80124d99e8",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "fa531ab888b0c36a",
+          "parentSpanId": "77dac61c84d2f247",
+          "traceId": "263405aa59452df7bf240d80124d99e8",
+          "status": "SUCCESS"
+        }
+      ]
+    },
+    {
+      "file": "evidence/real_liquidation_model_investigation.json",
+      "traceId": "8264b0e4dafdef98613f0e73061aed7b",
+      "workflowName": "liveAaveInvestigation",
+      "verifiedAt": "2026-10-12T14:45:52.655Z",
+      "expectedSpans": 32,
+      "observedSpans": 32,
+      "hierarchyVerified": true,
+      "providerApiPath": "/api/traces/v3/8264b0e4dafdef98613f0e73061aed7b",
+      "providerResponseSha256": "ab3dc2fd90df2e58294d19605db9944d5636b38252fa25651879c7cc2f73aba8",
+      "spans": [
+        {
+          "name": "claude-haiku",
+          "spanId": "1fa6f43093b21a15",
+          "parentSpanId": "815b07cc86f60203",
+          "traceId": "8264b0e4dafdef98613f0e73061aed7b",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "815b07cc86f60203",
+          "parentSpanId": "64c35dd694ad1d67",
+          "traceId": "8264b0e4dafdef98613f0e73061aed7b",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "liveAaveInvestigation",
+          "spanId": "64c35dd694ad1d67",
+          "traceId": "8264b0e4dafdef98613f0e73061aed7b",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "FIND_LIQUIDATION",
+          "spanId": "3430cd45cb40fff4",
+          "parentSpanId": "64c35dd694ad1d67",
+          "traceId": "8264b0e4dafdef98613f0e73061aed7b",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "9fc6162dfdacad42",
+          "parentSpanId": "4a679ad1c33f50bf",
+          "traceId": "8264b0e4dafdef98613f0e73061aed7b",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "4a679ad1c33f50bf",
+          "parentSpanId": "64c35dd694ad1d67",
+          "traceId": "8264b0e4dafdef98613f0e73061aed7b",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "READ_TRANSACTION",
+          "spanId": "dd5e7d72871f1b87",
+          "parentSpanId": "64c35dd694ad1d67",
+          "traceId": "8264b0e4dafdef98613f0e73061aed7b",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "3e9382d7aad4a81e",
+          "parentSpanId": "ce54b3289b0f73a4",
+          "traceId": "8264b0e4dafdef98613f0e73061aed7b",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "ce54b3289b0f73a4",
+          "parentSpanId": "64c35dd694ad1d67",
+          "traceId": "8264b0e4dafdef98613f0e73061aed7b",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "READ_MARKET",
+          "spanId": "de1acd7faf579774",
+          "parentSpanId": "64c35dd694ad1d67",
+          "traceId": "8264b0e4dafdef98613f0e73061aed7b",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "f0e141c40e6e35c2",
+          "parentSpanId": "0d70f4f81f972b7b",
+          "traceId": "8264b0e4dafdef98613f0e73061aed7b",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "0d70f4f81f972b7b",
+          "parentSpanId": "64c35dd694ad1d67",
+          "traceId": "8264b0e4dafdef98613f0e73061aed7b",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "READ_BORROWER_HISTORY",
+          "spanId": "cad3b8cfde236f6f",
+          "parentSpanId": "64c35dd694ad1d67",
+          "traceId": "8264b0e4dafdef98613f0e73061aed7b",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "dfc4d69e6cd6915a",
+          "parentSpanId": "8efc73341e08109d",
+          "traceId": "8264b0e4dafdef98613f0e73061aed7b",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "8efc73341e08109d",
+          "parentSpanId": "64c35dd694ad1d67",
+          "traceId": "8264b0e4dafdef98613f0e73061aed7b",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "6c623b1194f55ade",
+          "parentSpanId": "737fce7d97edf98b",
+          "traceId": "8264b0e4dafdef98613f0e73061aed7b",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "737fce7d97edf98b",
+          "parentSpanId": "64c35dd694ad1d67",
+          "traceId": "8264b0e4dafdef98613f0e73061aed7b",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "CHECK_ORACLE_SOURCES",
+          "spanId": "507d67f8969f41fc",
+          "parentSpanId": "64c35dd694ad1d67",
+          "traceId": "8264b0e4dafdef98613f0e73061aed7b",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "ac2d8252dea12665",
+          "parentSpanId": "c56f000740741627",
+          "traceId": "8264b0e4dafdef98613f0e73061aed7b",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "c56f000740741627",
+          "parentSpanId": "64c35dd694ad1d67",
+          "traceId": "8264b0e4dafdef98613f0e73061aed7b",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "RECONSTRUCT_POSITION",
+          "spanId": "2b19ffe215463a75",
+          "parentSpanId": "64c35dd694ad1d67",
+          "traceId": "8264b0e4dafdef98613f0e73061aed7b",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "92cc6dbc8bbc52bf",
+          "parentSpanId": "0a66546846daaeb3",
+          "traceId": "8264b0e4dafdef98613f0e73061aed7b",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "0a66546846daaeb3",
+          "parentSpanId": "64c35dd694ad1d67",
+          "traceId": "8264b0e4dafdef98613f0e73061aed7b",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "READ_INDEPENDENT_PRICES",
+          "spanId": "9078af2a6d3080e2",
+          "parentSpanId": "64c35dd694ad1d67",
+          "traceId": "8264b0e4dafdef98613f0e73061aed7b",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "733f45ee27a5f0b0",
+          "parentSpanId": "8899bceb0ccee1d2",
+          "traceId": "8264b0e4dafdef98613f0e73061aed7b",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "8899bceb0ccee1d2",
+          "parentSpanId": "64c35dd694ad1d67",
+          "traceId": "8264b0e4dafdef98613f0e73061aed7b",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "ASSESS_CAUSALITY",
+          "spanId": "8693cdc792782eac",
+          "parentSpanId": "64c35dd694ad1d67",
+          "traceId": "8264b0e4dafdef98613f0e73061aed7b",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "50f65660a16d5be6",
+          "parentSpanId": "622e6ced02ed79e5",
+          "traceId": "8264b0e4dafdef98613f0e73061aed7b",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "622e6ced02ed79e5",
+          "parentSpanId": "64c35dd694ad1d67",
+          "traceId": "8264b0e4dafdef98613f0e73061aed7b",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "VERIFY_BLOCKS",
+          "spanId": "92c581310a16f667",
+          "parentSpanId": "64c35dd694ad1d67",
+          "traceId": "8264b0e4dafdef98613f0e73061aed7b",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "7f8d005ede741002",
+          "parentSpanId": "f0539ed1a0d42ab5",
+          "traceId": "8264b0e4dafdef98613f0e73061aed7b",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "f0539ed1a0d42ab5",
+          "parentSpanId": "64c35dd694ad1d67",
+          "traceId": "8264b0e4dafdef98613f0e73061aed7b",
+          "status": "SUCCESS"
+        }
+      ]
+    },
+    {
+      "file": "evidence/real_liquidation_model_verified.json",
+      "traceId": "567b191124fa48f1d051f545fe3a9215",
+      "workflowName": "liveAaveInvestigation",
+      "verifiedAt": "2026-10-12T14:45:54.411Z",
+      "expectedSpans": 32,
+      "observedSpans": 32,
+      "hierarchyVerified": true,
+      "providerApiPath": "/api/traces/v3/567b191124fa48f1d051f545fe3a9215",
+      "providerResponseSha256": "3c12a2c03704c12e05ce8d5690de49542ee6e5342a2a0003a26400a03a70d934",
+      "spans": [
+        {
+          "name": "claude-haiku",
+          "spanId": "f6e900302fa0daaa",
+          "parentSpanId": "6291bc998c26be21",
+          "traceId": "567b191124fa48f1d051f545fe3a9215",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "6291bc998c26be21",
+          "parentSpanId": "d48a77360a0fbc19",
+          "traceId": "567b191124fa48f1d051f545fe3a9215",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "liveAaveInvestigation",
+          "spanId": "d48a77360a0fbc19",
+          "traceId": "567b191124fa48f1d051f545fe3a9215",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "FIND_LIQUIDATION",
+          "spanId": "0f1b1fd6d9d7be3a",
+          "parentSpanId": "d48a77360a0fbc19",
+          "traceId": "567b191124fa48f1d051f545fe3a9215",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "f390e142a6d22023",
+          "parentSpanId": "163cf19e449caf81",
+          "traceId": "567b191124fa48f1d051f545fe3a9215",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "163cf19e449caf81",
+          "parentSpanId": "d48a77360a0fbc19",
+          "traceId": "567b191124fa48f1d051f545fe3a9215",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "READ_TRANSACTION",
+          "spanId": "dc03deb3c50f8674",
+          "parentSpanId": "d48a77360a0fbc19",
+          "traceId": "567b191124fa48f1d051f545fe3a9215",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "c452a03fb97960f5",
+          "parentSpanId": "dc06a38a07e5083d",
+          "traceId": "567b191124fa48f1d051f545fe3a9215",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "dc06a38a07e5083d",
+          "parentSpanId": "d48a77360a0fbc19",
+          "traceId": "567b191124fa48f1d051f545fe3a9215",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "READ_BORROWER_HISTORY",
+          "spanId": "3a34c4a1be060aaf",
+          "parentSpanId": "d48a77360a0fbc19",
+          "traceId": "567b191124fa48f1d051f545fe3a9215",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "a2d0d1476a75cc3e",
+          "parentSpanId": "d6e128a5d79eff7e",
+          "traceId": "567b191124fa48f1d051f545fe3a9215",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "d6e128a5d79eff7e",
+          "parentSpanId": "d48a77360a0fbc19",
+          "traceId": "567b191124fa48f1d051f545fe3a9215",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "ece4d9340c8ce5df",
+          "parentSpanId": "796ebfdd0fffc116",
+          "traceId": "567b191124fa48f1d051f545fe3a9215",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "796ebfdd0fffc116",
+          "parentSpanId": "d48a77360a0fbc19",
+          "traceId": "567b191124fa48f1d051f545fe3a9215",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "READ_MARKET",
+          "spanId": "8ab14964ef2850a3",
+          "parentSpanId": "d48a77360a0fbc19",
+          "traceId": "567b191124fa48f1d051f545fe3a9215",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "651f4b1dc209533e",
+          "parentSpanId": "d3839b6c381b4c09",
+          "traceId": "567b191124fa48f1d051f545fe3a9215",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "d3839b6c381b4c09",
+          "parentSpanId": "d48a77360a0fbc19",
+          "traceId": "567b191124fa48f1d051f545fe3a9215",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "CHECK_ORACLE_SOURCES",
+          "spanId": "d189a5b16394baf2",
+          "parentSpanId": "d48a77360a0fbc19",
+          "traceId": "567b191124fa48f1d051f545fe3a9215",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "ac73af239c7f7b21",
+          "parentSpanId": "9d2ae45ea0e0ecbc",
+          "traceId": "567b191124fa48f1d051f545fe3a9215",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "9d2ae45ea0e0ecbc",
+          "parentSpanId": "d48a77360a0fbc19",
+          "traceId": "567b191124fa48f1d051f545fe3a9215",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "RECONSTRUCT_POSITION",
+          "spanId": "bf100a4591a75c5e",
+          "parentSpanId": "d48a77360a0fbc19",
+          "traceId": "567b191124fa48f1d051f545fe3a9215",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "c4da0ea574ebe6ae",
+          "parentSpanId": "a5a00516338c3a0f",
+          "traceId": "567b191124fa48f1d051f545fe3a9215",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "a5a00516338c3a0f",
+          "parentSpanId": "d48a77360a0fbc19",
+          "traceId": "567b191124fa48f1d051f545fe3a9215",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "READ_INDEPENDENT_PRICES",
+          "spanId": "3846d19a5ca5bbca",
+          "parentSpanId": "d48a77360a0fbc19",
+          "traceId": "567b191124fa48f1d051f545fe3a9215",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "128849d1f7377d23",
+          "parentSpanId": "8e3e99d574141d4d",
+          "traceId": "567b191124fa48f1d051f545fe3a9215",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "8e3e99d574141d4d",
+          "parentSpanId": "d48a77360a0fbc19",
+          "traceId": "567b191124fa48f1d051f545fe3a9215",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "ASSESS_CAUSALITY",
+          "spanId": "8d7f4820fc4e4036",
+          "parentSpanId": "d48a77360a0fbc19",
+          "traceId": "567b191124fa48f1d051f545fe3a9215",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "f6e0fc03097e8c12",
+          "parentSpanId": "01a314e1f6c61816",
+          "traceId": "567b191124fa48f1d051f545fe3a9215",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "01a314e1f6c61816",
+          "parentSpanId": "d48a77360a0fbc19",
+          "traceId": "567b191124fa48f1d051f545fe3a9215",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "VERIFY_BLOCKS",
+          "spanId": "71777f3b6b3383ff",
+          "parentSpanId": "d48a77360a0fbc19",
+          "traceId": "567b191124fa48f1d051f545fe3a9215",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "9369570f6a863aaa",
+          "parentSpanId": "b80a4d44acdbacff",
+          "traceId": "567b191124fa48f1d051f545fe3a9215",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "b80a4d44acdbacff",
+          "parentSpanId": "d48a77360a0fbc19",
+          "traceId": "567b191124fa48f1d051f545fe3a9215",
+          "status": "SUCCESS"
+        }
+      ]
+    },
+    {
+      "file": "evidence/real_execution_replay.json",
+      "traceId": "b3619898361b17a64b13c39c61a52639",
+      "workflowName": "historicalAaveExecutionReplay",
+      "verifiedAt": "2026-10-12T14:45:55.459Z",
+      "expectedSpans": 8,
+      "observedSpans": 8,
+      "hierarchyVerified": true,
+      "providerApiPath": "/api/traces/v3/b3619898361b17a64b13c39c61a52639",
+      "providerResponseSha256": "fe721f9dac389813f7326dbe76e3778a45323209e14a34ed85a1613cf595f033",
+      "spans": [
+        {
+          "name": "historicalAaveExecutionReplay",
+          "spanId": "a95255fc562d2c73",
+          "traceId": "b3619898361b17a64b13c39c61a52639",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "reproduceOriginalTransaction",
+          "spanId": "aae36f00d1753e34",
+          "parentSpanId": "a95255fc562d2c73",
+          "traceId": "b3619898361b17a64b13c39c61a52639",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "executeReferencePriceScenario",
+          "spanId": "38c0f48632d7b3b6",
+          "parentSpanId": "a95255fc562d2c73",
+          "traceId": "b3619898361b17a64b13c39c61a52639",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "executeReferencePriceScenario",
+          "spanId": "0b8bec03a0649b32",
+          "parentSpanId": "a95255fc562d2c73",
+          "traceId": "b3619898361b17a64b13c39c61a52639",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "executeReferencePriceScenario",
+          "spanId": "b83a7c27b565a75a",
+          "parentSpanId": "a95255fc562d2c73",
+          "traceId": "b3619898361b17a64b13c39c61a52639",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "executeReferencePriceScenario",
+          "spanId": "29e54449ad6f0663",
+          "parentSpanId": "a95255fc562d2c73",
+          "traceId": "b3619898361b17a64b13c39c61a52639",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "executeReferencePriceScenario",
+          "spanId": "18890338a896fc3a",
+          "parentSpanId": "a95255fc562d2c73",
+          "traceId": "b3619898361b17a64b13c39c61a52639",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "executeReferencePriceScenario",
+          "spanId": "7675918c71e6d35e",
+          "parentSpanId": "a95255fc562d2c73",
+          "traceId": "b3619898361b17a64b13c39c61a52639",
+          "status": "SUCCESS"
+        }
+      ]
+    },
+    {
+      "file": "evidence/real_liquidation_replay_agent.json",
+      "traceId": "b7e45b703fe5e1c1476b939e45f3647a",
+      "workflowName": "liveAaveInvestigation",
+      "verifiedAt": "2026-10-12T14:45:57.366Z",
+      "expectedSpans": 32,
+      "observedSpans": 32,
+      "hierarchyVerified": true,
+      "providerApiPath": "/api/traces/v3/b7e45b703fe5e1c1476b939e45f3647a",
+      "providerResponseSha256": "6f4ac79f54c6beb690afffc4995ddce6d0e172b7521b07a2480820a8a51a97d3",
+      "spans": [
+        {
+          "name": "claude-haiku",
+          "spanId": "dc7c68a1fedf9676",
+          "parentSpanId": "956af32f19e6c192",
+          "traceId": "b7e45b703fe5e1c1476b939e45f3647a",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "956af32f19e6c192",
+          "parentSpanId": "6731772f68bda244",
+          "traceId": "b7e45b703fe5e1c1476b939e45f3647a",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "liveAaveInvestigation",
+          "spanId": "6731772f68bda244",
+          "traceId": "b7e45b703fe5e1c1476b939e45f3647a",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "READ_TRANSACTION",
+          "spanId": "db94aad1b042844c",
+          "parentSpanId": "6731772f68bda244",
+          "traceId": "b7e45b703fe5e1c1476b939e45f3647a",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "9bc98461b90d5024",
+          "parentSpanId": "9bd65de03092c636",
+          "traceId": "b7e45b703fe5e1c1476b939e45f3647a",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "9bd65de03092c636",
+          "parentSpanId": "6731772f68bda244",
+          "traceId": "b7e45b703fe5e1c1476b939e45f3647a",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "READ_BORROWER_HISTORY",
+          "spanId": "4c7c8b262e3fb008",
+          "parentSpanId": "6731772f68bda244",
+          "traceId": "b7e45b703fe5e1c1476b939e45f3647a",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "111defb974249a15",
+          "parentSpanId": "a242e7806fe589c7",
+          "traceId": "b7e45b703fe5e1c1476b939e45f3647a",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "a242e7806fe589c7",
+          "parentSpanId": "6731772f68bda244",
+          "traceId": "b7e45b703fe5e1c1476b939e45f3647a",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "ca880e38432d2255",
+          "parentSpanId": "75b89ddaa34aec74",
+          "traceId": "b7e45b703fe5e1c1476b939e45f3647a",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "75b89ddaa34aec74",
+          "parentSpanId": "6731772f68bda244",
+          "traceId": "b7e45b703fe5e1c1476b939e45f3647a",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "RECONSTRUCT_POSITION",
+          "spanId": "df376716330963f6",
+          "parentSpanId": "6731772f68bda244",
+          "traceId": "b7e45b703fe5e1c1476b939e45f3647a",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "db00fbf5f2428c34",
+          "parentSpanId": "12db6dfd33783225",
+          "traceId": "b7e45b703fe5e1c1476b939e45f3647a",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "12db6dfd33783225",
+          "parentSpanId": "6731772f68bda244",
+          "traceId": "b7e45b703fe5e1c1476b939e45f3647a",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "READ_MARKET",
+          "spanId": "4173dbd4027f2e34",
+          "parentSpanId": "6731772f68bda244",
+          "traceId": "b7e45b703fe5e1c1476b939e45f3647a",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "7ec199439fe73167",
+          "parentSpanId": "8d90d39d5291a1ba",
+          "traceId": "b7e45b703fe5e1c1476b939e45f3647a",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "8d90d39d5291a1ba",
+          "parentSpanId": "6731772f68bda244",
+          "traceId": "b7e45b703fe5e1c1476b939e45f3647a",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "READ_INDEPENDENT_PRICES",
+          "spanId": "104eef26b0571779",
+          "parentSpanId": "6731772f68bda244",
+          "traceId": "b7e45b703fe5e1c1476b939e45f3647a",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "9b78446b374c65f4",
+          "parentSpanId": "f8fab4b156341a3d",
+          "traceId": "b7e45b703fe5e1c1476b939e45f3647a",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "f8fab4b156341a3d",
+          "parentSpanId": "6731772f68bda244",
+          "traceId": "b7e45b703fe5e1c1476b939e45f3647a",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "CHECK_ORACLE_SOURCES",
+          "spanId": "f751637819be3925",
+          "parentSpanId": "6731772f68bda244",
+          "traceId": "b7e45b703fe5e1c1476b939e45f3647a",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "36a7a58d2d524ff8",
+          "parentSpanId": "17a35df2e7e0e9d3",
+          "traceId": "b7e45b703fe5e1c1476b939e45f3647a",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "17a35df2e7e0e9d3",
+          "parentSpanId": "6731772f68bda244",
+          "traceId": "b7e45b703fe5e1c1476b939e45f3647a",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "READ_EXECUTION_REPLAY",
+          "spanId": "e77f8475f1b72fcc",
+          "parentSpanId": "6731772f68bda244",
+          "traceId": "b7e45b703fe5e1c1476b939e45f3647a",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "501b77e005caf584",
+          "parentSpanId": "37f1784297a246a3",
+          "traceId": "b7e45b703fe5e1c1476b939e45f3647a",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "37f1784297a246a3",
+          "parentSpanId": "6731772f68bda244",
+          "traceId": "b7e45b703fe5e1c1476b939e45f3647a",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "ASSESS_CAUSALITY",
+          "spanId": "0ddb34f4bc7bdc30",
+          "parentSpanId": "6731772f68bda244",
+          "traceId": "b7e45b703fe5e1c1476b939e45f3647a",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "044b415944854952",
+          "parentSpanId": "415f87e1e9f34a29",
+          "traceId": "b7e45b703fe5e1c1476b939e45f3647a",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "415f87e1e9f34a29",
+          "parentSpanId": "6731772f68bda244",
+          "traceId": "b7e45b703fe5e1c1476b939e45f3647a",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "VERIFY_BLOCKS",
+          "spanId": "33c4b65a5ece506e",
+          "parentSpanId": "6731772f68bda244",
+          "traceId": "b7e45b703fe5e1c1476b939e45f3647a",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "6387eec0e3d3d463",
+          "parentSpanId": "b27011beb19dfcba",
+          "traceId": "b7e45b703fe5e1c1476b939e45f3647a",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "b27011beb19dfcba",
+          "parentSpanId": "6731772f68bda244",
+          "traceId": "b7e45b703fe5e1c1476b939e45f3647a",
+          "status": "SUCCESS"
+        }
+      ]
+    },
+    {
+      "file": "evidence/planner_compact_model_after.json",
+      "traceId": "6c1c0938da1f24ff6b62b1ba7eae739f",
+      "workflowName": "liveAaveInvestigation",
+      "verifiedAt": "2026-10-12T14:45:58.306Z",
+      "expectedSpans": 30,
+      "observedSpans": 30,
+      "hierarchyVerified": true,
+      "providerApiPath": "/api/traces/v3/6c1c0938da1f24ff6b62b1ba7eae739f",
+      "providerResponseSha256": "6fbdb363a7ad1aa303f51b4af38ce4e8673d07ea15cd29c4dea2697cb7c6966b",
+      "spans": [
+        {
+          "name": "claude-haiku",
+          "spanId": "295b3baaa9550862",
+          "parentSpanId": "4d13c8b1b1421d05",
+          "traceId": "6c1c0938da1f24ff6b62b1ba7eae739f",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "4d13c8b1b1421d05",
+          "parentSpanId": "39c711cdc999686f",
+          "traceId": "6c1c0938da1f24ff6b62b1ba7eae739f",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "liveAaveInvestigation",
+          "spanId": "39c711cdc999686f",
+          "traceId": "6c1c0938da1f24ff6b62b1ba7eae739f",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "READ_TRANSACTION",
+          "spanId": "311e4d7015230008",
+          "parentSpanId": "39c711cdc999686f",
+          "traceId": "6c1c0938da1f24ff6b62b1ba7eae739f",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "ac7f56a2f4eadce8",
+          "parentSpanId": "d18d63eb2cf6add0",
+          "traceId": "6c1c0938da1f24ff6b62b1ba7eae739f",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "d18d63eb2cf6add0",
+          "parentSpanId": "39c711cdc999686f",
+          "traceId": "6c1c0938da1f24ff6b62b1ba7eae739f",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "READ_BORROWER_HISTORY",
+          "spanId": "da626ddf11d54a15",
+          "parentSpanId": "39c711cdc999686f",
+          "traceId": "6c1c0938da1f24ff6b62b1ba7eae739f",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "9eacffc8c03da05d",
+          "parentSpanId": "0ad1af8270292cd6",
+          "traceId": "6c1c0938da1f24ff6b62b1ba7eae739f",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "0ad1af8270292cd6",
+          "parentSpanId": "39c711cdc999686f",
+          "traceId": "6c1c0938da1f24ff6b62b1ba7eae739f",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "RECONSTRUCT_POSITION",
+          "spanId": "42601bdef4c3e7b7",
+          "parentSpanId": "39c711cdc999686f",
+          "traceId": "6c1c0938da1f24ff6b62b1ba7eae739f",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "7e95c70b8062a71d",
+          "parentSpanId": "8b741c7b7069201f",
+          "traceId": "6c1c0938da1f24ff6b62b1ba7eae739f",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "8b741c7b7069201f",
+          "parentSpanId": "39c711cdc999686f",
+          "traceId": "6c1c0938da1f24ff6b62b1ba7eae739f",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "READ_MARKET",
+          "spanId": "3a9a47dd33a40cba",
+          "parentSpanId": "39c711cdc999686f",
+          "traceId": "6c1c0938da1f24ff6b62b1ba7eae739f",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "270490d4379cef1a",
+          "parentSpanId": "d0d085b39dada6fd",
+          "traceId": "6c1c0938da1f24ff6b62b1ba7eae739f",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "d0d085b39dada6fd",
+          "parentSpanId": "39c711cdc999686f",
+          "traceId": "6c1c0938da1f24ff6b62b1ba7eae739f",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "CHECK_ORACLE_SOURCES",
+          "spanId": "1d7abca4cd2a6351",
+          "parentSpanId": "39c711cdc999686f",
+          "traceId": "6c1c0938da1f24ff6b62b1ba7eae739f",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "210ab80c139f22b1",
+          "parentSpanId": "4d26193a6a43bdd4",
+          "traceId": "6c1c0938da1f24ff6b62b1ba7eae739f",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "4d26193a6a43bdd4",
+          "parentSpanId": "39c711cdc999686f",
+          "traceId": "6c1c0938da1f24ff6b62b1ba7eae739f",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "READ_INDEPENDENT_PRICES",
+          "spanId": "d390cb1a16d46110",
+          "parentSpanId": "39c711cdc999686f",
+          "traceId": "6c1c0938da1f24ff6b62b1ba7eae739f",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "5d35e0d45d59f9bb",
+          "parentSpanId": "eae00c5fddcc7e43",
+          "traceId": "6c1c0938da1f24ff6b62b1ba7eae739f",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "eae00c5fddcc7e43",
+          "parentSpanId": "39c711cdc999686f",
+          "traceId": "6c1c0938da1f24ff6b62b1ba7eae739f",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "READ_EXECUTION_REPLAY",
+          "spanId": "a474782f8dc1218e",
+          "parentSpanId": "39c711cdc999686f",
+          "traceId": "6c1c0938da1f24ff6b62b1ba7eae739f",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "1a5210e0479b85dd",
+          "parentSpanId": "d96b5be1b32389cf",
+          "traceId": "6c1c0938da1f24ff6b62b1ba7eae739f",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "d96b5be1b32389cf",
+          "parentSpanId": "39c711cdc999686f",
+          "traceId": "6c1c0938da1f24ff6b62b1ba7eae739f",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "ASSESS_CAUSALITY",
+          "spanId": "187df8cbccb5ebdd",
+          "parentSpanId": "39c711cdc999686f",
+          "traceId": "6c1c0938da1f24ff6b62b1ba7eae739f",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "6b2358b90986a2d9",
+          "parentSpanId": "1d83d592915e7080",
+          "traceId": "6c1c0938da1f24ff6b62b1ba7eae739f",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "1d83d592915e7080",
+          "parentSpanId": "39c711cdc999686f",
+          "traceId": "6c1c0938da1f24ff6b62b1ba7eae739f",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "VERIFY_BLOCKS",
+          "spanId": "e1f938d640052245",
+          "parentSpanId": "39c711cdc999686f",
+          "traceId": "6c1c0938da1f24ff6b62b1ba7eae739f",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "claude-haiku",
+          "spanId": "373afb3fe9e27869",
+          "parentSpanId": "42b2c5c6ea14e3d1",
+          "traceId": "6c1c0938da1f24ff6b62b1ba7eae739f",
+          "status": "SUCCESS"
+        },
+        {
+          "name": "chooseLiveInvestigationTool",
+          "spanId": "42b2c5c6ea14e3d1",
+          "parentSpanId": "39c711cdc999686f",
+          "traceId": "6c1c0938da1f24ff6b62b1ba7eae739f",
+          "status": "SUCCESS"
+        }
+      ]
+    }
+  ],
+  "caveat": "Authenticated provider read-back was verified at the recorded time. This artifact is a summary, not a public share link or a guarantee of future retention."
+}

@@ -32,6 +32,7 @@ contract CumulativeRestitutionDistributor is Ownable {
 
     // Current epoch number
     uint256 public currentEpoch;
+    uint256 public totalPaid;
     // epochNumber => DistributionEpoch
     mapping(uint256 => DistributionEpoch) public epochs;
     // account => cumulative amount already withdrawn
@@ -70,6 +71,8 @@ contract CumulativeRestitutionDistributor is Ownable {
     ) external onlyOwner {
         require(merkleRoot != bytes32(0), "Merkle root cannot be zero");
         
+        require(totalCumulativeAllocated >= epochs[currentEpoch].totalCumulativeAllocated, "Allocation cannot decrease");
+        require(totalCumulativeAllocated > 0 && payoutToken.balanceOf(address(this)) + totalPaid >= totalCumulativeAllocated, "Epoch insufficiently funded");
         currentEpoch += 1;
         epochs[currentEpoch] = DistributionEpoch({
             merkleRoot: merkleRoot,
@@ -95,7 +98,7 @@ contract CumulativeRestitutionDistributor is Ownable {
         require(currentEpoch > 0, "No distribution epochs published yet");
         DistributionEpoch memory epoch = epochs[currentEpoch];
 
-        // Double keccak256 hash to prevent 64-byte intermediate node second-preimage attacks (CVE-2022-37454)
+        // Double keccak256 hash to prevent 64-byte intermediate node internal-node confusion attacks
         bytes32 leaf = keccak256(
             bytes.concat(
                 keccak256(
@@ -118,6 +121,8 @@ contract CumulativeRestitutionDistributor is Ownable {
         require(cumulativeEntitlement > alreadyClaimed, "No new claimable balance available for this epoch");
 
         uint256 claimableDelta = cumulativeEntitlement - alreadyClaimed;
+        require(totalPaid + claimableDelta <= epoch.totalCumulativeAllocated, "Claim exceeds epoch allocation");
+        totalPaid += claimableDelta;
         cumulativeClaimed[claimant] = cumulativeEntitlement;
 
         payoutToken.safeTransfer(claimant, claimableDelta);

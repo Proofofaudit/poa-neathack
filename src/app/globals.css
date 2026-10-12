@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 :root {
+  --font-sans: "Segoe UI", Arial, sans-serif;
   --background: #fafafc;
   --foreground: #09090b;
 }

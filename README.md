@@ -1,239 +1,147 @@
-# POA (Proof of Audits)
-> **Autonomous DeFi Incident Investigation & Cryptographic Restitution**  
-> *From on-chain damage to verifiable cryptographic recovery.*
+# POA — Proof of Audits
 
-[![neatHack 2026](https://img.shields.io/badge/neatHack-2026_Entry-blue.svg)](https://neatlogs.com)
-[![Team](https://img.shields.io/badge/Team-poa-cyan.svg)](https://neatlogs.com)
-[![Neatlogs Traced](https://img.shields.io/badge/Neatlogs-Instrumented-00f2fe.svg)](https://neatlogs.com)
-[![Entire Active](https://img.shields.io/badge/Entire-Checkpoint_Tracked-purple.svg)](https://entire.dev)
-[![Foundry Tests](https://img.shields.io/badge/Foundry-11%2F11_Passing-emerald.svg)](https://getfoundry.sh)
-[![Vitest](https://img.shields.io/badge/Vitest-6%2F6_Passing-emerald.svg)](https://vitest.dev)
-[![EVMbench](https://img.shields.io/badge/EVMbench-5%2F5_Passing-emerald.svg)](evidence/evmbench_evaluation.json)
-[![Base Mainnet Fork](https://img.shields.io/badge/Base_Mainnet-Fork_Verified-blue.svg)](scripts/run_base_fork.ts)
-[![Docker Ready](https://img.shields.io/badge/Docker-Production_Containerized-2496ED.svg)](Dockerfile)
+**When an oracle fails, users should not have to prove their losses from scratch.**
 
----
+POA investigates a disputed oracle update, reconstructs borrower positions, calculates eligible equity loss and produces a funded Merkle compensation package. The demonstration includes a real test-token claim to a recipient holding **zero ETH**, paid for by a forwarding caller.
 
-## 🎯 Executive Overview
+This is a **hackathon prototype with a real Aave Base investigation and a separate synthetic compensation demo**. The `/live` agent reconstructs historical borrower state, checks market references and revalidates saved local execution replay evidence for the supplied example. The `/demo` lending protocol, reference oracle and test-token incident are synthetic. No mainnet compensation is authorized.
 
-When oracle glitches or protocol exploits trigger wrongful liquidations in DeFi, innocent borrowers suffer devastating losses. Today, recovery is broken:
-- Protocols spend **$50,000+** on manual forensic audits.
-- Victims wait **3 to 6 months** for subjective discord governance votes.
-- Compensation spreadsheets are prone to human bias and calculation errors.
+## The demonstration
 
-**POA** solves this by combining an **autonomous investigation agent**, **integer counterfactual balance-sheet replay**, and **on-chain Merkle distribution**:
-1. **Detects & Pinpoints:** Identifies the exact transaction and block of an oracle price anomaly.
-2. **Reconstructs Counterfactual Truth:** Simulates what borrower Net Equity would have been if the anomaly never occurred using precise integer arithmetic.
-3. **Applies Policy Guardrails:** Distinguishes wrongful liquidations from borrowers who were already overleveraged prior to the drop.
-4. **Verifiable On-Chain Restitution:** Publishes an OpenZeppelin Standard Merkle Tree root to a smart contract, enabling victims to claim verified payouts permissionlessly.
+1. Deploy a lending pool, disputed oracle, independent synthetic reference oracle and test tokens.
+2. Seed six borrowers. One is already insolvent before the disputed update; two stay untouched.
+3. Change the disputed price from $2,000 to $1,800 and execute four on-chain liquidations.
+4. Discover receipts, liquidation logs and historical positions without passing borrower or liquidation fixtures to the investigator.
+5. Verify the independent reference, eligibility and reconstructed end balances. Three borrowers qualify for **5,750 test USDC**; the pre-insolvent borrower and untouched positions receive zero.
+6. Register the approved manifest, execute a sponsored claim and verify the recipient's token balance increase while their ETH remains zero.
+7. Confirm tampered and duplicate claims are rejected and a missing incident receipt withholds the manifest.
 
----
+The browser displays **saved execution evidence**, including every borrower outcome, anchored blocks, receipts, claim root and policy decision trail. It never invents wallet confirmations.
 
-## 🏗️ System Architecture
+## Run the real Base investigation agent
 
-```
-                    ┌────────────────────────────────────────┐
-                    │      On-Chain DeFi Incident (Anvil)    │
-                    │  Faulty Oracle Update (-10% WETH Drop) │
-                    └───────────────────┬────────────────────┘
-                                        │
-                                        ▼
-┌───────────────────────────────────────────────────────────────────────────┐
-│               POA Autonomous Investigator Agent (TypeScript)              │
-│                                                                           │
-│  [Span 1] inspectIncidentTx ──────► [Span 2] readContractState            │
-│  [Span 3] collectLiqEvents  ──────► [Span 4] discoverAffectedAccounts     │
-│  [Span 5] replayCounterfactual ───► [Span 6] crossCheckClaims             │
-│  [Span 7] generateMerkleManifest ─► [Span 8] investigateOracleIncident    │
-│                                                                           │
-│  ┌───────────────────────┐                    ┌────────────────────────┐  │
-│  │   Neatlogs Tracing    │                    │  Self-Healing Recovery │  │
-│  │ Project: 542c53f4...  │                    │ RPC retry on partition │  │
-│  └───────────────────────┘                    └────────────────────────┘  │
-└───────────────────────────────────────┬───────────────────────────────────┘
-                                        │
-                                        ▼
-                    ┌────────────────────────────────────────┐
-                    │    RestitutionDistributor.sol          │
-                    │  - registerIncident(merkleRoot)        │
-                    │  - claim(amount, merkleProof)          │
-                    │  - Duplicate claim prevention          │
-                    │  - Tampered proof rejection            │
-                    └────────────────────────────────────────┘
-```
+The deployed home page opens `/live`. Click **Run investigation** to audit the real Aave Base market, or supply a Base transaction hash for receipt triage and supported liquidation borrower snapshots. Claude AI planning is the default for the historical example when `POA_PUBLIC_AI_ENABLED=true` and the server model is enabled. No visitor key or code is needed. **Investigation settings** offers explicit rule mode and operator access for custom-transaction AI. No provider key is entered in the browser.
 
----
+Locally run `npm run agent:base` (market) or `npm run agent:base -- <transaction-hash>`. Add `POA_LLM_ENABLED=true` for real model planning and `POA_TELEMETRY_ENABLED=true` for remote trace export. Each CLI run saves its report and SDK trace under `evidence/live_agent_run.json`. Failed tools are retried once and retained; model actions have a nine-turn budget and cannot bypass required checks. The report withholds compensation.
 
-## 🏆 neatHack Sponsor & Partner Integrations
+The agent verifies the registered Aave Base pool, records its oracle prices for WETH/USDC/cbBTC or incident assets, inspects source bytecode and readable source rounds, gathers block-boundary borrower aggregates for supported liquidation receipts, and rechecks collected block hashes. It reports adapter/feed and historical-read limitations. The historical example now includes saved local execution replay: original gas and all 25 logs match mainnet, and six price scenarios execute against historical contracts. Both spot-price references still liquidate; oracle fault is unproven and compensation withheld. The hosted server validates saved proof rather than executing a new fork. Other transactions need their own replay. The synthetic compensation demonstration is separately available at `/demo`.
 
-Every mandatory hackathon sponsor tool and partner API is deeply integrated into POA:
+## Inspect real Base contracts
 
-### 1. Neatlogs (AI Agent Tracing & Observability)
-- **Project ID:** `542c53f4-ec26-4d57-a097-b7c9175c84be`
-- **Tracing Module:** `src/observability/neatlogs.ts` & `src/agent/llm.ts`
-- **Live LLM Telemetry:** Wrapped OpenAI/LiteLLM client using `neatlogs.wrapClient` routing to Claude Haiku (`https://litellm.vision.aivar.app/v1`). Accurately calculates input/completion tokens and model spend.
-- **Hierarchical Trace Tree:** Captures 10 discrete spans (`AGENT`, `TOOL`, `CHAIN`, `GUARDRAIL`, `WORKFLOW`) per incident investigation.
-- **Resilience Proof:** Includes self-healing logic that catches transient RPC failures, logs diagnostic warnings, and retries automatically.
-- **Evidence Doc:** Full trace tree and span log documented in [`docs/NEATLOGS_EVIDENCE.md`](docs/NEATLOGS_EVIDENCE.md).
+Open `/live`, enter a Base contract address or transaction hash, and click **Inspect live**. The example reads the deployed Aave Base pool. `/api/inspect?input=<address-or-hash>` reads bytecode or receipts from Base mainnet and decodes liquidation events emitted by the known Aave pool. There are no fixture fallbacks or payouts. A successful receipt inspection is not a completed restitution investigation: production protocol reconstruction and independent historical prices remain unsupported.
 
-### 2. Entire (Continuous Memory, Graph & Git Checkpoints) — Target: *Best Use of Entire* Prize
-- **CLI & Versions:** Entire CLI v0.11.4 (`entire`), Entire Graph v0.4.0 (`entire graph`), Entire Brain v0.1.0 (`entire-brain`).
-- **Pillar 1: Checkpoints:** All session milestones tracked via Antigravity hooks. Official submission checkpoint: [`https://entire.io/gh/Proofofaudit/poa-neathack/commit/fc763245cd98965a4e260d31aa4b05cca59c4dbb`](https://entire.io/gh/Proofofaudit/poa-neathack/commit/fc763245cd98965a4e260d31aa4b05cca59c4dbb).
-- **Pillar 2: Entire Graph:** Zero-egress code graph for instant symbol lookup, impact blast-radius analysis, and test coverage mapping (`entire graph search`).
-- **Pillar 3: Entire Brain:** Continuous shared memory indexing 612 files, 1,929 symbols, and 4,841 relations with active background daemon `entire-brain-watch.service`.
-- **Evidence Doc:** Detailed architecture and CLI outputs in [`docs/ENTIRE_EVIDENCE.md`](docs/ENTIRE_EVIDENCE.md).
+You can also run `npm run inspect:base -- <address-or-transaction-hash>` locally. With no argument it reads the deployed Aave Base pool. Configure `BASE_RPC_URL` in your local environment if the public endpoint is unavailable.
 
-### 3. cfo.ai (Financial Modeling & Unit Economics)
-- **Live Interactive Model:** [https://cfo.ai/s/K8j_ybAD6DrlAI2j](https://cfo.ai/s/K8j_ybAD6DrlAI2j) (Built by Ari AI CFO across 6 detailed financial sheets)
-- **Unit Economics:** Investigating an incident costs **$0.062** in LLM compute and L2 gas vs **$50,000+** for human forensic audit firms.
-- **Pricing:** $3,500/mo SaaS subscription + 5% verified recovery success fee.
-- **Gross Margins:** **99.8%** gross margin on recovery capital distribution; 21.0x LTV/CAC ratio.
-- **Evidence Doc:** 18-month proforma model and LTV/CAC analysis in [`docs/CFO_AI_INPUTS.md`](docs/CFO_AI_INPUTS.md).
+## Reproduce
 
-### 4. Crustdata (Partner Integration: On-Chain Entity Intelligence)
-- **Module:** `src/agent/crustdata.ts`
-- **Functionality:** Profiles on-chain liquidator and victim addresses (entity classification, AUM profiling, and institutional risk ratings) during incident triage.
-- **Neatlogs Span:** Traced as `enrichIncidentWithCrustdata` tool span in the pipeline.
+Requirements: Node.js 24, npm, Foundry (`forge`, `anvil`) and Solidity 0.8.24. The Solidity dependencies are checked into `contracts/lib`.
 
----
-
-## ⚡ Quickstart & Reproducibility
-
-### Prerequisites
-- Node.js v20+ and npm
-- Foundry (`forge`, `anvil`) installed in `~/.foundry/bin`
-
-### 1. Run Complete Verification Suite (One Command)
-Run the automated end-to-end verification script:
-```bash
-./scripts/demo_all.sh
-```
-This runs:
-1. Foundry Smart Contract Tests (`forge test -v`) — **11/11 passing across 3 suites**.
-2. TypeScript Financial Engine & Agent Tests (`npm test`) — **6/6 passing**.
-3. Live Anvil Incident Staging, Agent Investigation, Merkle Claim, and Negative Adversarial Tests.
-
-### 2. Live Base Mainnet Fork Restitution Runner
-Run counterfactual forensics and on-chain claims against live Base Mainnet (Block #52,462,535) with real USDC and WETH contracts:
-```bash
-npm run demo:base-fork
-```
-
-### 3. 24/7 Autonomous Sentinel Watcher Daemon
-Start the production block listener that monitors live RPC blocks and dispatches autonomous incident remediation when anomalies breach threshold:
-```bash
-npm run sentinel:watch
-```
-
-### 4. Machine-Checked EVMbench Benchmark Suite (ICML 2026 Aligned)
-Execute the 5-part quantitative benchmark validating execution integrity, moral hazard prevention, collision defense, partition recovery, and Entire Graph prompt slicing:
-```bash
-npm run test:benchmark
-```
-
-### 5. Launch Model Context Protocol (MCP) Server
-Launch the production MCP server over stdio JSON-RPC 2.0 with exposed tools (`poa_replay_counterfactual`, `poa_generate_merkle_manifest`, `poa_verify_claim_proof`):
-```bash
-npm run mcp
-```
-
-### 6. Launch the Interactive Next.js Dashboard & Claim Portal
-```bash
+```sh
+npm ci
+npm run contracts:build
+npm run demo:local
 npm run dev
 ```
-Open **[http://localhost:3000](http://localhost:3000)** to explore:
-- **Autonomous Agent Timeline:** Step-by-step visual audit trail and live Neatlogs spans.
-- **Counterfactual Replay Table:** Side-by-side health factor and loss calculations.
-- **Cryptographic Claim Portal:** Interactive Merkle proof inspector and on-chain claim execution.
-- **neatHack Sponsor Proof:** Interactive Neatlogs, Entire, and cfo.ai metrics.
-- **Production Health Endpoint:** Check [`http://localhost:3000/api/health`](http://localhost:3000/api/health) for JSON diagnostic health data.
 
----
+Open `http://localhost:3000/demo` for compensation evidence, or `/live` for real chain investigations. The demo starts and stops its own sandbox on an ephemeral local port; it never resets another running node. Each run exports `evidence/run_evidence.json` and `evidence/restitution_manifest.json`.
 
-## 📐 Mathematical Counterfactual Engine
+Full verification:
 
-> 📖 **Peer-Reviewed Research Foundations:** Grounded in formal causal EVM execution models (*Origins of MEV*, arXiv:2604.27979; *TxRay*, arXiv:2602.01317; *EVMbench*, ICML 2026). See [`docs/RESEARCH_FOUNDATIONS.md`](docs/RESEARCH_FOUNDATIONS.md) for the complete academic literature synthesis.
-
-When collateral price drops from baseline $P_{\text{baseline}}$ ($2,000) to faulty price $P_{\text{faulty}}$ ($1,800), liquidators seize collateral at a 5% discount:
-$$\text{Collateral Seized} = \frac{\text{Debt Covered} \times 1.05}{P_{\text{faulty}}}$$
-
-The POA Engine reconstructs the counterfactual position:
-$$\text{Net Equity}_{\text{counterfactual}} = (\text{Collateral}_{\text{initial}} \times P_{\text{baseline}}) - \text{Debt}_{\text{initial}}$$
-$$\text{Net Equity}_{\text{post-liquidation}} = (\text{Collateral}_{\text{remaining}} \times P_{\text{baseline}}) - \text{Debt}_{\text{remaining}}$$
-$$\text{Restitution Due} = \max(0, \text{Net Equity}_{\text{counterfactual}} - \text{Net Equity}_{\text{post-liquidation}})$$
-
-### Verified Test Positions in Demo Run:
-- **Borrower 1 (0x3C44...):** Baseline HF = 1.066 (Healthy). Faulty HF = 0.960. Liquidated 8.75 WETH. Restitution = **$2,500.00 USDC** (`ELIGIBLE_WRONGFUL`).
-- **Borrower 2 (0x90F7...):** Baseline HF = 1.066 (Healthy). Faulty HF = 0.960. Liquidated 4.375 WETH. Restitution = **$1,250.00 USDC** (`ELIGIBLE_WRONGFUL`).
-- **Borrower 3 (0x15d3...):** Baseline HF = 1.066 (Healthy). Faulty HF = 0.960. Liquidated 7.000 WETH. Restitution = **$2,000.00 USDC** (`ELIGIBLE_WRONGFUL`).
-- **Borrower 4 (0x9965...):** Baseline HF = 1.600. Not liquidated. Restitution = **$0.00** (`EXCLUDED_UNHARMED`).
-- **Borrower 5 (0x976E...):** Baseline HF = 0.987 (Already underwater). Legitimate liquidation. Restitution = **$0.00** (`EXCLUDED_LEGITIMATE`).
-
-**Total Restitution:** **$5,750.00 USDC**.
-
----
-
-## 🔒 Smart Contracts & Cryptographic Proofs
-
-Implemented in `contracts/src/`:
-- `DemoOracle.sol`: Simulates price updates and timestamps.
-- `DemoLendingPool.sol`: Overcollateralized lending pool with collateral deposit, debt borrowing, and liquidation logic.
-- `RestitutionDistributor.sol`: Merkle-based restitution distributor verifying OpenZeppelin double-hash leaf proofs:
-  ```solidity
-  bytes32 leaf = keccak256(bytes.concat(keccak256(abi.encode(claimIndex, claimant, amount, policyHash))));
-  ```
-- `CumulativeRestitutionDistributor.sol`: Multi-epoch cumulative claim distributor modeled after Morpho Blue / Euler. Prevents second-preimage collision attacks and allows streaming tranches across multiple recovery epochs.
-- `EIP712RestitutionDistributor.sol`: Relayer-sponsored gasless restitution distributor allowing drained victims with 0 ETH to sign an EIP-712 typed voucher and receive restitution directly.
-- `MockERC20.sol`: Standard 18-decimal WETH and 6-decimal USDC tokens.
-
-### Negative Adversarial Tests Verified (11/11 Foundry Tests):
-- **Duplicate Claim:** Second claim call with identical proof reverts with `"Claim has already been executed"`.
-- **Tampered Amount:** Claim with modified amount reverts with `"Invalid Merkle proof"`.
-- **Expired EIP-712 Signature:** Expired signatures revert with `"Claim signature has expired"`.
-- **Forged EIP-712 Signer:** Forged signatures from unauthorized parties revert with `"Invalid EIP-712 claimant signature"`.
-- **Second-Preimage Defense:** OZ double-Keccak-256 leaves immunity against 64-byte intermediate node collision exploits.
-
----
-
-## 📂 Repository Layout
-
-```
-poa-neathack/
-├── contracts/               # Foundry smart contracts suite
-│   ├── src/                 # DemoOracle, LendingPool, RestitutionDistributor, Cumulative, EIP712
-│   └── test/                # 3 test suites: LendingAndRestitution, Cumulative, EIP712 (11/11 passing)
-├── src/
-│   ├── agent/               # Autonomous investigator agent & retry handler
-│   ├── app/                 # Next.js 14 App Router dashboard, health check & claim portal
-│   ├── chain/               # Anvil DeFi incident simulator fixture
-│   ├── economics/           # Counterfactual replay engine (BigInt math)
-│   ├── mcp/                 # Model Context Protocol stdio JSON-RPC 2.0 server
-│   ├── observability/       # Neatlogs SDK tracing integration
-│   └── proofs/              # OpenZeppelin StandardMerkleTree generator
-├── scripts/
-│   ├── demo_all.sh          # Master test & demo verification runner
-│   ├── run_demo.ts          # End-to-end Anvil execution & payout script
-│   ├── run_base_fork.ts     # Live Base Mainnet Fork restitution runner
-│   ├── watch_production_sentinel.ts # 24/7 autonomous block watcher daemon
-│   └── benchmark_evmbench.ts # ICML 2026 aligned EVMbench harness
-├── docs/
-│   ├── BUILD_STATUS.md      # Milestone completion tracker
-│   ├── NEATLOGS_EVIDENCE.md # Neatlogs Project ID & trace tree evidence
-│   ├── ENTIRE_EVIDENCE.md   # Entire CLI git checkpoint history
-│   ├── CFO_AI_INPUTS.md     # Financial model & unit economics
-│   ├── RESEARCH_FOUNDATIONS.md # Peer-reviewed academic foundations
-│   └── PAIN_PMF_ENGINEERING_MARVEL.md # Real-world pain, PMF & engineering
-├── evidence/
-│   ├── run_evidence.json    # Complete reproducible on-chain evidence output
-│   ├── restitution_manifest.json # SHA-256 sealed proof-carrying restitution manifest
-│   └── evmbench_evaluation.json # Official 5/5 EVMbench machine-checked report
-├── Dockerfile               # Multi-stage production container build
-├── docker-compose.yml       # Production stack orchestration
-└── hackathon.md             # neatHack build log companion
+```sh
+npm run verify:release
 ```
 
----
+This gate runs TypeScript checking, contract tests (including accounting fuzz cases), policy/API tests, the end-to-end local demo, the project's own Merkle benchmark and the production build. It exits on failure. The benchmark is **not the official EVMbench harness** and makes no academic grading claim.
 
-## 👥 Team
-- **Team Name:** poa (Proof of Audits)
-- **Team Lead:** MKVEERENDRA VAMSHI
+Pinned Base fork:
+
+```sh
+BASE_FORK_BLOCK=<a Base block number> npm run demo:base-fork
+```
+
+Without `BASE_FORK_BLOCK`, the runner resolves and records a snapshot before starting the fork. It records the actual chain ID and fork block. An archive-capable Base RPC may be configured using `BASE_RPC_URL`. Failure does not substitute local fixtures or overwrite the last successful evidence with a success claim.
+
+## Safety boundary
+
+- Only the explicit `DEMO_LENDING_V1` adapter can authorize this prototype's manifests.
+- Historical baseline state, a successful incident receipt, a bounded log window, reference freshness and reconstructed end-state consistency are required.
+- A disputed drop of at least 5% must be corroborated by a separate reference within 1% of baseline. A compensated borrower must cross from healthy to liquidatable.
+- Reference or model denial, unavailable evidence, extra position-changing activity, extra oracle updates and repeated liquidations requiring transaction-level analysis withhold the **entire** manifest.
+- Defaults cannot silently substitute prices, positions or liquidation events.
+- The owner must approve and register a funded root. Model output alone never authorizes treasury spending.
+- Per-incident remaining liabilities prevent cross-incident overspending. Sweeps reclaim only unclaimed funds after 180 days. Incident IDs cannot be reused after sweeping.
+- Cumulative distribution epochs require funding, nondecreasing aggregate allocation and capped total payouts. Per-beneficiary correctness remains the publisher's responsibility.
+
+The economic policy currently supports single-collateral positions with a **USD-pegged debt asset**. Decimal scaling is not an asset-pricing oracle. Aave/Compound, arbitrary debt assets, multi-asset portfolios and repeated-liquidation causal replay require dedicated adapters and independent validation.
+
+## AI and observability
+
+The default demonstration runs explicit deterministic policy rules without external API calls. `isLiveLlm: false` and the policy name are recorded. No synthetic token usage, market corroboration or confidence about intent is emitted.
+
+Optional live review requires `POA_LLM_ENABLED=true` and fresh OpenAI or LiteLLM credentials. Responses are requested as JSON and validated against a strict schema. Invalid, missing, low-confidence or timed-out requested review withholds restitution. A model may restrict the deterministic policy, but cannot override it.
+
+Neatlogs SDK export is opt-in through `POA_TELEMETRY_ENABLED=true`; local trace evidence works without a key. Bytecode enrichment reports contract/EOA-or-undeployed/unknown only. Crustdata company or MEV identity enrichment is **not implemented**.
+
+`npm run sentinel:watch` observes actual Chainlink round changes continuously and reports real deviations as **review alerts**, never fabricated incidents or automatic payouts. Configured demo-oracle monitoring can dispatch the supported investigator on actual `PriceUpdated` events. No mempool or TWAP capability is claimed.
+
+## Production preview
+
+```sh
+npm run build
+npm start
+```
+
+The production UI displays saved evidence by default. Server-side sandbox execution requires both `ALLOW_PROD_SIMULATION=true` and a `POA_DEMO_TOKEN` of at least 32 characters; the browser accepts that access code without persisting it. Input validation, an exclusive run lock and argument-based process execution protect the endpoint. Local development execution requires a matching local origin.
+
+`/api/health` actually probes RPC reachability and chain ID. Optional services explicitly report `NOT_PROBED`; configuration does not masquerade as connectivity. Credential-bearing endpoint URLs are never returned.
+
+## Submission material
+
+- [Three-minute demo and judge Q&A](docs/SUBMISSION_GUIDE.md)
+- [Security and deployment boundaries](SECURITY.md)
+- [Verification status](docs/BUILD_STATUS.md)
+
+The path to deployment is independent contract auditing, treasury governance, production protocol adapters, finality policies, independent market-reference sources, and operational monitoring. POA does not claim production readiness or guaranteed compensation eligibility outside its supported policy.
+
+## Judge walkthrough and measurable improvement
+
+Open `/judges` to inspect eligibility, the independent conservation check, adaptive historical-query recovery, actual neatlogs SDK spans and the labeled before/after evaluation.
+
+`npm run test:upgrade` executes the import-free pure economic module from pinned commit `96da127` and the current engine on twelve identical synthetic cases. The current code must return every expected amount and no unsupported positive authorization on that set. This is a project-owned regression evaluation, not a production accuracy estimate.
+
+The historical log tool changes its plan when a provider rejects a range: it partitions into disjoint inclusive ranges, preserves block coverage and stops at a bounded query budget. A transient failure receives bounded retries. The demo deliberately injects both failures and records the actual SDK error spans and subsequent recovery actions.
+
+Local traces now use the actual neatlogs SDK with an isolated in-memory exporter. With a valid configured provider credential, `npm run evidence:remote` exports the synthetic investigation and before/after regression traces, then verifies every expected span and its hierarchy through authenticated provider read-back. It never enables live LLM calls. It saves distinct remote artifacts without substituting remote-export success for persisted ingestion. Keep all credentials outside Git and rotate exposed credentials at the provider.
+
+`npm run evidence:entire` captures setup and checkpoint availability without copying private transcripts. Zero checkpoints remain explicitly incomplete evidence.
+
+`npm run business:model` reproduces the assumed commercial scenarios. The plan, assumptions, calculated CSV, three-minute storyboard and unpublished launch drafts are in `docs/submission/`. These local files do not prove use of cfo.ai or public posting. Actual cfo.ai workspace screenshots and an unchanged spreadsheet export are now retained separately in public/submission and evidence/cfo_ai_evidence.json; public posts remain unpublished.
+
+### Optional model-directed review
+
+With `POA_LLM_ENABLED=true` and a valid, rotated model credential, the investigator adds a bounded read-only model/tool review. Each model response chooses one typed action: compare the reference, inspect specific borrowers, independently verify the manifest, or finalize/withhold. Observed tool results feed the next choice. The model has at most eight turns and cannot approve before every borrower, the reference and the proof audit have been checked. Invalid actions, unknown borrowers, premature approval and budget exhaustion withhold the candidate. It cannot alter amounts or execute treasury payments.
+
+The saved deterministic demos do not claim live model execution. Six controlled-response tests establish the review protocol's guardrails; a genuine provider run remains necessary to demonstrate model quality and reliability.
+
+## Full-investigation reliability evaluation
+
+Run `npm run test:missions` for seven controlled scenarios on a real local EVM. The evaluator checks exact allocations, inclusion proofs, linked SDK traces, recovery and safe withholding. The judge page displays each result while preserving failed spans. This is a project-owned rules-only evaluation, not production reliability or a native neatlogs evaluation. See [research and improvements](docs/submission/RESEARCH_IMPROVEMENTS.md).
+
+## Public hackathon evidence viewer
+
+- Product: https://poa-neathack.vercel.app
+- Narrated demo (2:47): https://poa-neathack.vercel.app/watch
+- Judge evidence: https://poa-neathack.vercel.app/judges
+- Actual cfo.ai forecast: public/submission/cfo-ai-financial-forecast.xlsx
+
+The public deployment displays saved evidence and blocks public execution. A genuine Claude Haiku run completed four read-only review actions; earlier provider-format failures are retained. Six neatlogs project traces passed authenticated read-back. See docs/BUILD_STATUS.md for verification and dependency limitations. The supplied launch text remains an unpublished draft.
+
+## Verified real-case release
+
+125 tests pass across 14 files; type check and production build pass. Sixteen project Neatlogs traces have authenticated span and hierarchy read-back. See [real-case evidence and limits](docs/REAL_LIQUIDATION_INVESTIGATION.md). To reproduce the local historical fork with Foundry Anvil installed, run `npx tsx scripts/replay_real_liquidation.ts`; all write calls target loopback, never mainnet. The script requires the saved baseline-reference artifact and archive RPC access.
+
+## Default public AI example
+
+`/live` now selects Claude planning by default. With `POA_PUBLIC_AI_ENABLED=true` and configured server credentials, the historical example requires no visitor key or agent code. Provider keys remain server-side. Public AI is restricted to the verified historical case, with five starts per ten minutes and one concurrent run **per server instance**; this is not an account-wide spending limit. Other transaction AI requires operator access, and explicit rule mode remains available without a model call. `/api/agent` remains a separate quick check.
+
+Planner context now sends bounded progress and selected observed facts while preserving full tool results in the downloadable report. Two actual same-case runs recorded 43,704 versus 3,380 model tokens and identical causal assessments; see `evidence/planner_context_comparison.json` for scope and caveats.

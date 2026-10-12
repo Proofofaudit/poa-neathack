@@ -1,0 +1,74 @@
+{
+  "manifestVersion": "1.0.0",
+  "policyId": "POA_DEMO_POLICY_V2_EQUITY_DELTA",
+  "incidentId": "0x4e7eb28cf3f71bec314ae49420cbaf070278637414e222eb3e1eaf4a8629889c",
+  "generatedAt": "2026-10-12T05:52:26.920Z",
+  "neatlogsTraceId": "3e0797606f92246507e772acfd35f32a",
+  "evidence": {
+    "incidentTxHash": "0x35711f6ddf33e642df42132521b874c773c4f22a0da214fb5a7f0ccc6afb6b23",
+    "oracleAddress": "0x8628d14BD5571076791E63418d0c50Dbd4e2746A",
+    "poolAddress": "0x03663b245C3Ada27d518c9ce47B13c0EA46571E3",
+    "payoutToken": "0x1580bc91409f9d66dfDA6E8672518B9712189d76",
+    "anchors": {
+      "chainId": 8453,
+      "baselineBlockNumber": 52497528,
+      "baselineBlockHash": "0x9396f6f9cd7634fe02038860c1fe30649d5022165b1bc611031afe857f6bf5d3",
+      "incidentBlockNumber": 52497529,
+      "incidentBlockHash": "0x82fce4d19e778f98a9ffc943e02eed07067b35f214157905c53dd0f2802b3368",
+      "toBlock": 52497533,
+      "endBlockHash": "0x63c5cadf1a8f60ef4218c55c4e8a5f6714ac8c1322e475b19d9dd1562a787a03",
+      "referenceSource": "Separate DemoOracle 0xF10DCD5874cfdeA27e80c279514a986e8Eacb3Ec (synthetic reference; not a market feed)",
+      "referencePriceUsd": "2000.0"
+    },
+    "baselinePriceUsd": "2000.0",
+    "faultyPriceUsd": "1800.0",
+    "interventionPolicy": "Demo policy values equity at the separately deployed synthetic reference price. This is a balance-sheet calculation, not a transaction-level EVM replay or a verified market TWAP."
+  },
+  "accountingInvariants": {
+    "equityDeltaFormula": "L_i = max(0, NetEquity_i(S_cf) - NetEquity_i(S_obs)) where NetEquity = (Collateral * P_baseline) - Debt",
+    "moralHazardExclusionRule": "Positions with baseline Health Factor < 1.0 (undercollateralized prior to incident) receive zero restitution.",
+    "integerPrecision": "18 decimals WETH collateral, 6 decimals USDC debt/payout, BigInt integer arithmetic with zero floating point representation"
+  },
+  "summary": {
+    "totalVictimsEvaluated": 6,
+    "wrongfulLiquidationsCount": 3,
+    "insolventAccountsExcluded": 1,
+    "totalRestitutionUsdc": "5750000000",
+    "merkleRoot": "0x005d3636098a3f2835582a753680004db97e75c3b5b1290e77be9658d6cb9203"
+  },
+  "claims": [
+    {
+      "claimIndex": 0,
+      "claimant": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+      "restitutionUsdc": "2500000000",
+      "counterfactualEquityUsd": "5000.00",
+      "observedEquityUsd": "2500.00",
+      "merkleProof": [
+        "0xa8919caa7510181bb1bc13220c6b4eb6435d1d55e3dce16282abf69fb9bb64d2"
+      ]
+    },
+    {
+      "claimIndex": 1,
+      "claimant": "0x90F79bf6EB2c4f870365E785982E1f101E93b906",
+      "restitutionUsdc": "1250000000",
+      "counterfactualEquityUsd": "2500.00",
+      "observedEquityUsd": "1250.00",
+      "merkleProof": [
+        "0x1c19b50af2d6648e334670ce5b02492afce700cbd1579af1a7398002421b03f9",
+        "0x49573ed5e2502bf9927e2bbbde14573fe9f45bdd6ee6a6f5b59aae24964242ed"
+      ]
+    },
+    {
+      "claimIndex": 2,
+      "claimant": "0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65",
+      "restitutionUsdc": "2000000000",
+      "counterfactualEquityUsd": "4000.00",
+      "observedEquityUsd": "2000.00",
+      "merkleProof": [
+        "0x026555fb1c25ee3459a0cd23f132b1e2034d87609167345388b01be4e7a13573",
+        "0x49573ed5e2502bf9927e2bbbde14573fe9f45bdd6ee6a6f5b59aae24964242ed"
+      ]
+    }
+  ],
+  "cryptographicIntegritySeal": "0x1e58814af8e910d0697a8e63ea44cce18564c617cd151447fbe8fb0a99387592"
+}

@@ -1,77 +1,72 @@
 import { NextResponse } from "next/server";
 import { ethers } from "ethers";
-
+import { rpcRead } from "../../../chain/rpc";
 export const dynamic = "force-dynamic";
-
 export async function GET() {
-  const timestamp = new Date().toISOString();
-  const uptimeSeconds = Math.floor(process.uptime());
-
-  // 1. Live RPC probe (Base Mainnet or local Anvil)
-  let rpcStatus = "DISCONNECTED";
-  let rpcLatencyMs = 0;
-  let blockHeight: number | null = null;
-  const rpcEndpoint = process.env.ANVIL_RPC_URL || "https://mainnet.base.org";
-
+  const endpoint =
+    process.env.ANVIL_RPC_URL ||
+    process.env.BASE_RPC_URL ||
+    "https://mainnet.base.org";
+  const request = new ethers.FetchRequest(endpoint);
+  request.timeout = 2500;
+  const provider = new ethers.JsonRpcProvider(request);
+  let blockchainRpc: Record<string, unknown> = { status: "UNREACHABLE" };
+  const started = Date.now();
   try {
-    const startTime = Date.now();
-    const provider = new ethers.JsonRpcProvider(rpcEndpoint, undefined, { staticNetwork: true });
-    // Use Promise.race with 2500ms timeout
-    const blockPromise = provider.getBlockNumber();
-    const timeoutPromise = new Promise<never>((_, reject) => setTimeout(() => reject(new Error("RPC_TIMEOUT")), 2500));
-    blockHeight = await Promise.race([blockPromise, timeoutPromise]);
-    rpcLatencyMs = Date.now() - startTime;
-    rpcStatus = "OPERATIONAL";
-  } catch (err: any) {
-    rpcStatus = err.message === "RPC_TIMEOUT" ? "TIMEOUT" : "UNREACHABLE";
+    const [height, network] = await rpcRead(
+      () => Promise.all([provider.getBlockNumber(), provider.getNetwork()]),
+      { attempts: 1, timeoutMs: 2500 },
+    );
+    blockchainRpc = {
+      status: "OPERATIONAL",
+      blockHeight: height,
+      chainId: Number(network.chainId),
+      latencyMs: Date.now() - started,
+    };
+  } catch {
+    /* No endpoint or exception string is returned because either can contain a credential. */
+  } finally {
+    provider.destroy();
   }
-
-  // 2. Configuration & telemetry health
-  const neatlogsStatus = process.env.NEATLOGS_API_KEY ? "CONFIGURED" : "LOCAL_DEV_ONLY";
-  const llmStatus = (process.env.LITELLM_API_KEY || process.env.OPENAI_API_KEY) ? "CONFIGURED" : "UNCONFIGURED";
-  const crustdataStatus = process.env.CRUSTDATA_API_KEY ? "CONFIGURED" : "LOCAL_LABELS_ONLY";
-
-  const isHealthy = rpcStatus === "OPERATIONAL" || rpcStatus === "DISCONNECTED";
-
-  const healthData = {
-    status: isHealthy ? "HEALTHY" : "DEGRADED",
-    version: "1.0.0",
-    service: "poa-incident-coprocessor",
-    timestamp,
-    uptimeSeconds,
-    checks: {
-      blockchainRpc: {
-        status: rpcStatus,
-        endpoint: rpcEndpoint.replace(/(apiKey=)[^&]+/, "$1***"),
-        blockHeight,
-        latencyMs: rpcLatencyMs
+  const healthy = blockchainRpc.status === "OPERATIONAL";
+  return NextResponse.json(
+    {
+      status: healthy ? "HEALTHY" : "DEGRADED",
+      version: "0.2.0",
+      timestamp: new Date().toISOString(),
+      scope:
+        "Prototype readiness; RPC reachability is probed. Configuration is not evidence of provider connectivity.",
+      checks: {
+        blockchainRpc,
+        forensicLlmEngine: {
+          mode:
+            process.env.POA_LLM_ENABLED === "true"
+              ? "LLM_REVIEW_REQUIRED"
+              : "DETERMINISTIC_POLICY",
+          connectivity: "NOT_PROBED",
+        },
+        neatlogsObservability: {
+          enabled: process.env.POA_TELEMETRY_ENABLED === "true",
+          connectivity: "NOT_PROBED",
+          localTraces: true,
+        },
+        entityEnrichment: {
+          mode: "BYTECODE_ONLY",
+          identityVerification: false,
+          crustdataApi: "NOT_IMPLEMENTED",
+        },
+        cryptographicDistributor: {
+          status: "NOT_PROBED",
+          note: "Funding and registration are verified per demo run, not by this route.",
+        },
+        simulation: {
+          enabled:
+            process.env.NODE_ENV !== "production" ||
+            (process.env.ALLOW_PROD_SIMULATION === "true" &&
+              (process.env.POA_DEMO_TOKEN?.length || 0) >= 32),
+        },
       },
-      neatlogsObservability: {
-        status: neatlogsStatus,
-        projectId: process.env.NEATLOGS_PROJECT_ID || "542c53f4-ec26-4d57-a097-b7c9175c84be",
-        protocol: "OpenTelemetry GenAI Spans"
-      },
-      forensicLlmEngine: {
-        status: llmStatus,
-        model: process.env.LITELLM_MODEL || "claude-haiku",
-        endpoint: process.env.LITELLM_BASE_URL || "https://litellm.vision.aivar.app/v1"
-      },
-      crustdataIntelligence: {
-        status: crustdataStatus,
-        enrichmentMode: "HYBRID_BYTECODE_AND_API"
-      },
-      counterfactualEngine: {
-        status: "OPERATIONAL",
-        standard: "Euler Sub-Account Net Equity Replay (Multi-Asset BigInt)",
-        policy: "POA_RESTITUTION_POLICY_V1_EQUITY_DELTA"
-      },
-      cryptographicDistributor: {
-        status: "OPERATIONAL",
-        merkleStandard: "OpenZeppelin StandardMerkleTree (Double Keccak-256)",
-        cveDefense: "CVE-2022-37454 Second-Preimage Immune"
-      }
-    }
-  };
-
-  return NextResponse.json(healthData, { status: isHealthy ? 200 : 503 });
+    },
+    { status: healthy ? 200 : 503 },
+  );
 }

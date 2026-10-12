@@ -1,24 +1,41 @@
 import { NextRequest, NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
-
+import fs from "node:fs/promises";
+import path from "node:path";
 export const dynamic = "force-dynamic";
-
 export async function GET(req: NextRequest) {
+  const network = req.nextUrl.searchParams.get("network") || "anvil";
+  if (!["anvil", "base"].includes(network))
+    return NextResponse.json(
+      { success: false, error: "Unknown network" },
+      { status: 400 },
+    );
   try {
-    const { searchParams } = new URL(req.url);
-    const network = searchParams.get("network");
-
-    const targetFile = network === "base" ? "evidence/base_fork_evidence.json" : "evidence/run_evidence.json";
-    const evidencePath = path.resolve(process.cwd(), targetFile);
-
-    if (fs.existsSync(evidencePath)) {
-      const data = JSON.parse(fs.readFileSync(evidencePath, "utf8"));
-      const hasBaseFork = fs.existsSync(path.resolve(process.cwd(), "evidence/base_fork_evidence.json"));
-      return NextResponse.json({ success: true, data, hasBaseFork, currentNetwork: network === "base" ? "base" : "anvil" });
-    }
-    return NextResponse.json({ success: false, error: `Evidence file ${targetFile} not yet generated` }, { status: 404 });
-  } catch (err: any) {
-    return NextResponse.json({ success: false, error: err.message }, { status: 500 });
+    const data = JSON.parse(
+      await fs.readFile(
+        path.resolve(
+          "evidence",
+          network === "base" ? "base_fork_evidence.json" : "run_evidence.json",
+        ),
+        "utf8",
+      ),
+    );
+    if (data.schemaVersion !== 2 || data.report?.status !== "COMPLETED")
+      return NextResponse.json(
+        {
+          success: false,
+          error:
+            "No verified evidence from the current demo version. Run a new scenario.",
+        },
+        { status: 404 },
+      );
+    return NextResponse.json(
+      { success: true, data, currentNetwork: network },
+      { headers: { "Cache-Control": "no-store" } },
+    );
+  } catch {
+    return NextResponse.json(
+      { success: false, error: "No saved run for this environment yet." },
+      { status: 404 },
+    );
   }
 }
